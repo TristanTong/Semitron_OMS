@@ -19,3 +19,4 @@ packages
 PrecompiledWeb
 AppLog
 !Excel.dll
+!Aspose.Cells.dll
