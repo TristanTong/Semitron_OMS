@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A44728F2-9820-4D3E-ACA8-9E35DDBE9A12}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Semitron_OMS.DAL</RootNamespace>
+    <AssemblyName>Semitron_OMS.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\LIB\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AdminDAL.cs" />
+    <Compile Include="Common\BusinessPathManageDAL.cs" />
+    <Compile Include="Common\CommonDAL.cs" />
+    <Compile Include="Common\FileDAL.cs" />
+    <Compile Include="Common\FileExcelDAl.cs" />
+    <Compile Include="Common\FileTxtDAL.cs" />
+    <Compile Include="Common\ObjectPermissionDAL.cs" />
+    <Compile Include="Common\OperationsLogDAL.cs" />
+    <Compile Include="Common\PermissionDAL.cs" />
+    <Compile Include="Common\PreferenceConfigDAL.cs" />
+    <Compile Include="Common\ProductInfoDAL.cs" />
+    <Compile Include="Common\ProductTypeDAL.cs" />
+    <Compile Include="Common\RoleDAL.cs" />
+    <Compile Include="Common\SQLNotifier.cs" />
+    <Compile Include="Common\SystemLogDAL.cs" />
+    <Compile Include="Common\TaskInfoDAL.cs" />
+    <Compile Include="Common\TimerInfoDAL.cs" />
+    <Compile Include="Common\UserRoleDAL.cs" />
+    <Compile Include="Common\WarehouseDAL.cs" />
+    <Compile Include="FM\GatheringPlanDAL.cs" />
+    <Compile Include="FM\PaymentPlanDAL.cs" />
+    <Compile Include="OMS\AdminBindCustomerDAL.cs" />
+    <Compile Include="OMS\AdminBindSupplierDAL.cs" />
+    <Compile Include="OMS\AttachmentDAL.cs" />
+    <Compile Include="OMS\BrandDAL.cs" />
+    <Compile Include="OMS\CommonTableDAL.cs" />
+    <Compile Include="OMS\CorporationDAL.cs" />
+    <Compile Include="OMS\CurrencyTypeDAL.cs" />
+    <Compile Include="CRM\CustomerDAL.cs" />
+    <Compile Include="OMS\CustomerOrderDAL.cs" />
+    <Compile Include="OMS\CustomerOrderDetailDAL.cs" />
+    <Compile Include="OMS\ExchangeRateDAL.cs" />
+    <Compile Include="OMS\GodownEntryDAL.cs" />
+    <Compile Include="OMS\GodownEntryDetailDAL.cs" />
+    <Compile Include="OMS\InventoryAuditDAL.cs" />
+    <Compile Include="OMS\InventoryDAL.cs" />
+    <Compile Include="OMS\OrderFeeDAL.cs" />
+    <Compile Include="OMS\PaymentTypeDAL.cs" />
+    <Compile Include="OMS\POBindCustomerOrderDAL.cs" />
+    <Compile Include="OMS\PODAL.cs" />
+    <Compile Include="OMS\POPlanDAL.cs" />
+    <Compile Include="CRM\SupplierDAL.cs" />
+    <Compile Include="OMS\ShippingListDAL.cs" />
+    <Compile Include="OMS\ShippingListDetailDAL.cs" />
+    <Compile Include="OMS\ShippingPlanDAL.cs" />
+    <Compile Include="OMS\ShippingPlanDetailDAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Semitron_OMS.Common\Semitron_OMS.Common.csproj">
+      <Project>{32661397-42c4-4796-9244-faab978fce73}</Project>
+      <Name>Semitron_OMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.DBUtility\Semitron_OMS.DBUtility.csproj">
+      <Project>{3949D706-641D-4D67-9D42-9E81CAABE445}</Project>
+      <Name>Semitron_OMS.DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.Model\Semitron_OMS.Model.csproj">
+      <Project>{52AA0011-5071-4496-A6AC-79588116647A}</Project>
+      <Name>Semitron_OMS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

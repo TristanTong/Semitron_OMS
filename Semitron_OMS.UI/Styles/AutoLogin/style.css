@@ -1,0 +1,124 @@
+﻿BODY {
+    margin: 0px;
+    color: #666;
+    background-color: #FFF;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+}
+
+form, ul, li {
+    margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+}
+
+a {
+    color: #005eac;
+    text-decoration: none;
+}
+
+    a:visited, a:active {
+        color: #005eac;
+    }
+
+    a:hover {
+        color: #ff5500;
+    }
+
+img {
+    border: 0px;
+    vertical-align: middle;
+}
+
+ul.ztree {
+    border: 0px solid #617775;
+    background: #f0f6e4;
+    width: auto;
+    height: 190px;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+/* 顶部菜单 */
+#tabs {
+    float: right;
+    margin-bottom: 2px;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    width: auto;
+    line-height: normal;
+}
+
+    #tabs ul {
+        margin: 0;
+        list-style: none;
+    }
+
+        #tabs ul li {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+
+            #tabs ul li a {
+                float: left;
+                margin: 0;
+                padding: 0 0 0 4px;
+                background: url("/Images/Web/tabsleft.gif") no-repeat left top;
+                text-decoration: none;
+            }
+
+                #tabs ul li a span {
+                    float: left;
+                    display: block;
+                    color: #039;
+                    background: url("/Images/Web/tabsright.gif") no-repeat right top;
+                    padding: 6px 8px 6px 6px;
+                }
+                /* Commented Backslash Hack hides rule from IE5-Mac \*/
+                #tabs ul li a span {
+                    float: none;
+                }
+                /* End IE5-Mac hack */
+                #tabs ul li a:hover {
+                    background-position: 0% -42px;
+                }
+
+                    #tabs ul li a:hover span {
+                        color: #5A6AB1;
+                        background-position: 100% -42px;
+                        color: #F5F5F5;
+                    }
+
+    #tabs .hover a {
+        background: url("/Images/Web/tabsleft.gif") no-repeat;
+        background-position: 0% -42px;
+    }
+
+        #tabs .hover a span {
+            background: url("/Images/Web/tabsright.gif") no-repeat;
+            background-position: 100% -42px;
+            color: #F5F5F5;
+        }
+
+/* 左边导航菜单 */
+.left_menu {
+    text-align: left;
+    font-family: "微软雅黑";
+}
+
+    .left_menu ul {
+        margin-top: 10px;
+        padding-left: 10px;
+    }
+
+        .left_menu ul li {
+            padding-left: 15px;
+            background: url(/Images/Web/left_menu_bg.gif) no-repeat;
+        }
+
+            .left_menu ul li a {
+                padding-left: 10px;
+                line-height: 25px;
+                background: url(/Images/Web/ico_01.gif) 0px center no-repeat;
+            }

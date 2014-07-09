@@ -1,0 +1,2000 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{118E7823-58D5-45B2-9B80-E410A116C889}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Semitron_OMS.UI</RootNamespace>
+    <AssemblyName>Semitron_OMS.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LitJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LIB\LitJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Admin\CheckCodePage.aspx" />
+    <Content Include="Admin\Common\EditMyPwd.aspx" />
+    <Content Include="Admin\Common\ProductInfo\Main.html" />
+    <Content Include="Admin\Common\ProductTypeManager.aspx" />
+    <Content Include="Admin\Common\Warehouse\Main.html" />
+    <Content Include="Admin\CRM\CustomerManager.aspx" />
+    <Content Include="Admin\CRM\SupplierManager.aspx" />
+    <Content Include="Admin\Images\bgItem.png" />
+    <Content Include="Admin\Images\btn_bg.gif" />
+    <Content Include="Admin\Images\butClose.gif" />
+    <Content Include="Admin\Images\butOpen.gif" />
+    <Content Include="Admin\Images\button_submit.gif" />
+    <Content Include="Admin\Images\focus_bg.jpg" />
+    <Content Include="Admin\Images\foot_bg.gif" />
+    <Content Include="Admin\Images\header.png" />
+    <Content Include="Admin\Images\head_bg.gif" />
+    <Content Include="Admin\Images\head_bg2.gif" />
+    <Content Include="Admin\Images\head_bg_part1.png" />
+    <Content Include="Admin\Images\head_bg_part2.png" />
+    <Content Include="Admin\Images\ico_01.gif" />
+    <Content Include="Admin\Images\left_menu_bg.gif" />
+    <Content Include="Admin\Images\login.gif" />
+    <Content Include="Admin\Images\logo.png" />
+    <Content Include="Admin\Images\logo1.png" />
+    <Content Include="Admin\Images\main_cen_bg.gif" />
+    <Content Include="Admin\Images\menu_bg.gif" />
+    <Content Include="Admin\Images\menu_dot.gif" />
+    <Content Include="Admin\Images\navsub_bg.gif" />
+    <Content Include="Admin\Images\nav_bg.gif" />
+    <Content Include="Admin\Images\pro_bg.gif" />
+    <Content Include="Admin\Images\siteico.gif" />
+    <Content Include="Admin\Images\style.css" />
+    <Content Include="Admin\Images\tabsleft.gif" />
+    <Content Include="Admin\Images\tabsright.gif" />
+    <Content Include="Admin\Images\title.png" />
+    <Content Include="Admin\Index.aspx" />
+    <Content Include="Admin\Login.aspx" />
+    <Content Include="Admin\OMS\BrandManager.aspx" />
+    <Content Include="Admin\OMS\BusinessTransactionsReport.aspx" />
+    <Content Include="Admin\OMS\CorporationManager.aspx" />
+    <Content Include="Admin\OMS\CurrencyTypeManager.aspx" />
+    <Content Include="Admin\OMS\CustomerOrderDetailManager.aspx" />
+    <Content Include="Admin\OMS\CustomerOrderManager.aspx" />
+    <Content Include="Admin\Common\Warehouse\lookupSuggest.html" />
+    <Content Include="Admin\OMS\GodownEntry\Approve.html" />
+    <Content Include="Admin\OMS\GodownEntry\Edit.html" />
+    <Content Include="Admin\OMS\GodownEntry\EditDetail.html" />
+    <Content Include="Admin\OMS\GodownEntry\Main.html" />
+    <Content Include="Admin\OMS\GodownEntry\SearchExt.html" />
+    <Content Include="Admin\OMS\Inventory\Main.html" />
+    <Content Include="Admin\OMS\OrderFeeManager.aspx" />
+    <Content Include="Admin\OMS\PaymentTypeManager.aspx" />
+    <Content Include="Admin\OMS\POManager.aspx" />
+    <Content Include="Admin\OMS\POPlanManager.aspx" />
+    <Content Include="Admin\OMS\POPlan\LookupPOPlan.html" />
+    <Content Include="Admin\Common\Warehouse\LookupWarehouse.html" />
+    <Content Include="Admin\OMS\ShippingList\Main.html" />
+    <Content Include="Admin\OMS\ShippingPlan\Approve.html" />
+    <Content Include="Admin\OMS\ShippingPlan\Edit.html" />
+    <Content Include="Admin\OMS\ShippingPlan\EditDetail.html" />
+    <Content Include="Admin\OMS\ShippingPlan\Main.html" />
+    <Content Include="Admin\OMS\ShippingPlan\SearchExt.html" />
+    <Content Include="Admin\Sys\Admin\LookupAdmin.html" />
+    <Content Include="Admin\Sys\AdminManage.aspx" />
+    <Content Include="Admin\Sys\OperationsLog.aspx" />
+    <Content Include="Admin\Sys\PermissionManage.aspx" />
+    <Content Include="Admin\Sys\RoleManage.aspx" />
+    <Content Include="Admin\Sys\SystemConfig.aspx" />
+    <Content Include="Admin\Sys\SystemLog.aspx" />
+    <Content Include="Admin\UserControl\UploadifyControl.ascx" />
+    <Content Include="Admin\UserControl\UploadifyPage.aspx" />
+    <Content Include="dwz.frag.xml" />
+    <Content Include="Error.htm" />
+    <Content Include="favicon.ico" />
+    <Content Include="file_system\Doc\OMS用例图.jpg" />
+    <Content Include="FlowDemo\UserCase.html" />
+    <Content Include="Global.asax" />
+    <Content Include="HttpErrors\401-1.htm" />
+    <Content Include="HttpErrors\401-2.htm" />
+    <Content Include="HttpErrors\401-3.htm" />
+    <Content Include="HttpErrors\401-4.htm" />
+    <Content Include="HttpErrors\401-5.htm" />
+    <Content Include="HttpErrors\401.htm" />
+    <Content Include="HttpErrors\403-1.htm" />
+    <Content Include="HttpErrors\403-10.htm" />
+    <Content Include="HttpErrors\403-11.htm" />
+    <Content Include="HttpErrors\403-12.htm" />
+    <Content Include="HttpErrors\403-13.htm" />
+    <Content Include="HttpErrors\403-14.htm" />
+    <Content Include="HttpErrors\403-15.htm" />
+    <Content Include="HttpErrors\403-16.htm" />
+    <Content Include="HttpErrors\403-17.htm" />
+    <Content Include="HttpErrors\403-18.htm" />
+    <Content Include="HttpErrors\403-19.htm" />
+    <Content Include="HttpErrors\403-2.htm" />
+    <Content Include="HttpErrors\403-3.htm" />
+    <Content Include="HttpErrors\403-4.htm" />
+    <Content Include="HttpErrors\403-5.htm" />
+    <Content Include="HttpErrors\403-6.htm" />
+    <Content Include="HttpErrors\403-7.htm" />
+    <Content Include="HttpErrors\403-8.htm" />
+    <Content Include="HttpErrors\403-9.htm" />
+    <Content Include="HttpErrors\403.htm" />
+    <Content Include="HttpErrors\404-1.htm" />
+    <Content Include="HttpErrors\404-10.htm" />
+    <Content Include="HttpErrors\404-11.htm" />
+    <Content Include="HttpErrors\404-12.htm" />
+    <Content Include="HttpErrors\404-13.htm" />
+    <Content Include="HttpErrors\404-14.htm" />
+    <Content Include="HttpErrors\404-15.htm" />
+    <Content Include="HttpErrors\404-2.htm" />
+    <Content Include="HttpErrors\404-3.htm" />
+    <Content Include="HttpErrors\404-4.htm" />
+    <Content Include="HttpErrors\404-5.htm" />
+    <Content Include="HttpErrors\404-6.htm" />
+    <Content Include="HttpErrors\404-7.htm" />
+    <Content Include="HttpErrors\404-8.htm" />
+    <Content Include="HttpErrors\404-9.htm" />
+    <Content Include="HttpErrors\404.htm" />
+    <Content Include="HttpErrors\405.htm" />
+    <Content Include="HttpErrors\406.htm" />
+    <Content Include="HttpErrors\412.htm" />
+    <Content Include="HttpErrors\500-100.asp" />
+    <Content Include="HttpErrors\500-13.htm" />
+    <Content Include="HttpErrors\500-14.htm" />
+    <Content Include="HttpErrors\500-15.htm" />
+    <Content Include="HttpErrors\500-16.htm" />
+    <Content Include="HttpErrors\500-17.htm" />
+    <Content Include="HttpErrors\500-18.htm" />
+    <Content Include="HttpErrors\500-19.htm" />
+    <Content Include="HttpErrors\500.htm" />
+    <Content Include="HttpErrors\501.htm" />
+    <Content Include="HttpErrors\502.htm" />
+    <Content Include="Images\arrow-right.gif" />
+    <Content Include="Images\avnet.jpg" />
+    <Content Include="Images\cpnt.gif" />
+    <Content Include="Images\cpnt2.gif" />
+    <Content Include="Images\detailtitle.jpg" />
+    <Content Include="Images\dhico.gif" />
+    <Content Include="Images\enico.gif" />
+    <Content Include="Images\errmsg.jpg" />
+    <Content Include="Images\fangda.gif" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\ico.gif" />
+    <Content Include="Images\ico.png" />
+    <Content Include="Images\jjfa.jpg" />
+    <Content Include="Images\k2.gif" />
+    <Content Include="Images\leftico.jpg" />
+    <Content Include="Images\line.gif" />
+    <Content Include="Images\lmbg.gif" />
+    <Content Include="Images\logo.gif" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\meds-tech.jpg" />
+    <Content Include="Images\more1.gif" />
+    <Content Include="Images\nav_hover.gif" />
+    <Content Include="Images\niYrsonBEx.jpg" />
+    <Content Include="Images\part_search_bg.jpg" />
+    <Content Include="Images\pic_65.gif" />
+    <Content Include="Images\pic_66.gif" />
+    <Content Include="Images\product_bg.jpg" />
+    <Content Include="Images\qh.jpg" />
+    <Content Include="Images\rf-module.jpg" />
+    <Content Include="Images\shang.gif" />
+    <Content Include="Images\ssgo.gif" />
+    <Content Include="Images\subleft_nav02_01.jpg" />
+    <Content Include="Images\subleft_nav02_02.jpg" />
+    <Content Include="Images\subleft_nav02_03.jpg" />
+    <Content Include="Images\submain_about.jpg" />
+    <Content Include="Images\subtb_01.jpg" />
+    <Content Include="Images\subtb_02.jpg" />
+    <Content Include="Images\subtb_03.jpg" />
+    <Content Include="Images\topbg.gif" />
+    <Content Include="Images\xia.gif" />
+    <Content Include="Images\xzb_main.png" />
+    <Content Include="index.html" />
+    <Content Include="index_menu.html" />
+    <Content Include="js\dwz.accordion.js" />
+    <Content Include="js\dwz.ajax.js" />
+    <Content Include="js\dwz.alertMsg.js" />
+    <Content Include="js\dwz.barDrag.js" />
+    <Content Include="js\dwz.checkbox.js" />
+    <Content Include="js\dwz.combox.js" />
+    <Content Include="js\dwz.contextmenu.js" />
+    <Content Include="js\dwz.core.js" />
+    <Content Include="js\dwz.cssTable.js" />
+    <Content Include="js\dwz.database.js" />
+    <Content Include="js\dwz.datepicker.js" />
+    <Content Include="js\dwz.dialog.js" />
+    <Content Include="js\dwz.dialogDrag.js" />
+    <Content Include="js\dwz.drag.js" />
+    <Content Include="js\dwz.effects.js" />
+    <Content Include="js\dwz.history.js" />
+    <Content Include="js\dwz.min.js" />
+    <Content Include="js\dwz.navTab.js" />
+    <Content Include="js\dwz.pagination.js" />
+    <Content Include="js\dwz.panel.js" />
+    <Content Include="js\dwz.print.js" />
+    <Content Include="js\dwz.regional.zh.js" />
+    <Content Include="js\dwz.resize.js" />
+    <Content Include="js\dwz.scrollCenter.js" />
+    <Content Include="js\dwz.sortDrag.js" />
+    <Content Include="js\dwz.stable.js" />
+    <Content Include="js\dwz.switchEnv.js" />
+    <Content Include="js\dwz.tab.js" />
+    <Content Include="js\dwz.taskBar.js" />
+    <Content Include="js\dwz.theme.js" />
+    <Content Include="js\dwz.tree.js" />
+    <Content Include="js\dwz.ui.js" />
+    <Content Include="js\dwz.util.date.js" />
+    <Content Include="js\dwz.util.number.js" />
+    <Content Include="js\dwz.validate.method.js" />
+    <Content Include="js\jquery-1.7.2.js" />
+    <Content Include="js\jquery-1.7.2.min.js" />
+    <Content Include="js\jquery.bgiframe.js" />
+    <Content Include="js\jquery.cookie.js" />
+    <Content Include="js\jquery.easing.1.3.js" />
+    <Content Include="js\jquery.validate.js" />
+    <Content Include="js\jquery.validate.min.js" />
+    <Content Include="js\speedup.js" />
+    <Content Include="jui\combox\area_all.html" />
+    <Content Include="jui\combox\area_bj.html" />
+    <Content Include="jui\combox\area_sh.html" />
+    <Content Include="jui\combox\city_all.html" />
+    <Content Include="jui\combox\city_bj.html" />
+    <Content Include="jui\combox\city_sh.html" />
+    <Content Include="jui\common\ajaxDone.html" />
+    <Content Include="jui\common\ajaxTimeout.html" />
+    <Content Include="jui\database\db_attachmentBrightBack.html" />
+    <Content Include="jui\database\db_attachmentLookup.html" />
+    <Content Include="jui\database\db_lookupSuggest.html" />
+    <Content Include="jui\database\db_select.html" />
+    <Content Include="jui\database\db_widget.html" />
+    <Content Include="jui\database\dwzOrgLookup.html" />
+    <Content Include="jui\database\dwzOrgLookup2.html" />
+    <Content Include="jui\database\treeBringBack.html" />
+    <Content Include="jui\database\treeLookup.html" />
+    <Content Include="jui\demo_page1.html" />
+    <Content Include="jui\demo_page2.html" />
+    <Content Include="jui\demo_page4.html" />
+    <Content Include="jui\demo_page5.html" />
+    <Content Include="jui\demo_page6.html" />
+    <Content Include="jui\pagination\ajaxDone1.html" />
+    <Content Include="jui\pagination\ajaxDone2.html" />
+    <Content Include="jui\pagination\ajaxDone3.html" />
+    <Content Include="jui\pagination\dialog1.html" />
+    <Content Include="jui\pagination\dialog2.html" />
+    <Content Include="jui\pagination\layout1.html" />
+    <Content Include="jui\pagination\layout2.html" />
+    <Content Include="jui\pagination\list1.html" />
+    <Content Include="jui\pagination\list2.html" />
+    <Content Include="jui\pagination\list3.html" />
+    <Content Include="jui\sortDrag\1.html" />
+    <Content Include="jui\sortDrag\2.html" />
+    <Content Include="jui\sortDrag\form.html" />
+    <Content Include="jui\w_dialog.html" />
+    <Content Include="jui\w_removeSelected.html" />
+    <Content Include="jui\w_validation.html" />
+    <Content Include="login_dialog.html" />
+    <Content Include="main.html" />
+    <Content Include="sample.html" />
+    <Content Include="Scripts\ajaxfileupload\ajaxfileupload.css" />
+    <Content Include="Scripts\ajaxfileupload\ajaxfileupload.js" />
+    <Content Include="Scripts\ajaxfileupload\loading.gif" />
+    <Content Include="Scripts\artDialog\artDialog.js" />
+    <Content Include="Scripts\artDialog\artDialog.source.js" />
+    <Content Include="Scripts\artDialog\jquery.artDialog.js" />
+    <Content Include="Scripts\artDialog\jquery.artDialog.source.js" />
+    <Content Include="Scripts\artDialog\plugins\iframeTools.js" />
+    <Content Include="Scripts\artDialog\plugins\iframeTools.source.js" />
+    <Content Include="Scripts\artDialog\skins\blue.css" />
+    <Content Include="Scripts\artDialog\skins\blue\bg.png" />
+    <Content Include="Scripts\artDialog\skins\blue\bg2.png" />
+    <Content Include="Scripts\artDialog\skins\blue\bg_css3.png" />
+    <Content Include="Scripts\artDialog\skins\blue\bg_css3_2.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\close.hover.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\close.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\e.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\n.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\ne.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\nw.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\s.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\se.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\sw.png" />
+    <Content Include="Scripts\artDialog\skins\blue\ie6\w.png" />
+    <Content Include="Scripts\artDialog\skins\icons\error.png" />
+    <Content Include="Scripts\artDialog\skins\icons\face-sad.png" />
+    <Content Include="Scripts\artDialog\skins\icons\face-smile.png" />
+    <Content Include="Scripts\artDialog\skins\icons\loading.gif" />
+    <Content Include="Scripts\artDialog\skins\icons\question.png" />
+    <Content Include="Scripts\artDialog\skins\icons\succeed.png" />
+    <Content Include="Scripts\artDialog\skins\icons\warning.png" />
+    <Content Include="Scripts\custom.js" />
+    <Content Include="Scripts\easytabs.js" />
+    <Content Include="Scripts\flexigrid-1.1\css\flexigrid.css" />
+    <Content Include="Scripts\flexigrid-1.1\css\flexigrid.pack.css" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\bg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\btn-sprite.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\ch.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\chtd-bg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\ddn.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\dn.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\fhbg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\fhbg.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\first.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\grid.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\grid3-special-col-bg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\grid3-special-col-sel-bg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\gridth.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\headbg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\hl.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\indicator_waitanim.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\indicator_web20_working.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\last.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\line.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\load-bg.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\load.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\load.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\magnifier.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\next.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\page-bg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\page-first.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\page-last.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\page-next.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\page-prev.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\prev.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\sort_asc.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\sort_desc.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\tbg.gif" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\up.png" />
+    <Content Include="Scripts\flexigrid-1.1\css\images\flexigrid\uup.png" />
+    <Content Include="Scripts\flexigrid-1.1\js\flexigrid.js" />
+    <Content Include="Scripts\flexigrid-1.1\js\flexigrid.pack.js" />
+    <Content Include="Scripts\function.js" />
+    <Content Include="Scripts\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\jquery.contextmenu.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\cancel.png" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\cancel.png" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\css\default.css" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\css\uploadify.css" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\dwsync.xml" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\expressInstall.swf" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\jquery-1.3.2.min.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\jquery.uploadify.v2.1.0.min.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\swfobject.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\uploadify.swf" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\dwsync.xml" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\dwsync.xml" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\expressInstall.swf" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\jquery-1.3.2.min.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\jquery.uploadify.v2.1.0.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\jquery.uploadify.v2.1.0.min.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\swfobject.js" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\uploadFile.png" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\uploadify.allglyphs.swf" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\uploadify.css" />
+    <Content Include="Scripts\jquery.uploadify-v2.1.0\uploadify.swf" />
+    <Content Include="Scripts\JS_Wen.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\kindeditor-all-min.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\kindeditor-all.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\kindeditor-min.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\kindeditor.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\lang\ar.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\lang\en.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\lang\ko.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\lang\zh_CN.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\lang\zh_TW.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\license.txt" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\anchor\anchor.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\autoheight\autoheight.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\baidumap\baidumap.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\baidumap\index.html" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\baidumap\map.html" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\clearhtml\clearhtml.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\code\code.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\code\prettify.css" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\code\prettify.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\emoticons.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\0.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\1.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\10.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\100.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\101.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\102.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\103.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\104.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\105.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\106.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\107.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\108.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\109.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\11.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\110.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\111.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\112.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\113.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\114.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\115.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\116.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\117.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\118.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\119.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\12.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\120.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\121.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\122.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\123.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\124.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\125.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\126.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\127.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\128.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\129.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\13.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\130.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\131.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\132.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\133.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\134.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\14.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\15.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\16.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\17.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\18.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\19.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\2.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\20.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\21.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\22.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\23.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\24.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\25.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\26.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\27.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\28.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\29.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\3.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\30.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\31.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\32.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\33.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\34.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\35.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\36.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\37.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\38.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\39.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\4.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\40.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\41.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\42.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\43.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\44.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\45.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\46.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\47.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\48.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\49.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\5.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\50.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\51.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\52.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\53.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\54.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\55.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\56.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\57.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\58.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\59.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\6.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\60.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\61.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\62.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\63.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\64.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\65.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\66.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\67.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\68.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\69.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\7.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\70.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\71.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\72.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\73.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\74.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\75.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\76.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\77.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\78.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\79.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\8.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\80.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\81.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\82.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\83.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\84.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\85.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\86.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\87.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\88.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\89.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\9.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\90.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\91.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\92.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\93.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\94.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\95.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\96.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\97.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\98.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\99.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\emoticons\images\static.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\filemanager\filemanager.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\filemanager\images\file-16.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\filemanager\images\file-64.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\filemanager\images\folder-16.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\filemanager\images\folder-64.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\filemanager\images\go-up.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\flash\flash.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\image\image.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\image\images\align_left.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\image\images\align_right.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\image\images\align_top.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\image\images\refresh.png" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\insertfile\insertfile.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\lineheight\lineheight.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\link\link.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\map\map.html" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\map\map.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\media\media.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\multiimage\images\image.png" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\multiimage\images\select-files-en.png" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\multiimage\images\select-files-zh_CN.png" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\multiimage\images\swfupload.swf" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\multiimage\multiimage.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\pagebreak\pagebreak.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\plainpaste\plainpaste.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\preview\preview.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\quickformat\quickformat.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\table\table.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\template\html\1.html" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\template\html\2.html" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\template\html\3.html" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\template\template.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\plugins\wordpaste\wordpaste.js" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\common\anchor.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\common\blank.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\common\flash.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\common\loading.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\common\media.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\common\rm.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\default\background.png" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\default\default.css" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\default\default.png" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\qq\editor.gif" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\qq\qq.css" />
+    <Content Include="Scripts\kindeditor-4.1.7\themes\simple\simple.css" />
+    <Content Include="Scripts\My97DatePicker\calendar.js" />
+    <Content Include="Scripts\My97DatePicker\config.js" />
+    <Content Include="Scripts\My97DatePicker\lang\en.js" />
+    <Content Include="Scripts\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Scripts\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Scripts\My97DatePicker\My97DatePicker.htm" />
+    <Content Include="Scripts\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Scripts\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Scripts\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Scripts\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Scripts\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Scripts\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Scripts\My97DatePicker\WdatePicker.js" />
+    <Content Include="Scripts\public-common-function.js" />
+    <Content Include="Scripts\Utilities\UserControl.js" />
+    <Content Include="Scripts\Utilities\AutoLogin.js" />
+    <Content Include="Scripts\Utilities\Guid.js" />
+    <Content Include="Scripts\Utilities\JsonUti.js" />
+    <Content Include="Scripts\zTree3.5\css\demo.css" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\2.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\3.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\4.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\5.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\6.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\7.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\8.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\diy\9.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\line_conn.gif" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\loading.gif" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="Scripts\zTree3.5\css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Scripts\zTree3.5\js\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.all-3.5.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.all-3.5.min.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.core-3.5.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.core-3.5.min.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.excheck-3.5.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.excheck-3.5.min.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.exedit-3.5.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.exedit-3.5.min.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.exhide-3.5.js" />
+    <Content Include="Scripts\zTree3.5\js\jquery.ztree.exhide-3.5.min.js" />
+    <Content Include="Scripts\zTree\css\demo.css" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\checkbox.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\1_close.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\1_open.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\2.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\3.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\4.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\5.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\6.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\7.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\8.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\diy\9.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\edit.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\10.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\1_close.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\1_open.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\2.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\3.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\4.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\5.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\6.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\7.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\8.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\flag\9.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\folder_Close.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\folder_Open.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\line_bottom.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\line_center.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\line_conn.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\line_top.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\loading.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\minus_bottom.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\minus_center.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\minus_noLine.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\minus_root.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\minus_top.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\moveArrow.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\page.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\plus_bottom.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\plus_center.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\plus_noLine.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\plus_root.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\plus_top.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\radio.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\remove.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\10.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\1_close.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\1_open.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\2.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\3.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\4.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\5.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\6.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\7.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\8.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\sim\9.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\zTreeStandard.gif" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\img\zTreeStandard.png" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\zTreeIcons.css" />
+    <Content Include="Scripts\zTree\css\zTreeStyle\zTreeStyle.css" />
+    <Content Include="Scripts\zTree\js\jquery-1.4.4.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree-2.6.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.core-3.0.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.core-3.0.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.excheck-3.0.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.excheck-3.0.min.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.exedit-3.0.js" />
+    <Content Include="Scripts\zTree\js\jquery.ztree.exedit-3.0.min.js" />
+    <Content Include="Styles\AutoLogin\style.css" />
+    <Content Include="Styles\contextmenu.css" />
+    <Content Include="Styles\css2.css" />
+    <Content Include="Styles\CSS_Wen.css" />
+    <Content Include="Styles\custom-theme\images\ui-bg_diagonals-medium_20_423e3e_40x40.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_flat_0_564e4e_40x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_flat_0_6b97c1_40x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_flat_30_000000_40x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_glass_75_08b6ed_1x400.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_glass_75_0cb9ee_1x400.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_glass_75_4cd6f6_1x400.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_glass_75_fddfa1_1x400.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_gloss-wave_75_89a6ca_500x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_gloss-wave_75_90b5d6_500x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-bg_inset-soft_95_fef1ec_1x100.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_222222_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_454545_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_5587b8_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_a2c0df_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_fafafa_256x240.png" />
+    <Content Include="Styles\custom-theme\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Styles\custom-theme\jquery-ui-1.7.2.custom.css" />
+    <Content Include="Styles\custom.css" />
+    <Content Include="Styles\fancybox.css" />
+    <Content Include="Styles\global.css" />
+    <Content Include="Styles\login.css" />
+    <Content Include="Styles\login_style.css" />
+    <Content Include="Styles\menu.css" />
+    <Content Include="Styles\public.css" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Styles\style.css" />
+    <Content Include="Styles\StyleV2.css" />
+    <Content Include="Styles\telerik.common.min.css" />
+    <Content Include="Styles\telerik.default.min.css" />
+    <Content Include="tabsPage.html" />
+    <Content Include="themes\azure\images\accordion\accordion.png" />
+    <Content Include="themes\azure\images\account_info_bg.png" />
+    <Content Include="themes\azure\images\alert\alertpanel.png" />
+    <Content Include="themes\azure\images\alert\alertpanel_icon.png" />
+    <Content Include="themes\azure\images\button\button_s.png" />
+    <Content Include="themes\azure\images\button\imgX.gif" />
+    <Content Include="themes\azure\images\button\imgX.png" />
+    <Content Include="themes\azure\images\dialog\dialogpanel.png" />
+    <Content Include="themes\azure\images\dialog\dialogpanel_icon.png" />
+    <Content Include="themes\azure\images\form\input_bg.png" />
+    <Content Include="themes\azure\images\form\input_bt.png" />
+    <Content Include="themes\azure\images\grid\grid.png" />
+    <Content Include="themes\azure\images\grid\resizeCol.png" />
+    <Content Include="themes\azure\images\grid\tableth.png" />
+    <Content Include="themes\azure\images\header_bg.png" />
+    <Content Include="themes\azure\images\icon.png" />
+    <Content Include="themes\azure\images\layout\taskbar.png" />
+    <Content Include="themes\azure\images\layout\taskbar_control.png" />
+    <Content Include="themes\azure\images\layout\taskbar_icon.png" />
+    <Content Include="themes\azure\images\layout\toggleSidebar.png" />
+    <Content Include="themes\azure\images\listLine.png" />
+    <Content Include="themes\azure\images\menu\menu.png" />
+    <Content Include="themes\azure\images\order_down.gif" />
+    <Content Include="themes\azure\images\order_up.gif" />
+    <Content Include="themes\azure\images\pageHeader_bg.png" />
+    <Content Include="themes\azure\images\panel\panel.png" />
+    <Content Include="themes\azure\images\panel\panel_icon.png" />
+    <Content Include="themes\azure\images\preview.png" />
+    <Content Include="themes\azure\images\progressBar\progressBar_l.gif" />
+    <Content Include="themes\azure\images\progressBar\progressBar_m.gif" />
+    <Content Include="themes\azure\images\progressBar\progressBar_s.gif" />
+    <Content Include="themes\azure\images\search-bg.gif" />
+    <Content Include="themes\azure\images\search-bt.gif" />
+    <Content Include="themes\azure\images\shadow\shadow_c_c.png" />
+    <Content Include="themes\azure\images\shadow\shadow_c_l.png" />
+    <Content Include="themes\azure\images\shadow\shadow_c_r.png" />
+    <Content Include="themes\azure\images\shadow\shadow_f_c.png" />
+    <Content Include="themes\azure\images\shadow\shadow_f_l.png" />
+    <Content Include="themes\azure\images\shadow\shadow_f_r.png" />
+    <Content Include="themes\azure\images\shadow\shadow_h_c.png" />
+    <Content Include="themes\azure\images\shadow\shadow_h_l.png" />
+    <Content Include="themes\azure\images\shadow\shadow_h_r.png" />
+    <Content Include="themes\azure\images\tabs\tabscontrol.png" />
+    <Content Include="themes\azure\images\tabs\tabspage.png" />
+    <Content Include="themes\azure\images\tabs\tabspage_icon.png" />
+    <Content Include="themes\azure\images\tabs\tabspanel.png" />
+    <Content Include="themes\azure\images\tree\check.png" />
+    <Content Include="themes\azure\images\tree\folder.png" />
+    <Content Include="themes\azure\images\tree\tree.png" />
+    <Content Include="themes\azure\style.css" />
+    <Content Include="themes\css\core.css" />
+    <Content Include="themes\css\ieHack.css" />
+    <Content Include="themes\css\login.css" />
+    <Content Include="themes\css\print.css" />
+    <Content Include="themes\default\images\accordion\accordion.png" />
+    <Content Include="themes\default\images\account_info_bg.png" />
+    <Content Include="themes\default\images\alert\alertpanel.png" />
+    <Content Include="themes\default\images\alert\alertpanel_icon.png" />
+    <Content Include="themes\default\images\button\button_s.png" />
+    <Content Include="themes\default\images\button\imgX.gif" />
+    <Content Include="themes\default\images\button\toleft.gif" />
+    <Content Include="themes\default\images\button\toleftone.gif" />
+    <Content Include="themes\default\images\button\toright.gif" />
+    <Content Include="themes\default\images\button\torightone.gif" />
+    <Content Include="themes\default\images\dialog\dialogpanel.png" />
+    <Content Include="themes\default\images\dialog\dialogpanel_icon.png" />
+    <Content Include="themes\default\images\form\input_bg.png" />
+    <Content Include="themes\default\images\form\input_bt.png" />
+    <Content Include="themes\default\images\grid\grid.png" />
+    <Content Include="themes\default\images\grid\resizeCol.png" />
+    <Content Include="themes\default\images\grid\tableth.png" />
+    <Content Include="themes\default\images\header_bg.png" />
+    <Content Include="themes\default\images\icon.png" />
+    <Content Include="themes\default\images\layout\taskbar.png" />
+    <Content Include="themes\default\images\layout\taskbar_control.png" />
+    <Content Include="themes\default\images\layout\taskbar_icon.png" />
+    <Content Include="themes\default\images\layout\toggleSidebar.png" />
+    <Content Include="themes\default\images\listLine.png" />
+    <Content Include="themes\default\images\login_banner.jpg" />
+    <Content Include="themes\default\images\login_bg.png" />
+    <Content Include="themes\default\images\login_content_bg.png" />
+    <Content Include="themes\default\images\login_header_bg.png" />
+    <Content Include="themes\default\images\login_list.png" />
+    <Content Include="themes\default\images\login_logo.gif" />
+    <Content Include="themes\default\images\login_sub.png" />
+    <Content Include="themes\default\images\login_title.png" />
+    <Content Include="themes\default\images\logo.png" />
+    <Content Include="themes\default\images\menu\menu.png" />
+    <Content Include="themes\default\images\order_down.gif" />
+    <Content Include="themes\default\images\order_up.gif" />
+    <Content Include="themes\default\images\pageHeader_bg.png" />
+    <Content Include="themes\default\images\panel\panel.png" />
+    <Content Include="themes\default\images\panel\panel_icon.png" />
+    <Content Include="themes\default\images\progressBar\progressBar_l.gif" />
+    <Content Include="themes\default\images\progressBar\progressBar_m.gif" />
+    <Content Include="themes\default\images\progressBar\progressBar_s.gif" />
+    <Content Include="themes\default\images\search-bg.gif" />
+    <Content Include="themes\default\images\search-bt.gif" />
+    <Content Include="themes\default\images\shadow\shadow_c_c.png" />
+    <Content Include="themes\default\images\shadow\shadow_c_l.png" />
+    <Content Include="themes\default\images\shadow\shadow_c_r.png" />
+    <Content Include="themes\default\images\shadow\shadow_f_c.png" />
+    <Content Include="themes\default\images\shadow\shadow_f_l.png" />
+    <Content Include="themes\default\images\shadow\shadow_f_r.png" />
+    <Content Include="themes\default\images\shadow\shadow_h_c.png" />
+    <Content Include="themes\default\images\shadow\shadow_h_l.png" />
+    <Content Include="themes\default\images\shadow\shadow_h_r.png" />
+    <Content Include="themes\default\images\tabs\tabscontrol.png" />
+    <Content Include="themes\default\images\tabs\tabspage.png" />
+    <Content Include="themes\default\images\tabs\tabspage_icon.png" />
+    <Content Include="themes\default\images\tabs\tabspanel.png" />
+    <Content Include="themes\default\images\themeButton.png" />
+    <Content Include="themes\default\images\tree\check.png" />
+    <Content Include="themes\default\images\tree\folder.png" />
+    <Content Include="themes\default\images\tree\tree.png" />
+    <Content Include="themes\default\style.css" />
+    <Content Include="themes\green\images\accordion\accordion.png" />
+    <Content Include="themes\green\images\account_info_bg.png" />
+    <Content Include="themes\green\images\alert\alertpanel.png" />
+    <Content Include="themes\green\images\alert\alertpanel_icon.png" />
+    <Content Include="themes\green\images\button\button_s.png" />
+    <Content Include="themes\green\images\button\imgX.gif" />
+    <Content Include="themes\green\images\dialog\dialogpanel.png" />
+    <Content Include="themes\green\images\dialog\dialogpanel_icon.png" />
+    <Content Include="themes\green\images\form\input_bg.png" />
+    <Content Include="themes\green\images\form\input_bt.png" />
+    <Content Include="themes\green\images\grid\grid.png" />
+    <Content Include="themes\green\images\grid\resizeCol.png" />
+    <Content Include="themes\green\images\grid\tableth.png" />
+    <Content Include="themes\green\images\header_bg.png" />
+    <Content Include="themes\green\images\layout\toggleSidebar.png" />
+    <Content Include="themes\green\images\listLine.png" />
+    <Content Include="themes\green\images\logo.png" />
+    <Content Include="themes\green\images\pageHeader_bg.png" />
+    <Content Include="themes\green\images\panel\panel.png" />
+    <Content Include="themes\green\images\panel\panel_icon.png" />
+    <Content Include="themes\green\images\tabs\tabscontrol.png" />
+    <Content Include="themes\green\images\tabs\tabspage.png" />
+    <Content Include="themes\green\images\tabs\tabspage_icon.png" />
+    <Content Include="themes\green\images\tabs\tabspanel.png" />
+    <Content Include="themes\green\images\tree\tree.png" />
+    <Content Include="themes\green\style.css" />
+    <Content Include="themes\purple\images\accordion\accordion.png" />
+    <Content Include="themes\purple\images\account_info_bg.png" />
+    <Content Include="themes\purple\images\alert\alertpanel.png" />
+    <Content Include="themes\purple\images\alert\alertpanel_icon.png" />
+    <Content Include="themes\purple\images\button\button_s.png" />
+    <Content Include="themes\purple\images\button\imgX.gif" />
+    <Content Include="themes\purple\images\dialog\dialogpanel.png" />
+    <Content Include="themes\purple\images\dialog\dialogpanel_icon.png" />
+    <Content Include="themes\purple\images\form\input_bg.png" />
+    <Content Include="themes\purple\images\form\input_bt.png" />
+    <Content Include="themes\purple\images\grid\grid.png" />
+    <Content Include="themes\purple\images\grid\resizeCol.png" />
+    <Content Include="themes\purple\images\grid\tableth.png" />
+    <Content Include="themes\purple\images\header_bg.png" />
+    <Content Include="themes\purple\images\layout\taskbar.png" />
+    <Content Include="themes\purple\images\layout\taskbar_control.png" />
+    <Content Include="themes\purple\images\layout\taskbar_icon.png" />
+    <Content Include="themes\purple\images\layout\toggleSidebar.png" />
+    <Content Include="themes\purple\images\login_bg.png" />
+    <Content Include="themes\purple\images\login_content_bg.png" />
+    <Content Include="themes\purple\images\login_header_bg.png" />
+    <Content Include="themes\purple\images\login_list.png" />
+    <Content Include="themes\purple\images\menu\menu.png" />
+    <Content Include="themes\purple\images\pageHeader_bg.png" />
+    <Content Include="themes\purple\images\panel\panel.png" />
+    <Content Include="themes\purple\images\panel\panel_icon.png" />
+    <Content Include="themes\purple\images\progressBar\progressBar_l.gif" />
+    <Content Include="themes\purple\images\progressBar\progressBar_m.gif" />
+    <Content Include="themes\purple\images\progressBar\progressBar_s.gif" />
+    <Content Include="themes\purple\images\shadow\shadow_c_c.png" />
+    <Content Include="themes\purple\images\shadow\shadow_c_l.png" />
+    <Content Include="themes\purple\images\shadow\shadow_c_r.png" />
+    <Content Include="themes\purple\images\shadow\shadow_f_c.png" />
+    <Content Include="themes\purple\images\shadow\shadow_f_l.png" />
+    <Content Include="themes\purple\images\shadow\shadow_f_r.png" />
+    <Content Include="themes\purple\images\shadow\shadow_h_c.png" />
+    <Content Include="themes\purple\images\shadow\shadow_h_l.png" />
+    <Content Include="themes\purple\images\shadow\shadow_h_r.png" />
+    <Content Include="themes\purple\images\tabs\tabscontrol.png" />
+    <Content Include="themes\purple\images\tabs\tabspage.png" />
+    <Content Include="themes\purple\images\tabs\tabspage_icon.png" />
+    <Content Include="themes\purple\images\tabs\tabspanel.png" />
+    <Content Include="themes\purple\images\tree\check.png" />
+    <Content Include="themes\purple\images\tree\folder.png" />
+    <Content Include="themes\purple\images\tree\tree.png" />
+    <Content Include="themes\purple\style.css" />
+    <Content Include="themes\silver\images\accordion\accordion.png" />
+    <Content Include="themes\silver\images\account_info_bg.png" />
+    <Content Include="themes\silver\images\alert\alertpanel.png" />
+    <Content Include="themes\silver\images\alert\alertpanel_icon.png" />
+    <Content Include="themes\silver\images\button\button_s.png" />
+    <Content Include="themes\silver\images\button\imgX.gif" />
+    <Content Include="themes\silver\images\dialog\dialogpanel.png" />
+    <Content Include="themes\silver\images\dialog\dialogpanel_icon.png" />
+    <Content Include="themes\silver\images\form\input_bg.png" />
+    <Content Include="themes\silver\images\form\input_bt.png" />
+    <Content Include="themes\silver\images\grid\grid.png" />
+    <Content Include="themes\silver\images\grid\resizeCol.png" />
+    <Content Include="themes\silver\images\grid\tableth.png" />
+    <Content Include="themes\silver\images\header_bg.png" />
+    <Content Include="themes\silver\images\layout\taskbar.png" />
+    <Content Include="themes\silver\images\layout\taskbar_control.png" />
+    <Content Include="themes\silver\images\layout\taskbar_icon.png" />
+    <Content Include="themes\silver\images\layout\toggleSidebar.png" />
+    <Content Include="themes\silver\images\listLine.png" />
+    <Content Include="themes\silver\images\menu\menu.png" />
+    <Content Include="themes\silver\images\pageHeader_bg.png" />
+    <Content Include="themes\silver\images\panel\panel.png" />
+    <Content Include="themes\silver\images\panel\panel_icon.png" />
+    <Content Include="themes\silver\images\progressBar\progressBar_l.gif" />
+    <Content Include="themes\silver\images\progressBar\progressBar_m.gif" />
+    <Content Include="themes\silver\images\progressBar\progressBar_s.gif" />
+    <Content Include="themes\silver\images\shadow\shadow_c_c.png" />
+    <Content Include="themes\silver\images\shadow\shadow_c_l.png" />
+    <Content Include="themes\silver\images\shadow\shadow_c_r.png" />
+    <Content Include="themes\silver\images\shadow\shadow_f_c.png" />
+    <Content Include="themes\silver\images\shadow\shadow_f_l.png" />
+    <Content Include="themes\silver\images\shadow\shadow_f_r.png" />
+    <Content Include="themes\silver\images\shadow\shadow_h_c.png" />
+    <Content Include="themes\silver\images\shadow\shadow_h_l.png" />
+    <Content Include="themes\silver\images\shadow\shadow_h_r.png" />
+    <Content Include="themes\silver\images\tabs\tabscontrol.png" />
+    <Content Include="themes\silver\images\tabs\tabspage.png" />
+    <Content Include="themes\silver\images\tabs\tabspage_icon.png" />
+    <Content Include="themes\silver\images\tabs\tabspanel.png" />
+    <Content Include="themes\silver\images\tree\check.png" />
+    <Content Include="themes\silver\images\tree\folder.png" />
+    <Content Include="themes\silver\images\tree\tree.png" />
+    <Content Include="themes\silver\style.css" />
+    <Content Include="uploadify\Change Log.txt" />
+    <Content Include="uploadify\css\uploadify.css" />
+    <Content Include="uploadify\img\add.jpg" />
+    <Content Include="uploadify\img\cancel.jpg" />
+    <Content Include="uploadify\img\delete.jpg" />
+    <Content Include="uploadify\img\upload.jpg" />
+    <Content Include="uploadify\img\uploadify-cancel.png" />
+    <Content Include="uploadify\scripts\jquery.uploadify.js" />
+    <Content Include="uploadify\scripts\jquery.uploadify.min.js" />
+    <Content Include="uploadify\scripts\uploadify.swf" />
+    <Content Include="VersionInfo.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="xheditor\xheditor-1.2.1.min.js" />
+    <Content Include="xheditor\xheditor_emot\default\angry.gif" />
+    <Content Include="xheditor\xheditor_emot\default\awkward.gif" />
+    <Content Include="xheditor\xheditor_emot\default\bye.gif" />
+    <Content Include="xheditor\xheditor_emot\default\config.txt" />
+    <Content Include="xheditor\xheditor_emot\default\crazy.gif" />
+    <Content Include="xheditor\xheditor_emot\default\cry.gif" />
+    <Content Include="xheditor\xheditor_emot\default\curse.gif" />
+    <Content Include="xheditor\xheditor_emot\default\cute.gif" />
+    <Content Include="xheditor\xheditor_emot\default\despise.gif" />
+    <Content Include="xheditor\xheditor_emot\default\doubt.gif" />
+    <Content Include="xheditor\xheditor_emot\default\envy.gif" />
+    <Content Include="xheditor\xheditor_emot\default\fastcry.gif" />
+    <Content Include="xheditor\xheditor_emot\default\knock.gif" />
+    <Content Include="xheditor\xheditor_emot\default\laugh.gif" />
+    <Content Include="xheditor\xheditor_emot\default\mad.gif" />
+    <Content Include="xheditor\xheditor_emot\default\ohmy.gif" />
+    <Content Include="xheditor\xheditor_emot\default\panic.gif" />
+    <Content Include="xheditor\xheditor_emot\default\proud.gif" />
+    <Content Include="xheditor\xheditor_emot\default\quiet.gif" />
+    <Content Include="xheditor\xheditor_emot\default\sad.gif" />
+    <Content Include="xheditor\xheditor_emot\default\shutup.gif" />
+    <Content Include="xheditor\xheditor_emot\default\shy.gif" />
+    <Content Include="xheditor\xheditor_emot\default\sleep.gif" />
+    <Content Include="xheditor\xheditor_emot\default\smile.gif" />
+    <Content Include="xheditor\xheditor_emot\default\struggle.gif" />
+    <Content Include="xheditor\xheditor_emot\default\titter.gif" />
+    <Content Include="xheditor\xheditor_emot\default\tongue.gif" />
+    <Content Include="xheditor\xheditor_emot\default\wail.gif" />
+    <Content Include="xheditor\xheditor_emot\default\wronged.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\alien.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\angel.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\angry.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\bandit.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\biglaugh.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\blink.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\blush.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\config.txt" />
+    <Content Include="xheditor\xheditor_emot\ipb\cool.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\cry.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\depres.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\devil.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\glare.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\heart.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\joyful.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\kiss.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\laugh.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\magician.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\ninja.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\pinch.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\police.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\sad.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\sick.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\sideways.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\sleep.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\smile.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\surprised.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\tongue.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\unsure.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\w00t.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\whistling.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\wondering.gif" />
+    <Content Include="xheditor\xheditor_emot\ipb\wub.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\1.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\10.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\11.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\12.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\13.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\14.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\15.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\16.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\17.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\18.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\19.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\2.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\20.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\21.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\22.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\23.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\24.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\25.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\26.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\27.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\28.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\29.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\3.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\30.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\31.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\32.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\33.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\34.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\35.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\36.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\37.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\38.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\39.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\4.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\40.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\5.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\6.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\7.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\8.gif" />
+    <Content Include="xheditor\xheditor_emot\msn\9.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\angry.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\bad.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\blush.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\brokenheart.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\bye.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\coffee.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\config.txt" />
+    <Content Include="xheditor\xheditor_emot\pidgin\cool.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\cry.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\curse.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\cute.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\devil.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\envy.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\gift.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\good.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\kiss.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\laugh.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\love.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\music.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\question.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\rose.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\sad.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\shocked.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\shout.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\sick.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\sleepy.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\smile.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\soccer.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\sweat.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\tired.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\tongue.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\victory.gif" />
+    <Content Include="xheditor\xheditor_emot\pidgin\wink.gif" />
+    <Content Include="xheditor\xheditor_lang\en.js" />
+    <Content Include="xheditor\xheditor_lang\zh-cn.js" />
+    <Content Include="xheditor\xheditor_lang\zh-tw.js" />
+    <Content Include="xheditor\xheditor_plugins\html2markdown.js" />
+    <Content Include="xheditor\xheditor_plugins\htmldomparser.js" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\add.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\bg1.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\bg2.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\btnbg.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\btnbgr.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\clear.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\progressbg.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\img\start.gif" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\multiupload.css" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\multiupload.html" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\multiupload.js" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\swfupload\swfupload.js" />
+    <Content Include="xheditor\xheditor_plugins\multiupload\swfupload\swfupload.swf" />
+    <Content Include="xheditor\xheditor_plugins\showdown.js" />
+    <Content Include="xheditor\xheditor_plugins\ubb.js" />
+    <Content Include="xheditor\xheditor_skin\blank.gif" />
+    <Content Include="xheditor\xheditor_skin\default\iframe.css" />
+    <Content Include="xheditor\xheditor_skin\default\img\anchor.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\close.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\flash.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\icons.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\loading.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\progress.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\progressbg.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-address.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-div.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-h1.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-h2.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-h3.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-h4.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-h5.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-h6.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-p.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\tag-pre.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\waiting.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\wmp.gif" />
+    <Content Include="xheditor\xheditor_skin\default\img\wordimg.gif" />
+    <Content Include="xheditor\xheditor_skin\default\ui.css" />
+    <Content Include="xheditor\xheditor_skin\nostyle\iframe.css" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\anchor.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\close.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\flash.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\icons.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\loading.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\progress.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\progressbg.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-address.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-div.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-h1.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-h2.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-h3.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-h4.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-h5.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-h6.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-p.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\tag-pre.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\waiting.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\wmp.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\img\wordimg.gif" />
+    <Content Include="xheditor\xheditor_skin\nostyle\ui.css" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\iframe.css" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\anchor.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\buttonbg.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\close.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\flash.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\icons.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\loading.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\progress.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\progressbg.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-address.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-div.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-h1.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-h2.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-h3.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-h4.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-h5.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-h6.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-p.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\tag-pre.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\waiting.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\wmp.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\img\wordimg.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007blue\ui.css" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\iframe.css" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\anchor.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\buttonbg.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\close.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\flash.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\icons.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\loading.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\progress.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\progressbg.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-address.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-div.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-h1.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-h2.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-h3.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-h4.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-h5.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-h6.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-p.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\tag-pre.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\waiting.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\wmp.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\img\wordimg.gif" />
+    <Content Include="xheditor\xheditor_skin\o2007silver\ui.css" />
+    <Content Include="xheditor\xheditor_skin\vista\iframe.css" />
+    <Content Include="xheditor\xheditor_skin\vista\img\anchor.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\buttonbg.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\close.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\flash.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\icons.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\loading.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\progress.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\progressbg.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-address.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-div.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-h1.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-h2.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-h3.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-h4.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-h5.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-h6.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-p.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\tag-pre.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\titlebg.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\waiting.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\wmp.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\img\wordimg.gif" />
+    <Content Include="xheditor\xheditor_skin\vista\ui.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\BasePage\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\CheckCodePage.aspx.cs">
+      <DependentUpon>CheckCodePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Common\EditMyPwd.aspx.cs">
+      <DependentUpon>EditMyPwd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Common\EditMyPwd.aspx.designer.cs">
+      <DependentUpon>EditMyPwd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Common\ProductTypeManager.aspx.cs">
+      <DependentUpon>ProductTypeManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Common\ProductTypeManager.aspx.designer.cs">
+      <DependentUpon>ProductTypeManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\CRM\CustomerManager.aspx.cs">
+      <DependentUpon>CustomerManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\CRM\CustomerManager.aspx.designer.cs">
+      <DependentUpon>CustomerManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\CRM\SupplierManager.aspx.cs">
+      <DependentUpon>SupplierManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\CRM\SupplierManager.aspx.designer.cs">
+      <DependentUpon>SupplierManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\BrandManager.aspx.cs">
+      <DependentUpon>BrandManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\BrandManager.aspx.designer.cs">
+      <DependentUpon>BrandManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\BusinessTransactionsReport.aspx.cs">
+      <DependentUpon>BusinessTransactionsReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\BusinessTransactionsReport.aspx.designer.cs">
+      <DependentUpon>BusinessTransactionsReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\CorporationManager.aspx.cs">
+      <DependentUpon>CorporationManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\CorporationManager.aspx.designer.cs">
+      <DependentUpon>CorporationManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\CurrencyTypeManager.aspx.cs">
+      <DependentUpon>CurrencyTypeManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\CurrencyTypeManager.aspx.designer.cs">
+      <DependentUpon>CurrencyTypeManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\CustomerOrderDetailManager.aspx.cs">
+      <DependentUpon>CustomerOrderDetailManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\CustomerOrderDetailManager.aspx.designer.cs">
+      <DependentUpon>CustomerOrderDetailManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\CustomerOrderManager.aspx.cs">
+      <DependentUpon>CustomerOrderManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\CustomerOrderManager.aspx.designer.cs">
+      <DependentUpon>CustomerOrderManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\OrderFeeManager.aspx.cs">
+      <DependentUpon>OrderFeeManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\OrderFeeManager.aspx.designer.cs">
+      <DependentUpon>OrderFeeManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\PaymentTypeManager.aspx.cs">
+      <DependentUpon>PaymentTypeManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\PaymentTypeManager.aspx.designer.cs">
+      <DependentUpon>PaymentTypeManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\POManager.aspx.cs">
+      <DependentUpon>POManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\POManager.aspx.designer.cs">
+      <DependentUpon>POManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\OMS\POPlanManager.aspx.cs">
+      <DependentUpon>POPlanManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\OMS\POPlanManager.aspx.designer.cs">
+      <DependentUpon>POPlanManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Sys\AdminManage.aspx.cs">
+      <DependentUpon>AdminManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Sys\AdminManage.aspx.designer.cs">
+      <DependentUpon>AdminManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Sys\OperationsLog.aspx.cs">
+      <DependentUpon>OperationsLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Sys\OperationsLog.aspx.designer.cs">
+      <DependentUpon>OperationsLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Sys\PermissionManage.aspx.cs">
+      <DependentUpon>PermissionManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Sys\PermissionManage.aspx.designer.cs">
+      <DependentUpon>PermissionManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Sys\RoleManage.aspx.cs">
+      <DependentUpon>RoleManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Sys\RoleManage.aspx.designer.cs">
+      <DependentUpon>RoleManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Sys\SystemConfig.aspx.cs">
+      <DependentUpon>SystemConfig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Sys\SystemConfig.aspx.designer.cs">
+      <DependentUpon>SystemConfig.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Sys\SystemLog.aspx.cs">
+      <DependentUpon>SystemLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Sys\SystemLog.aspx.designer.cs">
+      <DependentUpon>SystemLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserControl\UploadifyControl.ascx.cs">
+      <DependentUpon>UploadifyControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserControl\UploadifyControl.ascx.designer.cs">
+      <DependentUpon>UploadifyControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserControl\UploadifyPage.aspx.cs">
+      <DependentUpon>UploadifyPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserControl\UploadifyPage.aspx.designer.cs">
+      <DependentUpon>UploadifyPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Common\ProductTypeHandle.ashx.cs">
+      <DependentUpon>ProductTypeHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Common\WarehouseHandle.ashx.cs">
+      <DependentUpon>WarehouseHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\CRM\CustomerHandle.ashx.cs">
+      <DependentUpon>CustomerHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\CRM\SupplierHandle.ashx.cs">
+      <DependentUpon>SupplierHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\AdminBindCustomerHandle.ashx.cs">
+      <DependentUpon>AdminBindCustomerHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\AdminBindSupplierHandle.ashx.cs">
+      <DependentUpon>AdminBindSupplierHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\BrandHandle.ashx.cs">
+      <DependentUpon>BrandHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\BusinessTransactionsReportHandle.ashx.cs">
+      <DependentUpon>BusinessTransactionsReportHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\CorporationHandle.ashx.cs">
+      <DependentUpon>CorporationHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\CurrencyTypeHandle.ashx.cs">
+      <DependentUpon>CurrencyTypeHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\CustomerOrderDetailHandle.ashx.cs">
+      <DependentUpon>CustomerOrderDetailHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\CustomerOrderHandle.ashx.cs">
+      <DependentUpon>CustomerOrderHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\GodownEntryDetailHandle.ashx.cs">
+      <DependentUpon>GodownEntryDetailHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\GodownEntryHandle.ashx.cs">
+      <DependentUpon>GodownEntryHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\OrderFeeHandle.ashx.cs">
+      <DependentUpon>OrderFeeHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\PaymentTypeHandle.ashx.cs">
+      <DependentUpon>PaymentTypeHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\POHandle.ashx.cs">
+      <DependentUpon>POHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\POPlanHandle.ashx.cs">
+      <DependentUpon>POPlanHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\ShippingListDetailHandle.ashx.cs">
+      <DependentUpon>ShippingListDetailHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\ShippingListHandle.ashx.cs">
+      <DependentUpon>ShippingListHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\ShippingPlanDetailHandle.ashx.cs">
+      <DependentUpon>ShippingPlanDetailHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\ShippingPlanHandle.ashx.cs">
+      <DependentUpon>ShippingPlanHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Site\FileManagerHandle.ashx.cs">
+      <DependentUpon>FileManagerHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Site\UploadHandle.ashx.cs">
+      <DependentUpon>UploadHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\Admin.ashx.cs">
+      <DependentUpon>Admin.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\CommonMethodHandle.ashx.cs">
+      <DependentUpon>CommonMethodHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\OperationsLogHandle.ashx.cs">
+      <DependentUpon>OperationsLogHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\Permission.ashx.cs">
+      <DependentUpon>Permission.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\PreferenceConfig.ashx.cs">
+      <DependentUpon>PreferenceConfig.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\Role.ashx.cs">
+      <DependentUpon>Role.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\Sys\SystemLogHandle.ashx.cs">
+      <DependentUpon>SystemLogHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Handle\Sys\Admin.ashx" />
+    <Content Include="Handle\Sys\CommonMethodHandle.ashx" />
+    <Content Include="Handle\Sys\OperationsLogHandle.ashx" />
+    <Content Include="Handle\Sys\Permission.ashx" />
+    <Content Include="Handle\Sys\Role.ashx" />
+    <Content Include="Handle\Sys\SystemLogHandle.ashx" />
+    <Content Include="Handle\OMS\CustomerOrderHandle.ashx" />
+    <Content Include="Handle\OMS\CustomerOrderDetailHandle.ashx" />
+    <Content Include="Handle\OMS\POHandle.ashx" />
+    <Content Include="Handle\OMS\POPlanHandle.ashx" />
+    <Content Include="Handle\OMS\OrderFeeHandle.ashx" />
+    <Content Include="Handle\Sys\PreferenceConfig.ashx" />
+    <Content Include="Handle\OMS\BusinessTransactionsReportHandle.ashx" />
+    <Content Include="Handle\Site\UploadHandle.ashx" />
+    <Content Include="Handle\Site\FileManagerHandle.ashx" />
+    <Content Include="Handle\CRM\CustomerHandle.ashx" />
+    <Content Include="Handle\CRM\SupplierHandle.ashx" />
+    <Content Include="Handle\OMS\PaymentTypeHandle.ashx" />
+    <Content Include="Handle\OMS\CurrencyTypeHandle.ashx" />
+    <Content Include="Handle\OMS\CorporationHandle.ashx" />
+    <Content Include="Handle\OMS\AdminBindCustomerHandle.ashx" />
+    <Content Include="Handle\OMS\AdminBindSupplierHandle.ashx" />
+    <Content Include="Handle\OMS\BrandHandle.ashx" />
+    <Content Include="packages.config" />
+    <Content Include="Handle\Common\ProductTypeHandle.ashx" />
+    <Content Include="jui\common\ajaxDone.json" />
+    <Content Include="jui\common\dwz-team.xls" />
+    <Content Include="Handle\OMS\GodownEntryHandle.ashx" />
+    <Content Include="Handle\OMS\GodownEntryDetailHandle.ashx" />
+    <Content Include="Handle\Common\WarehouseHandle.ashx" />
+    <Content Include="file_system\Doc\OMS-用例图V2.pdf" />
+    <Content Include="Handle\OMS\ShippingPlanHandle.ashx" />
+    <Content Include="Handle\OMS\ShippingPlanDetailHandle.ashx" />
+    <Content Include="Handle\OMS\ShippingListHandle.ashx" />
+    <Content Include="Handle\OMS\ShippingListDetailHandle.ashx" />
+    <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\HMAC.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\MD5.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\MD5Stream.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\SHA1.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\SHA224.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\SHA256.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\WSSEUsernameToken.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\IllegalStateError.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\Address.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\Email.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\Phone.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\VCard.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\VCardParser.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\BitString.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\JPGEncoder.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\PNGEncoder.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\DynamicURLLoader.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\IURIResolver.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\MimeTypeMap.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\RFC2817Socket.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\URI.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\URIEncodingBitmap.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\Database.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\Definition.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\Dict.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\DictionaryServer.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\ConnectedEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\DatabaseEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\DefinitionEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\DefinitionHeaderEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\DictionaryServerEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\DisconnectedEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\ErrorEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\MatchEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\MatchStrategiesEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\NoMatchEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\MatchStrategy.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\Response.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\util\CompleteResponseEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\util\SocketHelper.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSON.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSONDecoder.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSONEncoder.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSONParseError.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSONToken.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSONTokenizer.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\JSONTokenType.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\ArrayUtil.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\DateUtil.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\DictionaryUtil.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\IntUtil.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\NumberFormatter.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\StringUtil.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\XMLUtil.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\ServiceEvent.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\ServiceBase.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\URLLoaderBase.as" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\example\index.php" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\check.php" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\uploadify.php" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\uploadify.fla" />
+    <None Include="Scripts\jquery.uploadify-v2.1.0\uploadify.php" />
+    <None Include="Styles\custom-theme\images\vssver2.scc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Admin\FM\" />
+    <Folder Include="Handle\FM\" />
+    <Folder Include="Scripts\artDialog\plugins\.svn\prop-base\" />
+    <Folder Include="Scripts\artDialog\plugins\.svn\props\" />
+    <Folder Include="Scripts\artDialog\plugins\.svn\text-base\" />
+    <Folder Include="Scripts\artDialog\plugins\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\artDialog\plugins\.svn\tmp\props\" />
+    <Folder Include="Scripts\artDialog\plugins\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\.svn\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\.svn\props\" />
+    <Folder Include="Scripts\artDialog\skins\.svn\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\.svn\tmp\props\" />
+    <Folder Include="Scripts\artDialog\skins\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\.svn\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\.svn\props\" />
+    <Folder Include="Scripts\artDialog\skins\blue\.svn\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\.svn\tmp\props\" />
+    <Folder Include="Scripts\artDialog\skins\blue\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\ie6\.svn\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\ie6\.svn\props\" />
+    <Folder Include="Scripts\artDialog\skins\blue\ie6\.svn\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\ie6\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\blue\ie6\.svn\tmp\props\" />
+    <Folder Include="Scripts\artDialog\skins\blue\ie6\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\icons\.svn\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\icons\.svn\props\" />
+    <Folder Include="Scripts\artDialog\skins\icons\.svn\text-base\" />
+    <Folder Include="Scripts\artDialog\skins\icons\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\artDialog\skins\icons\.svn\tmp\props\" />
+    <Folder Include="Scripts\artDialog\skins\icons\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\.svn\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\.svn\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\.svn\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\.svn\tmp\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\.svn\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\.svn\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\.svn\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\.svn\tmp\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\images\flexigrid\.svn\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\images\flexigrid\.svn\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\images\flexigrid\.svn\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\images\flexigrid\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\images\flexigrid\.svn\tmp\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\css\images\flexigrid\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\js\.svn\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\js\.svn\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\js\.svn\text-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\js\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\flexigrid-1.1\js\.svn\tmp\props\" />
+    <Folder Include="Scripts\flexigrid-1.1\js\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\crypto\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\errors\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\vcard\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\fileformats\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\images\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\proxies\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\net\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\events\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\protocols\dict\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\json\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\serialization\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\utils\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\events\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\webapis\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\com\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_notes\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\css\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_notes\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\scripts\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\uploads\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\uploads\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\uploads\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\uploads\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\uploads\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\uploads\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_notes\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_svn\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_svn\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_svn\text-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_svn\tmp\prop-base\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_svn\tmp\props\" />
+    <Folder Include="Scripts\jquery.uploadify-v2.1.0\example\_svn\tmp\text-base\" />
+    <Folder Include="Scripts\kindeditor-4.1.7\attached\" />
+    <Folder Include="Scripts\My97DatePicker\lang\.svn\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\lang\.svn\props\" />
+    <Folder Include="Scripts\My97DatePicker\lang\.svn\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\lang\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\lang\.svn\tmp\props\" />
+    <Folder Include="Scripts\My97DatePicker\lang\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\.svn\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\.svn\props\" />
+    <Folder Include="Scripts\My97DatePicker\skin\.svn\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\.svn\tmp\props\" />
+    <Folder Include="Scripts\My97DatePicker\skin\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\default\.svn\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\default\.svn\props\" />
+    <Folder Include="Scripts\My97DatePicker\skin\default\.svn\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\default\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\default\.svn\tmp\props\" />
+    <Folder Include="Scripts\My97DatePicker\skin\default\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\whyGreen\.svn\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\whyGreen\.svn\props\" />
+    <Folder Include="Scripts\My97DatePicker\skin\whyGreen\.svn\text-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\whyGreen\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\My97DatePicker\skin\whyGreen\.svn\tmp\props\" />
+    <Folder Include="Scripts\My97DatePicker\skin\whyGreen\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\diy\.svn\prop-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\diy\.svn\props\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\diy\.svn\text-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\diy\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\diy\.svn\tmp\props\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\diy\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\flag\.svn\prop-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\flag\.svn\props\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\flag\.svn\text-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\flag\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\flag\.svn\tmp\props\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\flag\.svn\tmp\text-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\sim\.svn\prop-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\sim\.svn\props\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\sim\.svn\text-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\sim\.svn\tmp\prop-base\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\sim\.svn\tmp\props\" />
+    <Folder Include="Scripts\zTree\css\zTreeStyle\img\sim\.svn\tmp\text-base\" />
+    <Folder Include="Styles\custom-theme\images\.svn\prop-base\" />
+    <Folder Include="Styles\custom-theme\images\.svn\props\" />
+    <Folder Include="Styles\custom-theme\images\.svn\text-base\" />
+    <Folder Include="Styles\custom-theme\images\.svn\tmp\prop-base\" />
+    <Folder Include="Styles\custom-theme\images\.svn\tmp\props\" />
+    <Folder Include="Styles\custom-theme\images\.svn\tmp\text-base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Semitron_OMS.BLL\Semitron_OMS.BLL.csproj">
+      <Project>{8F975DCE-FA15-4303-9D11-A283EC2FA078}</Project>
+      <Name>Semitron_OMS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.CommonWeb\Semitron_OMS.CommonWeb.csproj">
+      <Project>{af077d17-9954-406e-a2b5-8490f88219fe}</Project>
+      <Name>Semitron_OMS.CommonWeb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.Common\Semitron_OMS.Common.csproj">
+      <Project>{32661397-42c4-4796-9244-faab978fce73}</Project>
+      <Name>Semitron_OMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.DAL\Semitron_OMS.DAL.csproj">
+      <Project>{A44728F2-9820-4D3E-ACA8-9E35DDBE9A12}</Project>
+      <Name>Semitron_OMS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.Model\Semitron_OMS.Model.csproj">
+      <Project>{52AA0011-5071-4496-A6AC-79588116647A}</Project>
+      <Name>Semitron_OMS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>64985</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

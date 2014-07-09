@@ -1,0 +1,14 @@
+﻿/* 公共类 */
+*{ margin: 0; padding: 0;}
+a{ color: #666; text-decoration: none;}
+a:hover{ color: #ce0000; text-decoration: none; cursor: pointer;}
+img{ border: 0 none; vertical-align: middle;}
+.clear{ clear: both; display: block; height: 0; font-size: 0; overflow: hidden;}
+ul{ list-style-type: none;}
+li{ list-style-type: none;}
+a{ outline: none;}
+a{ star: expression(this.onFocus=this.blur());}
+.hidden{display:none;}
+.fl{ float:left;}
+.fr{ float:right;}
+/* 公共类结束 */

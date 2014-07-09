@@ -1,0 +1,90 @@
+/* 通用样式开始 */
+body, p, form, button, input, textarea, th, td
+{
+    margin: 0;
+    padding: 0;
+}
+body, html, input
+{
+    font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+table
+{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+img
+{
+    border: none;
+}
+input, label, img, th
+{
+    vertical-align: middle;
+}
+/*通用样式结束*/
+.title
+{
+    width: 300px;
+    height: 32px;
+    line-height: 32px;
+    float: right;
+    margin-top: 15px;
+}
+#header
+{
+    height: 94px;
+    background: url(../Images/header.png) repeat-x;
+}
+#header .logo
+{
+    padding-right: 100px;
+    float: left; /*background:url(../Images/login-logo.png) no-repeat right 2px;*/
+}
+#header .content
+{
+    width: 920px;
+    margin: auto;
+    height: 60px;
+    padding: 10px 0 0 0;
+}
+#content
+{
+    width: 550px;
+    margin: auto;
+    padding: 36px 0 0 0;
+    height: 280px;
+    vertical-align: middle;
+}
+.label
+{
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 18px;
+}
+.btnLogin
+{
+    background-image: url(../Images/login.gif);
+    background-repeat: no-repeat;
+    width: 95px;
+    height: 34px;
+    border: 0px;
+    margin-left: 72px;
+}
+/*脚注部分*/
+#footer
+{
+    font-family: "宋体" ,Verdana, Geneva, sans-serif;
+    color: #000;
+    line-height: 24px;
+    width: 920px;
+    margin: auto;
+    text-align: center;
+    padding: 12px 0;
+    margin-top: 52px;
+    border-top: 1px solid #e5e5e5;
+}
+#footer a
+{
+    color: #000;
+}

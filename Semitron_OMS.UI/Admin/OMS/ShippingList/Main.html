@@ -1,0 +1,331 @@
+﻿<script type="text/javascript">
+    $(function () {
+        var gridHeight = document.documentElement.clientHeight - 298;
+        //初始化查询条件收起张开事件
+        //InitExpandSearch("FlexigridTableShippingList", "btnSearchOpenClose", "tableSearch", 294, 144);
+        $("#divShippingListContent").attr("style", "height:" + gridHeight + 20 + "px");
+
+        $("#ulSearchShippingList li input[name=BeginTime]").val("2013-01-01");
+        var TimeType = $("#ulSearchShippingList li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchShippingList li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchShippingList li input[name=EndTime]").val();
+        //初始出库单代码表格
+        $("#FlexigridTableShippingList").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/OMS/ShippingListHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetShippingList" }, { name: "TimeType", value: TimeType }, { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
+            colModel: [//表格的题头与索要填充的内容。
+                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                    { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
+                    { display: '出库单号', name: 'ShippingListNo', width: 100, sortable: true, align: 'left' },
+                    { display: '是否审核', name: 'IsApproved', width: 60, sortable: true, align: 'center' },
+                    { display: '出库时间', name: 'OutStockDate', width: 60, sortable: true, align: 'center' },
+                    { display: '预计到达时间', name: 'EstimateArrivedDate', width: 60, sortable: true, align: 'center' },
+                    { display: '实际到达时间', name: 'RealArrivedDate', width: 60, sortable: true, align: 'center' },
+                    { display: '经手人', name: 'ByHandUser', width: 60, sortable: true, align: 'center' },
+                    { display: '审核人', name: 'ApprovedUser', width: 60, sortable: true, align: 'center' },
+                    { display: '审核时间', name: 'ApprovedTime', width: 60, sortable: true, align: 'center' },
+                    { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
+                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
+            ],
+            sortname: "CreateTime",
+            sortorder: "DESC",
+            title: "出库单据列表",
+            showTableToggleBtn: true,
+            usepager: true,
+            useRp: true,
+            rowbinddata: true,
+            showcheckbox: true,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+
+        //初始出库单明细表格
+        $("#FlexigridTableShippingListDetail").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/OMS/ShippingListDetailHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetShippingListDetail" }, { name: "TimeType", value: TimeType }, { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }, { name: "AvailFlag", value: "1" }], //扩展参数
+            colModel: [//表格的题头与索要填充的内容。
+                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                    { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '状态', name: 'AvailFlag', width: 40, sortable: true, align: 'center' },
+                    { display: '出库单号', name: 'ShippingListNo', width: 100, sortable: true, align: 'left' },
+                    { display: '产品编码', name: 'ProductCode', width: 60, sortable: true, align: 'center' },
+                    { display: '出库数量', name: 'OutQty', width: 60, sortable: true, align: 'center' },
+                    { display: '是否审核', name: 'IsApproved', width: 60, sortable: true, align: 'center' },
+                    { display: '出库时间', name: 'OutStockDate', width: 60, sortable: true, align: 'left' },
+                    { display: '出货仓', name: 'StockCode', width: 60, sortable: true, align: 'center' },
+                    { display: '经手人', name: 'ByHandUser', width: 60, sortable: true, align: 'center' },
+                    { display: '审核人', name: 'ApprovedUser', width: 60, sortable: true, align: 'center' },
+                    { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
+                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
+            ],
+            sortname: "CreateTime",
+            sortorder: "DESC",
+            title: "出库单产品明细列表",
+            showTableToggleBtn: true,
+            usepager: true,
+            useRp: true,
+            rowbinddata: true,
+            showcheckbox: false,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+        //查询按钮
+        $("#btnSearchShippingList").click(function () {
+            SearchShippingList();
+            return false;
+        });
+        //新增按钮
+        $("#btnAddShippingList").click(function () {
+            $("#btnEditShippingList").attr("href", "/Admin/OMS/ShippingList/Edit.html");
+            $("#hidSeletedShippingListId").val("-1");
+            return false;
+        });
+        //编辑按钮
+        $("#btnEditShippingList").click(function () {
+            var obj = GetSelectedRow("FlexigridTableShippingList", "出库单");
+            if (!obj) {
+                $("#btnEditShippingList").attr("href", "/Admin/OMS/ShippingList/Edit.html?ShippingListId={ShippingListId}");
+                return false;
+            }
+
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前出库单记录已无效，无法完成此操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#btnEditShippingList").attr("href", "/Admin/OMS/ShippingList/Edit.html?ShippingListId=" + id);
+            $("#hidSeletedShippingListId").val(id);
+
+            return false;
+        });
+        //删除
+        $("#btnDeleteShippingList").click(function () {
+            var obj = GetSelectedRow("FlexigridTableShippingList", "出库单");
+            if (!obj) {
+                return false;
+            }
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前出库单已无效，请勿重复操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            DelShippingList(id);
+            return false;
+        });
+
+        //审核出库单
+        $("#btnApproveShippingList").click(function () {
+            var obj = GetSelectedRow("FlexigridTableShippingList", "出库单");
+            if (!obj) {
+                return false;
+            }
+            if (obj[0][2] == "无效") {
+                artDialog.tips("所选出库单已无效，无法完成此操作。");
+                return false;
+            }
+            if (obj[0][4] == "已审核") {
+                artDialog.tips("所选出库单已审核，请勿重复操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#hidSeletedShippingListId").val(id);
+
+            alertMsg.confirm("审核出库单后，出库单不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
+                okCall: function () {
+                    var url = "/Handle/OMS/ShippingListHandle.ashx";
+                    var data = { "meth": "ApproveShippingList", "EntryId": id };
+                    var successFun = function (json) {
+                        if (json.State == "0") {
+                            alertMsg.error(json.Info);
+                            return false;
+                        } else {
+                            //刷新表格
+                            alertMsg.correct(json.Info);
+                            $("#FlexigridTableShippingList").flexReload();
+                            return true;
+                        }
+                    };
+                    var errorFun = function (x, e) {
+                        alertMsg.error(x.responseText);
+                    };
+                    JsAjax(url, data, successFun, errorFun);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    //查询
+    function SearchShippingList() {
+
+        var TimeType = $("#ulSearchShippingList li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchShippingList li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchShippingList li input[name=EndTime]").val();
+        var ShippingListNo = $("#ulSearchShippingList li input[name=ShippingListNo]").val();
+        var ProductCode = $("#ulSearchShippingList li input[name=ProductCode]").val();
+        var StockCode = $("#ulSearchShippingList li input[name='SearchWarehouse.WCode']").val();
+
+        var p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetShippingList" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "ShippingListNo", value: ShippingListNo },
+              { name: "StockCode", value: StockCode },
+              { name: "State", value: "1" }
+            ]
+        };
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableShippingList").flexOptions(p).flexReload();
+
+        p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetShippingListDetail" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "ShippingListNo", value: ShippingListNo },
+              { name: "ProductCode", value: ProductCode },
+              { name: "StockCode", value: StockCode },
+              { name: "AvailFlag", value: "1" }
+            ]
+        };
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableShippingListDetail").flexOptions(p).flexReload();
+    }
+
+    //删除出库单
+    function DelShippingList(id) {
+        alertMsg.confirm("出库单删除后将无法恢复，你确认要删除吗？", {
+            okCall: function () {
+                //调用删除出库单方法
+                var url = "/Handle/OMS/ShippingListHandle.ashx";
+                var data = { "meth": "DelShippingList", "Id": id };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        return false;
+                    } else {
+                        //刷新表格
+                        alertMsg.correct(json.Info);
+                        $("#FlexigridTableShippingList").flexReload();
+                        return true;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alertMsg.error(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            }
+        });
+    }
+</script>
+
+<div class="pageHeader">
+    <div class="searchBar">
+        <ul class="searchContent" id="ulSearchShippingList">
+            <li style="width: 180px">
+                <div style="float: left;">出库单号：</div>
+                <div style="float: left;">
+                    <input style="width: 80px;" name="ShippingListNo" class="txt" maxlength="128" />m
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">产品编码：</div>
+                <input style="width: 80px;" name="ProductCode" class="txt" maxlength="128" />m
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">出货仓库：</div>
+                <div style="float: left; width: 120px">
+                    <input name="SearchWarehouse.WCode" value="" type="hidden" />
+                    <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
+                    <a class="btnLook" href="/Admin/Common/Warehouse/LookupWarehouse.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">
+                    开始时间：
+                </div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="BeginTime" class="date textInput valid required" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">结束时间：</div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="EndTime" class="date textInput valid" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li>
+                <select class="combox" name="sltTimeType" style="width: 100px">
+                    <option value="3" title="出库时间">出库时间</option>
+                    <option value="4" title="审核时间">审核时间</option>
+                    <option value="1" title="创建时间">创建时间</option>
+                    <option value="2" title="更新时间">更新时间</option>
+                </select>
+            </li>
+            <li>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit" id="btnSearchShippingList">检索</button>
+                    </div>
+                </div>
+                <a class="button" href="/Admin/OMS/ShippingList/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索出库单)"><span>高级检索</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <input type="hidden" value="-1" id="hidSeletedShippingListId" />
+        <ul class="toolBar">
+            <li><a class="add" href="/Admin/OMS/ShippingList/Edit.html" target="navTab" rel="editShippingList" id="btnAddShippingList"><span>新建出库单</span></a></li>
+            <li class="line">line</li>
+            <li><a class="edit" href="/Admin/OMS/ShippingList/Edit.html?ShippingListId={ShippingListId}" rel="editShippingList" target="navTab" id="btnEditShippingList"><span>修改出库单</span></a></li>
+            <li class="line">line</li>
+            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteShippingList"><span>删除出库单</span></a></li>
+            <li class="line">line</li>
+            <li><a class="icon" href="javascript:;" title="要审核所选出库单吗?" id="btnApproveShippingList"><span>审核出库单</span></a></li>
+            <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <div class="tabs" currentindex="0" eventtype="click">
+        <div class="tabsHeader">
+            <div class="tabsHeaderContent">
+                <ul>
+                    <li class="selected"><a href="javascript:;"><span>查单据</span></a></li>
+                    <li><a href="javascript:;"><span>查明细</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tabsContent" style="height: 450px;" id="divShippingListContent">
+            <div inited="1000" style="display: block;">
+                <table id="FlexigridTableShippingList" style="display: none"></table>
+            </div>
+            <div style="display: none;">
+                <table id="FlexigridTableShippingListDetail" style="display: none"></table>
+            </div>
+        </div>
+        <div class="tabsFooter">
+            <div class="tabsFooterContent"></div>
+        </div>
+    </div>
+</div>
+

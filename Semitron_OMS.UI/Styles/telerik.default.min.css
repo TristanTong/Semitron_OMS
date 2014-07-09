@@ -1,0 +1,300 @@
+.t-widget {
+	BORDER-BOTTOM-COLOR: #989898; BACKGROUND-COLOR: #fff; BORDER-TOP-COLOR: #989898; BORDER-RIGHT-COLOR: #989898; BORDER-LEFT-COLOR: #989898
+}
+.t-header {
+	BORDER-BOTTOM-COLOR: #989898; BORDER-TOP-COLOR: #989898; BORDER-RIGHT-COLOR: #989898; BORDER-LEFT-COLOR: #989898
+}
+.t-grid-header {
+	BORDER-BOTTOM-COLOR: #989898; BORDER-TOP-COLOR: #989898; BORDER-RIGHT-COLOR: #989898; BORDER-LEFT-COLOR: #989898
+}
+
+.t-expand {
+	BACKGROUND-POSITION: 0px -160px
+}
+.t-collapse {
+	BACKGROUND-POSITION: 0px -176px
+}
+.t-plus {
+	BACKGROUND-POSITION: 0px -256px
+}
+.t-plus-disabled {
+	BACKGROUND-POSITION: 0px -256px
+}
+.t-minus {
+	BACKGROUND-POSITION: -16px -256px
+}
+.t-minus-disabled {
+	BACKGROUND-POSITION: -16px -256px
+}
+.t-arrow-up {
+	BACKGROUND-POSITION: -16px -160px
+}
+.t-arrow-down {
+	BACKGROUND-POSITION: -16px -176px
+}
+.t-state-disabled .t-arrow-up {
+	BACKGROUND-POSITION: -32px -160px
+}
+.t-state-disabled .t-arrow-down {
+	BACKGROUND-POSITION: -32px -176px
+}
+.t-state-hover .t-arrow-up {
+	BACKGROUND-POSITION: -48px -160px
+}
+.t-state-hover .t-arrow-down {
+	BACKGROUND-POSITION: -48px -176px
+}
+.t-numerictextbox .t-arrow-up {
+	BACKGROUND-POSITION: -16px -162px
+}
+.t-numerictextbox .t-arrow-down {
+	BACKGROUND-POSITION: -16px -178px
+}
+.t-arrow-up-small {
+	BACKGROUND-POSITION: 0px -304px
+}
+.t-arrow-down-small {
+	BACKGROUND-POSITION: -16px -304px
+}
+.t-arrow-first {
+	BACKGROUND-POSITION: 0px -192px
+}
+.t-arrow-prev {
+	BACKGROUND-POSITION: -16px -192px
+}
+.t-arrow-next {
+	BACKGROUND-POSITION: -32px -192px
+}
+.t-arrow-last {
+	BACKGROUND-POSITION: -48px -192px
+}
+.t-state-disabled .t-arrow-first {
+	BACKGROUND-POSITION: 0px -208px
+}
+.t-state-disabled .t-arrow-prev {
+	BACKGROUND-POSITION: -16px -208px
+}
+.t-state-disabled .t-arrow-next {
+	BACKGROUND-POSITION: -32px -208px
+}
+.t-state-disabled .t-arrow-last {
+	BACKGROUND-POSITION: -48px -208px
+}
+.t-state-hover .t-arrow-first {
+	BACKGROUND-POSITION: 0px -224px
+}
+.t-state-hover .t-arrow-prev {
+	BACKGROUND-POSITION: -16px -224px
+}
+.t-state-hover .t-arrow-next {
+	BACKGROUND-POSITION: -32px -224px
+}
+.t-state-hover .t-arrow-last {
+	BACKGROUND-POSITION: -48px -224px
+}
+.t-filter {
+	BACKGROUND-POSITION: 0px -240px
+}
+.t-clear-filter {
+	BACKGROUND-POSITION: -16px -240px
+}
+.t-refresh {
+	BACKGROUND-POSITION: -32px -240px
+}
+.t-icon-calendar {
+	BACKGROUND-POSITION: -48px -240px
+}
+.t-edit {
+	BACKGROUND-POSITION: 0px -336px
+}
+.t-delete {
+	BACKGROUND-POSITION: -16px -336px
+}
+.t-insert {
+	BACKGROUND-POSITION: -32px -336px
+}
+.t-update {
+	BACKGROUND-POSITION: -32px -336px
+}
+.t-cancel {
+	BACKGROUND-POSITION: -48px -336px
+}
+.t-group-delete {
+	BACKGROUND-POSITION: 0px -288px
+}
+.t-maximize {
+	BACKGROUND-POSITION: -16px -288px
+}
+.t-restore {
+	BACKGROUND-POSITION: -32px -288px
+}
+.t-close {
+	BACKGROUND-POSITION: -64px -288px
+}
+.t-insert-top {
+	BACKGROUND-POSITION: 0px -320px
+}
+.t-insert-middle {
+	BACKGROUND-POSITION: -16px -320px
+}
+.t-insert-bottom {
+	BACKGROUND-POSITION: -32px -320px
+}
+.t-add {
+	BACKGROUND-POSITION: -48px -320px
+}
+.t-denied {
+	BACKGROUND-POSITION: -64px -320px
+}
+.t-loading {
+	BACKGROUND: url(Default/loading.gif) no-repeat 0px 0px
+}
+.t-widget .t-loading {
+	BACKGROUND: url(Default/loading.gif) no-repeat 0px 0px
+}
+.t-widget {
+	COLOR: #5A5A5A
+}
+.t-link:link {
+	COLOR: #5A5A5A
+}
+.t-link:active {
+	COLOR: #5A5A5A
+}
+.t-link:visited {
+	COLOR: #5A5A5A
+}
+.t-popup {
+	COLOR: #5A5A5A
+}
+.t-group {
+	BORDER-BOTTOM-COLOR: #828282; BACKGROUND-COLOR: #fff; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-content {
+	BORDER-BOTTOM-COLOR: #828282; BACKGROUND-COLOR: #fff; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-editable-area {
+	BORDER-BOTTOM-COLOR: #828282; BACKGROUND-COLOR: #fff; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-colorpicker .t-arrow-down {
+	BORDER-BOTTOM-COLOR: #989898; BORDER-TOP-COLOR: #989898; BORDER-RIGHT-COLOR: #989898; BORDER-LEFT-COLOR: #989898
+}
+.t-separator {
+	BORDER-BOTTOM-COLOR: #d8d8d8; BACKGROUND-COLOR: #999; BORDER-TOP-COLOR: #d8d8d8; BORDER-RIGHT-COLOR: #d8d8d8; BORDER-LEFT-COLOR: #d8d8d8
+}
+.t-alt {
+	BACKGROUND-COLOR: #f7f7f7
+}
+.t-state-default {
+	BORDER-BOTTOM-COLOR: #828282; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-active-filter {
+	BACKGROUND-COLOR: #cdcdcd
+}
+.t-state-hover {
+	BORDER-BOTTOM-COLOR: #828282; BACKGROUND-COLOR: #e9e9e9; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-header .t-state-hover {
+	BACKGROUND-COLOR: #dcdada
+}
+.t-state-active {
+	BORDER-BOTTOM-COLOR: #828282; BACKGROUND-COLOR: #fff; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-header .t-state-active {
+	BORDER-BOTTOM-COLOR: #828282; BACKGROUND-COLOR: #fff; BORDER-TOP-COLOR: #828282; BORDER-RIGHT-COLOR: #828282; BORDER-LEFT-COLOR: #828282
+}
+.t-state-selected {
+	BACKGROUND-COLOR: #ddd
+}
+.t-state-error {
+	BORDER-BOTTOM-STYLE: ridge; BORDER-BOTTOM-COLOR: #f00; BORDER-RIGHT-STYLE: ridge; BACKGROUND-COLOR: #ffc0cb; BORDER-TOP-COLOR: #f00; BORDER-TOP-STYLE: ridge; BORDER-RIGHT-COLOR: #f00; BORDER-LEFT-STYLE: ridge; BORDER-LEFT-COLOR: #f00
+}
+.t-state-disabled {
+	COLOR: #888
+}
+.t-state-disabled .t-link {
+	COLOR: #888
+}
+.t-toolbar {
+	BORDER-BOTTOM-COLOR: #aaa; BACKGROUND-COLOR: #eee; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-grouping-header {
+	BORDER-BOTTOM-COLOR: #aaa; BACKGROUND-COLOR: #eee; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-widget .t-pager-wrapper {
+	BORDER-BOTTOM-COLOR: #aaa; BACKGROUND-COLOR: #eee; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-grid-footer {
+	BORDER-BOTTOM-COLOR: #aaa; BACKGROUND-COLOR: #eee; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-widget .t-status {
+	BORDER-BOTTOM-COLOR: #aaa; BACKGROUND-COLOR: #eee; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-button {
+	COLOR: #333
+}
+.t-button-hover {
+	BACKGROUND-POSITION: 0px -128px
+}
+.t-tabstrip LI.t-state-active {
+	BORDER-BOTTOM-COLOR: #fff
+}
+.t-grid TD {
+	BORDER-BOTTOM-COLOR: #ddd; BORDER-TOP-COLOR: #ddd; BORDER-LEFT-COLOR: #ddd; BORDER-RIGHT: #eee 1px solid
+}
+
+.t-grouping-header .t-group-indicator {
+	BORDER-BOTTOM-COLOR: #ccc; BORDER-TOP-COLOR: #ccc; COLOR: #333; BORDER-RIGHT-COLOR: #ccc; BORDER-LEFT-COLOR: #ccc
+}
+
+.t-grouping-row .t-group-cell {
+	BACKGROUND: #fff
+}
+.t-grouping-row P {
+	BACKGROUND: #fff
+}
+.t-treeview .t-drop-clue {
+	 BACKGROUND-POSITION: 0px -358px
+}
+.t-treeview .t-state-selected {
+	BORDER-BOTTOM-COLOR: #838383; BORDER-TOP-COLOR: #838383; BORDER-RIGHT-COLOR: #838383; BORDER-LEFT-COLOR: #838383
+}
+.t-panelbar .t-link {
+	BORDER-BOTTOM-COLOR: #aaa; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-panelbar .t-group {
+	BORDER-BOTTOM-COLOR: #aaa; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-panelbar .t-content {
+	BORDER-BOTTOM-COLOR: #aaa; BORDER-TOP-COLOR: #aaa; BORDER-RIGHT-COLOR: #aaa; BORDER-LEFT-COLOR: #aaa
+}
+.t-panelbar .t-state-hover {
+	BACKGROUND-IMAGE: none
+}
+.t-calendar TH {
+	BORDER-BOTTOM-COLOR: #c5c5c5; BORDER-TOP-COLOR: #c5c5c5; BORDER-RIGHT-COLOR: #c5c5c5; BORDER-LEFT-COLOR: #c5c5c5
+}
+.t-other-month .t-link {
+	COLOR: #898989
+}
+.t-treeview-lines .t-top {
+	BACKGROUND-IMAGE: url(Default/treeview-nodes.png); PADDING-LEFT: 16px; BACKGROUND-REPEAT: no-repeat; MARGIN-LEFT: -16px
+}
+.t-treeview-lines .t-mid {
+	BACKGROUND-IMAGE: url(Default/treeview-nodes.png); PADDING-LEFT: 16px; BACKGROUND-REPEAT: no-repeat; MARGIN-LEFT: -16px
+}
+.t-treeview-lines .t-bot {
+	BACKGROUND-IMAGE: url(Default/treeview-nodes.png); PADDING-LEFT: 16px; BACKGROUND-REPEAT: no-repeat; MARGIN-LEFT: -16px
+}
+.t-treeview-lines .t-item {
+	BACKGROUND-IMAGE: url(Default/treeview-line.png)
+}
+.t-treeview-lines .t-last {
+	BACKGROUND-IMAGE: none
+}
+.t-editor-button .t-state-hover {
+	BORDER-BOTTOM-COLOR: #878787; BACKGROUND-COLOR: #c6c6c6; BORDER-TOP-COLOR: #e2e2e2; BORDER-RIGHT-COLOR: #878787; BORDER-LEFT-COLOR: #e2e2e2
+}
+.t-editor-button .t-state-active {
+	BORDER-BOTTOM-COLOR: #d0d0d0; BACKGROUND-COLOR: #9e9e9e; BORDER-TOP-COLOR: #767676; BORDER-RIGHT-COLOR: #d0d0d0; BORDER-LEFT-COLOR: #767676
+}

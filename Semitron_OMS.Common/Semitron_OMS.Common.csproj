@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32661397-42C4-4796-9244-FAAB978FCE73}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Semitron_OMS.Common</RootNamespace>
+    <AssemblyName>Semitron_OMS.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Excel">
+      <HintPath>..\LIB\Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Const\ConstantValue.cs" />
+    <Compile Include="Const\RequestMinLength.cs" />
+    <Compile Include="Const\RequestStatus.cs" />
+    <Compile Include="Const\ResponseStatus.cs" />
+    <Compile Include="Util\ConfigHelper.cs" />
+    <Compile Include="Util\DataCache.cs" />
+    <Compile Include="DEncrypt\DEncrypt.cs" />
+    <Compile Include="DEncrypt\HashEncode.cs" />
+    <Compile Include="DEncrypt\RSACryption.cs" />
+    <Compile Include="Enum\CheckPostLength.cs" />
+    <Compile Include="Enum\EnumOrderState.cs" />
+    <Compile Include="Enum\EnumPermission.cs" />
+    <Compile Include="Logger\ConsoleLog.cs" />
+    <Compile Include="Logger\ILog.cs" />
+    <Compile Include="Logger\Log4net.cs" />
+    <Compile Include="Logger\Logger.cs" />
+    <Compile Include="Logger\LoggerType.cs" />
+    <Compile Include="Logger\Nlog.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\CommandInfo.cs" />
+    <Compile Include="Util\CommonFilter.cs" />
+    <Compile Include="Util\CommonFunction.cs" />
+    <Compile Include="Util\CommonXml.cs" />
+    <Compile Include="Util\DataUtility.cs" />
+    <Compile Include="Util\Extension.cs" />
+    <Compile Include="Util\FileFunction.cs" />
+    <Compile Include="Util\HttpProc.cs" />
+    <Compile Include="Util\INIFile.cs" />
+    <Compile Include="Util\JsonJqgrid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\JsonZTree.cs" />
+    <Compile Include="Util\LogHelper.cs" />
+    <Compile Include="Util\PageResult.cs" />
+    <Compile Include="Util\PageSearchInfo.cs" />
+    <Compile Include="Util\PermissionUtility.cs" />
+    <Compile Include="Util\PhoneNumDAQ.cs" />
+    <Compile Include="Util\RC4_Encrypt.cs" />
+    <Compile Include="Util\ReadTxtFile.cs" />
+    <Compile Include="Util\RespListParam.cs" />
+    <Compile Include="Util\Result.cs" />
+    <Compile Include="Util\RMB.cs" />
+    <Compile Include="Util\SQLConditionFilter.cs" />
+    <Compile Include="Util\SQLOperateHelper.cs" />
+    <Compile Include="Util\SQLUtility.cs" />
+    <Compile Include="Util\StringPlus.cs" />
+    <Compile Include="Util\TimeParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Semitron_OMS.Model\Semitron_OMS.Model.csproj">
+      <Project>{52aa0011-5071-4496-a6ac-79588116647a}</Project>
+      <Name>Semitron_OMS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Util\Log4net.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

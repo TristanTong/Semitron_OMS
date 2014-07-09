@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{52AA0011-5071-4496-A6AC-79588116647A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Semitron_OMS.Model</RootNamespace>
+    <AssemblyName>Semitron_OMS.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AdminModel.cs" />
+    <Compile Include="Common\BusinessPathManageModel.cs" />
+    <Compile Include="Common\CustInfoModel.cs" />
+    <Compile Include="Common\ObjectPermissionModel.cs" />
+    <Compile Include="Common\OperationsBindCustInfoModel.cs" />
+    <Compile Include="Common\OperationsLogModel.cs" />
+    <Compile Include="Common\PermissionModel.cs" />
+    <Compile Include="Common\PreferenceConfigModel.cs" />
+    <Compile Include="Common\ProductInfoModel.cs" />
+    <Compile Include="Common\ProductTypeModel.cs" />
+    <Compile Include="Common\ProjectModel.cs" />
+    <Compile Include="Common\RoleModel.cs" />
+    <Compile Include="Common\SendInfoParamModel.cs" />
+    <Compile Include="Common\SendParamConfigModel.cs" />
+    <Compile Include="Common\SystemLogModel.cs" />
+    <Compile Include="Common\TaskInfoModel.cs" />
+    <Compile Include="Common\TimerInfoModel.cs" />
+    <Compile Include="Common\UserRoleModel.cs" />
+    <Compile Include="Common\WarehouseModel.cs" />
+    <Compile Include="FM\GatheringPlanModel.cs" />
+    <Compile Include="FM\PaymentPlanModel.cs" />
+    <Compile Include="OMS\AdminBindCustomerModel.cs" />
+    <Compile Include="OMS\AdminBindSupplierModel.cs" />
+    <Compile Include="OMS\AttachmentModel.cs" />
+    <Compile Include="OMS\BrandModel.cs" />
+    <Compile Include="OMS\CommonTableModel.cs" />
+    <Compile Include="OMS\CorporationModel.cs" />
+    <Compile Include="OMS\CurrencyTypeModel.cs" />
+    <Compile Include="CRM\CustomerModel.cs" />
+    <Compile Include="OMS\CustomerOrderDetailModel.cs" />
+    <Compile Include="OMS\CustomerOrderModel.cs" />
+    <Compile Include="OMS\ExchangeRateModel.cs" />
+    <Compile Include="OMS\GodownEntryDetailModel.cs" />
+    <Compile Include="OMS\GodownEntryModel.cs" />
+    <Compile Include="OMS\InventoryAuditModel.cs" />
+    <Compile Include="OMS\InventoryModel.cs" />
+    <Compile Include="OMS\OrderFeeModel.cs" />
+    <Compile Include="OMS\PaymentTypeModel.cs" />
+    <Compile Include="OMS\POBindCustomerOrderModel.cs" />
+    <Compile Include="OMS\POModel.cs" />
+    <Compile Include="OMS\POPlanModel.cs" />
+    <Compile Include="CRM\SupplierModel.cs" />
+    <Compile Include="OMS\ShippingListDetailModel.cs" />
+    <Compile Include="OMS\ShippingListModel.cs" />
+    <Compile Include="OMS\ShippingPlanDetailModel.cs" />
+    <Compile Include="OMS\ShippingPlanModel.cs" />
+    <Compile Include="Permission\BasePer.cs" />
+    <Compile Include="Permission\ButtonPer.cs" />
+    <Compile Include="Permission\DataSetPer.cs" />
+    <Compile Include="Permission\ModulePer.cs" />
+    <Compile Include="Permission\PagePer.cs" />
+    <Compile Include="Permission\PermissionModule.cs" />
+    <Compile Include="Permission\RightMenuPer.cs" />
+    <Compile Include="Permission\SubSystemPer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

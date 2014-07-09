@@ -1,0 +1,48 @@
+
+/*Example for a Menu Style*/
+.menu
+{
+    background-color: #ffffff;
+    color: #272727;
+    border-bottom: 1px solid #d7d7d7;
+    height: 23px;
+    width: 800px;
+}
+.menu ul
+{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    text-align: center;
+    float: left;
+}
+.menu li
+{
+    display: inline;
+    line-height: 23px;
+}
+.menu li a
+{
+    color: #000000;
+    text-decoration: none;
+    padding: 4px 5px 6px 5px;
+    border: 1px solid #ffffff;
+    background-color: #CFCFCF;
+}
+.menu li a.tabactive
+{
+    border-left: 1px solid #d7d7d7;
+    border-right: 1px solid #d7d7d7;
+    background-color: #B0B0B0;
+    font-weight: bold;
+    position: relative;
+}
+#tabcontent1, #tabcontent2, #tabcontent3, #tabcontent4
+{
+    border: 1px kolid #ffffff;
+    width: 90%;
+    text-align: center;
+    padding: 6px 0px;
+    font-size: 12px;
+    margin-bottom: 5px;
+}

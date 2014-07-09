@@ -1,0 +1,99 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $("#divLookupPOPlan button[type='submit']").click(function () {
+            $("#divLookupPOPlan table tbody").html("");
+            var url = "/Handle/OMS/POPlanHandle.ashx";
+            var PONo = $("#divLookupPOPlan p input[name='PONo']").val()
+            var ArrivedBeginDate = $("#divLookupPOPlan p input[name='ArrivedBeginDate']").val()
+            var ArrivedEndDate = $("#divLookupPOPlan p input[name='ArrivedEndDate']").val()
+            var data = data = {
+                "meth": "GetPOPlanUnInStockList", "PONo": PONo,
+                "ArrivedBeginDate": ArrivedBeginDate, "ArrivedEndDate": ArrivedEndDate
+            };
+
+            var successFun = function (json) {
+                if (!json || (json && json.State == "0")) {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    for (var i = 0; i < json.length; i++) {
+                        $("#divLookupPOPlan table tbody").append("<tr>"
+                            + "<td width=\"50px\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({POPlanId:'"
+                            + json[i].POPlanId + "', PONo:'" + json[i].PONo + "', ProductCode:'" + json[i].ProductCode
+                            + "',InQty:'" + json[i].UnInStockQty + "', Price:'" + json[i].BuyPrice
+                            + "',TotalPrice:'" + json[i].BuyCost + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
+                            + json[i].POPlanId + "</td> <td width=\"102px\">" + json[i].PONo + "</td> <td width=\"48px\">"
+                            + json[i].ProductCode + "</td><td width=\"48px\">"
+                            + json[i].BuyPrice + "</td> <td width=\"48px\">" + json[i].BuyCost + "</td> <td width=\"65px\">"
+                            + json[i].ArrivedDate + "</td><td width=\"47px\">" + json[i].POQuantity + "</td> <td width=\"47px\">"
+                            + json[i].ArrivedQty + "</td><td width=\"59px\">" + json[i].StockQty + "</td> <td width=\"59px\">"
+                            + json[i].UnInStockQty + "</td> <td width=\"124px\">" + json[i].MPN + "</td><td width=\"59px\">"
+                            + json[i].SupplierCode + "</td><td>" + json[i].SupplierName + "</td></tr>");
+                    }
+                    //POPlanId,PONo,ProductCode,MPN,POQuantity,BuyPrice,BuyCost,SupplierCode,SupplierName,ArrivedQty,StockQty,UnInStockQty
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+            return false;
+        });
+    });
+</script>
+
+<div class="pageContent">
+    <div class="pageFormContent" layouth="30" id="divLookupPOPlan">
+        <p>
+            <label>采购订单号：</label>
+            <input name="PONo" type="text" size="20" value="" />
+        </p>
+        <p>
+            <label>到货日期：</label>
+            <input type="text" name="ArrivedBeginDate" class="date textInput valid" size="8" readonly="readonly">
+            <a class="inputDateButton" href="javascript:;">选择</a>
+            <input type="text" name="ArrivedEndDate" class="date textInput valid" size="8" readonly="readonly">
+            <a class="inputDateButton" href="javascript:;">选择</a>
+            <span class="inputInfo">选择区间</span>
+        </p>
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">查询</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="pageContent">
+            <table class="table" layouth="118" layoutw="118" targettype="dialog" width="1400px">
+                <thead>
+                    <tr>
+                        <th width="55px">查找带回</th>
+                        <th width="40px">计划ID</th>
+                        <th width="110px">采购订单号</th>
+                        <th width="53px">产品编码</th>
+                        <th width="53px">采购单价</th>
+                        <th width="53px">采购总价</th>
+                        <th width="72px">到货日期</th>
+                        <th width="53px">采购数量</th>
+                        <th width="53px">到货数量</th>
+                        <th width="66px">已入库数量</th>
+                        <th width="66px">待入库数量</th>
+                        <th width="135px">厂商型号</th>
+                        <th width="66px">供应商编码</th>
+                        <th>供应商名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,957 @@
+BODY
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DIV
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DL
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DT
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DD
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+UL
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+OL
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+LI
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H1
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H2
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H3
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H4
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H5
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H6
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+PRE
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+CODE
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+FORM
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+FIELDSET
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+LEGEND
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+INPUT
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+BUTTON
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+TEXTAREA
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+BLOCKQUOTE
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+TH
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+TD
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+P
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+INPUT
+{
+    outline-style: none;
+}
+BUTTON
+{
+    outline-style: none;
+}
+SELECT
+{
+    outline-style: none;
+}
+TEXTAREA
+{
+    outline-style: none;
+}
+LI
+{
+    list-style-type: none;
+}
+IMG
+{
+    border-bottom-style: none;
+    border-left-style: none;
+    border-top-style: none;
+    border-right-style: none;
+}
+TEXTAREA
+{
+    resize: none;
+}
+BODY
+{
+    text-align: center;
+    word-wrap: break-word;
+    background: #fff;
+    color: #666;
+    word-break: break-all;
+}
+BODY
+{
+    font-family: ËÎÌå,Verdana,Arial;
+    font-size: 12px;
+}
+INPUT
+{
+    font-family: ËÎÌå,Verdana,Arial;
+    font-size: 12px;
+}
+TEXTAREA
+{
+    font-family: ËÎÌå,Verdana,Arial;
+    font-size: 12px;
+}
+A
+{
+    color: #305999;
+    cursor: pointer;
+    text-decoration: none;
+}
+A:hover
+{
+    color: #090;
+}
+.wrap
+{
+    position: relative;
+    text-align: left;
+    margin: 0px auto;
+}
+.clearfix:after
+{
+    display: block;
+    height: 0px;
+    visibility: hidden;
+    clear: both;
+    content: ".";
+}
+.wrap:after
+{
+    display: block;
+    height: 0px;
+    visibility: hidden;
+    clear: both;
+    content: ".";
+}
+.clearfix
+{
+    height: 1%;
+}
+.wrap
+{
+    height: 1%;
+}
+BODY
+{
+    background: url(../Images/login_bg.jpg) repeat-x;
+}
+.login_content1
+{
+    margin: auto;
+    width: 960px;
+}
+.login_head
+{
+    margin: auto;
+    width: 960px;
+    height: 86px;
+}
+.login_logo
+{
+    background-image: url(../Images/login_logo.jpg);
+    width: 268px;
+    float: left;
+    height: 86px;
+}
+.login_hotline
+{
+    text-align: right;
+    line-height: 45px;
+    width: 313px;
+    background: url(../Images/login_hotline.jpg) no-repeat;
+    float: right;
+    height: 86px;
+    color: #fff;
+}
+.login_hotline A
+{
+    color: #fff;
+}
+.login_content
+{
+    margin: -11px auto auto;
+    width: 960px;
+    _margin-top: -11px;
+}
+.login_content_img
+{
+    width: 583px;
+    float: left;
+    height: 429px;
+}
+.login_content_login
+{
+    float: right;
+}
+.login_copyright
+{
+    text-align: center;
+    line-height: 30px;
+    margin: 60px auto auto;
+    width: 960px;
+    font-size: 12px;
+}
+.login_btnbg
+{
+    border-bottom-style: none;
+    border-left-style: none;
+    width: 188px;
+    border-top-style: none;
+    background: url(../Images/login_btnbg.jpg) no-repeat;
+    height: 36px;
+    border-right-style: none;
+}
+.inputname
+{
+    border-bottom: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    line-height: 24px;
+    width: 190px;
+    height: 24px;
+    font-size: 14px;
+    border-top: #ccc 1px solid;
+    border-right: #ccc 1px solid;
+}
+#txtPassword1
+{
+    font-family: Microsoft Sans Serif;
+}
+#txtPassword2
+{
+    font-family: Microsoft Sans Serif;
+}
+#txtPassword3
+{
+    font-family: Microsoft Sans Serif;
+}
+BODY
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DIV
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DL
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DT
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+DD
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+UL
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+OL
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+LI
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H1
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H2
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H3
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H4
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H5
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+H6
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+PRE
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+CODE
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+FORM
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+FIELDSET
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+LEGEND
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+INPUT
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+BUTTON
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+TEXTAREA
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+BLOCKQUOTE
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+TH
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+TD
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+P
+{
+    padding-bottom: 0px;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+INPUT
+{
+    outline-style: none;
+}
+BUTTON
+{
+    outline-style: none;
+}
+SELECT
+{
+    outline-style: none;
+}
+TEXTAREA
+{
+    outline-style: none;
+}
+LI
+{
+    list-style-type: none;
+}
+IMG
+{
+    border-bottom-style: none;
+    border-left-style: none;
+    border-top-style: none;
+    border-right-style: none;
+}
+TEXTAREA
+{
+    resize: none;
+}
+BODY
+{
+    text-align: center;
+    word-wrap: break-word;
+    background: #fff;
+    color: #666;
+    word-break: break-all;
+    font-family: ËÎÌå,Verdana,Arial;
+    font-size: 12px;
+}
+INPUT
+{
+    font-family: ËÎÌå,Verdana,Arial;
+    font-size: 12px;
+}
+TEXTAREA
+{
+    font-family: ËÎÌå,Verdana,Arial;
+    font-size: 12px;
+}
+A
+{
+    color: #305999;
+    cursor: pointer;
+    text-decoration: none;
+}
+A:hover
+{
+    color: #090;
+}
+.wrap
+{
+    position: relative;
+    text-align: left;
+    margin: 0px auto;
+}
+.clearfix:after
+{
+    display: block;
+    height: 0px;
+    visibility: hidden;
+    clear: both;
+    content: ".";
+}
+.wrap:after
+{
+    display: block;
+    height: 0px;
+    visibility: hidden;
+    clear: both;
+    content: ".";
+}
+.clearfix
+{
+    height: 1%;
+}
+.wrap
+{
+    height: 1%;
+}
+BODY
+{
+    background: url(../Images/login_bg.jpg) repeat-x;
+}
+.login_content1
+{
+    margin: auto;
+    width: 960px;
+}
+.login_head
+{
+    margin: auto;
+    width: 960px;
+    height: 86px;
+}
+.login_logo
+{
+    background-image: url(../Images/login_logo.jpg);
+    width: 268px;
+    float: left;
+    height: 86px;
+}
+.login_hotline
+{
+    text-align: right;
+    line-height: 45px;
+    width: 313px;
+    background: url(../Images/login_hotline.jpg) no-repeat;
+    float: right;
+    height: 86px;
+    color: #fff;
+}
+.login_hotline A
+{
+    color: #fff;
+}
+.login_content
+{
+    margin: -11px auto auto;
+    width: 960px;
+    _margin-top: -11px;
+}
+.login_content_img
+{
+    width: 583px;
+    float: left;
+    height: 429px;
+}
+.login_content_login
+{
+    float: right;
+}
+.login_copyright
+{
+    text-align: center;
+    line-height: 30px;
+    margin: 60px auto auto;
+    width: 960px;
+    font-size: 12px;
+}
+.login_btnbg
+{
+    border-bottom-style: none;
+    border-left-style: none;
+    width: 188px;
+    border-top-style: none;
+    background: url(../Images/login_btnbg.jpg) no-repeat;
+    height: 36px;
+    border-right-style: none;
+}
+.inputname
+{
+    border-bottom: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    line-height: 24px;
+    width: 190px;
+    height: 24px;
+    font-size: 14px;
+    border-top: #ccc 1px solid;
+    border-right: #ccc 1px solid;
+}
+#txtPassword1
+{
+    font-family: Microsoft Sans Serif;
+}
+#txtPassword2
+{
+    font-family: Microsoft Sans Serif;
+}
+#txtPassword3
+{
+    font-family: Microsoft Sans Serif;
+}
+HTML
+{
+    overflow: auto;
+}
+BODY
+{
+    overflow: auto;
+}
+.tab
+{
+    margin-top: 50px;
+}
+#TabTab03Con1
+{
+    border-bottom: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    width: 278px;
+    height: 300px;
+    border-top: #ccc 1px;
+    border-right: #ccc 1px solid;
+}
+#TabTab03Con2
+{
+    border-bottom: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    width: 278px;
+    height: 300px;
+    border-top: #ccc 1px;
+    border-right: #ccc 1px solid;
+}
+#TabTab03Con3
+{
+    border-bottom: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    width: 278px;
+    height: 300px;
+    border-top: #ccc 1px;
+    border-right: #ccc 1px solid;
+}
+.login_txt LI
+{
+    padding-top: 30px;
+}
+#font1
+{
+    font-family: Ó×Ô²;
+    font-size: 16px;
+    font-weight: bold;
+}
+#font2
+{
+    font-family: Ó×Ô²;
+    font-size: 16px;
+    font-weight: bold;
+}
+#font3
+{
+    font-family: Ó×Ô²;
+    font-size: 16px;
+    font-weight: bold;
+}
+.xixi1
+{
+    line-height: 29px;
+    width: 280px;
+    height: 29px;
+    cursor: pointer;
+}
+.xixi2
+{
+    line-height: 29px;
+    width: 280px;
+    height: 29px;
+    cursor: pointer;
+}
+.xixi3
+{
+    line-height: 29px;
+    width: 280px;
+    height: 29px;
+    cursor: pointer;
+}
+.xixi1
+{
+    background-image: url(../images/login_01.jpg);
+}
+.xixi2
+{
+    background-image: url(../images/login_01.jpg);
+}
+.xixi3
+{
+    background-image: url(../images/login_01.jpg);
+}
+.tab1
+{
+    line-height: 27px;
+    width: 100px;
+    float: left;
+    height: 27px;
+    color: #19599a;
+    cursor: pointer;
+}
+.tab2
+{
+    line-height: 27px;
+    width: 85px;
+    float: left;
+    height: 27px;
+    color: #19599a;
+    cursor: pointer;
+}
+.tab3
+{
+    line-height: 27px;
+    width: 90px;
+    float: left;
+    height: 27px;
+    color: #19599a;
+    cursor: pointer;
+}
+
+HTML
+{
+    overflow: auto;
+}
+BODY
+{
+    overflow: auto;
+}
+.tab
+{
+    margin-top: 50px;
+}
+#TabTab03Con1
+{
+    border-bottom: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    width: 278px;
+    height: 300px;
+    border-top: #ccc 1px;
+    border-right: #ccc 1px solid;
+}
+.login_txt LI
+{
+    padding-top: 30px;
+}
+#font1
+{
+    font-family: Ó×Ô²;
+    font-size: 16px;
+    font-weight: bold;
+}
+.xixi1
+{
+    line-height: 29px;
+    width: 280px;
+    height: 29px;
+    cursor: pointer;
+    background-image: url(../images/login_01.jpg);
+}
+.tab1
+{
+    line-height: 27px;
+    width: 100px;
+    float: left;
+    height: 27px;
+    color: #fff;
+    cursor: pointer;
+}

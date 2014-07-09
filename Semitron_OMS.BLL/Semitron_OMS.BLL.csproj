@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8F975DCE-FA15-4303-9D11-A283EC2FA078}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Semitron_OMS.BLL</RootNamespace>
+    <AssemblyName>Semitron_OMS.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Admin.cs" />
+    <Compile Include="Common\CommonBLL.cs" />
+    <Compile Include="Common\ObjectPermission.cs" />
+    <Compile Include="Common\OperationsLogBLL.cs" />
+    <Compile Include="Common\Permission.cs" />
+    <Compile Include="Common\PreferenceConfigBLL.cs" />
+    <Compile Include="Common\ProductInfoBLL.cs" />
+    <Compile Include="Common\ProductTypeBLL.cs" />
+    <Compile Include="Common\Role.cs" />
+    <Compile Include="Common\SystemLogBLL.cs" />
+    <Compile Include="Common\UserRole.cs" />
+    <Compile Include="Common\WarehouseBLL.cs" />
+    <Compile Include="FM\GatheringPlanBLL.cs" />
+    <Compile Include="FM\PaymentPlanBLL.cs" />
+    <Compile Include="OMS\AdminBindCustomerBLL.cs" />
+    <Compile Include="OMS\AdminBindSupplierBLL.cs" />
+    <Compile Include="OMS\AttachmentBLL.cs" />
+    <Compile Include="OMS\BrandBLL.cs" />
+    <Compile Include="OMS\CommonTableBLL.cs" />
+    <Compile Include="OMS\CorporationBLL.cs" />
+    <Compile Include="OMS\CurrencyTypeBLL.cs" />
+    <Compile Include="CRM\CustomerBLL.cs" />
+    <Compile Include="OMS\CustomerOrderBLL.cs" />
+    <Compile Include="OMS\CustomerOrderDetailBLL.cs" />
+    <Compile Include="OMS\ExchangeRateBLL.cs" />
+    <Compile Include="OMS\GodownEntryBLL.cs" />
+    <Compile Include="OMS\GodownEntryDetailBLL.cs" />
+    <Compile Include="OMS\InventoryAuditBLL.cs" />
+    <Compile Include="OMS\InventoryBLL.cs" />
+    <Compile Include="OMS\OrderFeeBLL.cs" />
+    <Compile Include="OMS\PaymentTypeBLL.cs" />
+    <Compile Include="OMS\POBindCustomerOrderBLL.cs" />
+    <Compile Include="OMS\POBLL.cs" />
+    <Compile Include="OMS\POPlanBLL.cs" />
+    <Compile Include="CRM\SupplierBLL.cs" />
+    <Compile Include="OMS\ShippingListBLL.cs" />
+    <Compile Include="OMS\ShippingListDetailBLL.cs" />
+    <Compile Include="OMS\ShippingPlanBLL.cs" />
+    <Compile Include="OMS\ShippingPlanDetailBLL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Semitron_OMS.CommonWeb\Semitron_OMS.CommonWeb.csproj">
+      <Project>{af077d17-9954-406e-a2b5-8490f88219fe}</Project>
+      <Name>Semitron_OMS.CommonWeb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.Common\Semitron_OMS.Common.csproj">
+      <Project>{32661397-42c4-4796-9244-faab978fce73}</Project>
+      <Name>Semitron_OMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.DAL\Semitron_OMS.DAL.csproj">
+      <Project>{A44728F2-9820-4D3E-ACA8-9E35DDBE9A12}</Project>
+      <Name>Semitron_OMS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Semitron_OMS.Model\Semitron_OMS.Model.csproj">
+      <Project>{52AA0011-5071-4496-A6AC-79588116647A}</Project>
+      <Name>Semitron_OMS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

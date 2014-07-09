@@ -1,0 +1,136 @@
+.nav .navli{ float:left; width:110px; height:35px; font-size:14px;}
+#site-menu-container {
+	POSITION: relative; width:775px; height:35px; padding-top:5px; float:right; z-index:99;
+}
+#site-menu {
+	POSITION: absolute;width:775px; height:35px; BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none; BACKGROUND: none transparent scroll repeat 0% 0%; BORDER-LEFT-STYLE: none; RIGHT: 0px; FONT-WEIGHT: normal
+}
+#site-menu LI {
+	BORDER-BOTTOM-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-TOP-STYLE: none; BORDER-LEFT-STYLE: none;
+}
+#site-menu LI A {
+	BACKGROUND: none transparent scroll repeat 0% 0%; FONT-WEIGHT: normal
+}
+#site-menu LI UL {
+	BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid
+}
+#site-menu LI UL LI {
+	MARGIN-TOP: 1px
+}
+#site-menu LI UL LI:first-child {
+	MARGIN-TOP: 0px
+}
+#site-menu LI UL LI A {
+	BACKGROUND-COLOR: #e7e7e7
+}
+#site-menu LI UL LI A:hover {
+	BACKGROUND-COLOR: #ccc; COLOR: #900
+}
+#site-menu LI .has-child-menu-link {
+	BACKGROUND-IMAGE: url(/images/arrow-right.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: right center
+}
+#site-menu .first-level-link {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.lang-cn #site-menu .first-level-link {
+	 font-weight:bold;
+}
+#site-menu .menu-home {
+	WIDTH: 50px; BACKGROUND-POSITION: left top
+}
+#site-menu .menu-home-current {
+	BACKGROUND-POSITION: left -22px;
+}
+#site-menu .menu-home:hover {
+	BACKGROUND-POSITION: left -22px
+}
+#site-menu .menu-products {
+	WIDTH: 90px; BACKGROUND-POSITION: -56px top
+}
+#site-menu .menu-products-current {
+	BACKGROUND-POSITION: -56px -22px
+}
+#site-menu .menu-products:hover {
+	BACKGROUND-POSITION: -56px -22px
+}
+.lang-cn #site-menu .menu-products {
+	WIDTH: 65px; BACKGROUND-POSITION: -50px top
+}
+.lang-cn #site-menu .menu-products-current {
+	BACKGROUND-POSITION: -50px -22px
+}
+.lang-cn #site-menu .menu-products:hover {
+	BACKGROUND-POSITION: -50px -22px
+}
+#site-menu .menu-retail {
+	WIDTH: 65px; BACKGROUND-POSITION: -147px top
+}
+#site-menu .menu-retail-current {
+	BACKGROUND-POSITION: -147px -22px
+}
+#site-menu .menu-retail:hover {
+	BACKGROUND-POSITION: -147px -22px
+}
+.lang-cn #site-menu .menu-retail {
+	WIDTH: 85px; BACKGROUND-POSITION: -115px top
+}
+.lang-cn #site-menu .menu-retail-current {
+	BACKGROUND-POSITION: -115px -22px
+}
+.lang-cn #site-menu .menu-retail:hover {
+	BACKGROUND-POSITION: -115px -22px
+}
+#site-menu .menu-support {
+	WIDTH: 80px; BACKGROUND-POSITION: -212px top
+}
+#site-menu .menu-support-current {
+	BACKGROUND-POSITION: -212px -22px
+}
+#site-menu .menu-support:hover {
+	BACKGROUND-POSITION: -212px -22px
+}
+.lang-cn #site-menu .menu-support {
+	WIDTH: 90px; BACKGROUND-POSITION: -202px top
+}
+.lang-cn #site-menu .menu-support-current {
+	BACKGROUND-POSITION: -202px -22px
+}
+.lang-cn #site-menu .menu-support:hover {
+	BACKGROUND-POSITION: -202px -22px
+}
+#site-menu .menu-about {
+	WIDTH: 100px; BACKGROUND-POSITION: -295px top
+}
+#site-menu .menu-about-current {
+	BACKGROUND-POSITION: -295px -22px
+}
+#site-menu .menu-about:hover {
+	BACKGROUND-POSITION: -295px -22px
+}
+.lang-cn #site-menu .menu-about {
+	BACKGROUND-POSITION: -295px top
+}
+.lang-cn #site-menu .menu-about-current {
+	BACKGROUND-POSITION: -295px -22px
+}
+.lang-cn #site-menu .menu-about:hover {
+	BACKGROUND-POSITION: -295px -22px
+}
+#site-menu .menu-contact {
+	WIDTH: 115px; BACKGROUND-POSITION: -395px top
+}
+#site-menu .menu-contact-current {
+	BACKGROUND-POSITION: -395px -22px
+}
+#site-menu .menu-contact:hover {
+	BACKGROUND-POSITION: -395px -22px
+}
+.lang-cn #site-menu .menu-contact {
+	WIDTH: 115px; BACKGROUND-POSITION: -385px top
+}
+.lang-cn #site-menu .menu-contact-current {
+	BACKGROUND-POSITION: -385px -22px
+}
+.lang-cn #site-menu .menu-contact:hover {
+	BACKGROUND-POSITION: -385px -22px
+}

@@ -1,0 +1,329 @@
+﻿<script type="text/javascript">
+    $(function () {
+        var gridHeight = document.documentElement.clientHeight - 298;
+        //初始化查询条件收起张开事件
+        //InitExpandSearch("FlexigridTableInventory", "btnSearchOpenClose", "tableSearch", 294, 144);
+        $("#divInventoryContent").attr("style", "height:" + gridHeight + 20 + "px");
+
+        $("#ulSearchInventory li input[name=BeginTime]").val("2013-01-01");
+        var TimeType = $("#ulSearchInventory li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchInventory li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchInventory li input[name=EndTime]").val();
+        //初始库存表格
+        $("#FlexigridTableInventory").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/OMS/InventoryHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetInventory" }, { name: "TimeType", value: TimeType }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
+            colModel: [//表格的题头与索要填充的内容。
+                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                    { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '产品编号', name: 'ProductCode', width: 60, sortable: true, align: 'left' },
+                    { display: '厂商型号', name: 'ApprovedUser', width: 60, sortable: true, align: 'left' },
+                    { display: '归属仓编号', name: 'WCode', width: 60, sortable: true, align: 'left' },
+                    { display: '归属名称', name: 'WName', width: 100, sortable: true, align: 'left' },
+                    { display: '在库数', name: 'OnHandQty', width: 60, sortable: true, align: 'right' },
+                    { display: '采购在途数', name: 'POQty', width: 60, sortable: true, align: 'right' },
+                    { display: '待入库数', name: 'UnInQty', width: 60, sortable: true, align: 'right' },
+                    { display: '待出库数', name: 'UnOutQty', width: 60, sortable: true, align: 'right' },
+                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
+            ],
+            sortname: "CreateTime",
+            sortorder: "DESC",
+            title: "库存数据列表",
+            showTableToggleBtn: true,
+            usepager: true,
+            useRp: true,
+            rowbinddata: true,
+            showcheckbox: true,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+
+        var CurrentDay = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate(); alert(CurrentDay);
+        //初始库存明细表格
+        $("#FlexigridTableInventoryAudit").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/OMS/InventoryAuditHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetInventoryAudit" }, { name: "TimeType", value: TimeType }, { name: "State", value: "1" }, { name: "startTime", value: CurrentDay }, { name: "endTime", value: endTime }], //扩展参数
+            colModel: [//表格的题头与索要填充的内容。
+                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                    { display: '编号', name: 'ActionID', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '变更类型', name: 'ActionType', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '变更时间', name: 'ActionTime', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '库存ID', name: 'ID', width: 60, sortable: true, align: 'left' },
+                    { display: '产品编号', name: 'ProductCode', width: 60, sortable: true, align: 'left' },
+                    { display: '厂商型号', name: 'ApprovedUser', width: 60, sortable: true, align: 'left' },
+                    { display: '归属仓编号', name: 'WCode', width: 60, sortable: true, align: 'left' },
+                    { display: '归属名称', name: 'WName', width: 100, sortable: true, align: 'left' },
+                    { display: '在库数', name: 'OnHandQty', width: 60, sortable: true, align: 'right' },
+                    { display: '采购在途数', name: 'POQty', width: 60, sortable: true, align: 'right' },
+                    { display: '待入库数', name: 'UnInQty', width: 60, sortable: true, align: 'right' },
+                    { display: '待出库数', name: 'UnOutQty', width: 60, sortable: true, align: 'right' },
+                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
+            ],
+            sortname: "CreateTime",
+            sortorder: "DESC",
+            title: "库存变更记录列表",
+            showTableToggleBtn: true,
+            usepager: true,
+            useRp: true,
+            rowbinddata: true,
+            showcheckbox: false,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+        //查询按钮
+        $("#btnSearchInventory").click(function () {
+            SearchInventory();
+            return false;
+        });
+        //新增按钮
+        $("#btnAddInventory").click(function () {
+            $("#btnEditInventory").attr("href", "/Admin/OMS/Inventory/Edit.html");
+            $("#hidSeletedInventoryId").val("-1");
+            return false;
+        });
+        //编辑按钮
+        $("#btnEditInventory").click(function () {
+            var obj = GetSelectedRow("FlexigridTableInventory", "库存");
+            if (!obj) {
+                $("#btnEditInventory").attr("href", "/Admin/OMS/Inventory/Edit.html?InventoryId={InventoryId}");
+                return false;
+            }
+
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前库存记录已无效，无法完成此操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#btnEditInventory").attr("href", "/Admin/OMS/Inventory/Edit.html?InventoryId=" + id);
+            $("#hidSeletedInventoryId").val(id);
+
+            return false;
+        });
+        //删除
+        $("#btnDeleteInventory").click(function () {
+            var obj = GetSelectedRow("FlexigridTableInventory", "库存");
+            if (!obj) {
+                return false;
+            }
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前库存已无效，请勿重复操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            DelInventory(id);
+            return false;
+        });
+
+        //审核库存
+        $("#btnApproveInventory").click(function () {
+            var obj = GetSelectedRow("FlexigridTableInventory", "库存");
+            if (!obj) {
+                return false;
+            }
+            if (obj[0][2] == "无效") {
+                artDialog.tips("所选库存已无效，无法完成此操作。");
+                return false;
+            }
+            if (obj[0][4] == "已审核") {
+                artDialog.tips("所选库存已审核，请勿重复操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#hidSeletedInventoryId").val(id);
+
+            alertMsg.confirm("审核库存后，库存不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
+                okCall: function () {
+                    var url = "/Handle/OMS/InventoryHandle.ashx";
+                    var data = { "meth": "ApproveInventory", "EntryId": id };
+                    var successFun = function (json) {
+                        if (json.State == "0") {
+                            alertMsg.error(json.Info);
+                            return false;
+                        } else {
+                            //刷新表格
+                            alertMsg.correct(json.Info);
+                            $("#FlexigridTableInventory").flexReload();
+                            return true;
+                        }
+                    };
+                    var errorFun = function (x, e) {
+                        alertMsg.error(x.responseText);
+                    };
+                    JsAjax(url, data, successFun, errorFun);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    //查询
+    function SearchInventory() {
+
+        var TimeType = $("#ulSearchInventory li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchInventory li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchInventory li input[name=EndTime]").val();
+        var InventoryNo = $("#ulSearchInventory li input[name=InventoryNo]").val();
+        var ProductCode = $("#ulSearchInventory li input[name=ProductCode]").val();
+        var StockCode = $("#ulSearchInventory li input[name='SearchWarehouse.WCode']").val();
+
+        var p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetInventory" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "InventoryNo", value: InventoryNo },
+              { name: "StockCode", value: StockCode },
+              { name: "State", value: "1" }
+            ]
+        };
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableInventory").flexOptions(p).flexReload();
+
+        p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetInventoryAudit" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "InventoryNo", value: InventoryNo },
+              { name: "ProductCode", value: ProductCode },
+              { name: "StockCode", value: StockCode },
+              { name: "AvailFlag", value: "1" }
+            ]
+        };
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableInventoryAudit").flexOptions(p).flexReload();
+    }
+
+    //删除库存
+    function DelInventory(id) {
+        alertMsg.confirm("库存删除后将无法恢复，你确认要删除吗？", {
+            okCall: function () {
+                //调用删除库存方法
+                var url = "/Handle/OMS/InventoryHandle.ashx";
+                var data = { "meth": "DelInventory", "Id": id };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        return false;
+                    } else {
+                        //刷新表格
+                        alertMsg.correct(json.Info);
+                        $("#FlexigridTableInventory").flexReload();
+                        return true;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alertMsg.error(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            }
+        });
+    }
+</script>
+
+<div class="pageHeader">
+    <div class="searchBar">
+        <ul class="searchContent" id="ulSearchInventory">
+
+            <li style="width: 180px">
+                <div style="float: left;">产品编码：</div>
+                <input style="width: 80px;" name="ProductCode" class="txt" maxlength="128" />m
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">厂商型号：</div>
+                <div style="float: left;">
+                    <input style="width: 80px;" name="MPN" class="txt" maxlength="128" />m
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">仓库：</div>
+                <div style="float: left; width: 120px">
+                    <input name="SearchWarehouse.WCode" value="" type="hidden" />
+                    <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
+                    <a class="btnLook" href="/Admin/Common/Warehouse/LookupWarehouse.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">
+                    开始时间：
+                </div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="BeginTime" class="date textInput valid required" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">结束时间：</div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="EndTime" class="date textInput valid" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li>
+                <select class="combox" name="sltTimeType" style="width: 100px">
+                    <!--<option value="3" title="库存时间">库存时间</option>
+                    <option value="4" title="审核时间">审核时间</option>
+                    <option value="1" title="创建时间">创建时间</option>-->
+                    <option value="2" title="更新时间">更新时间</option>
+                </select>
+            </li>
+            <li>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit" id="btnSearchInventory">检索</button>
+                    </div>
+                </div>
+                <!--<a class="button" href="/Admin/OMS/Inventory/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索库存)"><span>高级检索</span></a>-->
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <input type="hidden" value="-1" id="hidSeletedInventoryId" />
+        <ul class="toolBar">
+            <!--<li><a class="add" href="/Admin/OMS/Inventory/Edit.html" target="navTab" rel="editInventory" id="btnAddInventory"><span>新建库存</span></a></li>
+            <li class="line">line</li>
+            <li><a class="edit" href="/Admin/OMS/Inventory/Edit.html?InventoryId={InventoryId}" rel="editInventory" target="navTab" id="btnEditInventory"><span>修改库存</span></a></li>
+            <li class="line">line</li>-->
+            <!-- <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteInventory"><span>删除库存</span></a></li>
+            <li class="line">line</li>-->
+            <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+        </ul>
+    </div>
+    <div class="tabs" currentindex="0" eventtype="click">
+        <div class="tabsHeader">
+            <div class="tabsHeaderContent">
+                <ul>
+                    <li class="selected"><a href="javascript:;"><span>查库存记录</span></a></li>
+                    <li><a href="javascript:;"><span>查变更历史</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tabsContent" style="height: 450px;" id="divInventoryContent">
+            <div inited="1000" style="display: block;">
+                <table id="FlexigridTableInventory" style="display: none"></table>
+            </div>
+            <div style="display: none;">
+                <table id="FlexigridTableInventoryAudit" style="display: none"></table>
+            </div>
+        </div>
+        <div class="tabsFooter">
+            <div class="tabsFooterContent"></div>
+        </div>
+    </div>
+</div>
+

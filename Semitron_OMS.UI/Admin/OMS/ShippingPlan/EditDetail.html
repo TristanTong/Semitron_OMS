@@ -1,0 +1,138 @@
+﻿<script type="text/javascript">
+    $(function () {
+        var id = $("#hidSeletedGodownEntryDetailId").val();
+        GetGodownEntryDetailById(id);
+
+        $("#btnSaveGodownEntryDetail").click(function () {
+           
+            var InQty = $("#divEditGodownEntryDetail input[name=InQty]").val();
+            var Price = $("#divEditGodownEntryDetail input[name=Price]").val();
+            var TotalPrice = $("#divEditGodownEntryDetail input[name=TotalPrice]").val();
+            var Remark = $("#divEditGodownEntryDetail input[name=Remark]").val();
+            var AvailFlag = $("#divEditGodownEntryDetail select[name=AvailFlag]").val();
+
+            var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
+            //新增
+            var data = null;
+            var id = $("#hidSeletedGodownEntryDetailId").val();
+            //alert(id);
+            //修改
+            if (parseInt(id) > 0) {
+                data = { "meth": "EditGodownEntryDetail", "InQty": InQty, "Price": Price, "TotalPrice": TotalPrice, "Remark": Remark, "AvailFlag": AvailFlag, "Id": id }; 
+            }
+
+            if (data == null) {
+                alertMsg.error("获取页面必要参数失败,请重新打开编辑.");
+                return false;
+            }
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    alertMsg.correct(json.Info);
+                    var id = $("#hidSeletedGodownEntryId").val();
+                    //修改时加载初始化数据
+                    if (parseInt(id) > 0) {
+                        GetGodownEntryById(id);
+                        GetGodownEntryDeatiltByEntryId(id);
+                    }
+                    $("#btnCloseGodownEntryDetail").click();
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+    });
+
+    //根据Id获得入库单记录
+    function GetGodownEntryDetailById(id) {
+        try {
+            var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
+            var data = { "meth": "GetGodownEntryDetailById", "Id": id };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseGodownEntryDetail").click();
+                    return false;
+                } else {
+                    $("#divEditGodownEntryDetail p input[name='EntryNo']").val(json.EntryNo);
+                    $("#divEditGodownEntryDetail p input[name='ProductCode']").val(json.ProductCode);
+                    $("#divEditGodownEntryDetail p input[name='InQty']").val(json.InQty);
+                    $("#divEditGodownEntryDetail p input[name='Price']").val(json.Price);
+                    $("#divEditGodownEntryDetail p input[name='TotalPrice']").val(json.TotalPrice);
+                    $("#divEditGodownEntryDetail p input[name='Remark']").val(json.Remark);
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseGodownEntryDetail").click();
+            return;
+        }
+    }
+</script>
+<div class="pageContent">
+    <form method="get" action="/jui/common/ajaxDone.html" class="pageForm required-validate" onsubmit="return validateCallback(this)">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditGodownEntryDetail">
+            <p>
+                <label>入库单号：</label>
+                <input type="text" size="16" value="" name="EntryNo" class="required" readonly="readonly" />
+            </p>
+            <p>
+                <label>产品编码：</label>
+                <input type="text" size="16" value="" name="ProductCode" class="required" readonly="readonly" />
+            </p>
+            <p>
+                <label>入库数量：</label>
+                <input type="text" size="16" value="" name="InQty" class="digits required" />
+            </p>
+            <p>
+                <label>单价：</label>
+                <input type="text" size="16" value="" name="Price" class="number required" />
+            </p>
+            <p>
+                <label>总额：</label>
+                <input type="text" size="16" value="" name="TotalPrice" class="number required" />
+            </p>
+            <p>
+                <label>备注：</label>
+                <input type="text" size="40" value="" name="Remark" maxlength="512" />
+            </p>
+            <p>
+                <label>状态：</label>
+                <select name="AvailFlag" class="required">
+                    <option value="true" selected="selected">有效</option>
+                    <option value="false">无效</option>
+                </select>
+            </p>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="btnSaveGodownEntryDetail">保存</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" type="button" id="btnCloseGodownEntryDetail">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

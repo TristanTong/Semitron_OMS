@@ -1,0 +1,17 @@
+<!-- KickStart.msbuild -->
+<Project DefaultTargets="KickStart"
+    ToolsVersion="4.0"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <NuGetExe Condition="$(NuGetExe) == ''">.\.nuget\nuget.exe</NuGetExe>
+    </PropertyGroup>
+    <Target Name="KickStart">
+        <ItemGroup>
+            <NuGetPackageConfigs Include="**\packages.config" />
+        </ItemGroup>
+        <Exec Command="$(NuGetExe) install %(NuGetPackageConfigs.Identity) -o packages -ConfigFile .\.nuget\nuget.config -NoCache" />
+      <!--
+        <Exec Command="$(NuGetExe) update %(NuGetPackageConfigs.Identity) -ConfigFile .\.nuget\nuget.config" />
+        -->
+    </Target>
+</Project>
