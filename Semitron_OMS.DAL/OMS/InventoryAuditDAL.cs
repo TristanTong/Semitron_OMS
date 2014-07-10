@@ -18,7 +18,9 @@ using System;
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Semitron_OMS.DBUtility;//Please add references
+using Semitron_OMS.DBUtility;
+using Semitron_OMS.Common;
+using Semitron_OMS.DAL.Common;//Please add references
 namespace Semitron_OMS.DAL.OMS
 {
 	/// <summary>
@@ -410,7 +412,33 @@ namespace Semitron_OMS.DAL.OMS
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod
-
+       
+        /// <summary>
+        /// 分页查询入库单据
+        /// </summary>
+        /// <param name="searchInfo">SQL辅助类对象</param>
+        /// <param name="o_RowsCount">总查询数</param>
+        /// <returns>数据</returns>
+        public DataSet GetInventoryPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            //查询表名
+            string strTableName = " dbo.InventoryAudit AS G WITH (NOLOCK) LEFT JOIN Warehouse AS W ON G.WCodeBelong=W.WCode LEFT JOIN ProductInfo AS P WITH (NOLOCK) ON P.ProductCode=G.ProductCode";
+            //查询字段
+            string strGetFields = "G.ActionID,G.ActionType,ActionTime=Convert(varchar(20),G.ActionTime,120), G.ID,G.ProductCode,P.MPN,G.WCodeBelong,W.WName,G.OnHandQty,G.POQty,G.UnInQty,G.UnOutQty,UpdateTime=Convert(varchar(20),G.UpdateTime,120),G.UpdateUser ";
+            //查询条件
+            string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
+            //数据查询
+            CommonDAL commonDAL = new CommonDAL();
+            return commonDAL.GetDataExt(ConstantValue.ProcedureNames.PageProcedureName,
+                strTableName,
+                strGetFields,
+                searchInfo.PageSize,
+                searchInfo.PageIndex,
+                strWhere,
+                searchInfo.OrderByField,
+                searchInfo.OrderType,
+                out o_RowsCount);
+        }
 		#endregion  ExtensionMethod
 	}
 }

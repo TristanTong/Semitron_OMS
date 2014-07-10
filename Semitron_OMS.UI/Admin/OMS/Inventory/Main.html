@@ -20,7 +20,7 @@
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
                     { display: '产品编号', name: 'ProductCode', width: 60, sortable: true, align: 'left' },
-                    { display: '厂商型号', name: 'ApprovedUser', width: 60, sortable: true, align: 'left' },
+                    { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
                     { display: '归属仓编号', name: 'WCode', width: 60, sortable: true, align: 'left' },
                     { display: '归属名称', name: 'WName', width: 100, sortable: true, align: 'left' },
                     { display: '在库数', name: 'OnHandQty', width: 60, sortable: true, align: 'right' },
@@ -30,7 +30,7 @@
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
                     { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
             ],
-            sortname: "CreateTime",
+            sortname: "UpdateTime",
             sortorder: "DESC",
             title: "库存数据列表",
             showTableToggleBtn: true,
@@ -43,7 +43,7 @@
             rowbinddata: true
         });
 
-        var CurrentDay = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate(); alert(CurrentDay);
+        var CurrentDay = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate(); 
         //初始库存明细表格
         $("#FlexigridTableInventoryAudit").flexigrid({
             width: 'auto', //表格宽度
@@ -54,11 +54,11 @@
             colModel: [//表格的题头与索要填充的内容。
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ActionID', toggle: false, hide: true, width: 10, align: 'center' },
-                    { display: '变更类型', name: 'ActionType', toggle: false, hide: true, width: 10, align: 'center' },
-                    { display: '变更时间', name: 'ActionTime', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '变更类型', name: 'ActionType', sortable: true, width: 60, align: 'center' },
+                    { display: '变更时间', name: 'ActionTime', sortable: true, width: 120, align: 'center' },
                     { display: '库存ID', name: 'ID', width: 60, sortable: true, align: 'left' },
                     { display: '产品编号', name: 'ProductCode', width: 60, sortable: true, align: 'left' },
-                    { display: '厂商型号', name: 'ApprovedUser', width: 60, sortable: true, align: 'left' },
+                    { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
                     { display: '归属仓编号', name: 'WCode', width: 60, sortable: true, align: 'left' },
                     { display: '归属名称', name: 'WName', width: 100, sortable: true, align: 'left' },
                     { display: '在库数', name: 'OnHandQty', width: 60, sortable: true, align: 'right' },
@@ -68,7 +68,7 @@
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
                     { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
             ],
-            sortname: "CreateTime",
+            sortname: "UpdateTime",
             sortorder: "DESC",
             title: "库存变更记录列表",
             showTableToggleBtn: true,

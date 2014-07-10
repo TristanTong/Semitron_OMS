@@ -1534,6 +1534,12 @@
     <Compile Include="Handle\OMS\GodownEntryHandle.ashx.cs">
       <DependentUpon>GodownEntryHandle.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handle\OMS\InventoryAuditHandle.ashx.cs">
+      <DependentUpon>InventoryAuditHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\OMS\InventoryHandle.ashx.cs">
+      <DependentUpon>InventoryHandle.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handle\OMS\OrderFeeHandle.ashx.cs">
       <DependentUpon>OrderFeeHandle.ashx</DependentUpon>
     </Compile>
@@ -1623,6 +1629,8 @@
     <Content Include="Handle\OMS\ShippingPlanDetailHandle.ashx" />
     <Content Include="Handle\OMS\ShippingListHandle.ashx" />
     <Content Include="Handle\OMS\ShippingListDetailHandle.ashx" />
+    <Content Include="Handle\OMS\InventoryHandle.ashx" />
+    <Content Include="Handle\OMS\InventoryAuditHandle.ashx" />
     <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />
