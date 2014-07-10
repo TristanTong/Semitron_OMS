@@ -22,7 +22,7 @@
                     { display: '产品编号', name: 'ProductCode', width: 60, sortable: true, align: 'left' },
                     { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
                     { display: '归属仓编号', name: 'WCode', width: 60, sortable: true, align: 'left' },
-                    { display: '归属名称', name: 'WName', width: 100, sortable: true, align: 'left' },
+                    { display: '归属仓名称', name: 'WName', width: 100, sortable: true, align: 'left' },
                     { display: '在库数', name: 'OnHandQty', width: 60, sortable: true, align: 'right' },
                     { display: '采购在途数', name: 'POQty', width: 60, sortable: true, align: 'right' },
                     { display: '待入库数', name: 'UnInQty', width: 60, sortable: true, align: 'right' },
@@ -43,11 +43,8 @@
             rowbinddata: true
         });
 
-<<<<<<< HEAD
         var CurrentDay = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate(); 
-=======
-        var CurrentDay = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
->>>>>>> a6545d1a3d25b1569ecfd779240a43008a169f10
+
         //初始库存明细表格
         $("#FlexigridTableInventoryAudit").flexigrid({
             width: 'auto', //表格宽度
@@ -64,7 +61,7 @@
                     { display: '产品编号', name: 'ProductCode', width: 60, sortable: true, align: 'left' },
                     { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
                     { display: '归属仓编号', name: 'WCode', width: 60, sortable: true, align: 'left' },
-                    { display: '归属名称', name: 'WName', width: 100, sortable: true, align: 'left' },
+                    { display: '归属仓名称', name: 'WName', width: 100, sortable: true, align: 'left' },
                     { display: '在库数', name: 'OnHandQty', width: 60, sortable: true, align: 'right' },
                     { display: '采购在途数', name: 'POQty', width: 60, sortable: true, align: 'right' },
                     { display: '待入库数', name: 'UnInQty', width: 60, sortable: true, align: 'right' },

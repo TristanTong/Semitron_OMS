@@ -1,10 +1,10 @@
 ﻿<script type="text/javascript">
     $(function () {
         debugger;
-        var id = $("#hidSeletedGodownEntryId").val();
-        //新增时生成入库单号
+        var id = $("#hidSeletedShippingPlanId").val();
+        //新增时生成出货计划号
         if (!id || id == "-1") {
-            var url = "/Handle/OMS/GodownEntryHandle.ashx";
+            var url = "/Handle/OMS/ShippingPlanHandle.ashx";
             var data = { "meth": "GenerateCode" };
             var errorFun = function (x, e) {
                 alertMsg.error(x.responseText);
@@ -12,10 +12,10 @@
             var successFun = function (json) {
                 if (!json || json.State == 0) {
                     alertMsg.error(json.Info);
-                    $("#btnCloseGodownEntry").click();
+                    $("#btnCloseShippingPlan").click();
                     return false;
                 } else {
-                    $("#divEditGodownEntry p input[name='EntryNo']").val(json.Remark);
+                    $("#divEditShippingPlan p input[name='EntryNo']").val(json.Remark);
                     return true;
                 }
             };
@@ -24,18 +24,18 @@
 
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
-            GetGodownEntryById(id);
-            GetGodownEntryDeatiltByEntryId(id);
+            GetShippingPlanById(id);
+            GetShippingPlanDeatiltByEntryId(id);
         }
 
-        //保存入库单数据
-        $("#btnSaveGodownEntry").click(function () {
+        //保存出货计划数据
+        $("#btnSaveShippingPlan").click(function () {
             //debugger;
-            if (!$("#formGodownEntry").valid()) {
+            if (!$("#formShippingPlan").valid()) {
                 return false;
             }
 
-            var pId = $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.PId']").val();
+            var pId = $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.PId']").val();
             if (parseInt(pId) == 0) {
                 alertMsg.error("收货仓库选择无效,请选择归属仓.");
                 return false;
@@ -43,21 +43,21 @@
 
             //debugger;
             var strJson = "{";
-            strJson += "\"EntryNo\":\"" + $("#divEditGodownEntry p input[name='EntryNo']").val() + "\",";
-            strJson += "\"InStockDate\":\"" + $("#divEditGodownEntry p input[name='InStockDate']").val() + "\",";
-            strJson += "\"InWarehouseCode\":\"" + $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.WCode']").val() + "\",";
-            strJson += "\"ByHandUserID\":\"" + $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.AdminId']").val() + "\"";
+            strJson += "\"EntryNo\":\"" + $("#divEditShippingPlan p input[name='EntryNo']").val() + "\",";
+            strJson += "\"InStockDate\":\"" + $("#divEditShippingPlan p input[name='InStockDate']").val() + "\",";
+            strJson += "\"InWarehouseCode\":\"" + $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.WCode']").val() + "\",";
+            strJson += "\"ByHandUserID\":\"" + $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminId']").val() + "\"";
             strJson += "}"; //alert(strJson);
-            var url = "/Handle/OMS/GodownEntryHandle.ashx";
+            var url = "/Handle/OMS/ShippingPlanHandle.ashx";
             //新增
             var data = null;
-            var id = $("#hidSeletedGodownEntryId").val();
+            var id = $("#hidSeletedShippingPlanId").val();
             if (!id || id == "-1") {
-                data = { "meth": "AddGodownEntry", "JsonString": strJson, "JsonStringDetail": GetGodownEntryDetailJson("tbAddGodownEntryDetail") };
+                data = { "meth": "AddShippingPlan", "JsonString": strJson, "JsonStringDetail": GetShippingPlanDetailJson("tbAddShippingPlanDetail") };
             }
             //修改
             if (parseInt(id) > 0) {
-                data = { "meth": "EditGodownEntry", "JsonString": strJson, "JsonStringDetail": GetGodownEntryDetailJson("tbAddGodownEntryDetail"), "id": id };
+                data = { "meth": "EditShippingPlan", "JsonString": strJson, "JsonStringDetail": GetShippingPlanDetailJson("tbAddShippingPlanDetail"), "id": id };
             }
 
             if (data == null) {
@@ -70,9 +70,9 @@
                     return false;
                 } else {
                     alertMsg.correct(json.Info);
-                    $("#btnCloseGodownEntry").click();
-                    $("#hidSeletedGodownEntryId").val(json.Remark);
-                    SearchGodownEntry();
+                    $("#btnCloseShippingPlan").click();
+                    $("#hidSeletedShippingPlanId").val(json.Remark);
+                    SearchShippingPlan();
                     return false;
                 }
             };
@@ -85,26 +85,26 @@
     });
 
     //取得接收地址参数字符串
-    function GetGodownEntryDetailJson(tbControlId) {
+    function GetShippingPlanDetailJson(tbControlId) {
         var strJson = "";
         $("#" + tbControlId + " tbody tr").each(function (e) {
             //拼接参数Json字符串
             if ($(this).children("td").find('input[type=text]').val()) {
                 var defaultValue = "";
                 if ($(this).get(0).children.length == 8) {
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.POPlanId']").val());
-                    strJson += "{POPlanId:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.PONo']").val());
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustomerOrderDetailId']").val());
+                    strJson += "{CustomerOrderDetailId:\"" + defaultValue + "\",";
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.PONo']").val());
                     strJson += "PONo:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.InQty']").val());
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.InQty']").val());
                     strJson += "InQty:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.Price']").val());
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Price']").val());
                     strJson += "Price:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.TotalPrice']").val());
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.TotalPrice']").val());
                     strJson += "TotalPrice:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.Remark']").val());
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Remark']").val());
                     strJson += "Remark:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.ProductCode']").val());
+                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.ProductCode']").val());
                     strJson += "ProductCode:\"" + defaultValue + "\"";
                     strJson += "},"
                 }
@@ -117,18 +117,18 @@
         return strJson;
     }
 
-    //根据Id获得入库单记录
-    function GetGodownEntryById(id) {
+    //根据Id获得出货计划记录
+    function GetShippingPlanById(id) {
         try {
-            var url = "/Handle/OMS/GodownEntryHandle.ashx";
-            var data = { "meth": "GetGodownEntryById", "Id": id };
+            var url = "/Handle/OMS/ShippingPlanHandle.ashx";
+            var data = { "meth": "GetShippingPlanById", "Id": id };
             var successFun = function (json) {
                 if (json.State == "0") {
                     alertMsg.error(json.Info);
-                    $("#btnCloseGodownEntry").click();
+                    $("#btnCloseShippingPlan").click();
                     return false;
                 } else {
-                    $("#divEditGodownEntry p input[name='EntryNo']").val(json.EntryNo);
+                    $("#divEditShippingPlan p input[name='EntryNo']").val(json.EntryNo);
                     var inStockDate = json.InStockDate;
                     if (inStockDate && inStockDate.length > 10) {
                         inStockDate = inStockDate.substr(0, 10);
@@ -139,11 +139,11 @@
                     else {
                         inStockDate = "";
                     }
-                    $("#divEditGodownEntry p input[name='InStockDate']").val(inStockDate);
-                    $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.WCode']").val(json.InWarehouseCode);
-                    $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.WName']").val(json.InWarehouseName);
-                    $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
-                    $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.Name']").val(json.ByHandUserName);
+                    $("#divEditShippingPlan p input[name='InStockDate']").val(inStockDate);
+                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.WCode']").val(json.InWarehouseCode);
+                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.WName']").val(json.InWarehouseName);
+                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
+                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.Name']").val(json.ByHandUserName);
                     return false;
                 }
             };
@@ -154,33 +154,33 @@
         }
         catch (e) {
             alertMsg.error(e.message);
-            $("#btnCloseGodownEntry").click();
+            $("#btnCloseShippingPlan").click();
             return;
         }
     }
 
-    //根据入库单Id获得入库单明细列表记录
-    function GetGodownEntryDeatiltByEntryId(entryId) {
+    //根据出货计划Id获得出货计划明细列表记录
+    function GetShippingPlanDeatiltByEntryId(entryId) {
         try {
-            var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
-            var data = { "meth": "GetGodownEntryDetailByEntryId", "EntryId": entryId };
+            var url = "/Handle/OMS/ShippingPlanDetailHandle.ashx";
+            var data = { "meth": "GetShippingPlanDetailByEntryId", "EntryId": entryId };
             var successFun = function (json) {
                 debugger;
                 if (json.State == "0") {
                     alertMsg.error(json.Info);
-                    $("#btnCloseGodownEntry").click();
+                    $("#btnCloseShippingPlan").click();
                     return false;
                 } else {
-                    $("#tbAddGodownEntryDetail tbody").html("");
+                    $("#tbAddShippingPlanDetail tbody").html("");
                     for (var i = 0; i < json.length; i++) {
-                        $("#tbAddGodownEntryDetail tbody").append("<tr class=\"unitBox\"> <td>"
-                            + json[i].POPlanId + "</td> <td>"
+                        $("#tbAddShippingPlanDetail tbody").append("<tr class=\"unitBox\"> <td>"
+                            + json[i].CustomerOrderDetailId + "</td> <td>"
                             + json[i].PONo + "</td> <td>"
                             + json[i].ProductCode + "</td> <td>"
                             + json[i].InQty + "</td> <td>"
                             + json[i].Price + "</td> <td>" + json[i].TotalPrice + "</td> <td>"
-                            + json[i].Remark + "</td> <td><a href=\"/Admin/OMS/GodownEntry/EditDetail.html\" rel=\"GodownEntryDetailId"
-                            + json[i].ID + "\" class=\"btnEdit\" onclick=\"return SeletedGodownEntryDetail('"
+                            + json[i].Remark + "</td> <td><a href=\"/Admin/OMS/ShippingPlan/EditDetail.html\" rel=\"ShippingPlanDetailId"
+                            + json[i].ID + "\" class=\"btnEdit\" onclick=\"return SeletedShippingPlanDetail('"
                             + json[i].ID + "')\">编辑</a> </td> </tr>");
                     }
                     return false;
@@ -193,59 +193,54 @@
         }
         catch (e) {
             alertMsg.error(e.message);
-            $("#btnCloseGodownEntry").click();
+            $("#btnCloseShippingPlan").click();
             return;
         }
         return false;
     }
 
-    //点击编辑入库单明细后，存储选择的记录ID到隐藏域
-    function SeletedGodownEntryDetail(id) {
-        $("#hidSeletedGodownEntryDetailId").val(id);
-        $("#aEditGodownEntryDetail0").click();
+    //点击编辑出货计划明细后，存储选择的记录ID到隐藏域
+    function SeletedShippingPlanDetail(id) {
+        $("#hidSeletedShippingPlanDetailId").val(id);
+        $("#aEditShippingPlanDetail0").click();
         return false;
     }
 </script>
 
-<input type="hidden" value="-1" id="hidSeletedGodownEntryDetailId" />
-<a href="/Admin/OMS/GodownEntry/EditDetail.html?GodownEntryDetailId=0" rel="GodownEntryDetailId0" class="btnEdit" target="dialog" mask="true" id="aEditGodownEntryDetail0" onclick="return false;" style="display: none;">编辑</a>
+<input type="hidden" value="-1" id="hidSeletedShippingPlanDetailId" />
+<a href="/Admin/OMS/ShippingPlan/EditDetail.html?ShippingPlanDetailId=0" rel="ShippingPlanDetailId0" class="btnEdit" target="dialog" mask="true" id="aEditShippingPlanDetail0" onclick="return false;" style="display: none;">编辑</a>
 <div class="pageContent">
-    <form method="POST" action="/jui/common/ajaxDone.html" class="pageForm required-validate" id="formGodownEntry" onsubmit="return false;">
-        <div class="pageFormContent nowrap" layouth="56" id="divEditGodownEntry">
+    <form method="POST" action="/jui/common/ajaxDone.html" class="pageForm required-validate" id="formShippingPlan" onsubmit="return false;">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditShippingPlan">
             <p>
-                <label>入库单号：</label>
+                <label>出货计划号：</label>
                 <input type="text" style="width: 110px" value="" name="EntryNo" minlength="3" class="required" readonly="readonly" />
             </p>
             <p>
-                <label>入库时间：</label>
+                <label>计划时间：</label>
                 <input type="text" class="date textInput valid required" name="InStockDate" style="width: 110px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
             </p>
             <p>
-                <label>收货仓库：</label>
-                <input name="GodownEntry_Edit_SearchWarehouse.WCode" value="" type="hidden" />
-                <input name="GodownEntry_Edit_SearchWarehouse.PId" value="" type="hidden" />
-                <input name="GodownEntry_Edit_SearchWarehouse.WName" class="required" type="text" style="width: 110px;" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Common/Warehouse/LookupWarehouse.html" lookupgroup="GodownEntry_Edit_SearchWarehouse" rel="dlg_GodownEntry_Edit_SearchWarehouse">查找带回</a>
-            </p>
-            <p>
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="GodownEntry_Edit_adminLookup.AdminId" value="${GodownEntry_Edit_adminLookup.AdminId}" />
-                <input type="text" class="required" name="GodownEntry_Edit_adminLookup.Name" lookupgroup="GodownEntry_Edit_adminLookup" style="width: 110px" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Sys/Admin/LookupAdmin.html" lookupgroup="GodownEntry_Edit_adminLookup">查找带回</a>
+                <input type="hidden" name="ShippingPlan_Edit_adminLookup.AdminId" value="${ShippingPlan_Edit_adminLookup.AdminId}" />
+                <input type="text" class="required" name="ShippingPlan_Edit_adminLookup.Name" lookupgroup="ShippingPlan_Edit_adminLookup" style="width: 110px" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Sys/Admin/LookupAdmin.html" lookupgroup="ShippingPlan_Edit_adminLookup">查找带回</a>
             </p>
             <div class="divider"></div>
-            <h3 class="contentTitle">产品编码入库明细</h3>
+            <h3 class="contentTitle">出库计划明细</h3>
             <div>
-                <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddGodownEntryDetail">
+                <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddShippingPlanDetail">
                     <thead>
                         <tr>
-                            <th type="lookup" name="items[#index#].POPlan.POPlanId" lookupgroup="items[#index#].POPlan" lookupurl="/Admin/OMS/POPlan/LookupPOPlan.html" size="1" fieldclass="digits readonly" width="65">采购计划</th>
-                            <th type="text" name="items[#index#].POPlan.PONo" defaultval="" size="15" fieldclass="readonly" width="110">采购订单号</th>
-                            <th type="text" name="items[#index#].POPlan.ProductCode" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">产品编码</th>
-                            <th type="text" name="items[#index#].POPlan.InQty" defaultval="0" size="12" fieldclass="digits required" width="90">待入库数量</th>
-                            <th type="text" name="items[#index#].POPlan.Price" defaultval="0.0" size="12" fieldclass="number required" width="80">单价</th>
-                            <th type="text" name="items[#index#].POPlan.TotalPrice" defaultval="0.0" size="12" fieldclass="number required" width="80">金额</th>
-                            <th type="text" name="items[#index#].POPlan.Remark" size="48">备注</th>
+                            <th type="lookup" name="items[#index#].Warehouse.WCode" lookupgroup="items[#index#].Warehouse" lookupurl="/Admin/Common/Warehouse/LookupWarehouse.html" size="1" fieldclass="required readonly" width="65">计划出货仓</th>
+                            <th type="text" name="items[#index#].Warehouse.WName" defaultval="" size="15" fieldclass="readonly" width="110">计划出货仓名称</th>
+                            <th type="lookup" name="items[#index#].CustomerOrderDetail.CustomerOrderDetailId" lookupgroup="items[#index#].CustomerOrderDetail" lookupurl="/Admin/OMS/CustomerOrderDetail/LookupCustomerOrderDetail.html" size="1" fieldclass="digits readonly" width="65">产品清单</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.ProductCode" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">产品编码</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.PONo" defaultval="" size="15" fieldclass="readonly" width="110">内部订单号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.ProductCode" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">客户订单号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.InQty" defaultval="0" size="12" fieldclass="digits required" width="90">客户型号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.Price" defaultval="0.0" size="12" fieldclass="number required" width="80">计划数量</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.Remark" size="48">备注</th>
                             <th type="del" width="60">操作</th>
                         </tr>
                     </thead>
@@ -260,14 +255,14 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit" id="btnSaveGodownEntry">保存</button>
+                            <button type="submit" id="btnSaveShippingPlan">保存</button>
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="button">
                         <div class="buttonContent">
-                            <button class="close" id="btnCloseGodownEntry" type="button">关闭</button>
+                            <button class="close" id="btnCloseShippingPlan" type="button">关闭</button>
                         </div>
                     </div>
                 </li>
