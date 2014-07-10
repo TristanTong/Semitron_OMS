@@ -147,9 +147,10 @@
                     return false;
                 }
                 var id = obj[0][1];
-
-                GetCustomerOrderById(id, "Edit")
-                AddOrEdit(id, "Edit");
+                art.dialog.confirm('客户订单编辑后将重置为草稿状态，流程将重新走一遍，你确认继续编辑吗？', function () {
+                    GetCustomerOrderById(id, "Edit");
+                    AddOrEdit(id, "Edit");
+                });
                 return false;
             });
             //查看

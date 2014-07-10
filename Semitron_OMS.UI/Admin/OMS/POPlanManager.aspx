@@ -211,7 +211,7 @@
                     return false;
                 }
                 var id = obj[0][1];
-                art.dialog.confirm("QC确认后，说明产品部分或完全到货，请通知业务员确认客户订单，并制作出货单发货。<br/>您确认此操作吗？",
+                art.dialog.confirm("QC确认后，说明产品部分或完全到货，请通知业务员确认客户订单，并制作出货计划发货。<br/>您确认此操作吗？",
                 function () {
                     QCConfirm(id, "Confirm");
                     GetPOPlanById(id, "Confirm");
