@@ -362,6 +362,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 }
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateTime", DateTime.Now);
+                SQLOperateHelper.SetEntityFiledValue(model, "State", Semitron_OMS.Common.Enum.EnumPOState.Added);
                 string strResult = this._bllPO.ValidateAndUpdate(model);
                 if (strResult == "OK")
                 {

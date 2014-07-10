@@ -125,15 +125,16 @@
                     artDialog.tips("当前采购订单已取消，无法完成此操作。");
                     return false;
                 }
-                if (!(obj[0][3] == "新增待关联" || obj[0][3] == "关联待计划")) {
-                    artDialog.tips("当前采购订单的状态不为新增待关联、关联待计划，不能编辑数据。");
+                if (obj[0][3] == "已完成") {
+                    artDialog.tips("当前采购订单的状态为已完成，不能编辑数据。");
                     return false;
                 }
 
                 var id = obj[0][1];
-
-                GetPOById(id)
-                AddOrEdit(id, "Edit");
+                art.dialog.confirm('采购订单编辑后将重置为待关联计划状态，流程将重新走一遍，你确认继续编辑吗？', function () {
+                    GetPOById(id)
+                    AddOrEdit(id, "Edit");
+                });
                 return false;
             });
             //查看按钮
@@ -929,7 +930,7 @@
 
             //调用关联客户订单方法
             var url = "/Handle/OMS/POHandle.ashx";
-            var data = { "meth": "GetBindPOPlanTree", "POPlanId": poId };
+            var data = { "meth": "GetBindPOPlanTree", "POId": poId };
             var successFun = function (json) {
                 if (!json || (json.State && json.State == "0")) {
                     artDialog.alert(json.Info);
@@ -968,7 +969,7 @@
                     if (type == "View") {
                         return true;
                     }
-                    art.dialog.confirm('关联客户订单后，对应的客户订单状态将变更为采购流程中，<br>采购订单状态变更为关联待采购，请在确定后进行生成采购计划操作。您确定要关联吗？',
+                    art.dialog.confirm('关联采购计划后，相关联的采购订单与采购计划状态将变更为供应商审核状态，<br>您可以在关联后通过查看采购计划查看关联结果。您确定要关联吗？',
                      function () {
                          var zBindPOPlan = $.fn.zTree.getZTreeObj("BindPOPlanTree");
                          var obj = zBindPOPlan.getCheckedNodes(true);  //获取被选中的客户订单列表树结点
@@ -1490,10 +1491,10 @@
                 </ul>
             </div>--%>
             <div class="zTreeDemoBackground" align="center" style="float: left" id="divBindPOPlan">
-                <div class="tdHead" style="width: 430px;">
+                <div class="tdHead" style="width: 620px;">
                     待关联确认供应商的采购计划列表
                 </div>
-                <ul id="BindPOPlanTree" class="ztree" style="width: 420px; height: 250px;">
+                <ul id="BindPOPlanTree" class="ztree" style="width: 620px; height: 250px;">
                 </ul>
             </div>
 
