@@ -15,7 +15,7 @@
                     $("#btnCloseShippingPlan").click();
                     return false;
                 } else {
-                    $("#divEditShippingPlan p input[name='EntryNo']").val(json.Remark);
+                    $("#divEditShippingPlan p input[name='ShippingPlanNo']").val(json.Remark);
                     return true;
                 }
             };
@@ -25,7 +25,7 @@
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
             GetShippingPlanById(id);
-            GetShippingPlanDeatiltByEntryId(id);
+            GetShippingPlanDeatiltByPlanId(id);
         }
 
         //保存出货计划数据
@@ -35,19 +35,12 @@
                 return false;
             }
 
-            var pId = $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.PId']").val();
-            if (parseInt(pId) == 0) {
-                alertMsg.error("收货仓库选择无效,请选择归属仓.");
-                return false;
-            }
-
             //debugger;
             var strJson = "{";
-            strJson += "\"EntryNo\":\"" + $("#divEditShippingPlan p input[name='EntryNo']").val() + "\",";
-            strJson += "\"InStockDate\":\"" + $("#divEditShippingPlan p input[name='InStockDate']").val() + "\",";
-            strJson += "\"InWarehouseCode\":\"" + $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.WCode']").val() + "\",";
+            strJson += "\"ShippingPlanNo\":\"" + $("#divEditShippingPlan p input[name='ShippingPlanNo']").val() + "\",";
+            strJson += "\"ShippingPlanDate\":\"" + $("#divEditShippingPlan p input[name='ShippingPlanDate']").val() + "\",";
             strJson += "\"ByHandUserID\":\"" + $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminId']").val() + "\"";
-            strJson += "}"; //alert(strJson);
+            strJson += "}";
             var url = "/Handle/OMS/ShippingPlanHandle.ashx";
             //新增
             var data = null;
@@ -84,30 +77,41 @@
         });
     });
 
-    //取得接收地址参数字符串
+    //取得出货计划明细Json字符串
     function GetShippingPlanDetailJson(tbControlId) {
         var strJson = "";
         $("#" + tbControlId + " tbody tr").each(function (e) {
             //拼接参数Json字符串
             if ($(this).children("td").find('input[type=text]').val()) {
                 var defaultValue = "";
-                if ($(this).get(0).children.length == 8) {
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustomerOrderDetailId']").val());
-                    strJson += "{CustomerOrderDetailId:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.PONo']").val());
-                    strJson += "PONo:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.InQty']").val());
-                    strJson += "InQty:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Price']").val());
-                    strJson += "Price:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.TotalPrice']").val());
-                    strJson += "TotalPrice:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Remark']").val());
-                    strJson += "Remark:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.ProductCode']").val());
-                    strJson += "ProductCode:\"" + defaultValue + "\"";
-                    strJson += "},"
-                }
+                //CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,items[#index#].Warehouse.WCode,items[#index#].Warehouse.WName,ProductCode,MPN,PlanQty,Remark
+                //if ($(this).get(0).children.length == 8) {
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustomerOrderDetailId']").val());
+                strJson += "{CustomerOrderDetailId:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.InnerOrderNO']").val());
+                strJson += "InnerOrderNO:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustomerOrderNO']").val());
+                strJson += "CustomerOrderNO:\"" + defaultValue + "\",";
+                //defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CPN']").val());
+                //strJson += "CPN:\"" + defaultValue + "\",";
+                //defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustQuantity']").val());
+                //strJson += "CustQuantity:\"" + defaultValue + "\",";
+                //defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.PlanedQty']").val());
+                //strJson += "PlanedQty:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].Warehouse.WCode']").val());
+                strJson += "WCode:\"" + defaultValue + "\",";
+                //defaultValue = $.trim($("input[name='items[" + e + "].Warehouse.WName']").val());
+                //strJson += "WName:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.ProductCode']").val());
+                strJson += "ProductCode:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.MPN']").val());
+                strJson += "MPN:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.PlanQty']").val());
+                strJson += "PlanQty:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Remark']").val());
+                strJson += "Remark:\"" + defaultValue + "\"";
+                strJson += "},"
+                //}//CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,WCode,ProductCode,MPN,PlanQty,Remark
             }
         });
         if (strJson != "") {
@@ -128,20 +132,18 @@
                     $("#btnCloseShippingPlan").click();
                     return false;
                 } else {
-                    $("#divEditShippingPlan p input[name='EntryNo']").val(json.EntryNo);
-                    var inStockDate = json.InStockDate;
-                    if (inStockDate && inStockDate.length > 10) {
-                        inStockDate = inStockDate.substr(0, 10);
-                        if (inStockDate == "0001-01-01") {
-                            inStockDate = "";
+                    $("#divEditShippingPlan p input[name='ShippingPlanNo']").val(json.ShippingPlanNo);
+                    var shippingPlanDate = json.ShippingPlanDate;
+                    if (shippingPlanDate && shippingPlanDate.length > 10) {
+                        shippingPlanDate = shippingPlanDate.substr(0, 10);
+                        if (shippingPlanDate == "0001-01-01") {
+                            shippingPlanDate = "";
                         }
                     }
                     else {
-                        inStockDate = "";
+                        shippingPlanDate = "";
                     }
-                    $("#divEditShippingPlan p input[name='InStockDate']").val(inStockDate);
-                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.WCode']").val(json.InWarehouseCode);
-                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_SearchWarehouse.WName']").val(json.InWarehouseName);
+                    $("#divEditShippingPlan p input[name='ShippingPlanDate']").val(shippingPlanDate);
                     $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
                     $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.Name']").val(json.ByHandUserName);
                     return false;
@@ -160,10 +162,10 @@
     }
 
     //根据出货计划Id获得出货计划明细列表记录
-    function GetShippingPlanDeatiltByEntryId(entryId) {
+    function GetShippingPlanDeatiltByPlanId(planId) {
         try {
             var url = "/Handle/OMS/ShippingPlanDetailHandle.ashx";
-            var data = { "meth": "GetShippingPlanDetailByEntryId", "EntryId": entryId };
+            var data = { "meth": "GetShippingPlanDetailByShippingPlanId", "PlanId": planId };
             var successFun = function (json) {
                 debugger;
                 if (json.State == "0") {
@@ -175,10 +177,16 @@
                     for (var i = 0; i < json.length; i++) {
                         $("#tbAddShippingPlanDetail tbody").append("<tr class=\"unitBox\"> <td>"
                             + json[i].CustomerOrderDetailId + "</td> <td>"
-                            + json[i].PONo + "</td> <td>"
+                            + json[i].InnerOrderNO + "</td> <td>"
+                            + json[i].CustomerOrderNO + "</td> <td>"
+                            + json[i].CPN + "</td> <td>"
+                            + json[i].CustQuantity + "</td> <td>"
+                            + json[i].PlanedQty + "</td> <td>"
+                            + json[i].WCode + "</td> <td>"
+                            + json[i].WName + "</td> <td>"
                             + json[i].ProductCode + "</td> <td>"
-                            + json[i].InQty + "</td> <td>"
-                            + json[i].Price + "</td> <td>" + json[i].TotalPrice + "</td> <td>"
+                            + json[i].MPN + "</td> <td>"
+                            + json[i].PlanQty + "</td> <td>"
                             + json[i].Remark + "</td> <td><a href=\"/Admin/OMS/ShippingPlan/EditDetail.html\" rel=\"ShippingPlanDetailId"
                             + json[i].ID + "\" class=\"btnEdit\" onclick=\"return SeletedShippingPlanDetail('"
                             + json[i].ID + "')\">编辑</a> </td> </tr>");
@@ -214,17 +222,17 @@
         <div class="pageFormContent nowrap" layouth="56" id="divEditShippingPlan">
             <p>
                 <label>出货计划号：</label>
-                <input type="text" style="width: 110px" value="" name="EntryNo" minlength="3" class="required" readonly="readonly" />
+                <input type="text" style="width: 110px" value="" name="ShippingPlanNo" minlength="3" class="required" readonly="readonly" />
             </p>
             <p>
                 <label>计划时间：</label>
-                <input type="text" class="date textInput valid required" name="InStockDate" style="width: 110px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
+                <input type="text" class="date textInput valid required" name="ShippingPlanDate" style="width: 110px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
             </p>
             <p>
-                <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
+                <label>经&nbsp;&nbsp;&nbsp;&nbsp;手&nbsp;&nbsp;&nbsp;&nbsp;人：</label>
                 <input type="hidden" name="ShippingPlan_Edit_adminLookup.AdminId" value="${ShippingPlan_Edit_adminLookup.AdminId}" />
                 <input type="text" class="required" name="ShippingPlan_Edit_adminLookup.Name" lookupgroup="ShippingPlan_Edit_adminLookup" style="width: 110px" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Sys/Admin/LookupAdmin.html" lookupgroup="ShippingPlan_Edit_adminLookup">查找带回</a>
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="ShippingPlan_Edit_adminLookup">查找带回</a>
             </p>
             <div class="divider"></div>
             <h3 class="contentTitle">出库计划明细</h3>
@@ -232,16 +240,19 @@
                 <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddShippingPlanDetail">
                     <thead>
                         <tr>
-                            <th type="lookup" name="items[#index#].Warehouse.WCode" lookupgroup="items[#index#].Warehouse" lookupurl="/Admin/Common/Warehouse/LookupWarehouse.html" size="1" fieldclass="required readonly" width="65">计划出货仓</th>
-                            <th type="text" name="items[#index#].Warehouse.WName" defaultval="" size="15" fieldclass="readonly" width="110">计划出货仓名称</th>
-                            <th type="lookup" name="items[#index#].CustomerOrderDetail.CustomerOrderDetailId" lookupgroup="items[#index#].CustomerOrderDetail" lookupurl="/Admin/OMS/CustomerOrderDetail/LookupCustomerOrderDetail.html" size="1" fieldclass="digits readonly" width="65">产品清单</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.ProductCode" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">产品编码</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.PONo" defaultval="" size="15" fieldclass="readonly" width="110">内部订单号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.ProductCode" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">客户订单号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.InQty" defaultval="0" size="12" fieldclass="digits required" width="90">客户型号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.Price" defaultval="0.0" size="12" fieldclass="number required" width="80">计划数量</th>
+                            <th type="lookup" name="items[#index#].CustomerOrderDetail.CustomerOrderDetailId" lookupgroup="items[#index#].CustomerOrderDetail" lookupurl="/Admin/OMS/CustomerOrderDetail/Lookup.html" size="6" fieldclass="digits required readonly" width="65">产品清单</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.InnerOrderNO" defaultval="" size="15" fieldclass="required readonly" width="110">内部订单号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.CustomerOrderNO" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">客户订单号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.CPN" defaultval="" size="12" fieldclass="required readonly" width="90">客户型号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.CustQuantity" defaultval="0" size="10" fieldclass="digits readonly required">客户订单数量</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.PlanedQty" defaultval="0" size="8" fieldclass="digits readonly required">已计划数量</th>
+                            <th type="lookup" name="items[#index#].Warehouse.WCode" lookupgroup="items[#index#].Warehouse" lookupurl="/Admin/Common/Warehouse/LookupWarehouse.html" size="9" fieldclass="required readonly" width="65">计划出货仓</th>
+                            <th type="text" name="items[#index#].Warehouse.WName" defaultval="" size="12" fieldclass="readonly" width="110">计划出货仓名称</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.ProductCode" size="12" fieldclass="required" fieldattrs="{maxlength:10}" width="90">产品编码</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.MPN" size="12" fieldclass="required" fieldattrs="{maxlength:64}" width="90">厂商型号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.PlanQty" defaultval="0" size="10" fieldclass="digits required" width="80">出货计划数量</th>
                             <th type="text" name="items[#index#].CustomerOrderDetail.Remark" size="48">备注</th>
-                            <th type="del" width="60">操作</th>
+                            <th type="del" size="6" width="90">操作</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -86,7 +86,7 @@ namespace Semitron_OMS.UI.Handle.OMS
         {
             PageResult result = new PageResult();
             int iId = -1;
-            if (_request.Form["EntryId"] == null || !int.TryParse(_request.Form["EntryId"].ToString(), out iId))
+            if (_request.Form["ShippingPlanId"] == null || !int.TryParse(_request.Form["ShippingPlanId"].ToString(), out iId))
             {
                 result.State = 0;
                 result.Info = "系统错误,参数获取异常。";
@@ -94,7 +94,15 @@ namespace Semitron_OMS.UI.Handle.OMS
             }
             try
             {
-                string strResult = this._bllShippingPlan.ValidateAndApproveShippingPlan(iId, _adminModel.AdminID);
+                ShippingPlanModel model = this._bllShippingPlan.GetModel(iId);
+                model.IsApproved = true;
+                model.ApprovedTime = DateTime.Now;
+                model.ApprovedUserID = _adminModel.AdminID;
+                model.UpdateTime = DateTime.Now;
+                model.UpdateUser = _adminModel.Username;
+
+                string strResult = this._bllShippingPlan.Update(model) ? "OK" : "审核出货计划单失败";
+                //string strResult = this._bllShippingPlan.ValidateAndApproveShippingPlan(iId, _adminModel.AdminID);
                 if (strResult.StartsWith("OK"))
                 {
                     result.State = 1;
@@ -146,7 +154,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                         strNum = (int.Parse(model.ShippingPlanNo.Remove(0, 12)) + 1).ToString().PadLeft(2, '0');
                     }
 
-                    result.Remark = "SEGE" + strNow + strNum;
+                    result.Remark = "SESP" + strNow + strNum;
                     result.State = 1;
                 }
             }
@@ -484,7 +492,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 ShippingPlanModel model = this._bllShippingPlan.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
-                strResult = strResult.Substring(0, strResult.Length - 1) + "\",\"ByHandUserName\":\""
+                strResult = strResult.Substring(0, strResult.Length - 1) + ",\"ByHandUserName\":\""
                   + new BLL.Common.Admin().GetModel((int)model.ByHandUserID).Name + "\"}";
                 return strResult;
             }

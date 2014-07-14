@@ -203,6 +203,11 @@ namespace Semitron_OMS.BLL.OMS
                 strResult = "出货计划单号不能为空";
             }
 
+            if (model.ShippingPlanDate == null)
+            {
+                strResult = "出货计划时间不能为空";
+            }
+
             if (strResult == "OK")
             {
                 iReturn = Add(model);

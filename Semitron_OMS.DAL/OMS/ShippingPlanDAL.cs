@@ -417,7 +417,7 @@ namespace Semitron_OMS.DAL.OMS
             //查询表名
             string strTableName = " dbo.ShippingPlan AS G LEFT JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUserID ";
             //查询字段
-            string strGetFields = " G.ID,State=CASE WHEN G.State=1 THEN '有效' ELSE '无效' END,G.ShippingPlanNo,IsApproved=CASE WHEN G.IsApproved=1 THEN '已审核' ELSE '未审核' END,ShippingPlanDate=Convert(varchar(20),G.ShippingPlanDate,120),ByHandUser=A1.UserName,ApprovedUser=A2.UserName,ApprovedTime=Convert(varchar(20),G.ApprovedTime,120),CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),G.CreateUser,G.UpdateUser ";
+            string strGetFields = " G.ID,State=CASE WHEN G.State=1 THEN '有效' ELSE '无效' END,G.ShippingPlanNo,IsApproved=CASE WHEN G.IsApproved=1 THEN '已审核' ELSE '未审核' END,ShippingPlanDate=Convert(varchar(10),G.ShippingPlanDate,120),ByHandUser=A1.UserName,ApprovedUser=A2.UserName,ApprovedTime=Convert(varchar(20),G.ApprovedTime,120),CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),G.CreateUser,G.UpdateUser ";
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询

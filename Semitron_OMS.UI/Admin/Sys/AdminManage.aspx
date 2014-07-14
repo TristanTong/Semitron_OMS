@@ -796,8 +796,8 @@
                     <td>
                         <select id="SelectUser" class="txt">
                             <option value="">--请选择--</option>
-                            <option value="2">合作方</option>
-                            <option value="1">厂商</option>
+                           <%-- <option value="2">合作方</option>
+                            <option value="1">厂商</option>--%>
                         </select>
                         <select id="SelectFirm" runat="server" style="width: 130px" class="txt">
                             <option value="">--请先行选择类型--</option>

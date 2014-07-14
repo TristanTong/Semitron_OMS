@@ -504,11 +504,11 @@ namespace Semitron_OMS.DAL.OMS
         public DataTable GetDisplayModelList(int iShippingPlanId)
         {
             //查询字段
-            string strGetFields = " D.ID,D.ShippingPlanID,D.POPlanId,P.PONO,P.POQuantity,ShipmentDate=Convert(varchar(20),P.ShipmentDate,120),D.ProductCode,D.InQty,Price=CAST(D.Price AS DECIMAL(18,2)),TotalPrice=CAST(D.TotalPrice AS DECIMAL(18,2)),D.Remark,D.AvailFlag ";
+            string strGetFields = "  D.ID , D.AvailFlag , D.ShippingPlanID , SP.ShippingPlanNo , CustomerOrderDetailId = D.CustomerDetailID , OD.InnerOrderNO , C.CustomerOrderNO , D.CPN , OD.CustQuantity , PlanedQty = ISNULL(( SELECT SUM(ISNULL(LD2.OutQty, 0) + ISNULL(D2.PlanQty, 0)) FROM   dbo.ShippingPlanDetail AS D2 WITH ( NOLOCK ) LEFT JOIN ShippingListDetail AS LD2 WITH ( NOLOCK ) ON LD2.ShippingPlanDetailID = D2.ID WHERE  D2.AvailFlag = 1 AND OD.AvailFlag = 1 AND ISNULL(LD2.AvailFlag, 1) = 1 AND D2.ID != D.ID AND D2.CustomerDetailID = OD.ID GROUP BY D2.CustomerDetailID ), 0) , W.WCode , W.WName , D.ProductCode , P.MPN , D.PlanQty , D.Remark ";
             //查询表名
-            string strTableName = " ShippingPlanDetail AS D LEFT JOIN POPlan AS P ON D.POPlanId = P.ID";
+            string strTableName = " dbo.ShippingPlanDetail AS D WITH ( NOLOCK ) INNER JOIN dbo.ShippingPlan AS SP WITH ( NOLOCK ) ON SP.ID = D.ShippingPlanID INNER JOIN dbo.CustomerOrderDetail AS OD WITH ( NOLOCK ) ON D.CustomerDetailID = OD.ID INNER JOIN dbo.CustomerOrder AS C WITH ( NOLOCK ) ON C.InnerOrderNO = OD.InnerOrderNO LEFT JOIN dbo.ProductInfo AS P WITH ( NOLOCK ) ON P.ProductCode = D.ProductCode LEFT JOIN dbo.Warehouse AS W ON W.WCode = D.PlanStockCode ";
             //查询条件
-            string strWhere = " D.AvailFlag = 1 AND ShippingPlanID=@ShippingPlanID ";
+            string strWhere = " D.AvailFlag = 1 AND ISNULL(OD.AvailFlag, 1) = 1 AND ISNULL(C.State, 100) != -100 AND ISNULL(P.AvailFlag, 1) = 1 AND ISNULL(W.AvailFlag, 1) = 1 AND D.ShippingPlanID=@ShippingPlanID ";
 
             SqlParameter[] parameters = {
                     new SqlParameter("@ShippingPlanID", SqlDbType.Int)

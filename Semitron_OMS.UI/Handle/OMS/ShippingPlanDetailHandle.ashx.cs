@@ -92,8 +92,8 @@ namespace Semitron_OMS.UI.Handle.OMS
                 }
 
                 SQLOperateHelper.SetEntityFiledValue(model, "PlanQty", _request.Form["PlanQty"]);
-                //SQLOperateHelper.SetEntityFiledValue(model, "Price", _request.Form["Price"]);
-                //SQLOperateHelper.SetEntityFiledValue(model, "TotalPrice", _request.Form["TotalPrice"]);
+                SQLOperateHelper.SetEntityFiledValue(model, "PlanStockCode", _request.Form["PlanStockCode"]);
+                SQLOperateHelper.SetEntityFiledValue(model, "ProductCode", _request.Form["ProductCode"]);
                 SQLOperateHelper.SetEntityFiledValue(model, "Remark", _request.Form["Remark"]);
                 SQLOperateHelper.SetEntityFiledValue(model, "AvailFlag", _request.Form["AvailFlag"]);
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
@@ -139,7 +139,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 ShippingPlanDetailModel model = this._bllShippingPlanDetail.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
                 strResult = strResult.Substring(0, strResult.Length - 1) + ",\"ShippingPlanNo\":\""
-                  + new BLL.OMS.ShippingPlanBLL().GetModel((int)model.ShippingPlanID).ShippingPlanNo + "\"}";
+                  + new BLL.OMS.ShippingPlanBLL().GetModel((int)model.ShippingPlanID).ShippingPlanNo + "\",\"PlanStockName\":\"" + new BLL.Common.WarehouseBLL().GetModelByCode(model.PlanStockCode).WName + "\"}";
                 return strResult;
             }
             catch (Exception ex)
@@ -159,7 +159,7 @@ namespace Semitron_OMS.UI.Handle.OMS
         {
             PageResult result = new PageResult();
             int iShippingPlanId = -1;
-            if (_request.Form["ShippingPlanId"] == null || !int.TryParse(_request.Form["ShippingPlanId"].ToString(), out iShippingPlanId))
+            if (_request.Form["PlanId"] == null || !int.TryParse(_request.Form["PlanId"].ToString(), out iShippingPlanId))
             {
                 result.State = 0;
                 result.Info = "系统错误,参数获取异常。";

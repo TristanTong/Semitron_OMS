@@ -119,6 +119,7 @@
     <Content Include="Admin\OMS\CorporationManager.aspx" />
     <Content Include="Admin\OMS\CurrencyTypeManager.aspx" />
     <Content Include="Admin\OMS\CustomerOrderDetailManager.aspx" />
+    <Content Include="Admin\OMS\CustomerOrderDetail\Lookup.html" />
     <Content Include="Admin\OMS\CustomerOrderManager.aspx" />
     <Content Include="Admin\Common\Warehouse\lookupSuggest.html" />
     <Content Include="Admin\OMS\GodownEntry\Approve.html" />
@@ -131,7 +132,7 @@
     <Content Include="Admin\OMS\PaymentTypeManager.aspx" />
     <Content Include="Admin\OMS\POManager.aspx" />
     <Content Include="Admin\OMS\POPlanManager.aspx" />
-    <Content Include="Admin\OMS\POPlan\LookupPOPlan.html" />
+    <Content Include="Admin\OMS\POPlan\Lookup.html" />
     <Content Include="Admin\Common\Warehouse\LookupWarehouse.html" />
     <Content Include="Admin\OMS\ShippingList\Main.html" />
     <Content Include="Admin\OMS\ShippingPlan\Approve.html" />
@@ -139,7 +140,7 @@
     <Content Include="Admin\OMS\ShippingPlan\EditDetail.html" />
     <Content Include="Admin\OMS\ShippingPlan\Main.html" />
     <Content Include="Admin\OMS\ShippingPlan\SearchExt.html" />
-    <Content Include="Admin\Sys\Admin\LookupAdmin.html" />
+    <Content Include="Admin\Sys\Admin\Lookup.html" />
     <Content Include="Admin\Sys\AdminManage.aspx" />
     <Content Include="Admin\Sys\OperationsLog.aspx" />
     <Content Include="Admin\Sys\PermissionManage.aspx" />
@@ -1984,7 +1985,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>64985</DevelopmentServerPort>
+          <DevelopmentServerPort>1334</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

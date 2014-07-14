@@ -160,28 +160,38 @@ namespace Semitron_OMS.Model.OMS
     [Serializable]
     public partial class ShippingPlanDetailDisplayModel
     {
-
+        //CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,WCode,WName,ProductCode,MPN,PlanQty,Remark
         public int ID { get; set; }
 
         public bool AvailFlag { get; set; }
 
         public int ShippingPlanID { get; set; }
 
-        public DateTime? ShippingPlanDate { get; set; }
-
         public int PlanQty { get; set; }
 
         public string ShippingPlanNo { get; set; }
 
-        public int CustomerDetailID { get; set; }
+        public int CustomerOrderDetailId { get; set; }
 
-        public int InnerOrderNo { get; set; }
+        public string InnerOrderNO { get; set; }
 
-        public decimal CustomerOrderNo { get; set; }
+        public string CustomerOrderNO { get; set; }
+
+        public string CPN { get; set; }
+
+        public int PlanedQty { get; set; }
+
+        public string WCode { get; set; }
+
+        public string WName { get; set; }
+
+        public string MPN { get; set; }
 
         public string ProductCode { get; set; }
 
         public string Remark { get; set; }
+
+        public int CustQuantity { get; set; }
     }
 }
 

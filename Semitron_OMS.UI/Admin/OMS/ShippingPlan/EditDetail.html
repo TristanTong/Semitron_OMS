@@ -1,24 +1,31 @@
 ﻿<script type="text/javascript">
     $(function () {
-        var id = $("#hidSeletedGodownEntryDetailId").val();
-        GetGodownEntryDetailById(id);
+        var id = $("#hidSeletedShippingPlanDetailId").val();
+        GetShippingPlanDetailById(id);
 
-        $("#btnSaveGodownEntryDetail").click(function () {
-           
-            var InQty = $("#divEditGodownEntryDetail input[name=InQty]").val();
-            var Price = $("#divEditGodownEntryDetail input[name=Price]").val();
-            var TotalPrice = $("#divEditGodownEntryDetail input[name=TotalPrice]").val();
-            var Remark = $("#divEditGodownEntryDetail input[name=Remark]").val();
-            var AvailFlag = $("#divEditGodownEntryDetail select[name=AvailFlag]").val();
+        $("#btnSaveShippingPlanDetail").click(function () {
 
-            var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
+            var PlanQty = $("#divEditShippingPlanDetail input[name=PlanQty]").val();
+            var Remark = $("#divEditShippingPlanDetail input[name=Remark]").val();
+            var AvailFlag = $("#divEditShippingPlanDetail select[name=AvailFlag]").val();
+            var ProductCode = $("#divEditShippingPlanDetail select[name=ProductCode]").val();
+
+            var pId = $("#divEditShippingPlanDetail input[name='SearchWarehouse.PId']").val();
+            if (parseInt(pId) == 0) {
+                alertMsg.error("计划出货仓选择无效,请选择归属仓.");
+                return false;
+            }
+
+            var PlanStockCode = $("#divEditShippingPlanDetail input[name='SearchWarehouse.WCode']").val();
+
+            var url = "/Handle/OMS/ShippingPlanDetailHandle.ashx";
             //新增
             var data = null;
-            var id = $("#hidSeletedGodownEntryDetailId").val();
+            var id = $("#hidSeletedShippingPlanDetailId").val();
             //alert(id);
             //修改
             if (parseInt(id) > 0) {
-                data = { "meth": "EditGodownEntryDetail", "InQty": InQty, "Price": Price, "TotalPrice": TotalPrice, "Remark": Remark, "AvailFlag": AvailFlag, "Id": id }; 
+                data = { "meth": "EditShippingPlanDetail", "PlanQty": PlanQty, "PlanStockCode": PlanStockCode, "ProductCode": ProductCode, "Remark": Remark, "AvailFlag": AvailFlag, "Id": id };
             }
 
             if (data == null) {
@@ -31,13 +38,13 @@
                     return false;
                 } else {
                     alertMsg.correct(json.Info);
-                    var id = $("#hidSeletedGodownEntryId").val();
+                    var id = $("#hidSeletedShippingPlanId").val();
                     //修改时加载初始化数据
                     if (parseInt(id) > 0) {
-                        GetGodownEntryById(id);
-                        GetGodownEntryDeatiltByEntryId(id);
+                        GetShippingPlanById(id);
+                        GetShippingPlanDeatiltByPlanId(id);
                     }
-                    $("#btnCloseGodownEntryDetail").click();
+                    $("#btnCloseShippingPlanDetail").click();
                     return true;
                 }
             };
@@ -50,22 +57,22 @@
     });
 
     //根据Id获得入库单记录
-    function GetGodownEntryDetailById(id) {
+    function GetShippingPlanDetailById(id) {
         try {
-            var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
-            var data = { "meth": "GetGodownEntryDetailById", "Id": id };
+            var url = "/Handle/OMS/ShippingPlanDetailHandle.ashx";
+            var data = { "meth": "GetShippingPlanDetailById", "Id": id };
             var successFun = function (json) {
                 if (json.State == "0") {
                     alertMsg.error(json.Info);
-                    $("#btnCloseGodownEntryDetail").click();
+                    $("#btnCloseShippingPlanDetail").click();
                     return false;
                 } else {
-                    $("#divEditGodownEntryDetail p input[name='EntryNo']").val(json.EntryNo);
-                    $("#divEditGodownEntryDetail p input[name='ProductCode']").val(json.ProductCode);
-                    $("#divEditGodownEntryDetail p input[name='InQty']").val(json.InQty);
-                    $("#divEditGodownEntryDetail p input[name='Price']").val(json.Price);
-                    $("#divEditGodownEntryDetail p input[name='TotalPrice']").val(json.TotalPrice);
-                    $("#divEditGodownEntryDetail p input[name='Remark']").val(json.Remark);
+                    $("#divEditShippingPlanDetail p input[name='ShippingPlanNo']").val(json.ShippingPlanNo);
+                    $("#divEditShippingPlanDetail p input[name='ProductCode']").val(json.ProductCode);
+                    $("#divEditShippingPlanDetail p input[name='PlanQty']").val(json.PlanQty);
+                    $("#divEditShippingPlanDetail p input[name='SearchWarehouse.WCode']").val(json.PlanStockCode);
+                    $("#divEditShippingPlanDetail p input[name='SearchWarehouse.WName']").val(json.PlanStockName);
+                    $("#divEditShippingPlanDetail p input[name='Remark']").val(json.Remark);
                     return false;
                 }
             };
@@ -76,33 +83,32 @@
         }
         catch (e) {
             alertMsg.error(e.message);
-            $("#btnCloseGodownEntryDetail").click();
+            $("#btnCloseShippingPlanDetail").click();
             return;
         }
     }
 </script>
 <div class="pageContent">
     <form method="get" action="/jui/common/ajaxDone.html" class="pageForm required-validate" onsubmit="return validateCallback(this)">
-        <div class="pageFormContent nowrap" layouth="56" id="divEditGodownEntryDetail">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditShippingPlanDetail">
             <p>
                 <label>入库单号：</label>
-                <input type="text" size="16" value="" name="EntryNo" class="required" readonly="readonly" />
+                <input type="text" size="16" value="" name="ShippingPlanNo" class="required" readonly="readonly" />
             </p>
             <p>
                 <label>产品编码：</label>
-                <input type="text" size="16" value="" name="ProductCode" class="required" readonly="readonly" />
+                <input type="text" size="16" value="" name="ProductCode" class="required" />
             </p>
             <p>
-                <label>入库数量：</label>
-                <input type="text" size="16" value="" name="InQty" class="digits required" />
+                <label>出货计划数量：</label>
+                <input type="text" size="16" value="" name="PlanQty" class="digits required" />
             </p>
             <p>
-                <label>单价：</label>
-                <input type="text" size="16" value="" name="Price" class="number required" />
-            </p>
-            <p>
-                <label>总额：</label>
-                <input type="text" size="16" value="" name="TotalPrice" class="number required" />
+                <label>计划出货仓：</label>
+                <input name="SearchWarehouse.PId" value="" type="hidden" />
+                <input name="SearchWarehouse.WCode" value="" type="hidden" />
+                <input name="SearchWarehouse.WName" type="text" size="16" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Common/Warehouse/LookupWarehouse.html" lookupgroup="SearchWarehouse" rel="lShippingPlanDetail_Edit_SearchWarehouse">查找带回</a>
             </p>
             <p>
                 <label>备注：</label>
@@ -121,14 +127,14 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit" id="btnSaveGodownEntryDetail">保存</button>
+                            <button type="submit" id="btnSaveShippingPlanDetail">保存</button>
                         </div>
                     </div>
                 </li>
                 <li>
                     <div class="button">
                         <div class="buttonContent">
-                            <button class="close" type="button" id="btnCloseGodownEntryDetail">关闭</button>
+                            <button class="close" type="button" id="btnCloseShippingPlanDetail">关闭</button>
                         </div>
                     </div>
                 </li>

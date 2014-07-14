@@ -215,29 +215,25 @@ namespace Semitron_OMS.BLL.OMS
             DataTable dt = dal.GetDisplayModelList(iEntryId);
 
             foreach (DataRow dr in dt.Rows)
-            {
+            { //CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,WCode,WName,ProductCode,MPN,PlanQty,Remark
                 ShippingPlanDetailDisplayModel model = new ShippingPlanDetailDisplayModel();
                 model.ID = dr["ID"].ToInt(0);
                 model.AvailFlag = dr["AvailFlag"].ToInt(0) == 1 ? true : false;
                 model.ShippingPlanID = dr["ShippingPlanID"].ToInt(0);
-                model.PlanQty = dr["PlanQty"].ToInt(0);
                 model.ShippingPlanNo = dr["ShippingPlanNo"].ToString();
-                model.CustomerDetailID = dr["CustomerDetailID"].ToInt(0);
-                model.InnerOrderNo = dr["InnerOrderNo"].ToInt(0);
-                model.CustomerOrderNo = dr["CustomerOrderNo"].ToDecimal(0);
+                model.CustomerOrderDetailId = dr["CustomerOrderDetailId"].ToInt(0);
+                model.InnerOrderNO = dr["InnerOrderNO"].ToString();
+                model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
+                model.CPN = dr["CPN"].ToString();
+                model.CustQuantity = dr["CustQuantity"].ToInt(0);
+                model.PlanedQty = dr["PlanedQty"].ToInt(0);
+                model.WCode = dr["WCode"].ToString();
+                model.WName = dr["WName"].ToString();
                 model.ProductCode = dr["ProductCode"].ToString();
+                model.MPN = dr["MPN"].ToString();
+                model.PlanQty = dr["PlanQty"].ToInt(0);
                 model.Remark = dr["Remark"].ToString();
-                DateTime dtShip = DateTime.Now;
-                if (DateTime.TryParse(dr["ShippingPlanDate"].ToString(), out dtShip))
-                {
-                    model.ShippingPlanDate = dtShip;
-                }
-                else
-                {
-                    model.ShippingPlanDate = null;
-                }
-
-                //model.TotalPrice = dr["TotalPrice"].ToDecimal(-1);
+                //ID,AvailFlag,ShippingPlanID,ShippingPlanNo,CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,WCode,WName,ProductCode,MPN,PlanQty,Remark
                 listDisplayModel.Add(model);
             }
             return listDisplayModel;

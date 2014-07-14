@@ -231,7 +231,7 @@
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
                 <input type="hidden" name="GodownEntry_Edit_adminLookup.AdminId" value="${GodownEntry_Edit_adminLookup.AdminId}" />
                 <input type="text" class="required" name="GodownEntry_Edit_adminLookup.Name" lookupgroup="GodownEntry_Edit_adminLookup" style="width: 110px" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Sys/Admin/LookupAdmin.html" lookupgroup="GodownEntry_Edit_adminLookup">查找带回</a>
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="GodownEntry_Edit_adminLookup">查找带回</a>
             </p>
             <div class="divider"></div>
             <h3 class="contentTitle">产品编码入库明细</h3>
@@ -239,7 +239,7 @@
                 <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddGodownEntryDetail">
                     <thead>
                         <tr>
-                            <th type="lookup" name="items[#index#].POPlan.POPlanId" lookupgroup="items[#index#].POPlan" lookupurl="/Admin/OMS/POPlan/LookupPOPlan.html" size="1" fieldclass="digits readonly" width="65">采购计划</th>
+                            <th type="lookup" name="items[#index#].POPlan.POPlanId" lookupgroup="items[#index#].POPlan" lookupurl="/Admin/OMS/POPlan/Lookup.html" size="1" fieldclass="digits readonly" width="65">采购计划</th>
                             <th type="text" name="items[#index#].POPlan.PONo" defaultval="" size="15" fieldclass="readonly" width="110">采购订单号</th>
                             <th type="text" name="items[#index#].POPlan.ProductCode" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">产品编码</th>
                             <th type="text" name="items[#index#].POPlan.InQty" defaultval="0" size="12" fieldclass="digits required" width="90">待入库数量</th>

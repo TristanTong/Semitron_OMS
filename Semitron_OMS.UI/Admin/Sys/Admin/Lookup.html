@@ -1,0 +1,122 @@
+﻿<script type="text/javascript">
+    $(function () {
+        SelectRoleName();
+        $("#divLookupAdmin button[type='submit']").click(function () {
+            //debugger;
+            $("#divLookupAdmin table tbody").html("");
+            var url = "/Handle/Sys/Admin.ashx";
+            var Username = $("#divLookupAdmin li input[name='txtUser']").val();
+            var Name = $("#divLookupAdmin li input[name='txtSName']").val();
+            var RoleID = $("#divLookupAdmin li select[name='SelecRole']").val();
+            var data = {
+                "meth": "GetAdminList", "Username": Username,
+                "Name": Name, "AvailFlag": 1, "RoleID": RoleID,
+                "page": 1, "rp": 10000, "sortname": "Username", "sortorder": "Asc"
+            };
+            var successFun = function (json) {
+                debugger;
+                if (!json || (json && json.State == "0")) {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    for (var i = 0; i < json.total; i++) {
+                        $("#divLookupAdmin table tbody").append("<tr>"
+                            + "<td width=\"28x\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({AdminId:'"
+                            + json.rows[i].cell[1] + "', Username:'" + json.rows[i].cell[3]
+                            + "', Name:'" + json.rows[i].cell[5]
+                            + "',Phone:'" + json.rows[i].cell[7] + "', Email:'" + json.rows[i].Email
+                            + "',RoleName:'" + json.rows[i].cell[9]
+                            + "', RoleId:'" + json.rows[i].cell[8]
+                            + "'})\" title=\"查找带回\">选择</a> </td> <td width=\"43px\">"
+                            + json.rows[i].cell[3] + "</td> <td width=\"43px\">"
+                            + json.rows[i].cell[5] + "</td><td width=\"59px\">"
+                            + json.rows[i].cell[9] + "</td> <td width=\"59px\">"
+                            + json.rows[i].cell[6] + "</td> <td width=\"165px\">"
+                            + json.rows[i].cell[7] + "</td></tr>");
+                    }
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+
+    });
+
+    //页面加载角色
+    function SelectRoleName() {
+        $.ajax({
+            type: "Post",
+            url: "/Handle/Sys/Admin.ashx",
+            data: { "meth": "SelectRoleName" },
+            success: function (json) {
+
+                //每次调用清空子项
+                $("#divLookupAdmin li select[name='SelecRole']").find("option").remove();
+                $("<option value=''>--请选择--</option>").appendTo($("#divLookupAdmin li select[name='SelecRole']"));
+                if (json == "") {
+                    $("<option value=\"-1\">没有角色信息</option>").appendTo($("#divLookupAdmin li select[name='SelecRole']"));
+                } else {
+                    //添加选择所有项目选项
+                    for (var i = 0; i < json.length; i++) {
+                        var key = json[i].RoleName;
+                        var value = json[i].RoleID;
+                        $("<option value='" + value + "'>" + key + "</option>").appendTo($("#divLookupAdmin li select[name='SelecRole']"));
+                    }
+                }
+            }
+        });
+    }
+</script>
+<div class="pageHeader" layouth="40" id="divLookupAdmin">
+    <div class="searchBar">
+        <ul class="searchContent">
+            <li>
+                <label>账号:</label>
+                <input class="textInput" name="txtUser" value="" type="text">
+            </li>
+            <li>
+                <label>姓名:</label>
+                <input class="textInput" name="txtSName" value="" type="text">m
+            </li>
+            <li>
+                <label>角色:</label>
+                <select name="SelecRole" style="width: 100px" class="txt">
+                </select>
+            </li>
+
+        </ul>
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">查询</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="pageContent">
+            <table class="table" layouth="118" targettype="dialog" width="100%">
+                <thead>
+                    <tr>
+                        <th width="30px">查找带回</th>
+                        <th width="45px">账号</th>
+                        <th width="45px">姓名</th>
+                        <th width="60px">所属角色</th>
+                        <th width="60px">手机</th>
+                        <th width="160px">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

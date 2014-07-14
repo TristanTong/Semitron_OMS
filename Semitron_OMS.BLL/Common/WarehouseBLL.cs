@@ -182,8 +182,7 @@ namespace Semitron_OMS.BLL.Common
             return dal.GetModelByCode(strCode);
         }
         #endregion  ExtensionMethod
-
-
+        
     }
 }
 

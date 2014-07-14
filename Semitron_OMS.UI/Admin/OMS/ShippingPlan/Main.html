@@ -147,7 +147,7 @@
             var id = obj[0][1];
             $("#hidSeletedShippingPlanId").val(id);
 
-            alertMsg.confirm("审核出货计划后，出货计划不能再被修改，待计划中产品到货时可建立出货单！", {
+            alertMsg.confirm("审核出货计划后，出货计划不能再被修改，计划中产品到货时可建立出货单！", {
                 okCall: function () {
                     var url = "/Handle/OMS/ShippingPlanHandle.ashx";
                     var data = { "meth": "ApproveShippingPlan", "ShippingPlanId": id };
@@ -253,8 +253,8 @@
                 <div style="float: left;">产品编码：</div>
                 <input style="width: 80px;" name="ProductCode" class="txt" maxlength="128" />m
             </li>
-            <li style="width: 180px">
-                <div style="float: left;">收货仓库：</div>
+            <li style="width: 200px">
+                <div style="float: left;">计划出货仓：</div>
                 <div style="float: left; width: 120px">
                     <input name="SearchWarehouse.WCode" value="" type="hidden" />
                     <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
