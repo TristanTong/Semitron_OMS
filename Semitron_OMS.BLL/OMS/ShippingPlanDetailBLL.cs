@@ -296,12 +296,12 @@ namespace Semitron_OMS.BLL.OMS
                 listDisplayModel.Add(model);
 
                 //如果为可出货的记录，则显示
-                if (model.UnOutStockQty > 0)
-                {
-                    listModel.Add(model);
-                }
+                //if (model.OutStock > 0)
+                //{
+                //    listModel.Add(model);
+                //}
             }
-            return listModel;
+            return listDisplayModel;
         }
         #endregion  ExtensionMethod
 
