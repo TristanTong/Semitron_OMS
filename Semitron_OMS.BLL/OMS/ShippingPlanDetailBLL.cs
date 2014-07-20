@@ -207,15 +207,15 @@ namespace Semitron_OMS.BLL.OMS
         /// <summary>
         /// 根据出货计划单Id获得出货计划单明细列表记录
         /// </summary>
-        /// <param name="iEntryId">出货计划单Id</param>
+        /// <param name="iPlanId">出货计划单Id</param>
         /// <returns>出货计划单显示明细数据</returns>
-        public List<ShippingPlanDetailDisplayModel> GetDisplayModelList(int iEntryId)
+        public List<ShippingPlanDetailDisplayModel> GetDisplayModelList(int iPlanId)
         {
             List<ShippingPlanDetailDisplayModel> listDisplayModel = new List<ShippingPlanDetailDisplayModel>();
-            DataTable dt = dal.GetDisplayModelList(iEntryId);
+            DataTable dt = dal.GetDisplayModelList(iPlanId);
 
             foreach (DataRow dr in dt.Rows)
-            { //CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,WCode,WName,ProductCode,MPN,PlanQty,Remark
+            {
                 ShippingPlanDetailDisplayModel model = new ShippingPlanDetailDisplayModel();
                 model.ID = dr["ID"].ToInt(0);
                 model.AvailFlag = dr["AvailFlag"].ToInt(0) == 1 ? true : false;
@@ -233,7 +233,6 @@ namespace Semitron_OMS.BLL.OMS
                 model.MPN = dr["MPN"].ToString();
                 model.PlanQty = dr["PlanQty"].ToInt(0);
                 model.Remark = dr["Remark"].ToString();
-                //ID,AvailFlag,ShippingPlanID,ShippingPlanNo,CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,WCode,WName,ProductCode,MPN,PlanQty,Remark
                 listDisplayModel.Add(model);
             }
             return listDisplayModel;
@@ -265,7 +264,48 @@ namespace Semitron_OMS.BLL.OMS
             }
             return strResult;
         }
+
+        /// <summary>
+        /// 获得未进行出货的出货计划数据
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        public List<ShippingPlanDetailDisplayModel> GetShippingPlanDetailUnOutStockList(List<SQLConditionFilter> lstFilter)
+        {
+            List<ShippingPlanDetailDisplayModel> listDisplayModel = new List<ShippingPlanDetailDisplayModel>();
+            DataTable dt = dal.GetShippingPlanDetailUnOutStockList(lstFilter);
+            foreach (DataRow dr in dt.Rows)
+            {
+                ShippingPlanDetailDisplayModel model = new ShippingPlanDetailDisplayModel();
+                model.ID = dr["ID"].ToInt(0);
+                model.AvailFlag = dr["AvailFlag"].ToInt(0) == 1 ? true : false;
+                model.ShippingPlanID = dr["ShippingPlanID"].ToInt(0);
+                model.ShippingPlanNo = dr["ShippingPlanNo"].ToString();
+                model.CustomerOrderDetailId = dr["CustomerOrderDetailId"].ToInt(0);
+                model.InnerOrderNO = dr["InnerOrderNO"].ToString();
+                model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
+                model.CPN = dr["CPN"].ToString();
+                model.CustQuantity = dr["CustQuantity"].ToInt(0);
+                model.PlanedQty = dr["PlanedQty"].ToInt(0);
+                model.WCode = dr["WCode"].ToString();
+                model.WName = dr["WName"].ToString();
+                model.ProductCode = dr["ProductCode"].ToString();
+                model.MPN = dr["MPN"].ToString();
+                model.PlanQty = dr["PlanQty"].ToInt(0);
+                model.Remark = dr["Remark"].ToString();
+                listDisplayModel.Add(model);
+
+                //如果为可出货的记录，则显示
+                if (model.UnOutStockQty > 0)
+                {
+                    listModel.Add(model);
+                }
+            }
+            return listModel;
+        }
         #endregion  ExtensionMethod
+
+
     }
 }
 

@@ -101,8 +101,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 model.UpdateTime = DateTime.Now;
                 model.UpdateUser = _adminModel.Username;
 
-                string strResult = this._bllShippingPlan.Update(model) ? "OK" : "审核出货计划单失败";
-                //string strResult = this._bllShippingPlan.ValidateAndApproveShippingPlan(iId, _adminModel.AdminID);
+                string strResult = this._bllShippingPlan.ValidateAndApproveShippingPlan(iId, _adminModel.AdminID);
                 if (strResult.StartsWith("OK"))
                 {
                     result.State = 1;
@@ -133,7 +132,7 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             try
             {
-                int iMax = 1;//this._bllShippingPlan.GetMaxId();
+                int iMax = this._bllShippingPlan.GetMaxId();
                 ShippingPlanModel model = new ShippingPlanModel();
                 string strNow = DateTime.Now.ToString("yyyyMMdd");
                 string strNum = "10";
@@ -402,6 +401,9 @@ namespace Semitron_OMS.UI.Handle.OMS
 
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateTime", DateTime.Now);
+                model.IsApproved = oldModel.IsApproved;
+                model.ApprovedTime = oldModel.ApprovedTime;
+                model.ApprovedUserID = oldModel.ApprovedUserID;
                 string strResult = this._bllShippingPlan.ValidateAndUpdate(model);
                 if (strResult == "OK")
                 {

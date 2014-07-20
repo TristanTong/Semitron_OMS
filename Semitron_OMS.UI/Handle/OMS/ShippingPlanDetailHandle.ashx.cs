@@ -61,9 +61,41 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "EditShippingPlanDetail":
                         context.Response.Write(EditShippingPlanDetail());
                         break;
+                    //获得未进行出货的出货计划数据
+                    case "GetShippingPlanDetailUnOutStockList":
+                        context.Response.Write(GetShippingPlanDetailUnOutStockList());
+                        break;
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获得未进行出货的出货计划数据
+        /// </summary>
+        /// <returns></returns>
+        private string GetShippingPlanDetailUnOutStockList()
+        {
+            //SQL条件过滤器集合
+            List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.InnerOrderNO", _request.Form["InnerOrderNO"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
+
+            PageResult result = new PageResult();
+            try
+            {
+                List<ShippingPlanDetailDisplayModel> listModel = new List<ShippingPlanDetailDisplayModel>();
+                listModel = this._bllShippingPlanDetail.GetShippingPlanDetailUnOutStockList(lstFilter);
+                return JsonConvert.SerializeObject(listModel, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "获得未进行出货的出货计划数据出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获得未进行出货的出货计划数据出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
         }
 
         /// <summary>
@@ -138,8 +170,20 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 ShippingPlanDetailModel model = this._bllShippingPlanDetail.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+
+                ShippingPlanModel sModel = new BLL.OMS.ShippingPlanBLL().GetModel((int)model.ShippingPlanID);
+                string strShippingPlanNo = string.Empty;
+                if (sModel != null)
+                    strShippingPlanNo = sModel.ShippingPlanNo;
+
+                WarehouseModel wModel = new BLL.Common.WarehouseBLL().GetModelByCode(model.PlanStockCode);
+                string strPlanStockName = string.Empty;
+                if (wModel != null)
+                    strPlanStockName = wModel.WName;
+
                 strResult = strResult.Substring(0, strResult.Length - 1) + ",\"ShippingPlanNo\":\""
-                  + new BLL.OMS.ShippingPlanBLL().GetModel((int)model.ShippingPlanID).ShippingPlanNo + "\",\"PlanStockName\":\"" + new BLL.Common.WarehouseBLL().GetModelByCode(model.PlanStockCode).WName + "\"}";
+                  + strShippingPlanNo + "\",\"PlanStockName\":\""
+                  + strPlanStockName + "\"}";
                 return strResult;
             }
             catch (Exception ex)

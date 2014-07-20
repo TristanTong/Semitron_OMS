@@ -63,9 +63,49 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "GetCustomerOrderDetailById":
                         context.Response.Write(GetCustomerOrderDetailById());
                         break;
+                    //获取待出货计划的产品清单列表
+                    case "GetCustomerOrderDetailUnOutStockList":
+                        context.Response.Write(GetCustomerOrderDetailUnOutStockList());
+                        break;
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获取待出货计划的产品清单列表
+        /// </summary>
+        private string GetCustomerOrderDetailUnOutStockList()
+        {
+            //SQL条件过滤器集合
+            List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.InnerOrderNo", _request.Form["InnerOrderNo"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("C.CCode", _request.Form["CustomerCode"], ConditionEnm.Equal));
+            string strStartTime = DataUtility.GetPageFormValue(_request.Form["CustOrderDateBegin"], string.Empty);
+            if (strStartTime != string.Empty)
+            {
+                SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.CustOrderDate", strStartTime, ConditionEnm.GreaterThan));
+            }
+            string strEndTime = DataUtility.GetPageFormValue(_request.Form["CustOrderDateEnd"], string.Empty);
+            if (strEndTime != string.Empty)
+            {
+                SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.CustOrderDate", strEndTime, ConditionEnm.LessThan));
+            }
+
+            PageResult result = new PageResult();
+            try
+            {
+                List<CustomerOrderDetailUnOutStockModel> listModel = new List<CustomerOrderDetailUnOutStockModel>();
+                listModel = this._bllCustomerOrderDetail.GetCustomerOrderDetailUnOutStockList(lstFilter);
+                return JsonConvert.SerializeObject(listModel, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "获取待出货计划的产品清单列表出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取待出货计划的产品清单列表出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
         }
 
         /// <summary>

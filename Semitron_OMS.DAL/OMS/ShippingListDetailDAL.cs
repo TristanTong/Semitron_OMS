@@ -482,11 +482,11 @@ namespace Semitron_OMS.DAL.OMS
         public DataTable GetDisplayModelList(int iShippingListId)
         {
             //查询字段
-            string strGetFields = " D.ID,D.ShippingListID,D.POPlanId,P.PONO,P.POQuantity,ShipmentDate=Convert(varchar(20),P.ShipmentDate,120),D.ProductCode,D.InQty,Price=CAST(D.Price AS DECIMAL(18,2)),TotalPrice=CAST(D.TotalPrice AS DECIMAL(18,2)),D.Remark,D.AvailFlag ";
+            string strGetFields = " D.ShippingPlanDetailId,D.ShippingPlanNo,PD.PlanStockCode,PlanStockName=W1.WName,PD.CPN,PD.MPN,D.ProductCode,Pd.PlanQty,D.StockCode,StockName=W2.WName,D.OutQty,D.ChargeUserID,ChargeUserName=A1.Name,D.Remark,D.ID,D.AvailFlag,D.ShippingListID  ";
             //查询表名
-            string strTableName = " ShippingListDetail AS D LEFT JOIN POPlan AS P ON D.POPlanId = P.ID";
+            string strTableName = " dbo.ShippingListDetail AS D WITH(NOLOCK) INNER JOIN dbo.ShippingList AS L WITH (NOLOCK) ON L.ID=D.ShippingListID LEFT JOIN dbo.ShippingPlanDetail AS PD  WITH (NOLOCK) ON PD.ID=D.ShippingPlanDetailID LEFT JOIN dbo.Warehouse AS W1 ON W1.WCode=PD.PlanStockCode LEFT JOIN dbo.Warehouse AS W2 ON W2.WCode=D.StockCode LEFT JOIN dbo.Admin AS A1 ON A1.AdminID=D.ChargeUserID ";
             //查询条件
-            string strWhere = " D.AvailFlag = 1 AND ShippingListID=@ShippingListID ";
+            string strWhere = " D.AvailFlag = 1 AND D.ShippingListID=@ShippingListID ";
 
             SqlParameter[] parameters = {
                     new SqlParameter("@ShippingListID", SqlDbType.Int)

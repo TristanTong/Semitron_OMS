@@ -1,0 +1,144 @@
+﻿<script type="text/javascript">
+    $(function () {
+        var id = $("#hidSeletedShippingListDetailId").val();
+        GetShippingListDetailById(id);
+
+        $("#btnSaveShippingListDetail").click(function () {
+
+            var OutQty = $("#divEditShippingListDetail input[name=OutQty]").val();
+            var Remark = $("#divEditShippingListDetail input[name=Remark]").val();
+            var AvailFlag = $("#divEditShippingListDetail select[name=AvailFlag]").val();
+            var ProductCode = $("#divEditShippingListDetail select[name=ProductCode]").val();
+
+            var pId = $("#divEditShippingListDetail input[name='ShippingListDetail_SearchWarehouse.PId']").val();
+            if (parseInt(pId) == 0) {
+                alertMsg.error("实际出库仓选择无效,请选择归属仓.");
+                return false;
+            }
+
+            var StockCode = $("#divEditShippingListDetail input[name='ShippingListDetail_SearchWarehouse.WCode']").val();
+
+            var url = "/Handle/OMS/ShippingListDetailHandle.ashx";
+            //新增
+            var data = null;
+            var id = $("#hidSeletedShippingListDetailId").val();
+            //alert(id);
+            //修改
+            if (parseInt(id) > 0) {
+                data = { "meth": "EditShippingListDetail", "OutQty": OutQty, "StockCode": StockCode, "ProductCode": ProductCode, "Remark": Remark, "AvailFlag": AvailFlag, "Id": id };
+            }
+
+            if (data == null) {
+                alertMsg.error("获取页面必要参数失败,请重新打开编辑.");
+                return false;
+            }
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    alertMsg.correct(json.Info);
+                    var id = $("#hidSeletedShippingListId").val();
+                    //修改时加载初始化数据
+                    if (parseInt(id) > 0) {
+                        GetShippingListById(id);
+                        GetShippingListDeatiltByListId(id);
+                    }
+                    $("#btnCloseShippingListDetail").click();
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+    });
+
+    //根据Id获得入库单记录
+    function GetShippingListDetailById(id) {
+        try {
+            var url = "/Handle/OMS/ShippingListDetailHandle.ashx";
+            var data = { "meth": "GetShippingListDetailById", "Id": id };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseShippingListDetail").click();
+                    return false;
+                } else {
+                    $("#divEditShippingListDetail p input[name='ShippingListNo']").val(json.ShippingListNo);
+                    $("#divEditShippingListDetail p input[name='ProductCode']").val(json.ProductCode);
+                    $("#divEditShippingListDetail p input[name='OutQty']").val(json.OutQty);
+                    $("#divEditShippingListDetail p input[name='ShippingListDetail_SearchWarehouse.WCode']").val(json.StockCode);
+                    $("#divEditShippingListDetail p input[name='ShippingListDetail_SearchWarehouse.WName']").val(json.StockName);
+                    $("#divEditShippingListDetail p input[name='Remark']").val(json.Remark);
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseShippingListDetail").click();
+            return;
+        }
+    }
+</script>
+<div class="pageContent">
+    <form method="get" action="/jui/common/ajaxDone.html" class="pageForm required-validate" onsubmit="return validateCallback(this)">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditShippingListDetail">
+            <p>
+                <label>入库单号：</label>
+                <input type="text" size="16" value="" name="ShippingListNo" class="required" readonly="readonly" />
+            </p>
+            <p>
+                <label>产品编码：</label>
+                <input type="text" size="16" value="" name="ProductCode" class="required" />
+            </p>
+            <p>
+                <label>出库数量：</label>
+                <input type="text" size="16" value="" name="OutQty" class="digits required" />
+            </p>
+            <p>
+                <label>实际出库仓：</label>
+                <input name="ShippingListDetail_SearchWarehouse.PId" value="" type="hidden" />
+                <input name="ShippingListDetail_SearchWarehouse.WCode" value="" type="hidden" />
+                <input name="ShippingListDetail_SearchWarehouse.WName" type="text" size="16" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" lookupgroup="ShippingListDetail_SearchWarehouse" rel="lShippingListDetail_Edit_SearchWarehouse">查找带回</a>
+            </p>
+            <p>
+                <label>备注：</label>
+                <input type="text" size="40" value="" name="Remark" maxlength="512" />
+            </p>
+            <p>
+                <label>状态：</label>
+                <select name="AvailFlag" class="required">
+                    <option value="true" selected="selected">有效</option>
+                    <option value="false">无效</option>
+                </select>
+            </p>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="btnSaveShippingListDetail">保存</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" type="button" id="btnCloseShippingListDetail">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

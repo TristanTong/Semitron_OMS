@@ -129,8 +129,6 @@ namespace Semitron_OMS.UI.Handle.Common
 
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
-            //获取表格提交参数
-            searchInfo.PageIndex = DataUtility.ToInt(DataUtility.GetPageFormValue(_request.Form["page"], 1));
             //获取表格提交的参数
             //当前查询页码
             searchInfo.PageIndex = DataUtility.ToInt(DataUtility.GetPageFormValue(_request.Form["page"], 1));

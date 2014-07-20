@@ -254,5 +254,39 @@ namespace Semitron_OMS.Model.OMS
         #endregion Model
 
     }
+
+    [Serializable]
+    public partial class CustomerOrderDetailUnOutStockModel
+    {
+        public int CustomerOrderDetailId { get; set; }
+
+        public string InnerOrderNO { get; set; }
+
+        public string CustomerOrderNO { get; set; }
+
+        public string CPN { get; set; }
+
+        public string CustOrderDate { get; set; }
+
+        public string InnerSalesMan { get; set; }
+
+        public string AssignToInnerBuyer { get; set; }
+
+        public int UnOutStockQty { get; set; }
+
+        public int CustQuantity { get; set; }
+
+        public int DoingOutStockQty { get; set; }
+
+        public int PlaningQty { get; set; }
+
+        public int AlreadyQty { get; set; }
+
+        public string CustomerCode { get; set; }
+
+        public string CustomerName { get; set; }
+
+        public int PlanedQty { get; set; }
+    }
 }
 

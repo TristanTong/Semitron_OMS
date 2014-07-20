@@ -216,24 +216,26 @@ namespace Semitron_OMS.BLL.OMS
 
             foreach (DataRow dr in dt.Rows)
             {
+                //ShippingPlanDetailId,ShippingPlanNo,PlanStockCode,PlanStockName,CPN,MPN,ProductCode,PlanQty,StockCode,StockName,OutQty,ChargeUserID,ChargeUserName,Remark,ID,AvailFlag,ShippingListID
                 ShippingListDetailDisplayModel model = new ShippingListDetailDisplayModel();
                 model.ID = dr["ID"].ToInt(0);
                 model.AvailFlag = dr["AvailFlag"].ToInt(0) == 1 ? true : false;
                 model.ShippingListID = dr["ShippingListID"].ToInt(0);
+                model.ShippingPlanDetailId = dr["ShippingPlanDetailId"].ToInt(0);
                 model.OutQty = dr["OutQty"].ToInt(0);
-                model.ShippingListNo = dr["ShippingListNo"].ToString();
+                model.ShippingPlanNo = dr["ShippingPlanNo"].ToString();
                 model.ShippingPlanDetailID = dr["ShippingPlanDetailID"].ToInt(0);
+                model.PlanStockCode = dr["PlanStockCode"].ToString();
+                model.PlanStockName = dr["PlanStockName"].ToString();
+                model.CPN = dr["CPN"].ToString();
+                model.MPN = dr["MPN"].ToString();
                 model.ProductCode = dr["ProductCode"].ToString();
+                model.PlanQty = dr["PlanQty"].ToInt(0);
+                model.StockCode = dr["StockCode"].ToString();
+                model.StockName = dr["StockName"].ToString();
+                model.ChargeUserID = dr["ChargeUserID"].ToInt(0);
+                model.ChargeUserName = dr["ChargeUserName"].ToString();
                 model.Remark = dr["Remark"].ToString();
-                DateTime dtShip = DateTime.Now;
-                if (DateTime.TryParse(dr["OutStockDate"].ToString(), out dtShip))
-                {
-                    model.OutStockDate = dtShip;
-                }
-                else
-                {
-                    model.OutStockDate = null;
-                }
 
                 listDisplayModel.Add(model);
             }

@@ -1,0 +1,108 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $("#divLookupShippingPlan button[type='submit']").click(function () {
+            $("#divLookupShippingPlan table tbody").html("");
+            var url = "/Handle/OMS/ShippingPlanHandle.ashx";
+            var ShippingPlanNo = $("#divLookupShippingPlan p input[name='ShippingPlanNo']").val()
+            var InnerOrderNO = $("#divLookupShippingPlan p input[name='InnerOrderNO']").val()
+            var ProductCode = $("#divLookupShippingPlan p input[name='ProductCode']").val()
+            var data = data = {
+                "meth": "GetShippingPlanDetailUnOutStockList", "ShippingPlanNo": ShippingPlanNo,
+                "InnerOrderNO": InnerOrderNO, "ProductCode": ProductCode
+            };
+
+            var successFun = function (json) {
+                if (!json || (json && json.State == "0")) {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    for (var i = 0; i < json.length; i++) {
+                        $("#divLookupShippingPlan table tbody").append("<tr>"
+                            + "<td width=\"50px\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({ShippingPlanDetailId:'"
+                            + json[i].ShippingPlanDetailId
+                            + "', ShippingPlanNo:'" + json[i].ShippingPlanNo
+                            + "', PlanStockCode:'" + json[i].PlanStockCode
+                            + "',PlanStockName:'" + json[i].PlanStockName
+                            + "', CPN:'" + json[i].CPN
+                            + "',MPN:'" + json[i].MPN
+                            + "', ProductCode:'" + json[i].ProductCode
+                            + "',PlanQty:'" + json[i].PlanQty
+                            + "',OutQty:'" + json[i].OutQty + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
+                            + json[i].ShippingPlanDetailId + "</td> <td width=\"102px\">"
+                            + json[i].ShippingPlanNo + "</td> <td width=\"48px\">"
+                            + json[i].PlanStockCode + "</td><td width=\"48px\">"
+                            + json[i].PlanStockName + "</td> <td width=\"48px\">"
+                            + json[i].CPN + "</td> <td width=\"65px\">"
+                            + json[i].MPN + "</td><td width=\"47px\">"
+                            + json[i].ProductCode + "</td> <td width=\"47px\">"
+                            + json[i].PlanQty + "</td><td width=\"59px\">"
+                            + json[i].OutQty + "</td><td width=\"59px\">"
+                            + json[i].PlanedQty + "</td><td width=\"59px\">"
+                            + json[i].SupplierCode + "</td><td>"
+                            + json[i].SupplierName + "</td></tr>");
+                    }
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+            return false;
+        });
+    });
+</script>
+
+<div class="pageContent">
+    <div class="pageFormContent" layouth="30" id="divLookupShippingPlan">
+        <div>
+            <label>出货计划号：</label>
+            <input name="ShippingPlanNo" type="text" size="10" value="" />
+        </div>
+        <div>
+            <label>内部订单号：</label>
+            <input name="InnerOrderNO" type="text" size="10" value="" />
+        </div>
+        <div>
+            <label>产品编码：</label>
+            <input name="ProductCode" type="text" size="10" value="" />
+        </div>
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">查询</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="pageContent">
+            <table class="table" layouth="118" layoutw="118" targettype="dialog" width="1400px">
+                <thead>
+                    <tr>
+                        <th width="55px">查找带回</th>
+                        <th width="40px">计划ID</th>
+                        <th width="110px">出货计划号</th>
+                        <th width="53px">计划出货仓</th>
+                        <th width="53px">计划出货仓名称</th>
+                        <th width="53px">客户型号</th>
+                        <th width="72px">厂商型号</th>
+                        <th width="53px">产品编码</th>
+                        <th width="53px">计划总数量</th>
+                        <th width="66px">未计划数量</th>
+                        <th width="66px">已计划总量</th>
+                        <th width="66px">供应商编码</th>
+                        <th>供应商名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

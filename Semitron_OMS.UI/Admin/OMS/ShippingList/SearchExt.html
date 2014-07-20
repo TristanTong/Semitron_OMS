@@ -1,48 +1,48 @@
 ﻿<script type="text/javascript">
     $(function () {
-        $("#divSearchExtGodownEntry div input[name=BeginTime]").val("2013-01-01");
+        $("#divSearchExtShippingList div input[name=BeginTime]").val("2013-01-01");
 
-        $("#btnSearchExtGodownEntry").click(function () {
-            if (!$("#formSearchGodownEntry").valid()) {
+        $("#btnSearchExtShippingList").click(function () {
+            if (!$("#formSearchShippingList").valid()) {
                 return false;
             }
-            SearchExtGodownEntry();
+            SearchExtShippingList();
             return false;
         });
     });
     //查询
-    function SearchExtGodownEntry() {
+    function SearchExtShippingList() {
         debugger;
-        var TimeType = $("#divSearchExtGodownEntry div select[name=sltTimeType]").val();
-        var startTime = $("#divSearchExtGodownEntry div input[name=BeginTime]").val();
-        var endTime = $("#divSearchExtGodownEntry div input[name=EndTime]").val();
-        var SortName = $("#divSearchExtGodownEntry div select[name=SortName]").val();
-        var SortOrder = $("#divSearchExtGodownEntry div select[name=SortOrder]").val();
-        var EntryNo = $("#divSearchExtGodownEntry div input[name=EntryNo]").val();
-        var ProductCode = $("#divSearchExtGodownEntry div input[name=ProductCode]").val();
-        var InWarehouseCode = $("#divSearchExtGodownEntry div input[name='SearchExtWarehouse.WCode']").val();
-        var ApprovedUser = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId']").val();
-        if (ApprovedUser == "${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId}") {
+        var TimeType = $("#divSearchExtShippingList div select[name=sltTimeType]").val();
+        var startTime = $("#divSearchExtShippingList div input[name=BeginTime]").val();
+        var endTime = $("#divSearchExtShippingList div input[name=EndTime]").val();
+        var SortName = $("#divSearchExtShippingList div select[name=SortName]").val();
+        var SortOrder = $("#divSearchExtShippingList div select[name=SortOrder]").val();
+        var ShippingListNo = $("#divSearchExtShippingList div input[name=ShippingListNo]").val();
+        var ProductCode = $("#divSearchExtShippingList div input[name=ProductCode]").val();
+        var StockCode = $("#divSearchExtShippingList div input[name='SearchExt_ShippingList_Warehouse.WCode']").val();
+        var ApprovedUser = $("#divSearchExtShippingList div input[name='adminLookupSearchExt_ShippingList_ApprovedUser.AdminId']").val();
+        if (ApprovedUser == "${adminLookupSearchExt_ShippingList_ApprovedUser.AdminId}") {
             ApprovedUser = "";
         }
-        var ByHandUserID = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId']").val();
-        if (ByHandUserID == "${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId}") {
+        var ByHandUserID = $("#divSearchExtShippingList div input[name='adminLookupSearchExt_ShippingList_ByHandUserID.AdminId']").val();
+        if (ByHandUserID == "${adminLookupSearchExt_ShippingList_ByHandUserID.AdminId}") {
             ByHandUserID = "";
         }
-        var IsApproved = $("#divSearchExtGodownEntry div select[name=IsApproved]").val();
-        var State = $("#divSearchExtGodownEntry div select[name=State]").val();
+        var IsApproved = $("#divSearchExtShippingList div select[name=IsApproved]").val();
+        var State = $("#divSearchExtShippingList div select[name=State]").val();
 
 
         var p = {
             extParam: [   //扩展参数
-              { name: "meth", value: "GetGodownEntry" },
+              { name: "meth", value: "GetShippingList" },
               { name: "TimeType", value: TimeType },
               { name: "startTime", value: startTime },
               { name: "endTime", value: endTime },
               { name: "sortname", value: SortName },
               { name: "sortorder", value: SortOrder },
-              { name: "EntryNo", value: EntryNo },
-              { name: "InWarehouseCode", value: InWarehouseCode },
+              { name: "ShippingListNo", value: ShippingListNo },
+              { name: "StockCode", value: StockCode },
               { name: "ApprovedUser", value: ApprovedUser },
               { name: "ByHandUserID", value: ByHandUserID },
               { name: "IsApproved", value: IsApproved },
@@ -51,18 +51,18 @@
         };
 
         p.newp = 1;         //跳转到第一页。
-        $("#FlexigridTableGodownEntry").flexOptions(p).flexReload();
+        $("#FlexigridTableShippingList").flexOptions(p).flexReload();
 
         p = {
             extParam: [   //扩展参数
-              { name: "meth", value: "GetGodownEntryDetail" },
+              { name: "meth", value: "GetShippingListDetail" },
               { name: "TimeType", value: TimeType },
               { name: "startTime", value: startTime },
               { name: "endTime", value: endTime },
               { name: "sortname", value: SortName },
               { name: "sortorder", value: SortOrder },
-              { name: "EntryNo", value: EntryNo },
-              { name: "InWarehouseCode", value: InWarehouseCode },
+              { name: "ShippingListNo", value: ShippingListNo },
+              { name: "StockCode", value: StockCode },
               { name: "ApprovedUser", value: ApprovedUser },
               { name: "ByHandUserID", value: ByHandUserID },
               { name: "IsApproved", value: IsApproved },
@@ -72,16 +72,16 @@
         };
 
         p.newp = 1;         //跳转到第一页。
-        $("#FlexigridTableGodownEntryDetail").flexOptions(p).flexReload();
+        $("#FlexigridTableShippingListDetail").flexOptions(p).flexReload();
     }
 </script>
 
 <div class="pageContent">
-    <form method="post" action="/jui/common/ajaxDone.html" class="pageForm" id="formSearchGodownEntry" onsubmit="return false;">
-        <div class="pageFormContent" layouth="58" id="divSearchExtGodownEntry">
+    <form method="post" action="/jui/common/ajaxDone.html" class="pageForm" id="formSearchShippingList" onsubmit="return false;">
+        <div class="pageFormContent" layouth="58" id="divSearchExtShippingList">
             <div class="unit">
-                <label>入库单号：</label>
-                <input type="text" style="width: 80px;" name="EntryNo" maxlength="16" />
+                <label>出库单号：</label>
+                <input type="text" style="width: 80px;" name="ShippingListNo" maxlength="16" />
                 <span class="inputInfo">关键字或全称</span>
             </div>
             <div class="unit">
@@ -90,10 +90,10 @@
                 <span class="inputInfo">关键字或全称</span>
             </div>
             <div class="unit">
-                <label>收货仓库：</label>
-                <input name="SearchExtWarehouse.WCode" value="" type="hidden" />
-                <input name="SearchExtWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" rel="dlg_SearchExt_Warehouse" lookupgroup="SearchExtWarehouse">查找带回</a>
+                <label>实际出库仓：</label>
+                <input name="SearchExt_ShippingList_Warehouse.WCode" value="" type="hidden" />
+                <input name="SearchExt_ShippingList_Warehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" rel="dlg_SearchExt_ShippingList_Warehouse" lookupgroup="SearchExt_ShippingList_Warehouse">查找带回</a>
             </div>
             <div class="unit">
                 <label>开始时间：</label>
@@ -110,7 +110,7 @@
             <div class="unit">
                 <label>时间类型：</label>
                 <select class="combox" name="sltTimeType" style="width: 100px">
-                    <option value="3" title="入库时间">入库时间</option>
+                    <option value="3" title="出库时间">出库时间</option>
                     <option value="4" title="审核时间">审核时间</option>
                     <option value="1" title="创建时间">创建时间</option>
                     <option value="2" title="更新时间">更新时间</option>
@@ -129,16 +129,16 @@
             </div>
             <div class="unit">
                 <label>审&nbsp;&nbsp;核&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId" value="${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId}" />
-                <input type="text" name="adminLookupSearchExt_GodownEntry_ApprovedUser.Name" value="" lookupgroup="adminLookupSearchExt_GodownEntry_ApprovedUser" style="width: 80px" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_GodownEntry_ApprovedUser" rel="dlg_SearchExt_ApprovedUser">查找带回</a>
+                <input type="hidden" name="adminLookupSearchExt_ShippingList_ApprovedUser.AdminId" value="${adminLookupSearchExt_ShippingList_ApprovedUser.AdminId}" />
+                <input type="text" name="adminLookupSearchExt_ShippingList_ApprovedUser.Name" value="" lookupgroup="adminLookupSearchExt_ShippingList_ApprovedUser" style="width: 80px" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_ShippingList_ApprovedUser" rel="dlg_SearchExt_ShippingList_ApprovedUser">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>
             <div class="unit">
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId" value="${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId}" id="hidByHandUserID" />
-                <input type="text" name="adminLookupSearchExt_GodownEntry_ByHandUserID.Name" value="" lookupgroup="adminLookupSearchExt_GodownEntry_ByHandUserID" style="width: 80px" readonly="readonly" />
-                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_GodownEntry_ByHandUserID" rel="dlg_SearchExt_ByHandUserID">查找带回</a>
+                <input type="hidden" name="adminLookupSearchExt_ShippingList_ByHandUserID.AdminId" value="${adminLookupSearchExt_ShippingList_ByHandUserID.AdminId}" />
+                <input type="text" name="adminLookupSearchExt_ShippingList_ByHandUserID.Name" value="" lookupgroup="adminLookupSearchExt_ShippingList_ByHandUserID" style="width: 80px" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_ShippingList_ByHandUserID" rel="dlg_SearchExt_ShippingList_ByHandUserID">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>
             <div class="unit">
@@ -154,10 +154,10 @@
             <div class="unit">
                 <label>排序条件：</label>
                 <select name="SortName">
-                    <option value="EntryNo">按入库单号</option>
+                    <option value="ShippingListNo">按出库单号</option>
                     <option value="ProductCode">按产品编码</option>
-                    <option value="InStockDate">按入库时间</option>
-                    <option value="InWarehouseCode">按收货仓库</option>
+                    <option value="InStockDate">按出库时间</option>
+                    <option value="StockCode">按实际出库仓</option>
                     <option value="ApprovedUser">按审核人</option>
                     <option value="ByHandUserID">按经手人</option>
                 </select>
@@ -175,7 +175,7 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit" id="btnSearchExtGodownEntry">开始检索</button>
+                            <button type="submit" id="btnSearchExtShippingList">开始检索</button>
                         </div>
                     </div>
                 </li>

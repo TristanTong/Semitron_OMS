@@ -1,0 +1,92 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $("#divLookupProductInfo button[type='submit']").click(function () {
+            $("#divLookupProductInfo table tbody").html("");
+            var url = "/Handle/OMS/InventoryHandle.ashx";
+            var ProductCode = $("#divLookupProductInfo p input[name='ProductCode']").val();
+            var MPN = $("#divLookupProductInfo p input[name='MPN']").val();
+            var WCode = $("#divLookupProductInfo p input[name='WCode']").val();
+            var data = data = {
+                "meth": "GetInventory", "ProductCode": ProductCode, "MPN": MPN,
+                "WCode": WCode, "startTime": "2013-01-01",
+                "page": 1, "rp": 999999999, "sortname": "ProductCode", "sortorder": "desc"
+            };
+
+            var successFun = function (json) {
+                if (!json || (json && json.State == "0")) {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    for (var i = 0; i < json.total; i++) {
+                        $("#divLookupProductInfo table tbody").append("<tr>"
+                            + "<td width=\"28x\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({ID:'"
+                            + json.rows[i].cell[1] + "', ProductCode:'" + json.rows[i].cell[2]
+                            + "', MPN:'" + json.rows[i].cell[3]
+                            + "', WCodeBelong:'" + json.rows[i].cell[4]
+                            + "',WName:'" + json.rows[i].cell[5]
+                            + "',AvailableQty:'" + (json.rows[i].cell[6] - json.rows[i].cell[9])
+                            + "'})\" title=\"查找带回\">选择</a> </td> <td width=\"39px\">"
+                            + json.rows[i].cell[2] + "</td> <td width=\"66px\">"
+                            + json.rows[i].cell[3] + "</td><td width=\"53px\">"
+                            + json.rows[i].cell[4] + "</td> <td width=\"53px\">"
+                            + json.rows[i].cell[5] + "</td> <td width=\"53px\">"
+                            + (json.rows[i].cell[6] - json.rows[i].cell[9]) + "</td></tr>");
+                    }
+
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+            return false;
+        });
+    });
+</script>
+
+<div class="pageContent">
+    <div class="pageFormContent" layouth="19" id="divLookupProductInfo">
+        <p>
+            <label>产品编码：</label>
+            <input name="ProductCode" type="text" size="15" value="" />
+        </p>
+        <p>
+            <label>厂商型号：</label>
+            <input name="MPN" type="text" size="15" value="" />
+        </p>
+        <p>
+            <label>仓库编码：</label>
+            <input name="WCode" type="text" size="15" value="" />
+        </p>
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">查询</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="pageContent">
+            <table class="table" layouth="118" layoutw="118" targettype="dialog" width="600px">
+                <thead>
+                    <tr>
+                        <th width="30px">查找带回</th>
+                        <th width="40px">产品编码</th>
+                        <th width="68px">厂商型号</th>
+                        <th width="53px">仓库编码</th>
+                        <th width="53px">仓库名称</th>
+                        <th width="53px">可用库存</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

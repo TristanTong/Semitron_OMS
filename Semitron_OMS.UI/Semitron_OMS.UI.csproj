@@ -79,6 +79,7 @@
   <ItemGroup>
     <Content Include="Admin\CheckCodePage.aspx" />
     <Content Include="Admin\Common\EditMyPwd.aspx" />
+    <Content Include="Admin\Common\ProductInfo\Lookup.html" />
     <Content Include="Admin\Common\ProductInfo\Main.html" />
     <Content Include="Admin\Common\ProductTypeManager.aspx" />
     <Content Include="Admin\Common\Warehouse\Main.html" />
@@ -122,7 +123,6 @@
     <Content Include="Admin\OMS\CustomerOrderDetail\Lookup.html" />
     <Content Include="Admin\OMS\CustomerOrderManager.aspx" />
     <Content Include="Admin\Common\Warehouse\lookupSuggest.html" />
-    <Content Include="Admin\OMS\GodownEntry\Approve.html" />
     <Content Include="Admin\OMS\GodownEntry\Edit.html" />
     <Content Include="Admin\OMS\GodownEntry\EditDetail.html" />
     <Content Include="Admin\OMS\GodownEntry\Main.html" />
@@ -133,9 +133,12 @@
     <Content Include="Admin\OMS\POManager.aspx" />
     <Content Include="Admin\OMS\POPlanManager.aspx" />
     <Content Include="Admin\OMS\POPlan\Lookup.html" />
-    <Content Include="Admin\Common\Warehouse\LookupWarehouse.html" />
+    <Content Include="Admin\Common\Warehouse\Lookup.html" />
+    <Content Include="Admin\OMS\ShippingList\Edit.html" />
+    <Content Include="Admin\OMS\ShippingList\EditDetail.html" />
+    <Content Include="Admin\OMS\ShippingPlan\Lookup.html" />
     <Content Include="Admin\OMS\ShippingList\Main.html" />
-    <Content Include="Admin\OMS\ShippingPlan\Approve.html" />
+    <Content Include="Admin\OMS\ShippingList\SearchExt.html" />
     <Content Include="Admin\OMS\ShippingPlan\Edit.html" />
     <Content Include="Admin\OMS\ShippingPlan\EditDetail.html" />
     <Content Include="Admin\OMS\ShippingPlan\Main.html" />
@@ -1493,6 +1496,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handle\Common\ProductInfoHandle.ashx.cs">
+      <DependentUpon>ProductInfoHandle.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handle\Common\ProductTypeHandle.ashx.cs">
       <DependentUpon>ProductTypeHandle.ashx</DependentUpon>
     </Compile>
@@ -1632,6 +1638,7 @@
     <Content Include="Handle\OMS\ShippingListDetailHandle.ashx" />
     <Content Include="Handle\OMS\InventoryHandle.ashx" />
     <Content Include="Handle\OMS\InventoryAuditHandle.ashx" />
+    <Content Include="Handle\Common\ProductInfoHandle.ashx" />
     <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />

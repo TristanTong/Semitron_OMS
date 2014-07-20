@@ -504,7 +504,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataTable GetDisplayModelList(int iShippingPlanId)
         {
             //查询字段
-            string strGetFields = "  D.ID , D.AvailFlag , D.ShippingPlanID , SP.ShippingPlanNo , CustomerOrderDetailId = D.CustomerDetailID , OD.InnerOrderNO , C.CustomerOrderNO , D.CPN , OD.CustQuantity , PlanedQty = ISNULL(( SELECT SUM(ISNULL(LD2.OutQty, 0) + ISNULL(D2.PlanQty, 0)) FROM   dbo.ShippingPlanDetail AS D2 WITH ( NOLOCK ) LEFT JOIN ShippingListDetail AS LD2 WITH ( NOLOCK ) ON LD2.ShippingPlanDetailID = D2.ID WHERE  D2.AvailFlag = 1 AND OD.AvailFlag = 1 AND ISNULL(LD2.AvailFlag, 1) = 1 AND D2.ID != D.ID AND D2.CustomerDetailID = OD.ID GROUP BY D2.CustomerDetailID ), 0) , W.WCode , W.WName , D.ProductCode , P.MPN , D.PlanQty , D.Remark ";
+            string strGetFields = "  D.ID , D.AvailFlag , D.ShippingPlanID , SP.ShippingPlanNo , CustomerOrderDetailId = D.CustomerDetailID , OD.InnerOrderNO , C.CustomerOrderNO , D.CPN , OD.CustQuantity , PlanedQty = ISNULL(( SELECT SUM(ISNULL(D2.PlanQty, 0)) FROM   dbo.ShippingPlanDetail AS D2 WITH ( NOLOCK ) LEFT JOIN ShippingListDetail AS LD2 WITH ( NOLOCK ) ON LD2.ShippingPlanDetailID = D2.ID WHERE  D2.AvailFlag = 1 AND OD.AvailFlag = 1 AND D2.ID != D.ID AND D2.CustomerDetailID = OD.ID GROUP BY D2.CustomerDetailID ), 0) , W.WCode , W.WName , D.ProductCode , P.MPN , D.PlanQty , D.Remark ";
             //查询表名
             string strTableName = " dbo.ShippingPlanDetail AS D WITH ( NOLOCK ) INNER JOIN dbo.ShippingPlan AS SP WITH ( NOLOCK ) ON SP.ID = D.ShippingPlanID INNER JOIN dbo.CustomerOrderDetail AS OD WITH ( NOLOCK ) ON D.CustomerDetailID = OD.ID INNER JOIN dbo.CustomerOrder AS C WITH ( NOLOCK ) ON C.InnerOrderNO = OD.InnerOrderNO LEFT JOIN dbo.ProductInfo AS P WITH ( NOLOCK ) ON P.ProductCode = D.ProductCode LEFT JOIN dbo.Warehouse AS W ON W.WCode = D.PlanStockCode ";
             //查询条件
@@ -517,7 +517,16 @@ namespace Semitron_OMS.DAL.OMS
 
             return DbHelperSQL.Query("SELECT " + strGetFields + " FROM " + strTableName + " WHERE " + strWhere, parameters).Tables[0];
         }
+
+        /// <summary>
+        /// 获取待出货计划的产品清单列表
+        /// </summary>
+        public DataTable GetShippingPlanDetailUnOutStockList(System.Collections.Generic.List<Semitron_OMS.Common.SQLConditionFilter> lstFilter)
+        {
+            throw new NotImplementedException();
+        }
         #endregion  ExtensionMethod
+
     }
 }
 

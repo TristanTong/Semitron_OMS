@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript">
     $(function () {
-        debugger;
+        //debugger;
         var id = $("#hidSeletedShippingPlanId").val();
         //新增时生成出货计划号
         if (!id || id == "-1") {
@@ -84,34 +84,25 @@
             //拼接参数Json字符串
             if ($(this).children("td").find('input[type=text]').val()) {
                 var defaultValue = "";
-                //CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,items[#index#].Warehouse.WCode,items[#index#].Warehouse.WName,ProductCode,MPN,PlanQty,Remark
-                //if ($(this).get(0).children.length == 8) {
                 defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustomerOrderDetailId']").val());
-                strJson += "{CustomerOrderDetailId:\"" + defaultValue + "\",";
+                strJson += "{CustomerDetailID:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.InnerOrderNO']").val());
                 strJson += "InnerOrderNO:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustomerOrderNO']").val());
                 strJson += "CustomerOrderNO:\"" + defaultValue + "\",";
-                //defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CPN']").val());
-                //strJson += "CPN:\"" + defaultValue + "\",";
-                //defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CustQuantity']").val());
-                //strJson += "CustQuantity:\"" + defaultValue + "\",";
-                //defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.PlanedQty']").val());
-                //strJson += "PlanedQty:\"" + defaultValue + "\",";
-                defaultValue = $.trim($("input[name='items[" + e + "].Warehouse.WCode']").val());
-                strJson += "WCode:\"" + defaultValue + "\",";
-                //defaultValue = $.trim($("input[name='items[" + e + "].Warehouse.WName']").val());
-                //strJson += "WName:\"" + defaultValue + "\",";
-                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.ProductCode']").val());
-                strJson += "ProductCode:\"" + defaultValue + "\",";
-                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.MPN']").val());
-                strJson += "MPN:\"" + defaultValue + "\",";
-                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.PlanQty']").val());
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.UnOutStockQty']").val());
                 strJson += "PlanQty:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CPN']").val());
+                strJson += "CPN:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ProductInfo.WCodeBelong']").val());
+                strJson += "PlanStockCode:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ProductInfo.ProductCode']").val());
+                strJson += "ProductCode:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ProductInfo.MPN']").val());
+                strJson += "MPN:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Remark']").val());
                 strJson += "Remark:\"" + defaultValue + "\"";
-                strJson += "},"
-                //}//CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,WCode,ProductCode,MPN,PlanQty,Remark
+                strJson += "},";
             }
         });
         if (strJson != "") {
@@ -182,11 +173,11 @@
                             + json[i].CPN + "</td> <td>"
                             + json[i].CustQuantity + "</td> <td>"
                             + json[i].PlanedQty + "</td> <td>"
-                            + json[i].WCode + "</td> <td>"
-                            + json[i].WName + "</td> <td>"
+                            + json[i].PlanQty + "</td> <td>"
                             + json[i].ProductCode + "</td> <td>"
                             + json[i].MPN + "</td> <td>"
-                            + json[i].PlanQty + "</td> <td>"
+                            + json[i].WCode + "</td> <td>"
+                            + json[i].WName + "</td> <td>"
                             + json[i].Remark + "</td> <td><a href=\"/Admin/OMS/ShippingPlan/EditDetail.html\" rel=\"ShippingPlanDetailId"
                             + json[i].ID + "\" class=\"btnEdit\" onclick=\"return SeletedShippingPlanDetail('"
                             + json[i].ID + "')\">编辑</a> </td> </tr>");
@@ -240,17 +231,18 @@
                 <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddShippingPlanDetail">
                     <thead>
                         <tr>
-                            <th type="lookup" name="items[#index#].CustomerOrderDetail.CustomerOrderDetailId" lookupgroup="items[#index#].CustomerOrderDetail" lookupurl="/Admin/OMS/CustomerOrderDetail/Lookup.html" size="6" fieldclass="digits required readonly" width="65">产品清单</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.InnerOrderNO" defaultval="" size="15" fieldclass="required readonly" width="110">内部订单号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.CustomerOrderNO" size="12" fieldclass="required readonly" fieldattrs="{maxlength:8}" width="90">客户订单号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.CPN" defaultval="" size="12" fieldclass="required readonly" width="90">客户型号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.CustQuantity" defaultval="0" size="10" fieldclass="digits readonly required">客户订单数量</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.PlanedQty" defaultval="0" size="8" fieldclass="digits readonly required">已计划数量</th>
-                            <th type="lookup" name="items[#index#].Warehouse.WCode" lookupgroup="items[#index#].Warehouse" lookupurl="/Admin/Common/Warehouse/LookupWarehouse.html" size="9" fieldclass="required readonly" width="65">计划出货仓</th>
-                            <th type="text" name="items[#index#].Warehouse.WName" defaultval="" size="12" fieldclass="readonly" width="110">计划出货仓名称</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.ProductCode" size="12" fieldclass="required" fieldattrs="{maxlength:10}" width="90">产品编码</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.MPN" size="12" fieldclass="required" fieldattrs="{maxlength:64}" width="90">厂商型号</th>
-                            <th type="text" name="items[#index#].CustomerOrderDetail.PlanQty" defaultval="0" size="10" fieldclass="digits required" width="80">出货计划数量</th>
+                            <th type="lookup" name="items[#index#].CustomerOrderDetail.CustomerOrderDetailId" lookupgroup="items[#index#].CustomerOrderDetail" lookupurl="/Admin/OMS/CustomerOrderDetail/Lookup.html" size="4" fieldclass="digits required readonly" width="60">产品清单</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.InnerOrderNO" defaultval="" size="10" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="65">内部订单号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.CustomerOrderNO" size="16" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="90">客户订单号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.CPN" defaultval="" size="16" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="90">客户型号</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.CustQuantity" defaultval="0" size="10" fieldclass="digits readonly required" width="80">客户订单数量</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.PlanedQty" defaultval="0" size="8" fieldclass="digits readonly required" width="80">已计划数量</th>
+                            <th type="text" name="items[#index#].CustomerOrderDetail.UnOutStockQty" defaultval="0" size="10" fieldclass="digits required" width="80">出货计划数量</th>
+                            <th type="lookup" name="items[#index#].ProductInfo.ProductCode" lookupgroup="items[#index#].ProductInfo" lookupurl="/Admin/Common/ProductInfo/Lookup.html" size="9" fieldclass="required readonly" width="65">产品编码</th>
+                            <th type="text" name="items[#index#].ProductInfo.MPN" size="12" fieldclass="required readonly" fieldattrs="{maxlength:64}" width="90">厂商型号</th>
+                            <th type="text" name="items[#index#].ProductInfo.WCodeBelong" size="6" fieldclass="required readonly" width="65">计划出货仓</th>
+                            <th type="text" name="items[#index#].ProductInfo.WName" defaultval="" size="15" fieldclass="readonly" fieldattrs="{maxlength:36}" width="110">计划出货仓名称</th>
+
                             <th type="text" name="items[#index#].CustomerOrderDetail.Remark" size="48">备注</th>
                             <th type="del" size="6" width="90">操作</th>
                         </tr>

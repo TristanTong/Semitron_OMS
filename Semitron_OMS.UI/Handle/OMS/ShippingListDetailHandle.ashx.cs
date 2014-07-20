@@ -50,8 +50,8 @@ namespace Semitron_OMS.UI.Handle.OMS
                         context.Response.Write(GetShippingListDetail());
                         break;
                     //根据出库单Id获得出库单明细列表记录
-                    case "GetShippingListDetailByEntryId":
-                        context.Response.Write(GetShippingListDetailByEntryId());
+                    case "GetShippingListDetailByShippingListId":
+                        context.Response.Write(GetShippingListDetailByShippingListId());
                         break;
                     //根据ID获取出库单明细记录
                     case "GetShippingListDetailById":
@@ -136,8 +136,24 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 ShippingListDetailModel model = this._bllShippingListDetail.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+
+                ShippingListModel lModel = new BLL.OMS.ShippingListBLL().GetModel(model.ShippingListID);
+                string strShippingListNo = string.Empty;
+                if (lModel != null)
+                {
+                    strShippingListNo = lModel.ShippingListNo;
+                }
+
+                WarehouseModel wModel = new BLL.Common.WarehouseBLL().GetModelByCode(model.StockCode);
+                string strStockName = string.Empty;
+                if (wModel != null)
+                {
+                    strStockName = wModel.WName;
+                }
+
                 strResult = strResult.Substring(0, strResult.Length - 1) + ",\"ShippingListNo\":\""
-                  + new BLL.OMS.ShippingListBLL().GetModel(model.ShippingListID).ShippingListNo + "\"}";
+                  + strShippingListNo + "\",\"StockName\":\""
+                  + strStockName + "\"}";
                 return strResult;
             }
             catch (Exception ex)
@@ -153,11 +169,11 @@ namespace Semitron_OMS.UI.Handle.OMS
         /// 根据出库单Id获得出库单明细列表记录
         /// </summary>
         /// <returns></returns>
-        private string GetShippingListDetailByEntryId()
+        private string GetShippingListDetailByShippingListId()
         {
             PageResult result = new PageResult();
-            int iEntryId = -1;
-            if (_request.Form["EntryId"] == null || !int.TryParse(_request.Form["EntryId"].ToString(), out iEntryId))
+            int iListId = -1;
+            if (_request.Form["ListId"] == null || !int.TryParse(_request.Form["ListId"].ToString(), out iListId))
             {
                 result.State = 0;
                 result.Info = "系统错误,参数获取异常。";
@@ -165,7 +181,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             }
             try
             {
-                List<ShippingListDetailDisplayModel> listModel = this._bllShippingListDetail.GetDisplayModelList(iEntryId);
+                List<ShippingListDetailDisplayModel> listModel = this._bllShippingListDetail.GetDisplayModelList(iListId);
                 return JsonConvert.SerializeObject(listModel, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
             }
             catch (Exception ex)

@@ -144,7 +144,7 @@ namespace Semitron_OMS.Model.OMS
     [Serializable]
     public partial class ShippingListDetailDisplayModel
     {
-        public DateTime? OutStockDate { get; set; }
+        public string StockName;
 
         public int ID { get; set; }
 
@@ -154,13 +154,31 @@ namespace Semitron_OMS.Model.OMS
 
         public int OutQty { get; set; }
 
-        public string ShippingListNo { get; set; }
-
         public int ShippingPlanDetailID { get; set; }
 
         public string ProductCode { get; set; }
 
         public string Remark { get; set; }
+
+        public string ShippingPlanNo { get; set; }
+
+        public int ShippingPlanDetailId { get; set; }
+
+        public string ChargeUserName { get; set; }
+
+        public int ChargeUserID { get; set; }
+
+        public string StockCode { get; set; }
+
+        public int PlanQty { get; set; }
+
+        public string CPN { get; set; }
+
+        public string MPN { get; set; }
+
+        public string PlanStockName { get; set; }
+
+        public string PlanStockCode { get; set; }
     }
 }
 

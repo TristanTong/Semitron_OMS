@@ -62,8 +62,8 @@
                     { display: '内部订单号', name: 'InnerOrderNo', width: 100, sortable: true, align: 'left' },
                     { display: '客户订单号', name: 'CustomerNo', width: 100, sortable: true, align: 'left' },
                     { display: '客户订单数量', name: 'CustQuantity', width: 60, sortable: true, align: 'left' },
-                    { display: '客户型号', name: 'CPN', width: 80, sortable: true, align: 'left' },
-                    { display: '厂商型号', name: 'MPN', width: 80, sortable: true, align: 'left' },
+                    { display: '客户型号', name: 'CPN', width: 160, sortable: true, align: 'left' },
+                    { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
                     { display: '是否审核', name: 'IsApproved', width: 60, sortable: true, align: 'center' },
                     { display: '计划时间', name: 'ShippingPlanDate', width: 60, sortable: true, align: 'left' },
                     { display: '经手人', name: 'ByHandUser', width: 60, sortable: true, align: 'center' },
@@ -109,6 +109,11 @@
                 artDialog.tips("当前出货计划记录已无效，无法完成此操作。");
                 return false;
             }
+            //if (obj[0][4] == "已审核") {
+            //    $("#btnEditShippingPlan").attr("href", "/Admin/OMS/ShippingPlan/Edit.html?ShippingPlanId={ShippingPlanId}");
+            //    artDialog.tips("所选出货计划已审核，无法完成此操作。");
+            //    return false;
+            //}
             var id = obj[0][1];
             $("#btnEditShippingPlan").attr("href", "/Admin/OMS/ShippingPlan/Edit.html?ShippingPlanId=" + id);
             $("#hidSeletedShippingPlanId").val(id);
@@ -258,7 +263,7 @@
                 <div style="float: left; width: 120px">
                     <input name="SearchWarehouse.WCode" value="" type="hidden" />
                     <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
-                    <a class="btnLook" href="/Admin/Common/Warehouse/LookupWarehouse.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
+                    <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
                 </div>
             </li>
             <li style="width: 180px">

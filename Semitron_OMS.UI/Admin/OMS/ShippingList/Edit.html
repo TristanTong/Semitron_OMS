@@ -1,0 +1,328 @@
+﻿<script type="text/javascript">
+    $(function () {
+        //debugger;
+        var id = $("#hidSeletedShippingListId").val();
+        //新增时生成出库号
+        if (!id || id == "-1") {
+            var url = "/Handle/OMS/ShippingListHandle.ashx";
+            var data = { "meth": "GenerateCode" };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            var successFun = function (json) {
+                if (!json || json.State == 0) {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseShippingList").click();
+                    return false;
+                } else {
+                    $("#divEditShippingList p input[name='ShippingListNo']").val(json.Remark);
+                    return true;
+                }
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+
+        //修改时加载初始化数据
+        if (parseInt(id) > 0) {
+            GetShippingListById(id);
+            GetShippingListDeatiltByListId(id);
+        }
+
+        //保存出库数据
+        $("#btnSaveShippingList").click(function () {
+            //debugger;
+            if (!$("#formShippingList").valid()) {
+                return false;
+            }
+
+            //debugger;
+            var strJson = "{";
+            strJson += "\"ShippingListNo\":\"" + $("#divEditShippingList p input[name='ShippingListNo']").val() + "\",";
+            strJson += "\"ShippingListDate\":\"" + $("#divEditShippingList p input[name='ShippingListDate']").val() + "\",";
+            strJson += "\"OutStockDate\":\"" + $("#divEditShippingList p input[name='OutStockDate']").val() + "\",";
+            strJson += "\"EstimateArrivedDate\":\"" + $("#divEditShippingList p input[name='EstimateArrivedDate']").val() + "\",";
+            strJson += "\"RealArrivedDate\":\"" + $("#divEditShippingList p input[name='RealArrivedDate']").val() + "\",";
+            strJson += "\"ByHandUserID\":\"" + $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.AdminId']").val() + "\"";
+            strJson += "}";
+            var url = "/Handle/OMS/ShippingListHandle.ashx";
+            //新增
+            var data = null;
+            var id = $("#hidSeletedShippingListId").val();
+            if (!id || id == "-1") {
+                data = { "meth": "AddShippingList", "JsonString": strJson, "JsonStringDetail": GetShippingListDetailJson("tbAddShippingListDetail") };
+            }
+            //修改
+            if (parseInt(id) > 0) {
+                data = { "meth": "EditShippingList", "JsonString": strJson, "JsonStringDetail": GetShippingListDetailJson("tbAddShippingListDetail"), "id": id };
+            }
+
+            if (data == null) {
+                alertMsg.error("获取页面必要参数失败,请重新打开编辑.");
+                return false;
+            }
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    alertMsg.correct(json.Info);
+                    $("#btnCloseShippingList").click();
+                    $("#hidSeletedShippingListId").val(json.Remark);
+                    SearchShippingList();
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+    });
+
+    //取得出库明细Json字符串
+    function GetShippingListDetailJson(tbControlId) {
+        var strJson = "";
+        $("#" + tbControlId + " tbody tr").each(function (e) {
+            //拼接参数Json字符串
+            if ($(this).children("td").find('input[type=text]').val()) {
+                var defaultValue = "";
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.ShippingPlanDetailId']").val());
+                strJson += "{ShippingPlanDetailId:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.ShippingPlanNo']").val());
+                strJson += "ShippingPlanNo:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.ProductCode']").val());
+                strJson += "ProductCode:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.OutQty']").val());
+                strJson += "OutQty:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.StockCode']").val());
+                strJson += "StockCode:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ChargeUserID.AdminId']").val());
+                strJson += "ChargeUserID:\"" + defaultValue + "\",";
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingListDetail.Remark']").val());
+                strJson += "Remark:\"" + defaultValue + "\"";
+                strJson += "},";
+            }
+        });
+        if (strJson != "") {
+            strJson = "[" + strJson.substring(0, strJson.length - 1) + "]";
+        }
+        //alert(strJson)
+        return strJson;
+    }
+
+    //根据Id获得出库记录
+    function GetShippingListById(id) {
+        try {
+            debugger;
+            var url = "/Handle/OMS/ShippingListHandle.ashx";
+            var data = { "meth": "GetShippingListById", "Id": id };
+            var successFun = function (json) {
+                //debugger;
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseShippingList").click();
+                    return false;
+                } else {
+                    
+                    $("#divEditShippingList p input[name='ShippingListNo']").val(json.ShippingListNo);
+                    var shippingPlanDate = json.ShippingListDate;
+                    if (shippingPlanDate && shippingPlanDate.length > 10) {
+                        shippingPlanDate = shippingPlanDate.substr(0, 10);
+                        if (shippingPlanDate == "0001-01-01") {
+                            shippingPlanDate = "";
+                        }
+                    }
+                    else {
+                        shippingPlanDate = "";
+                    }
+                    $("#divEditShippingList p input[name='ShippingListDate']").val(shippingPlanDate);
+                    $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
+                    $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.Name']").val(json.ByHandUserName);
+                    var outStockDate = json.OutStockDate;
+                    if (outStockDate && outStockDate.length > 10) {
+                        outStockDate = outStockDate.substr(0, 10);
+                        if (outStockDate == "0001-01-01") {
+                            outStockDate = "";
+                        }
+                    }
+                    else {
+                        outStockDate = "";
+                    }
+                    $("#divEditShippingList p input[name='OutStockDate']").val(outStockDate);
+
+                    var estimateArrivedDate = json.EstimateArrivedDate;
+                    if (estimateArrivedDate && estimateArrivedDate.length > 10) {
+                        estimateArrivedDate = estimateArrivedDate.substr(0, 10);
+                        if (estimateArrivedDate == "0001-01-01") {
+                            estimateArrivedDate = "";
+                        }
+                    }
+                    else {
+                        estimateArrivedDate = "";
+                    }
+                    $("#divEditShippingList p input[name='EstimateArrivedDate']").val(estimateArrivedDate);
+
+                    var realArrivedDate = json.OutStockDate;
+                    if (realArrivedDate && realArrivedDate.length > 10) {
+                        realArrivedDate = realArrivedDate.substr(0, 10);
+                        if (realArrivedDate == "0001-01-01") {
+                            realArrivedDate = "";
+                        }
+                    }
+                    else {
+                        realArrivedDate = "";
+                    }
+                    $("#divEditShippingList p input[name='RealArrivedDate']").val(realArrivedDate);
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseShippingList").click();
+            return;
+        }
+    }
+
+    //根据出库Id获得出库明细列表记录
+    function GetShippingListDeatiltByListId(listId) {
+        try {
+            var url = "/Handle/OMS/ShippingListDetailHandle.ashx";
+            var data = { "meth": "GetShippingListDetailByShippingListId", "ListId": listId };
+            var successFun = function (json) {
+                debugger;
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseShippingList").click();
+                    return false;
+                } else {
+                    $("#tbAddShippingListDetail tbody").html("");
+                    for (var i = 0; i < json.length; i++) {
+                        $("#tbAddShippingListDetail tbody").append("<tr class=\"unitBox\"> <td>"
+                            + json[i].ShippingPlanDetailId + "</td> <td>"
+                            + json[i].ShippingPlanNo + "</td> <td>"
+                            + json[i].PlanStockCode + "</td> <td>"
+                            + json[i].PlanStockName + "</td> <td>"
+                            + json[i].CPN + "</td> <td>"
+                            + json[i].MPN + "</td> <td>"
+                            + json[i].ProductCode + "</td> <td>"
+                            + json[i].PlanQty + "</td> <td>"
+                            + json[i].StockCode + "</td> <td>"
+                            + json[i].StockName + "</td> <td>"
+                            + json[i].OutQty + "</td> <td>"
+                            + json[i].ChargeUserID + "</td> <td>"
+                            + json[i].ChargeUserName + "</td> <td>"
+                            + json[i].Remark + "</td> <td><a href=\"/Admin/OMS/ShippingList/EditDetail.html\" rel=\"ShippingListDetailId"
+                            + json[i].ID + "\" class=\"btnEdit\" onclick=\"return SeletedShippingListDetail('"
+                            + json[i].ID + "')\">编辑</a> </td> </tr>");
+                    }
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseShippingList").click();
+            return;
+        }
+        return false;
+    }
+
+    //点击编辑出库明细后，存储选择的记录ID到隐藏域
+    function SeletedShippingListDetail(id) {
+        $("#hidSeletedShippingListDetailId").val(id);
+        $("#aEditShippingListDetail0").click();
+        return false;
+    }
+</script>
+
+<input type="hidden" value="-1" id="hidSeletedShippingListDetailId" />
+<a href="/Admin/OMS/ShippingList/EditDetail.html?ShippingListDetailId=0" rel="ShippingListDetailId0" class="btnEdit" target="dialog" mask="true" id="aEditShippingListDetail0" onclick="return false;" style="display: none;">编辑</a>
+<div class="pageContent">
+    <form method="POST" action="/jui/common/ajaxDone.html" class="pageForm required-validate" id="formShippingList" onsubmit="return false;">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditShippingList">
+            <p>
+                <label>出库单号：</label>
+                <input type="text" style="width: 110px" value="" name="ShippingListNo" minlength="3" class="required" readonly="readonly" />
+            </p>
+            <p>
+                <label>制&nbsp;&nbsp;单&nbsp;&nbsp;人：</label>
+                <input type="hidden" name="ShippingList_Edit_adminLookup.AdminId" value="${ShippingList_Edit_adminLookup.AdminId}" />
+                <input type="text" class="required" name="ShippingList_Edit_adminLookup.Name" lookupgroup="ShippingList_Edit_adminLookup" style="width: 80px" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="ShippingList_Edit_adminLookup">查找带回</a>
+            </p>
+            <p>
+                <label>制单日期：</label>
+                <input type="text" class="date textInput valid required" name="ShippingListDate" style="width: 80px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>出库日期：</label>
+                <input type="text" class="date textInput valid required" name="OutStockDate" style="width: 80px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>预计到货日期：</label>
+                <input type="text" class="date textInput valid required" name="EstimateArrivedDate" style="width: 80px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>实际到货日期：</label>
+                <input type="text" class="date textInput valid required" name="RealArrivedDate" style="width: 80px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+
+            <div class="divider"></div>
+            <h3 class="contentTitle">出库单明细</h3>
+            <div>
+                <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddShippingListDetail">
+                    <thead>
+                        <tr>
+                            <th type="lookup" name="items[#index#].ShippingPlanDetail.ShippingPlanDetailId" lookupgroup="items[#index#].ShippingPlanDetail" lookupurl="/Admin/OMS/ShippingPlan/Lookup.html" size="4" fieldclass="digits required readonly" width="60">出货计划</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.ShippingPlanNo" size="8" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="75">出货计划号</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.PlanStockCode" size="8" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="75">计划出货仓</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.PlanStockName" size="15" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="110">计划出货仓名称</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.CPN" size="16" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="90">客户型号</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.MPN" size="16" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="90">厂商型号</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.ProductCode" size="6" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="65">产品编码</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.PlanQty" defaultval="0" size="6" fieldclass="digits readonly " width="80">计划数量</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.StockCode" size="8" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="75">实际出库仓</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.StockName" size="15" fieldclass="readonly" fieldattrs="{maxlength:36}" width="110">实际出库仓名称</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.OutQty" defaultval="0" size="6" fieldclass="digits required" width="80">出库数量</th>
+                            <th type="lookup" name="items[#index#].ChargeUserID.AdminId" lookupgroup="items[#index#].ChargeUserID" lookupurl="/Admin/Sys/Admin/Lookup.html" size="6" fieldclass="digits required readonly" fieldattrs="{readonly:readonly}" width="60">责任人ID</th>
+                            <th type="text" name="items[#index#].ChargeUserID.Name" size="8" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="80">责任人姓名</th>
+                            <th type="text" name="items[#index#].ShippingListDetail.Remark" size="48" width="80">备注</th>
+                            <th type="del" size="6" width="90">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="btnSaveShippingList">保存</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" id="btnCloseShippingList" type="button">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

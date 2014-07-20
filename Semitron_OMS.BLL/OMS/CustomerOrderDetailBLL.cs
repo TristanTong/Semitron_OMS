@@ -273,7 +273,48 @@ namespace Semitron_OMS.BLL.OMS
         {
             return dal.SetCustomerOrderDetailItems(iId, bIsCustomerPay, dtCustomerInStockDate) > 0 ? true : false;
         }
+
+        /// <summary>
+        /// 获取待出货计划的产品清单列表
+        /// </summary>
+        /// <param name="lstFilter">过滤条件</param>
+        public List<CustomerOrderDetailUnOutStockModel> GetCustomerOrderDetailUnOutStockList(List<SQLConditionFilter> lstFilter)
+        {
+            //CustomerOrderDetailId,InnerOrderNo,CustomerOrderNO,CPN,CustOrderDate,InnerSalesMan,AssignToInnerBuyer,UnOutStockQty,CustQuantity,DoingOutStockQty,PlaningQty,AlreadyQty,CustomerCode,CustomerName
+            List<CustomerOrderDetailUnOutStockModel> listModel = new List<CustomerOrderDetailUnOutStockModel>();
+            DataTable dt = dal.GetCustomerOrderDetailUnOutStockList(lstFilter);
+            foreach (DataRow dr in dt.Rows)
+            {
+                CustomerOrderDetailUnOutStockModel model = new CustomerOrderDetailUnOutStockModel();
+                model.CustomerOrderDetailId = dr["CustomerOrderDetailId"].ToInt(-1);
+                model.InnerOrderNO = dr["InnerOrderNo"].ToString();
+                model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
+                model.CPN = dr["CPN"].ToString();
+                model.CustOrderDate = dr["CustOrderDate"].ToString();
+                model.InnerSalesMan = dr["InnerSalesMan"].ToString();
+                model.AssignToInnerBuyer = dr["AssignToInnerBuyer"].ToString();
+
+                model.CustQuantity = dr["CustQuantity"].ToInt(0);
+                model.DoingOutStockQty = dr["DoingOutStockQty"].ToInt(0);
+                model.PlaningQty = dr["PlaningQty"].ToInt(0);
+                model.AlreadyQty = dr["AlreadyQty"].ToInt(0);
+                model.CustomerCode = dr["CustomerCode"].ToString();
+                model.CustomerName = dr["CustomerName"].ToString();
+
+                model.UnOutStockQty = model.CustQuantity - model.DoingOutStockQty - model.PlaningQty - model.AlreadyQty;
+
+                model.PlanedQty = model.DoingOutStockQty + model.PlaningQty + model.AlreadyQty;
+
+                //如果为可出货的记录，则显示
+                if (model.UnOutStockQty > 0)
+                {
+                    listModel.Add(model);
+                }
+            }
+            return listModel;
+        }
         #endregion  ExtensionMethod
+
     }
 }
 

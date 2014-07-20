@@ -1,25 +1,21 @@
-﻿using System;
+﻿using Semitron_OMS.Common;
+using Semitron_OMS.Model.Common;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
-using Semitron_OMS.Common;
-using System.Data;
-using Semitron_OMS.Model.Common;
-using Newtonsoft.Json;
-using Semitron_OMS.Model.OMS;
-using System.IO;
-using Semitron_OMS.BLL.OMS;
 
-namespace Semitron_OMS.UI.Handle.OMS
+namespace Semitron_OMS.UI.Handle.Common
 {
     /// <summary>
-    /// InventoryHandle 的摘要说明
+    /// ProductInfoHandle 的摘要说明
     /// </summary>
-    public class InventoryHandle : IHttpHandler, System.Web.SessionState.IRequiresSessionState
+    public class ProductInfoHandle : IHttpHandler, System.Web.SessionState.IRequiresSessionState
     {
-
-        log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(InventoryHandle));
-        Semitron_OMS.BLL.OMS.InventoryBLL _bllInventory = new Semitron_OMS.BLL.OMS.InventoryBLL();
+        //仓库对象
+        log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(WarehouseHandle));
+        Semitron_OMS.BLL.Common.ProductInfoBLL _bllProductType = new Semitron_OMS.BLL.Common.ProductInfoBLL();
         HttpRequest _request = HttpContext.Current.Request;
         AdminModel _adminModel = new AdminModel();
 
@@ -45,15 +41,23 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 switch (methStr)
                 {
-                    //获取列表
-                    case "GetInventory":
-                        context.Response.Write(GetInventory());
+                    //获取产品编码列表
+                    case "GetProductInfo":
+                        context.Response.Write(GetProductInfo());
+                        break;
+                    //生成编码
+                    case "GenerateCode":
+                        context.Response.Write(GenerateCode());
                         break;
                 }
             }
+            context.Response.End();
         }
 
-        private string GetInventory()
+        /// <summary>
+        /// 获取产品编码列表
+        /// </summary>
+        private string GetProductInfo()
         {
             //查询条件信息
             PageSearchInfo searchInfo = new PageSearchInfo();
@@ -63,9 +67,9 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
-            //获取表格提交的参数
-            //当前查询页码
+            //获取表格提交参数
             searchInfo.PageIndex = DataUtility.ToInt(DataUtility.GetPageFormValue(_request.Form["page"], 1));
+
             //每页大小
             searchInfo.PageSize = DataUtility.ToInt(DataUtility.GetPageFormValue(_request.Form["rp"], 20));
             string strPK = "ID";
@@ -79,21 +83,21 @@ namespace Semitron_OMS.UI.Handle.OMS
             //排序类型
             searchInfo.OrderType = DataUtility.ToStr(_request.Form["sortorder"]).ToUpper() == "ASC" ? 0 : 1;
 
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.MPN", _request.Form["MPN"], ConditionEnm.AllLike));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.WCodeBelong", _request.Form["WCode"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("AvailFlag", _request.Form["AvailFlag"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("WCode", _request.Form["WCode"], ConditionEnm.AllLike));
 
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);
-            string strTimeField = "G.CreateTime";
+            string strTimeField = "CreateTime";
             if (strTimeType == "1")
             {
-                strTimeField = "G.CreateTime";
+                strTimeField = "CreateTime";
             }
             if (strTimeType == "2")
             {
-                strTimeField = "G.UpdateTime";
+                strTimeField = "UpdateTime";
             }
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["startTime"], string.Empty);
             if (strStartTime != string.Empty)
@@ -114,7 +118,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             DataTable dt = new DataTable();
             try
             {
-                DataSet ds = _bllInventory.GetInventoryPageData(searchInfo, out o_RowsCount);
+                DataSet ds = _bllProductType.GetProductInfoPageData(searchInfo, out o_RowsCount);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     dt = ds.Tables[0];
@@ -123,10 +127,15 @@ namespace Semitron_OMS.UI.Handle.OMS
             catch (Exception ex)
             {
                 dt = new DataTable();
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取库存信息出现异常:" + ex.Message, ex);
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取产品编码信息出现异常:" + ex.Message, ex);
             }
             string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
             return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);
+        }
+
+        private string GenerateCode()
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsReusable

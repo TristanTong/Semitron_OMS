@@ -153,14 +153,13 @@ namespace Semitron_OMS.Model.OMS
             get { return _updateuser; }
         }
         #endregion Model
-        public string InnerOrderNo { get; set; }
+        public string InnerOrderNO { get; set; }
         public string Remark { get; set; }
     }
 
     [Serializable]
     public partial class ShippingPlanDetailDisplayModel
     {
-        //CustomerOrderDetailId,InnerOrderNO,CustomerOrderNO,CPN,CustQuantity,PlanedQty,WCode,WName,ProductCode,MPN,PlanQty,Remark
         public int ID { get; set; }
 
         public bool AvailFlag { get; set; }

@@ -23,11 +23,11 @@
                     { display: '出库单号', name: 'ShippingListNo', width: 100, sortable: true, align: 'left' },
                     { display: '是否审核', name: 'IsApproved', width: 60, sortable: true, align: 'center' },
                     { display: '出库时间', name: 'OutStockDate', width: 60, sortable: true, align: 'center' },
-                    { display: '预计到达时间', name: 'EstimateArrivedDate', width: 60, sortable: true, align: 'center' },
-                    { display: '实际到达时间', name: 'RealArrivedDate', width: 60, sortable: true, align: 'center' },
+                    { display: '预计到达时间', name: 'EstimateArrivedDate', width: 80, sortable: true, align: 'center' },
+                    { display: '实际到达时间', name: 'RealArrivedDate', width: 80, sortable: true, align: 'center' },
                     { display: '经手人', name: 'ByHandUser', width: 60, sortable: true, align: 'center' },
                     { display: '审核人', name: 'ApprovedUser', width: 60, sortable: true, align: 'center' },
-                    { display: '审核时间', name: 'ApprovedTime', width: 60, sortable: true, align: 'center' },
+                    { display: '审核时间', name: 'ApprovedTime', width: 120, sortable: true, align: 'center' },
                     { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
                     { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
@@ -254,7 +254,7 @@
                 <div style="float: left; width: 120px">
                     <input name="SearchWarehouse.WCode" value="" type="hidden" />
                     <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
-                    <a class="btnLook" href="/Admin/Common/Warehouse/LookupWarehouse.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
+                    <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
                 </div>
             </li>
             <li style="width: 180px">

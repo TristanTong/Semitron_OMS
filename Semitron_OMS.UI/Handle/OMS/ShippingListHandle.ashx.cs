@@ -394,6 +394,9 @@ namespace Semitron_OMS.UI.Handle.OMS
 
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateTime", DateTime.Now);
+                model.IsApproved = oldModel.IsApproved;
+                model.ApprovedTime = oldModel.ApprovedTime;
+                model.ApprovedUserID = oldModel.ApprovedUserID;
                 string strResult = this._bllShippingList.ValidateAndUpdate(model);
                 if (strResult == "OK")
                 {
@@ -484,7 +487,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 ShippingListModel model = this._bllShippingList.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
-                strResult = strResult.Substring(0, strResult.Length - 1) + "\",\"ByHandUserName\":\""
+                strResult = strResult.Substring(0, strResult.Length - 1) + ",\"ByHandUserName\":\""
                   + new BLL.Common.Admin().GetModel((int)model.ByHandUserID).Name + "\"}";
                 return strResult;
             }

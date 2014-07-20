@@ -286,8 +286,6 @@ namespace Semitron_OMS.BLL.OMS
         {
             List<POPlanUnInStockModel> listModel = new List<POPlanUnInStockModel>();
             DataTable dt = dal.GetPOPlanUnInStockList(lstFilter);
-            //GetPOPlanUnInStockList PONo,ArrivedBeginDate,ArrivedEndDate
-            //POPlanId,PONo,ProductCode,MPN,POQuantity,BuyPrice,BuyCost,ArrivedDate,SupplierCode,SupplierName,,ArrivedQty,StockQty,UnInStockQty
             foreach (DataRow dr in dt.Rows)
             {
                 POPlanUnInStockModel model = new POPlanUnInStockModel();
