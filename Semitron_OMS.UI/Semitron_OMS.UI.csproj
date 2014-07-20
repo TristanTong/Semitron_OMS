@@ -79,8 +79,10 @@
   <ItemGroup>
     <Content Include="Admin\CheckCodePage.aspx" />
     <Content Include="Admin\Common\EditMyPwd.aspx" />
+    <Content Include="Admin\Common\ProductInfo\Edit.html" />
     <Content Include="Admin\Common\ProductInfo\Lookup.html" />
     <Content Include="Admin\Common\ProductInfo\Main.html" />
+    <Content Include="Admin\Common\ProductInfo\SearchExt.html" />
     <Content Include="Admin\Common\ProductTypeManager.aspx" />
     <Content Include="Admin\Common\Warehouse\Main.html" />
     <Content Include="Admin\CRM\CustomerManager.aspx" />

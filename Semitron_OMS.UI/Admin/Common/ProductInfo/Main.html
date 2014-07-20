@@ -13,21 +13,19 @@
         $("#FlexigridTableProductInfo").flexigrid({
             width: 'auto', //表格宽度
             height: gridHeight, //表格高度
-            url: '/Handle/OMS/ProductInfoHandle.ashx', //数据请求地址
+            url: '/Handle/Common/ProductInfoHandle.ashx', //数据请求地址
             dataType: 'json', //请求数据的格式
-            extParam: [{ name: "meth", value: "GetProductInfo" }, { name: "TimeType", value: TimeType }, { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
+            extParam: [{ name: "meth", value: "GetProductInfo" }, { name: "TimeType", value: TimeType },
+                { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
             colModel: [//表格的题头与索要填充的内容。
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
-                    { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
-                    { display: '产品信息号', name: 'ProductInfoNo', width: 100, sortable: true, align: 'left' },
-                    { display: '是否审核', name: 'IsApproved', width: 60, sortable: true, align: 'center' },
-                    { display: '产品信息时间', name: 'OutStockDate', width: 60, sortable: true, align: 'center' },
-                    { display: '预计到达时间', name: 'EstimateArrivedDate', width: 60, sortable: true, align: 'center' },
-                    { display: '实际到达时间', name: 'RealArrivedDate', width: 60, sortable: true, align: 'center' },
-                    { display: '经手人', name: 'ByHandUser', width: 60, sortable: true, align: 'center' },
-                    { display: '审核人', name: 'ApprovedUser', width: 60, sortable: true, align: 'center' },
-                    { display: '审核时间', name: 'ApprovedTime', width: 60, sortable: true, align: 'center' },
+                    { display: '状态', name: 'AvailFlag', width: 40, sortable: true, align: 'center' },
+                    { display: '产品编码', name: 'ProductCode', width: 60, sortable: true, align: 'center' },
+                    { display: '产品名称', name: 'ProductName', width: 60, hide: true, sortable: true, align: 'left' },
+                    { display: '厂商型号 ', name: 'MPN', width: 160, sortable: true, align: 'left' },
+                    { display: '供应商编码', name: 'SupplierCode', width: 60, sortable: true, align: 'center' },
+                    { display: '供应商名称', name: 'SupplierName', width: 260, sortable: true, align: 'left' },
                     { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
                     { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
@@ -46,42 +44,7 @@
             rowbinddata: true
         });
 
-        //初始产品信息明细表格
-        $("#FlexigridTableProductInfoDetail").flexigrid({
-            width: 'auto', //表格宽度
-            height: gridHeight, //表格高度
-            url: '/Handle/OMS/ProductInfoDetailHandle.ashx', //数据请求地址
-            dataType: 'json', //请求数据的格式
-            extParam: [{ name: "meth", value: "GetProductInfoDetail" }, { name: "TimeType", value: TimeType }, { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }, { name: "AvailFlag", value: "1" }], //扩展参数
-            colModel: [//表格的题头与索要填充的内容。
-                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
-                    { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
-                    { display: '状态', name: 'AvailFlag', width: 40, sortable: true, align: 'center' },
-                    { display: '产品信息号', name: 'ProductInfoNo', width: 100, sortable: true, align: 'left' },
-                    { display: '产品编码', name: 'ProductCode', width: 60, sortable: true, align: 'center' },
-                    { display: '产品信息数量', name: 'OutQty', width: 60, sortable: true, align: 'center' },
-                    { display: '是否审核', name: 'IsApproved', width: 60, sortable: true, align: 'center' },
-                    { display: '产品信息时间', name: 'OutStockDate', width: 60, sortable: true, align: 'left' },
-                    { display: '出货仓', name: 'StockCode', width: 60, sortable: true, align: 'center' },
-                    { display: '经手人', name: 'ByHandUser', width: 60, sortable: true, align: 'center' },
-                    { display: '审核人', name: 'ApprovedUser', width: 60, sortable: true, align: 'center' },
-                    { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
-                    { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
-                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
-                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
-            ],
-            sortname: "CreateTime",
-            sortorder: "DESC",
-            title: "产品信息产品明细列表",
-            showTableToggleBtn: true,
-            usepager: true,
-            useRp: true,
-            rowbinddata: true,
-            showcheckbox: false,
-            selectedonclick: true,
-            singleselected: true,
-            rowbinddata: true
-        });
+
         //查询按钮
         $("#btnSearchProductInfo").click(function () {
             SearchProductInfo();
@@ -89,7 +52,7 @@
         });
         //新增按钮
         $("#btnAddProductInfo").click(function () {
-            $("#btnEditProductInfo").attr("href", "/Admin/OMS/ProductInfo/Edit.html");
+            $("#btnEditProductInfo").attr("href", "/Admin/Common/ProductInfo/Edit.html");
             $("#hidSeletedProductInfoId").val("-1");
             return false;
         });
@@ -97,7 +60,7 @@
         $("#btnEditProductInfo").click(function () {
             var obj = GetSelectedRow("FlexigridTableProductInfo", "产品信息");
             if (!obj) {
-                $("#btnEditProductInfo").attr("href", "/Admin/OMS/ProductInfo/Edit.html?ProductInfoId={ProductInfoId}");
+                $("#btnEditProductInfo").attr("href", "/Admin/Common/ProductInfo/Edit.html?ProductInfoId={ProductInfoId}");
                 return false;
             }
 
@@ -106,7 +69,7 @@
                 return false;
             }
             var id = obj[0][1];
-            $("#btnEditProductInfo").attr("href", "/Admin/OMS/ProductInfo/Edit.html?ProductInfoId=" + id);
+            $("#btnEditProductInfo").attr("href", "/Admin/Common/ProductInfo/Edit.html?ProductInfoId=" + id);
             $("#hidSeletedProductInfoId").val(id);
 
             return false;
@@ -145,7 +108,7 @@
 
             alertMsg.confirm("审核产品信息后，产品信息不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
                 okCall: function () {
-                    var url = "/Handle/OMS/ProductInfoHandle.ashx";
+                    var url = "/Handle/Common/ProductInfoHandle.ashx";
                     var data = { "meth": "ApproveProductInfo", "EntryId": id };
                     var successFun = function (json) {
                         if (json.State == "0") {
@@ -175,9 +138,10 @@
         var TimeType = $("#ulSearchProductInfo li select[name=sltTimeType]").val();
         var startTime = $("#ulSearchProductInfo li input[name=BeginTime]").val();
         var endTime = $("#ulSearchProductInfo li input[name=EndTime]").val();
-        var ProductInfoNo = $("#ulSearchProductInfo li input[name=ProductInfoNo]").val();
+        var MPN = $("#ulSearchProductInfo li input[name=MPN]").val();
         var ProductCode = $("#ulSearchProductInfo li input[name=ProductCode]").val();
-        var StockCode = $("#ulSearchProductInfo li input[name='SearchWarehouse.WCode']").val();
+        var SupplierCode = $("#ulSearchProductInfo li input[name='ProductInfo_SearchSupplier.SCode']").val();
+        var SupplierName = $("#ulSearchProductInfo li input[name='ProductInfo_SearchSupplier.SName']").val();
 
         var p = {
             extParam: [   //扩展参数
@@ -185,28 +149,14 @@
               { name: "TimeType", value: TimeType },
               { name: "startTime", value: startTime },
               { name: "endTime", value: endTime },
-              { name: "ProductInfoNo", value: ProductInfoNo },
-              { name: "StockCode", value: StockCode },
-              { name: "State", value: "1" }
+              { name: "ProductCode", value: ProductCode },
+              { name: "MPN", value: MPN },
+              { name: "SupplierCode", value: SupplierCode },
+              { name: "AvailFlag", value: "1" }//这里应该是错的
             ]
         };
         p.newp = 1;         //跳转到第一页。
         $("#FlexigridTableProductInfo").flexOptions(p).flexReload();
-
-        p = {
-            extParam: [   //扩展参数
-              { name: "meth", value: "GetProductInfoDetail" },
-              { name: "TimeType", value: TimeType },
-              { name: "startTime", value: startTime },
-              { name: "endTime", value: endTime },
-              { name: "ProductInfoNo", value: ProductInfoNo },
-              { name: "ProductCode", value: ProductCode },
-              { name: "StockCode", value: StockCode },
-              { name: "AvailFlag", value: "1" }
-            ]
-        };
-        p.newp = 1;         //跳转到第一页。
-        $("#FlexigridTableProductInfoDetail").flexOptions(p).flexReload();
     }
 
     //删除产品信息
@@ -214,7 +164,7 @@
         alertMsg.confirm("产品信息删除后将无法恢复，你确认要删除吗？", {
             okCall: function () {
                 //调用删除产品信息方法
-                var url = "/Handle/OMS/ProductInfoHandle.ashx";
+                var url = "/Handle/Common/ProductInfoHandle.ashx";
                 var data = { "meth": "DelProductInfo", "Id": id };
                 var successFun = function (json) {
                     if (json.State == "0") {
@@ -239,22 +189,23 @@
 <div class="pageHeader">
     <div class="searchBar">
         <ul class="searchContent" id="ulSearchProductInfo">
+
             <li style="width: 180px">
-                <div style="float: left;">产品信息号：</div>
+                <div style="float: left;">产品编码：</div>
+                <input style="width: 80px;" name="ProductCode" class="txt" maxlength="36" />m
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">厂商型号：</div>
                 <div style="float: left;">
-                    <input style="width: 80px;" name="ProductInfoNo" class="txt" maxlength="128" />m
+                    <input style="width: 80px;" name="MPN" class="txt" maxlength="64" />m
                 </div>
             </li>
             <li style="width: 180px">
-                <div style="float: left;">产品编码：</div>
-                <input style="width: 80px;" name="ProductCode" class="txt" maxlength="128" />m
-            </li>
-            <li style="width: 180px">
-                <div style="float: left;">出货仓库：</div>
+                <div style="float: left;">供应商：</div>
                 <div style="float: left; width: 120px">
-                    <input name="SearchWarehouse.WCode" value="" type="hidden" />
-                    <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
-                    <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
+                    <input name="ProductInfo_SearchSupplier.SCode" value="" type="hidden" />
+                    <input name="ProductInfo_SearchSupplier.SName" type="text" style="width: 80px;" readonly="readonly" />
+                    <a class="btnLook" href="/Admin/CRM/Supplier/Lookup.html" lookupgroup="ProductInfo_SearchSupplier" rel="lSearchProductInfo_Main_SearchSuppplier">查找带回</a>
                 </div>
             </li>
             <li style="width: 180px">
@@ -275,8 +226,8 @@
             </li>
             <li>
                 <select class="combox" name="sltTimeType" style="width: 100px">
-                    <option value="3" title="产品信息时间">产品信息时间</option>
-                    <option value="4" title="审核时间">审核时间</option>
+                    <!--<option value="3" title="产品信息时间">产品信息时间</option>
+                    <option value="4" title="审核时间">审核时间</option>-->
                     <option value="1" title="创建时间">创建时间</option>
                     <option value="2" title="更新时间">更新时间</option>
                 </select>
@@ -287,7 +238,7 @@
                         <button type="submit" id="btnSearchProductInfo">检索</button>
                     </div>
                 </div>
-                <a class="button" href="/Admin/OMS/ProductInfo/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索产品信息)"><span>高级检索</span></a>
+                <!--<a class="button" href="/Admin/Common/ProductInfo/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索产品信息)"><span>高级检索</span></a>-->
             </li>
         </ul>
     </div>
@@ -296,9 +247,9 @@
     <div class="panelBar">
         <input type="hidden" value="-1" id="hidSeletedProductInfoId" />
         <ul class="toolBar">
-            <li><a class="add" href="/Admin/OMS/ProductInfo/Edit.html" target="navTab" rel="editProductInfo" id="btnAddProductInfo"><span>新建产品信息</span></a></li>
+            <li><a class="add" href="/Admin/Common/ProductInfo/Edit.html" target="navTab" rel="editProductInfo" id="btnAddProductInfo"><span>新建产品信息</span></a></li>
             <li class="line">line</li>
-            <li><a class="edit" href="/Admin/OMS/ProductInfo/Edit.html?ProductInfoId={ProductInfoId}" rel="editProductInfo" target="navTab" id="btnEditProductInfo"><span>修改产品信息</span></a></li>
+            <li><a class="edit" href="/Admin/Common/ProductInfo/Edit.html?ProductInfoId={ProductInfoId}" rel="editProductInfo" target="navTab" id="btnEditProductInfo"><span>修改产品信息</span></a></li>
             <li class="line">line</li>
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteProductInfo"><span>删除产品信息</span></a></li>
             <li class="line">line</li>
@@ -307,20 +258,17 @@
         </ul>
     </div>
     <div class="tabs" currentindex="0" eventtype="click">
-        <div class="tabsHeader">
+       <!-- <div class="tabsHeader">
             <div class="tabsHeaderContent">
                 <ul>
                     <li class="selected"><a href="javascript:;"><span>查单据</span></a></li>
                     <li><a href="javascript:;"><span>查明细</span></a></li>
                 </ul>
             </div>
-        </div>
+        </div>-->
         <div class="tabsContent" style="height: 450px;" id="divProductInfoContent">
             <div inited="1000" style="display: block;">
                 <table id="FlexigridTableProductInfo" style="display: none"></table>
-            </div>
-            <div style="display: none;">
-                <table id="FlexigridTableProductInfoDetail" style="display: none"></table>
             </div>
         </div>
         <div class="tabsFooter">

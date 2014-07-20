@@ -45,7 +45,7 @@ namespace Semitron_OMS.UI.Handle.Common
                     case "GetProductInfo":
                         context.Response.Write(GetProductInfo());
                         break;
-                    //生成编码
+                    //生成产品编码
                     case "GenerateCode":
                         context.Response.Write(GenerateCode());
                         break;
@@ -82,22 +82,26 @@ namespace Semitron_OMS.UI.Handle.Common
             searchInfo.OrderByField = DataUtility.GetPageFormValue(strOrder, string.Empty);
             //排序类型
             searchInfo.OrderType = DataUtility.ToStr(_request.Form["sortorder"]).ToUpper() == "ASC" ? 0 : 1;
-
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("AvailFlag", _request.Form["AvailFlag"], ConditionEnm.Equal));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("WCode", _request.Form["WCode"], ConditionEnm.AllLike));
+              SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.AvailFlag", 
+                _request.Form["AvailFlag"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.ProductCode",
+                _request.Form["ProductCode"], ConditionEnm.AllLike));//这里alllike就是模糊查询了
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.MPN",
+                _request.Form["MPN"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("S.SCode",
+                _request.Form["SupplierCode"], ConditionEnm.Equal));
 
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);
-            string strTimeField = "CreateTime";
+            string strTimeField = "P.CreateTime";
             if (strTimeType == "1")
             {
-                strTimeField = "CreateTime";
+                strTimeField = "P.CreateTime";
             }
             if (strTimeType == "2")
             {
-                strTimeField = "UpdateTime";
+                strTimeField = "P.UpdateTime";
             }
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["startTime"], string.Empty);
             if (strStartTime != string.Empty)

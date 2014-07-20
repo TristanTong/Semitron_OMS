@@ -441,7 +441,7 @@ namespace Semitron_OMS.DAL.Common
             //查询表名
             string strTableName = " dbo.ProductInfo AS P WITH(NOLOCK) LEFT JOIN dbo.Supplier AS S WITH(NOLOCK) ON S.ID=P.SupplierID ";
             //查询字段
-            string strGetFields = " P.ID , P.ProductCode ,P.ProductName,P.ProductTypeCode,P.MPN,SupplierID,SupplierCode=S.SCode,S.SupplierName,P.SK, AvailFlag = CASE P.AvailFlag WHEN 1 THEN '有效' ELSE '无效' END , P.CreateUser , CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120) ";
+            string strGetFields = " P.ID , P.ProductCode ,P.ProductName,P.ProductTypeCode,P.MPN,P.SupplierID,SupplierCode=S.SCode,S.SupplierName,P.SK, AvailFlag = CASE P.AvailFlag WHEN 1 THEN '有效' ELSE '无效' END , P.CreateUser , CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120) ";
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询

@@ -1,0 +1,192 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $("#divSearchExtGodownEntry div input[name=BeginTime]").val("2013-01-01");
+
+        $("#btnSearchExtGodownEntry").click(function () {
+            if (!$("#formSearchGodownEntry").valid()) {
+                return false;
+            }
+            SearchExtGodownEntry();
+            return false;
+        });
+    });
+    //查询
+    function SearchExtGodownEntry() {
+        debugger;
+        var TimeType = $("#divSearchExtGodownEntry div select[name=sltTimeType]").val();
+        var startTime = $("#divSearchExtGodownEntry div input[name=BeginTime]").val();
+        var endTime = $("#divSearchExtGodownEntry div input[name=EndTime]").val();
+        var SortName = $("#divSearchExtGodownEntry div select[name=SortName]").val();
+        var SortOrder = $("#divSearchExtGodownEntry div select[name=SortOrder]").val();
+        var EntryNo = $("#divSearchExtGodownEntry div input[name=EntryNo]").val();
+        var ProductCode = $("#divSearchExtGodownEntry div input[name=ProductCode]").val();
+        var InWarehouseCode = $("#divSearchExtGodownEntry div input[name='SearchExtWarehouse.WCode']").val();
+        var ApprovedUser = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId']").val();
+        if (ApprovedUser == "${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId}") {
+            ApprovedUser = "";
+        }
+        var ByHandUserID = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId']").val();
+        if (ByHandUserID == "${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId}") {
+            ByHandUserID = "";
+        }
+        var IsApproved = $("#divSearchExtGodownEntry div select[name=IsApproved]").val();
+        var State = $("#divSearchExtGodownEntry div select[name=State]").val();
+
+
+        var p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetGodownEntry" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "sortname", value: SortName },
+              { name: "sortorder", value: SortOrder },
+              { name: "EntryNo", value: EntryNo },
+              { name: "InWarehouseCode", value: InWarehouseCode },
+              { name: "ApprovedUser", value: ApprovedUser },
+              { name: "ByHandUserID", value: ByHandUserID },
+              { name: "IsApproved", value: IsApproved },
+              { name: "State", value: State }
+            ]
+        };
+
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableGodownEntry").flexOptions(p).flexReload();
+
+        p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetGodownEntryDetail" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "sortname", value: SortName },
+              { name: "sortorder", value: SortOrder },
+              { name: "EntryNo", value: EntryNo },
+              { name: "InWarehouseCode", value: InWarehouseCode },
+              { name: "ApprovedUser", value: ApprovedUser },
+              { name: "ByHandUserID", value: ByHandUserID },
+              { name: "IsApproved", value: IsApproved },
+              { name: "AvailFlag", value: State },
+              { name: "ProductCode", value: ProductCode }
+            ]
+        };
+
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableGodownEntryDetail").flexOptions(p).flexReload();
+    }
+</script>
+
+<div class="pageContent">
+    <form method="post" action="/jui/common/ajaxDone.html" class="pageForm" id="formSearchGodownEntry" onsubmit="return false;">
+        <div class="pageFormContent" layouth="58" id="divSearchExtGodownEntry">
+            <div class="unit">
+                <label>入库单号：</label>
+                <input type="text" style="width: 80px;" name="EntryNo" maxlength="16" />
+                <span class="inputInfo">关键字或全称</span>
+            </div>
+            <div class="unit">
+                <label>产品编码：</label>
+                <input type="text" style="width: 80px;" name="ProductCode" maxlength="16" />
+                <span class="inputInfo">关键字或全称</span>
+            </div>
+            <div class="unit">
+                <label>收货仓库：</label>
+                <input name="SearchExtWarehouse.WCode" value="" type="hidden" />
+                <input name="SearchExtWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" rel="dlg_SearchExt_Warehouse" lookupgroup="SearchExtWarehouse">查找带回</a>
+            </div>
+            <div class="unit">
+                <label>开始时间：</label>
+                <input type="text" name="BeginTime" class="date textInput valid required" style="width: 80px" readonly="readonly" />
+                <a class="inputDateButton" href="javascript:;">选择</a>
+                <span class="inputInfo">单击日期控件选择</span>
+            </div>
+            <div class="unit">
+                <label>结束时间：</label>
+                <input type="text" name="EndTime" class="date textInput valid" style="width: 80px" readonly="readonly" />
+                <a class="inputDateButton" href="javascript:;">选择</a>
+                <span class="inputInfo">单击日期控件选择</span>
+            </div>
+            <div class="unit">
+                <label>时间类型：</label>
+                <select class="combox" name="sltTimeType" style="width: 100px">
+                    <option value="3" title="入库时间">入库时间</option>
+                    <option value="4" title="审核时间">审核时间</option>
+                    <option value="1" title="创建时间">创建时间</option>
+                    <option value="2" title="更新时间">更新时间</option>
+                </select>
+                <span class="inputInfo">下拉选择其中一项</span>
+            </div>
+            <div class="divider">divider</div>
+            <div class="unit">
+                <label>是否审核：</label>
+                <select class="combox" name="IsApproved">
+                    <option value="">所有</option>
+                    <option value="1">已审核</option>
+                    <option value="0">未审核</option>
+                </select>
+                <span class="inputInfo">选择其中一项</span>
+            </div>
+            <div class="unit">
+                <label>审&nbsp;&nbsp;核&nbsp;&nbsp;人：</label>
+                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId" value="${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId}" />
+                <input type="text" name="adminLookupSearchExt_GodownEntry_ApprovedUser.Name" value="" lookupgroup="adminLookupSearchExt_GodownEntry_ApprovedUser" style="width: 80px" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_GodownEntry_ApprovedUser" rel="dlg_SearchExt_ApprovedUser">查找带回</a>
+                <span class="inputInfo">查找带回选择一人</span>
+            </div>
+            <div class="unit">
+                <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
+                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId" value="${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId}" id="hidByHandUserID" />
+                <input type="text" name="adminLookupSearchExt_GodownEntry_ByHandUserID.Name" value="" lookupgroup="adminLookupSearchExt_GodownEntry_ByHandUserID" style="width: 80px" readonly="readonly" />
+                <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_GodownEntry_ByHandUserID" rel="dlg_SearchExt_ByHandUserID">查找带回</a>
+                <span class="inputInfo">查找带回选择一人</span>
+            </div>
+            <div class="unit">
+                <label>状态：</label>
+                <select class="combox" name="State">
+                    <option value="">所有</option>
+                    <option value="1">有效</option>
+                    <option value="0">无效</option>
+                </select>
+                <span class="inputInfo">选择其中一项</span>
+            </div>
+            <div class="divider">divider</div>
+            <div class="unit">
+                <label>排序条件：</label>
+                <select name="SortName">
+                    <option value="EntryNo">按入库单号</option>
+                    <option value="ProductCode">按产品编码</option>
+                    <option value="InStockDate">按入库时间</option>
+                    <option value="InWarehouseCode">按收货仓库</option>
+                    <option value="ApprovedUser">按审核人</option>
+                    <option value="ByHandUserID">按经手人</option>
+                </select>
+            </div>
+            <div class="unit">
+                <label>排序方向：</label>
+                <select name="SortOrder">
+                    <option value="ASC">顺序</option>
+                    <option value="Desc">倒序</option>
+                </select>
+            </div>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="btnSearchExtGodownEntry">开始检索</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button type="reset">清空重输</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
