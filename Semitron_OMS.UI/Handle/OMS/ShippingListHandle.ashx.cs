@@ -125,14 +125,14 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             try
             {
-                int iMax = 1;//this._bllShippingList.GetMaxId();
+                int iMax = this._bllShippingList.GetMaxId();
                 ShippingListModel model = new ShippingListModel();
                 string strNow = DateTime.Now.ToString("yyyyMMdd");
                 string strNum = "10";
                 //首次生成
                 if (iMax == 1)
                 {
-                    model.ShippingListNo = "SEGE" + strNow + strNum;
+                    model.ShippingListNo = "SESL" + strNow + strNum;
                 }
                 else
                 {
@@ -146,7 +146,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                         strNum = (int.Parse(model.ShippingListNo.Remove(0, 12)) + 1).ToString().PadLeft(2, '0');
                     }
 
-                    result.Remark = "SEGE" + strNow + strNum;
+                    result.Remark = "SESL" + strNow + strNum;
                     result.State = 1;
                 }
             }

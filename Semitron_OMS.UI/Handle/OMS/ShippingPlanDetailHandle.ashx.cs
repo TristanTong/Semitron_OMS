@@ -78,8 +78,7 @@ namespace Semitron_OMS.UI.Handle.OMS
         {
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.AllLike));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.InnerOrderNO", _request.Form["InnerOrderNO"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SP.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
 
             PageResult result = new PageResult();
@@ -140,7 +139,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 else
                 {
                     result.State = 0;
-                    result.Info = strResult;
+                    result.Info = strResult.Replace("OK", "");
                 }
             }
             catch (Exception ex)

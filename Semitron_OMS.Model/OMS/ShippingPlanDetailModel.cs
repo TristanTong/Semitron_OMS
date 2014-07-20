@@ -29,12 +29,14 @@ namespace Semitron_OMS.Model.OMS
         private int _id;
         private int? _shippingplanid;
         private string _planstockcode;
+        private string _innerorderno;
         private string _customerorderno;
         private int? _customerdetailid;
         private string _cpn;
         private string _mpn;
         private string _productcode;
         private int _planqty;
+        private string _remark;
         private bool _availflag = true;
         private DateTime? _createtime = DateTime.Now;
         private string _createuser;
@@ -63,6 +65,14 @@ namespace Semitron_OMS.Model.OMS
         {
             set { _planstockcode = value; }
             get { return _planstockcode; }
+        }
+        /// <summary>
+        /// 内部订单号
+        /// </summary>
+        public string InnerOrderNO
+        {
+            set { _innerorderno = value; }
+            get { return _innerorderno; }
         }
         /// <summary>
         ///  客户单号
@@ -113,6 +123,14 @@ namespace Semitron_OMS.Model.OMS
             get { return _planqty; }
         }
         /// <summary>
+        /// 
+        /// </summary>
+        public string Remark
+        {
+            set { _remark = value; }
+            get { return _remark; }
+        }
+        /// <summary>
         /// 是否有效
         /// </summary>
         public bool AvailFlag
@@ -153,8 +171,6 @@ namespace Semitron_OMS.Model.OMS
             get { return _updateuser; }
         }
         #endregion Model
-        public string InnerOrderNO { get; set; }
-        public string Remark { get; set; }
     }
 
     [Serializable]
@@ -178,7 +194,7 @@ namespace Semitron_OMS.Model.OMS
 
         public string CPN { get; set; }
 
-        public int PlanedQty { get; set; }
+        public int FinishOutQty { get; set; }
 
         public string WCode { get; set; }
 
@@ -191,6 +207,18 @@ namespace Semitron_OMS.Model.OMS
         public string Remark { get; set; }
 
         public int CustQuantity { get; set; }
+
+        public int OutStockQty { get; set; }
+
+        public int PlanedQty { get; set; }
+
+        public string PlanStockName { get; set; }
+
+        public string PlanStockCode { get; set; }
+
+        public string SupplierName { get; set; }
+
+        public string SupplierCode { get; set; }
     }
 }
 

@@ -38,6 +38,8 @@ namespace Semitron_OMS.Model.OMS
         private string _createuser;
         private DateTime? _updatetime;
         private string _updateuser;
+        private int? _shippingplandetailid;
+        private string _remark;
         /// <summary>
         /// 数据唯一标识
         /// </summary>
@@ -134,10 +136,23 @@ namespace Semitron_OMS.Model.OMS
             set { _updateuser = value; }
             get { return _updateuser; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? ShippingPlanDetailID
+        {
+            set { _shippingplandetailid = value; }
+            get { return _shippingplandetailid; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Remark
+        {
+            set { _remark = value; }
+            get { return _remark; }
+        }
         #endregion Model
-
-        public int ShippingPlanDetailID { get; set; }
-        public string Remark { get; set; }
 
     }
 

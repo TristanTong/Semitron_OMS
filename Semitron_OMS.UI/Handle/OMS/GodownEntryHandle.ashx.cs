@@ -395,6 +395,9 @@ namespace Semitron_OMS.UI.Handle.OMS
 
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
                 SQLOperateHelper.SetEntityFiledValue(model, "UpdateTime", DateTime.Now);
+                model.IsApproved = oldModel.IsApproved;
+                model.ApprovedTime = oldModel.ApprovedTime;
+                model.ApprovedUser = oldModel.ApprovedUser;
                 string strResult = this._bllGodownEntry.ValidateAndUpdate(model);
                 if (strResult == "OK")
                 {

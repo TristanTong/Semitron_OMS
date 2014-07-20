@@ -176,7 +176,7 @@
         var endTime = $("#ulSearchInventory li input[name=EndTime]").val();
         var MPN = $("#ulSearchInventory li input[name=MPN]").val();
         var ProductCode = $("#ulSearchInventory li input[name=ProductCode]").val();
-        var StockCode = $("#ulSearchInventory li input[name='SearchWarehouse.WCode']").val();
+        var StockCode = $("#ulSearchInventory li input[name='Inventory_SearchWarehouse.WCode']").val();
 
         var p = {
             extParam: [   //扩展参数
@@ -250,10 +250,10 @@
             </li>
             <li style="width: 180px">
                 <div style="float: left;">仓库：</div>
-                <div style="float: left; width: 120px">
-                    <input name="SearchWarehouse.WCode" value="" type="hidden" />
-                    <input name="SearchWarehouse.WName" type="text" style="width: 80px;" readonly="readonly" />
-                    <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" lookupgroup="SearchWarehouse" rel="lSearchGodown_Main_SearchWarehouse">查找带回</a>
+                <div style="float: left; width: 140px">
+                    <input name="Inventory_SearchWarehouse.WCode" value="" type="hidden" />
+                    <input name="Inventory_SearchWarehouse.WName" type="text" style="width: 100px;" readonly="readonly" />
+                    <a class="btnLook" href="/Admin/Common/Warehouse/Lookup.html" lookupgroup="Inventory_SearchWarehouse" rel="lSearchInventory_Main_SearchWarehouse">查找带回</a>
                 </div>
             </li>
             <li style="width: 180px">

@@ -106,7 +106,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 else
                 {
                     result.State = 0;
-                    result.Info = strResult;
+                    result.Info = strResult.Replace("OK", "");
                 }
             }
             catch (Exception ex)

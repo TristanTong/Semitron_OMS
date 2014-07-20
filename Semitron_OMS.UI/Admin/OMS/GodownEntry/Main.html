@@ -111,11 +111,11 @@
                 artDialog.tips("当前入库单记录已无效，无法完成此操作。");
                 return false;
             }
-            if (obj[0][4] == "已审核") {
-                $("#btnEditGodownEntry").attr("href", "/Admin/OMS/GodownEntry/Edit.html?GodownEntryId={GodownEntryId}");
-                artDialog.tips("所选入库单已审核，无法完成此操作。");
-                return false;
-            }
+            //if (obj[0][4] == "已审核") {
+            //    $("#btnEditGodownEntry").attr("href", "/Admin/OMS/GodownEntry/Edit.html?GodownEntryId={GodownEntryId}");
+            //    artDialog.tips("所选入库单已审核，无法完成此操作。");
+            //    return false;
+            //}
             var id = obj[0][1];
             $("#btnEditGodownEntry").attr("href", "/Admin/OMS/GodownEntry/Edit.html?GodownEntryId=" + id);
             $("#hidSeletedGodownEntryId").val(id);

@@ -56,7 +56,7 @@
         });
     });
 
-    //根据Id获得入库单记录
+    //根据Id获得出库单记录
     function GetShippingListDetailById(id) {
         try {
             var url = "/Handle/OMS/ShippingListDetailHandle.ashx";
@@ -92,7 +92,7 @@
     <form method="get" action="/jui/common/ajaxDone.html" class="pageForm required-validate" onsubmit="return validateCallback(this)">
         <div class="pageFormContent nowrap" layouth="56" id="divEditShippingListDetail">
             <p>
-                <label>入库单号：</label>
+                <label>出库单号：</label>
                 <input type="text" size="16" value="" name="ShippingListNo" class="required" readonly="readonly" />
             </p>
             <p>

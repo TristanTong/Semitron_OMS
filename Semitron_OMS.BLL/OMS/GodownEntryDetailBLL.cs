@@ -21,156 +21,156 @@ using Semitron_OMS.Common;
 using Semitron_OMS.Model.OMS;
 namespace Semitron_OMS.BLL.OMS
 {
-	/// <summary>
-	/// 入库单明细表
-	/// </summary>
-	public partial class GodownEntryDetailBLL
-	{
-		private readonly Semitron_OMS.DAL.OMS.GodownEntryDetailDAL dal=new Semitron_OMS.DAL.OMS.GodownEntryDetailDAL();
-		public GodownEntryDetailBLL()
-		{}
-		#region  BasicMethod
+    /// <summary>
+    /// 入库单明细表
+    /// </summary>
+    public partial class GodownEntryDetailBLL
+    {
+        private readonly Semitron_OMS.DAL.OMS.GodownEntryDetailDAL dal = new Semitron_OMS.DAL.OMS.GodownEntryDetailDAL();
+        public GodownEntryDetailBLL()
+        { }
+        #region  BasicMethod
 
-		/// <summary>
-		/// 增加一条数据
-		/// </summary>
-		public int  Add(Semitron_OMS.Model.OMS.GodownEntryDetailModel model)
-		{
-			return dal.Add(model);
-		}
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public int Add(Semitron_OMS.Model.OMS.GodownEntryDetailModel model)
+        {
+            return dal.Add(model);
+        }
 
-		/// <summary>
-		/// 更新一条数据
-		/// </summary>
-		public bool Update(Semitron_OMS.Model.OMS.GodownEntryDetailModel model)
-		{
-			return dal.Update(model);
-		}
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool Update(Semitron_OMS.Model.OMS.GodownEntryDetailModel model)
+        {
+            return dal.Update(model);
+        }
 
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool Delete(int ID)
-		{
-			
-			return dal.Delete(ID);
-		}
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool DeleteList(string IDlist )
-		{
-			return dal.DeleteList(IDlist );
-		}
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool Delete(int ID)
+        {
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Semitron_OMS.Model.OMS.GodownEntryDetailModel GetModel(int ID)
-		{
-			
-			return dal.GetModel(ID);
-		}
+            return dal.Delete(ID);
+        }
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool DeleteList(string IDlist)
+        {
+            return dal.DeleteList(IDlist);
+        }
 
-		/// <summary>
-		/// 得到一个对象实体，从缓存中
-		/// </summary>
-		public Semitron_OMS.Model.OMS.GodownEntryDetailModel GetModelByCache(int ID)
-		{
-			
-			string CacheKey = "GodownEntryDetailModelModel-" + ID;
-			object objModel = Semitron_OMS.Common.DataCache.GetCache(CacheKey);
-			if (objModel == null)
-			{
-				try
-				{
-					objModel = dal.GetModel(ID);
-					if (objModel != null)
-					{
-						int ModelCache = Semitron_OMS.Common.ConfigHelper.GetConfigInt("ModelCache");
-						Semitron_OMS.Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
-					}
-				}
-				catch{}
-			}
-			return (Semitron_OMS.Model.OMS.GodownEntryDetailModel)objModel;
-		}
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Semitron_OMS.Model.OMS.GodownEntryDetailModel GetModel(int ID)
+        {
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetList(string strWhere)
-		{
-			return dal.GetList(strWhere);
-		}
-		/// <summary>
-		/// 获得前几行数据
-		/// </summary>
-		public DataSet GetList(int Top,string strWhere,string filedOrder)
-		{
-			return dal.GetList(Top,strWhere,filedOrder);
-		}
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public List<Semitron_OMS.Model.OMS.GodownEntryDetailModel> GetModelList(string strWhere)
-		{
-			DataSet ds = dal.GetList(strWhere);
-			return DataTableToList(ds.Tables[0]);
-		}
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public List<Semitron_OMS.Model.OMS.GodownEntryDetailModel> DataTableToList(DataTable dt)
-		{
-			List<Semitron_OMS.Model.OMS.GodownEntryDetailModel> modelList = new List<Semitron_OMS.Model.OMS.GodownEntryDetailModel>();
-			int rowsCount = dt.Rows.Count;
-			if (rowsCount > 0)
-			{
-				Semitron_OMS.Model.OMS.GodownEntryDetailModel model;
-				for (int n = 0; n < rowsCount; n++)
-				{
-					model = dal.DataRowToModel(dt.Rows[n]);
-					if (model != null)
-					{
-						modelList.Add(model);
-					}
-				}
-			}
-			return modelList;
-		}
+            return dal.GetModel(ID);
+        }
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetAllList()
-		{
-			return GetList("");
-		}
+        /// <summary>
+        /// 得到一个对象实体，从缓存中
+        /// </summary>
+        public Semitron_OMS.Model.OMS.GodownEntryDetailModel GetModelByCache(int ID)
+        {
 
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public int GetRecordCount(string strWhere)
-		{
-			return dal.GetRecordCount(strWhere);
-		}
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-		{
-			return dal.GetListByPage( strWhere,  orderby,  startIndex,  endIndex);
-		}
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		//public DataSet GetList(int PageSize,int PageIndex,string strWhere)
-		//{
-			//return dal.GetList(PageSize,PageIndex,strWhere);
-		//}
+            string CacheKey = "GodownEntryDetailModelModel-" + ID;
+            object objModel = Semitron_OMS.Common.DataCache.GetCache(CacheKey);
+            if (objModel == null)
+            {
+                try
+                {
+                    objModel = dal.GetModel(ID);
+                    if (objModel != null)
+                    {
+                        int ModelCache = Semitron_OMS.Common.ConfigHelper.GetConfigInt("ModelCache");
+                        Semitron_OMS.Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
+                    }
+                }
+                catch { }
+            }
+            return (Semitron_OMS.Model.OMS.GodownEntryDetailModel)objModel;
+        }
 
-		#endregion  BasicMethod
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(string strWhere)
+        {
+            return dal.GetList(strWhere);
+        }
+        /// <summary>
+        /// 获得前几行数据
+        /// </summary>
+        public DataSet GetList(int Top, string strWhere, string filedOrder)
+        {
+            return dal.GetList(Top, strWhere, filedOrder);
+        }
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public List<Semitron_OMS.Model.OMS.GodownEntryDetailModel> GetModelList(string strWhere)
+        {
+            DataSet ds = dal.GetList(strWhere);
+            return DataTableToList(ds.Tables[0]);
+        }
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public List<Semitron_OMS.Model.OMS.GodownEntryDetailModel> DataTableToList(DataTable dt)
+        {
+            List<Semitron_OMS.Model.OMS.GodownEntryDetailModel> modelList = new List<Semitron_OMS.Model.OMS.GodownEntryDetailModel>();
+            int rowsCount = dt.Rows.Count;
+            if (rowsCount > 0)
+            {
+                Semitron_OMS.Model.OMS.GodownEntryDetailModel model;
+                for (int n = 0; n < rowsCount; n++)
+                {
+                    model = dal.DataRowToModel(dt.Rows[n]);
+                    if (model != null)
+                    {
+                        modelList.Add(model);
+                    }
+                }
+            }
+            return modelList;
+        }
+
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetAllList()
+        {
+            return GetList("");
+        }
+
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public int GetRecordCount(string strWhere)
+        {
+            return dal.GetRecordCount(strWhere);
+        }
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+        {
+            return dal.GetListByPage(strWhere, orderby, startIndex, endIndex);
+        }
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        //public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+        //{
+        //return dal.GetList(PageSize,PageIndex,strWhere);
+        //}
+
+        #endregion  BasicMethod
         #region  ExtensionMethod
 
         public void AddList(List<GodownEntryDetailModel> lstGodownEntryDetailModel)
@@ -249,6 +249,11 @@ namespace Semitron_OMS.BLL.OMS
             if (model.Price <= 0)
             {
                 strResult += "产品单价需大于0.";
+            }
+            GodownEntryModel gModel = new GodownEntryBLL().GetModel(model.GodownEntryID);
+            if (gModel != null && gModel.IsApproved == true)
+            {
+                strResult += "入库单已审核,无法完成编辑操作.";
             }
 
             if (strResult == "OK" && !this.Update(model))

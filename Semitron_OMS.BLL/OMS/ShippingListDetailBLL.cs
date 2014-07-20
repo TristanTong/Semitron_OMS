@@ -262,6 +262,12 @@ namespace Semitron_OMS.BLL.OMS
                 strResult += "出库数量需大于0.";
             }
 
+            ShippingListModel lModel = new ShippingListBLL().GetModel(model.ShippingListID);
+            if (lModel != null && lModel.IsApproved == true)
+            {
+                strResult += "出库单已审核,无法完成编辑操作.";
+            }
+
             if (strResult == "OK" && !this.Update(model))
             {
                 strResult = "更新记录发生数据库异常，请联系管理员。";

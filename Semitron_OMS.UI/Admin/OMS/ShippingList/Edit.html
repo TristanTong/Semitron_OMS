@@ -88,12 +88,12 @@
             if ($(this).children("td").find('input[type=text]').val()) {
                 var defaultValue = "";
                 defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.ShippingPlanDetailId']").val());
-                strJson += "{ShippingPlanDetailId:\"" + defaultValue + "\",";
+                strJson += "{ShippingPlanDetailID:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.ShippingPlanNo']").val());
                 strJson += "ShippingPlanNo:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.ProductCode']").val());
                 strJson += "ProductCode:\"" + defaultValue + "\",";
-                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.OutQty']").val());
+                defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.OutStockQty']").val());
                 strJson += "OutQty:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.StockCode']").val());
                 strJson += "StockCode:\"" + defaultValue + "\",";
@@ -124,7 +124,7 @@
                     $("#btnCloseShippingList").click();
                     return false;
                 } else {
-                    
+
                     $("#divEditShippingList p input[name='ShippingListNo']").val(json.ShippingListNo);
                     var shippingPlanDate = json.ShippingListDate;
                     if (shippingPlanDate && shippingPlanDate.length > 10) {
@@ -284,16 +284,16 @@
                     <thead>
                         <tr>
                             <th type="lookup" name="items[#index#].ShippingPlanDetail.ShippingPlanDetailId" lookupgroup="items[#index#].ShippingPlanDetail" lookupurl="/Admin/OMS/ShippingPlan/Lookup.html" size="4" fieldclass="digits required readonly" width="60">出货计划</th>
-                            <th type="text" name="items[#index#].ShippingPlanDetail.ShippingPlanNo" size="8" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="75">出货计划号</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.ShippingPlanNo" size="15" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="75">出货计划号</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.PlanStockCode" size="8" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="75">计划出货仓</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.PlanStockName" size="15" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="110">计划出货仓名称</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.CPN" size="16" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="90">客户型号</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.MPN" size="16" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="90">厂商型号</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.ProductCode" size="6" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="65">产品编码</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.PlanQty" defaultval="0" size="6" fieldclass="digits readonly " width="80">计划数量</th>
-                            <th type="text" name="items[#index#].ShippingPlanDetail.StockCode" size="8" fieldclass="required readonly" fieldattrs="{maxlength:36}" width="75">实际出库仓</th>
-                            <th type="text" name="items[#index#].ShippingPlanDetail.StockName" size="15" fieldclass="readonly" fieldattrs="{maxlength:36}" width="110">实际出库仓名称</th>
-                            <th type="text" name="items[#index#].ShippingPlanDetail.OutQty" defaultval="0" size="6" fieldclass="digits required" width="80">出库数量</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.StockCode" size="8" fieldclass="required " fieldattrs="{maxlength:36}" width="75">实际出库仓</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.StockName" size="15" fieldclass="" fieldattrs="{maxlength:36}" width="110">实际出库仓名称</th>
+                            <th type="text" name="items[#index#].ShippingPlanDetail.OutStockQty" defaultval="0" size="6" fieldclass="digits required" width="80">出库数量</th>
                             <th type="lookup" name="items[#index#].ChargeUserID.AdminId" lookupgroup="items[#index#].ChargeUserID" lookupurl="/Admin/Sys/Admin/Lookup.html" size="6" fieldclass="digits required readonly" fieldattrs="{readonly:readonly}" width="60">责任人ID</th>
                             <th type="text" name="items[#index#].ChargeUserID.Name" size="8" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="80">责任人姓名</th>
                             <th type="text" name="items[#index#].ShippingListDetail.Remark" size="48" width="80">备注</th>

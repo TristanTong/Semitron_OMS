@@ -81,7 +81,7 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.MPN", _request.Form["MPN"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.WCodeBelong", _request.Form["WCode"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.WCodeBelong", _request.Form["StockCode"], ConditionEnm.Equal));
 
             //查询条件：开始时间，结束时间
             //时间类型

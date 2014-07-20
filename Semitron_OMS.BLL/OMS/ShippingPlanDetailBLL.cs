@@ -257,6 +257,11 @@ namespace Semitron_OMS.BLL.OMS
             {
                 strResult += "出货计划数量需大于0.";
             }
+            ShippingPlanModel pModel = new ShippingPlanBLL().GetModel((int)model.ShippingPlanID);
+            if (pModel != null && pModel.IsApproved == true)
+            {
+                strResult += "出货计划已审核,无法完成编辑操作.";
+            }
 
             if (strResult == "OK" && !this.Update(model))
             {
@@ -278,28 +283,22 @@ namespace Semitron_OMS.BLL.OMS
             {
                 ShippingPlanDetailDisplayModel model = new ShippingPlanDetailDisplayModel();
                 model.ID = dr["ID"].ToInt(0);
-                model.AvailFlag = dr["AvailFlag"].ToInt(0) == 1 ? true : false;
-                model.ShippingPlanID = dr["ShippingPlanID"].ToInt(0);
                 model.ShippingPlanNo = dr["ShippingPlanNo"].ToString();
-                model.CustomerOrderDetailId = dr["CustomerOrderDetailId"].ToInt(0);
-                model.InnerOrderNO = dr["InnerOrderNO"].ToString();
-                model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
                 model.CPN = dr["CPN"].ToString();
-                model.CustQuantity = dr["CustQuantity"].ToInt(0);
-                model.PlanedQty = dr["PlanedQty"].ToInt(0);
-                model.WCode = dr["WCode"].ToString();
-                model.WName = dr["WName"].ToString();
+                model.FinishOutQty = dr["FinishOutQty"].ToInt(0);
+                model.PlanStockCode = dr["PlanStockCode"].ToString();
+                model.PlanStockName = dr["PlanStockName"].ToString();
                 model.ProductCode = dr["ProductCode"].ToString();
                 model.MPN = dr["MPN"].ToString();
                 model.PlanQty = dr["PlanQty"].ToInt(0);
-                model.Remark = dr["Remark"].ToString();
-                listDisplayModel.Add(model);
-
+                model.SupplierCode = dr["SupplierCode"].ToString();
+                model.SupplierName = dr["SupplierName"].ToString();
+                model.OutStockQty = model.PlanQty - model.FinishOutQty;
                 //如果为可出货的记录，则显示
-                //if (model.OutStock > 0)
-                //{
-                //    listModel.Add(model);
-                //}
+                if (model.OutStockQty > 0)
+                {
+                    listDisplayModel.Add(model);
+                }
             }
             return listDisplayModel;
         }

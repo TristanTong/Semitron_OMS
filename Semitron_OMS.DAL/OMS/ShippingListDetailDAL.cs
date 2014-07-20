@@ -63,9 +63,9 @@ namespace Semitron_OMS.DAL.OMS
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into ShippingListDetail(");
-            strSql.Append("ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+            strSql.Append("ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser,ShippingPlanDetailID,Remark)");
             strSql.Append(" values (");
-            strSql.Append("@ShippingListID,@StockCode,@ShippingPlanNo,@ProductCode,@OutQty,@ChargeUserID,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+            strSql.Append("@ShippingListID,@StockCode,@ShippingPlanNo,@ProductCode,@OutQty,@ChargeUserID,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser,@ShippingPlanDetailID,@Remark)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@ShippingListID", SqlDbType.Int,4),
@@ -78,7 +78,9 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
-					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
+					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50),
+					new SqlParameter("@ShippingPlanDetailID", SqlDbType.Int,4),
+					new SqlParameter("@Remark", SqlDbType.NVarChar,1024)};
             parameters[0].Value = model.ShippingListID;
             parameters[1].Value = model.StockCode;
             parameters[2].Value = model.ShippingPlanNo;
@@ -90,6 +92,8 @@ namespace Semitron_OMS.DAL.OMS
             parameters[8].Value = model.CreateUser;
             parameters[9].Value = model.UpdateTime;
             parameters[10].Value = model.UpdateUser;
+            parameters[11].Value = model.ShippingPlanDetailID;
+            parameters[12].Value = model.Remark;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -118,7 +122,9 @@ namespace Semitron_OMS.DAL.OMS
             strSql.Append("CreateTime=@CreateTime,");
             strSql.Append("CreateUser=@CreateUser,");
             strSql.Append("UpdateTime=@UpdateTime,");
-            strSql.Append("UpdateUser=@UpdateUser");
+            strSql.Append("UpdateUser=@UpdateUser,");
+            strSql.Append("ShippingPlanDetailID=@ShippingPlanDetailID,");
+            strSql.Append("Remark=@Remark");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ShippingListID", SqlDbType.Int,4),
@@ -132,6 +138,8 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50),
+					new SqlParameter("@ShippingPlanDetailID", SqlDbType.Int,4),
+					new SqlParameter("@Remark", SqlDbType.NVarChar,1024),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
             parameters[0].Value = model.ShippingListID;
             parameters[1].Value = model.StockCode;
@@ -144,7 +152,9 @@ namespace Semitron_OMS.DAL.OMS
             parameters[8].Value = model.CreateUser;
             parameters[9].Value = model.UpdateTime;
             parameters[10].Value = model.UpdateUser;
-            parameters[11].Value = model.ID;
+            parameters[11].Value = model.ShippingPlanDetailID;
+            parameters[12].Value = model.Remark;
+            parameters[13].Value = model.ID;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -208,7 +218,7 @@ namespace Semitron_OMS.DAL.OMS
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 ID,ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser from ShippingListDetail ");
+            strSql.Append("select  top 1 ID,ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser,ShippingPlanDetailID,Remark from ShippingListDetail ");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -291,6 +301,14 @@ namespace Semitron_OMS.DAL.OMS
                 {
                     model.UpdateUser = row["UpdateUser"].ToString();
                 }
+                if (row["ShippingPlanDetailID"] != null && row["ShippingPlanDetailID"].ToString() != "")
+                {
+                    model.ShippingPlanDetailID = int.Parse(row["ShippingPlanDetailID"].ToString());
+                }
+                if (row["Remark"] != null)
+                {
+                    model.Remark = row["Remark"].ToString();
+                }
             }
             return model;
         }
@@ -301,7 +319,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append("select ID,ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser,ShippingPlanDetailID,Remark ");
             strSql.Append(" FROM ShippingListDetail ");
             if (strWhere.Trim() != "")
             {
@@ -321,7 +339,7 @@ namespace Semitron_OMS.DAL.OMS
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" ID,ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append(" ID,ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser,ShippingPlanDetailID,Remark ");
             strSql.Append(" FROM ShippingListDetail ");
             if (strWhere.Trim() != "")
             {
@@ -416,9 +434,9 @@ namespace Semitron_OMS.DAL.OMS
             {
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("insert into ShippingListDetail(");
-                strSql.Append("ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+                strSql.Append("ShippingListID,StockCode,ShippingPlanNo,ProductCode,OutQty,ChargeUserID,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser,ShippingPlanDetailID,Remark)");
                 strSql.Append(" values (");
-                strSql.Append("@ShippingListID,@StockCode,@ShippingPlanNo,@ProductCode,@OutQty,@ChargeUserID,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+                strSql.Append("@ShippingListID,@StockCode,@ShippingPlanNo,@ProductCode,@OutQty,@ChargeUserID,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser,@ShippingPlanDetailID,@Remark)");
                 strSql.Append(";select @@IDENTITY");
                 SqlParameter[] parameters = {
 					new SqlParameter("@ShippingListID", SqlDbType.Int,4),
@@ -431,7 +449,9 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
-					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
+					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50),
+					new SqlParameter("@ShippingPlanDetailID", SqlDbType.Int,4),
+					new SqlParameter("@Remark", SqlDbType.NVarChar,1024)};
                 parameters[0].Value = model.ShippingListID;
                 parameters[1].Value = model.StockCode;
                 parameters[2].Value = model.ShippingPlanNo;
@@ -443,6 +463,8 @@ namespace Semitron_OMS.DAL.OMS
                 parameters[8].Value = model.CreateUser;
                 parameters[9].Value = model.UpdateTime;
                 parameters[10].Value = model.UpdateUser;
+                parameters[11].Value = model.ShippingPlanDetailID;
+                parameters[12].Value = model.Remark;
                 SQLStringList.Add(strSql, parameters);
             }
             DbHelperSQL.ExecuteSqlTran(SQLStringList);

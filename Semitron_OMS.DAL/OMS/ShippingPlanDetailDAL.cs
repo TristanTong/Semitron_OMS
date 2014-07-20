@@ -19,7 +19,8 @@ using System.Data;
 using System.Text;
 using System.Data.SqlClient;
 using Semitron_OMS.DBUtility;
-using System.Collections;//Please add references
+using System.Collections;
+using Semitron_OMS.Common;//Please add references
 namespace Semitron_OMS.DAL.OMS
 {
     /// <summary>
@@ -63,19 +64,21 @@ namespace Semitron_OMS.DAL.OMS
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into ShippingPlanDetail(");
-            strSql.Append("ShippingPlanID,PlanStockCode,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+            strSql.Append("ShippingPlanID,PlanStockCode,InnerOrderNO,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,Remark,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser)");
             strSql.Append(" values (");
-            strSql.Append("@ShippingPlanID,@PlanStockCode,@CustomerOrderNo,@CustomerDetailID,@CPN,@MPN,@ProductCode,@PlanQty,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+            strSql.Append("@ShippingPlanID,@PlanStockCode,@InnerOrderNO,@CustomerOrderNo,@CustomerDetailID,@CPN,@MPN,@ProductCode,@PlanQty,@Remark,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@ShippingPlanID", SqlDbType.Int,4),
 					new SqlParameter("@PlanStockCode", SqlDbType.NVarChar,50),
+					new SqlParameter("@InnerOrderNO", SqlDbType.NVarChar,50),
 					new SqlParameter("@CustomerOrderNo", SqlDbType.NVarChar,50),
 					new SqlParameter("@CustomerDetailID", SqlDbType.Int,4),
 					new SqlParameter("@CPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@MPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
 					new SqlParameter("@PlanQty", SqlDbType.Int,4),
+					new SqlParameter("@Remark", SqlDbType.NVarChar,1024),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
@@ -83,17 +86,19 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
             parameters[0].Value = model.ShippingPlanID;
             parameters[1].Value = model.PlanStockCode;
-            parameters[2].Value = model.CustomerOrderNo;
-            parameters[3].Value = model.CustomerDetailID;
-            parameters[4].Value = model.CPN;
-            parameters[5].Value = model.MPN;
-            parameters[6].Value = model.ProductCode;
-            parameters[7].Value = model.PlanQty;
-            parameters[8].Value = model.AvailFlag;
-            parameters[9].Value = model.CreateTime;
-            parameters[10].Value = model.CreateUser;
-            parameters[11].Value = model.UpdateTime;
-            parameters[12].Value = model.UpdateUser;
+            parameters[2].Value = model.InnerOrderNO;
+            parameters[3].Value = model.CustomerOrderNo;
+            parameters[4].Value = model.CustomerDetailID;
+            parameters[5].Value = model.CPN;
+            parameters[6].Value = model.MPN;
+            parameters[7].Value = model.ProductCode;
+            parameters[8].Value = model.PlanQty;
+            parameters[9].Value = model.Remark;
+            parameters[10].Value = model.AvailFlag;
+            parameters[11].Value = model.CreateTime;
+            parameters[12].Value = model.CreateUser;
+            parameters[13].Value = model.UpdateTime;
+            parameters[14].Value = model.UpdateUser;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -114,12 +119,14 @@ namespace Semitron_OMS.DAL.OMS
             strSql.Append("update ShippingPlanDetail set ");
             strSql.Append("ShippingPlanID=@ShippingPlanID,");
             strSql.Append("PlanStockCode=@PlanStockCode,");
+            strSql.Append("InnerOrderNO=@InnerOrderNO,");
             strSql.Append("CustomerOrderNo=@CustomerOrderNo,");
             strSql.Append("CustomerDetailID=@CustomerDetailID,");
             strSql.Append("CPN=@CPN,");
             strSql.Append("MPN=@MPN,");
             strSql.Append("ProductCode=@ProductCode,");
             strSql.Append("PlanQty=@PlanQty,");
+            strSql.Append("Remark=@Remark,");
             strSql.Append("AvailFlag=@AvailFlag,");
             strSql.Append("CreateTime=@CreateTime,");
             strSql.Append("CreateUser=@CreateUser,");
@@ -129,12 +136,14 @@ namespace Semitron_OMS.DAL.OMS
             SqlParameter[] parameters = {
 					new SqlParameter("@ShippingPlanID", SqlDbType.Int,4),
 					new SqlParameter("@PlanStockCode", SqlDbType.NVarChar,50),
+					new SqlParameter("@InnerOrderNO", SqlDbType.NVarChar,50),
 					new SqlParameter("@CustomerOrderNo", SqlDbType.NVarChar,50),
 					new SqlParameter("@CustomerDetailID", SqlDbType.Int,4),
 					new SqlParameter("@CPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@MPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
 					new SqlParameter("@PlanQty", SqlDbType.Int,4),
+					new SqlParameter("@Remark", SqlDbType.NVarChar,1024),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
@@ -143,18 +152,20 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@ID", SqlDbType.Int,4)};
             parameters[0].Value = model.ShippingPlanID;
             parameters[1].Value = model.PlanStockCode;
-            parameters[2].Value = model.CustomerOrderNo;
-            parameters[3].Value = model.CustomerDetailID;
-            parameters[4].Value = model.CPN;
-            parameters[5].Value = model.MPN;
-            parameters[6].Value = model.ProductCode;
-            parameters[7].Value = model.PlanQty;
-            parameters[8].Value = model.AvailFlag;
-            parameters[9].Value = model.CreateTime;
-            parameters[10].Value = model.CreateUser;
-            parameters[11].Value = model.UpdateTime;
-            parameters[12].Value = model.UpdateUser;
-            parameters[13].Value = model.ID;
+            parameters[2].Value = model.InnerOrderNO;
+            parameters[3].Value = model.CustomerOrderNo;
+            parameters[4].Value = model.CustomerDetailID;
+            parameters[5].Value = model.CPN;
+            parameters[6].Value = model.MPN;
+            parameters[7].Value = model.ProductCode;
+            parameters[8].Value = model.PlanQty;
+            parameters[9].Value = model.Remark;
+            parameters[10].Value = model.AvailFlag;
+            parameters[11].Value = model.CreateTime;
+            parameters[12].Value = model.CreateUser;
+            parameters[13].Value = model.UpdateTime;
+            parameters[14].Value = model.UpdateUser;
+            parameters[15].Value = model.ID;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -218,7 +229,7 @@ namespace Semitron_OMS.DAL.OMS
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 ID,ShippingPlanID,PlanStockCode,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser from ShippingPlanDetail ");
+            strSql.Append("select  top 1 ID,ShippingPlanID,PlanStockCode,InnerOrderNO,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,Remark,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser from ShippingPlanDetail ");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -258,6 +269,10 @@ namespace Semitron_OMS.DAL.OMS
                 {
                     model.PlanStockCode = row["PlanStockCode"].ToString();
                 }
+                if (row["InnerOrderNO"] != null)
+                {
+                    model.InnerOrderNO = row["InnerOrderNO"].ToString();
+                }
                 if (row["CustomerOrderNo"] != null)
                 {
                     model.CustomerOrderNo = row["CustomerOrderNo"].ToString();
@@ -281,6 +296,10 @@ namespace Semitron_OMS.DAL.OMS
                 if (row["PlanQty"] != null && row["PlanQty"].ToString() != "")
                 {
                     model.PlanQty = int.Parse(row["PlanQty"].ToString());
+                }
+                if (row["Remark"] != null)
+                {
+                    model.Remark = row["Remark"].ToString();
                 }
                 if (row["AvailFlag"] != null && row["AvailFlag"].ToString() != "")
                 {
@@ -319,7 +338,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,ShippingPlanID,PlanStockCode,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append("select ID,ShippingPlanID,PlanStockCode,InnerOrderNO,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,Remark,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser ");
             strSql.Append(" FROM ShippingPlanDetail ");
             if (strWhere.Trim() != "")
             {
@@ -339,7 +358,7 @@ namespace Semitron_OMS.DAL.OMS
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" ID,ShippingPlanID,PlanStockCode,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append(" ID,ShippingPlanID,PlanStockCode,InnerOrderNO,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,Remark,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser ");
             strSql.Append(" FROM ShippingPlanDetail ");
             if (strWhere.Trim() != "")
             {
@@ -519,11 +538,23 @@ namespace Semitron_OMS.DAL.OMS
         }
 
         /// <summary>
-        /// 获取待出货计划的产品清单列表
+        /// 获得未进行出货的出货计划数据
         /// </summary>
         public DataTable GetShippingPlanDetailUnOutStockList(System.Collections.Generic.List<Semitron_OMS.Common.SQLConditionFilter> lstFilter)
         {
-            throw new NotImplementedException();
+            //查询字段
+            string strGetFields = " D.ID, SP.ShippingPlanNo, D.PlanStockCode, PlanStockName=W.WName, D.CPN, D.MPN, D.ProductCode, D.PlanQty,FinishOutQty=(SELECT SUM(LD.OutQty) FROM dbo.ShippingListDetail AS LD WITH ( NOLOCK ) WHERE LD.AvailFlag=1 AND LD.ShippingPlanDetailID=D.ID), SupplierCode=S.SCode, S.SupplierName ";
+
+            //查询表名
+            string strTableName = " dbo.ShippingPlanDetail AS D WITH ( NOLOCK ) INNER JOIN dbo.ShippingPlan AS SP WITH ( NOLOCK ) ON SP.ID = D.ShippingPlanID LEFT JOIN dbo.ProductInfo AS P WITH ( NOLOCK ) ON P.ProductCode = D.ProductCode LEFT JOIN dbo.Warehouse AS W ON W.WCode = D.PlanStockCode LEFT JOIN dbo.Supplier AS S  WITH ( NOLOCK ) ON S.ID=P.SupplierID ";
+
+            //查询条件
+            string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + " AND D.AvailFlag=1 AND SP.State=1";
+
+            //分组条件
+            string strGroupBy = "  ";
+
+            return DbHelperSQL.Query("SELECT " + strGetFields + " FROM " + strTableName + " WHERE " + strWhere).Tables[0];
         }
         #endregion  ExtensionMethod
 
