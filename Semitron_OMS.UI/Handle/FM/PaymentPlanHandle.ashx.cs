@@ -6,16 +6,16 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace Semitron_OMS.UI.Handle.Common
+namespace Semitron_OMS.UI.Handle.FM
 {
     /// <summary>
-    /// ProductInfoHandle 的摘要说明
+    /// PaymentPlanHandle 的摘要说明
     /// </summary>
-    public class ProductInfoHandle : IHttpHandler, System.Web.SessionState.IRequiresSessionState
+    public class PaymentPlanHandle : IHttpHandler, System.Web.SessionState.IRequiresSessionState
     {
-        //产品编码对象
-        log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(ProductInfoHandle));
-        Semitron_OMS.BLL.Common.ProductInfoBLL _bllProductType = new Semitron_OMS.BLL.Common.ProductInfoBLL();
+        //付款计划对象
+        log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(PaymentPlanHandle));
+        Semitron_OMS.BLL.FM.PaymentPlanBLL _bllProductType = new Semitron_OMS.BLL.FM.PaymentPlanBLL();
         HttpRequest _request = HttpContext.Current.Request;
         AdminModel _adminModel = new AdminModel();
 
@@ -41,11 +41,11 @@ namespace Semitron_OMS.UI.Handle.Common
             {
                 switch (methStr)
                 {
-                    //获取产品编码列表
-                    case "GetProductInfo":
-                        context.Response.Write(GetProductInfo());
+                    //获取付款计划列表
+                    case "GetPaymentPlan":
+                        context.Response.Write(GetPaymentPlan());
                         break;
-                    //生成产品编码
+                    //生成付款计划
                     case "GenerateCode":
                         context.Response.Write(GenerateCode());
                         break;
@@ -55,9 +55,9 @@ namespace Semitron_OMS.UI.Handle.Common
         }
 
         /// <summary>
-        /// 获取产品编码列表
+        /// 获取付款计划列表
         /// </summary>
-        private string GetProductInfo()
+        private string GetPaymentPlan()
         {
             //查询条件信息
             PageSearchInfo searchInfo = new PageSearchInfo();
@@ -82,12 +82,12 @@ namespace Semitron_OMS.UI.Handle.Common
             searchInfo.OrderByField = DataUtility.GetPageFormValue(strOrder, string.Empty);
             //排序类型
             searchInfo.OrderType = DataUtility.ToStr(_request.Form["sortorder"]).ToUpper() == "ASC" ? 0 : 1;
-              SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.AvailFlag", 
-                _request.Form["AvailFlag"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.AvailFlag",
+              _request.Form["AvailFlag"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.ProductCode",
                 _request.Form["ProductCode"], ConditionEnm.AllLike));//这里alllike就是模糊查询了
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.MPN",
-                _request.Form["MPN"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.PONO",
+                _request.Form["PONO"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("S.SCode",
                 _request.Form["SupplierCode"], ConditionEnm.Equal));
 
@@ -122,7 +122,7 @@ namespace Semitron_OMS.UI.Handle.Common
             DataTable dt = new DataTable();
             try
             {
-                DataSet ds = _bllProductType.GetProductInfoPageData(searchInfo, out o_RowsCount);
+                DataSet ds = _bllProductType.GetPaymentPlanPageData(searchInfo, out o_RowsCount);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     dt = ds.Tables[0];
@@ -131,7 +131,7 @@ namespace Semitron_OMS.UI.Handle.Common
             catch (Exception ex)
             {
                 dt = new DataTable();
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取产品编码信息出现异常:" + ex.Message, ex);
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取付款计划信息出现异常:" + ex.Message, ex);
             }
             string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
             return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);

@@ -126,6 +126,12 @@ namespace Semitron_OMS.UI.Handle.Sys
                         context.Response.Charset = "utf-8";
                         context.Response.Write(GetIndexMenu(context));
                         break;
+                    //获取主页中的导航索引菜单
+                    case "GetIndexMenuFM":
+                        context.Response.ContentType = "text/plain";
+                        context.Response.Charset = "utf-8";
+                        context.Response.Write(GetIndexMenuFM(context));
+                        break;
                 }
             }
             context.Response.End();
@@ -133,19 +139,25 @@ namespace Semitron_OMS.UI.Handle.Sys
 
         private string GetIndexMenu(HttpContext context)
         {
+            return GetIndexHtml(context);
+        }
+
+        private string GetIndexMenuFM(HttpContext context)
+        {
+            return GetIndexHtml(context);
+        }
+
+
+        private string GetIndexHtml(HttpContext context)
+        {
             AdminModel am = context.Session["Admin"] as AdminModel;
             string strHtmlMenu = string.Empty;
             int iParentSystem = 0;
-            int.TryParse(ConfigurationManager.AppSettings["ParenSystem"].ToString(), out iParentSystem);
+            int.TryParse(HttpContext.Current.Request.Form["ParentSystem"], out iParentSystem);
             SubSystemPer ssp = new SubSystemPer();
             ssp = am.PerModule.SubSystemPers.Where(item => item.Key == iParentSystem).First().Value;
             foreach (ModulePer modPer in PermissionUtility.GetModulePer(ssp, string.Empty))
             {
-                //<li><a href="#">主框架面板</a>
-                //               <ul>
-                //                   <li><a href="/Admin/OMS/BrandManager.aspx" target="navTab" rel="external" external="true">iframe navTab页面</a></li>
-                //               </ul>
-                //           </li>
                 strHtmlMenu += "<li><a href=\"#\">" + modPer.Name + "</a><ul>";
                 foreach (PagePer pp in modPer.PagePers.Values)
                 {
@@ -173,7 +185,6 @@ namespace Semitron_OMS.UI.Handle.Sys
             }
             return strHtmlMenu;
         }
-
         /// <summary>
         /// 获取登陆用户信息
         /// </summary>

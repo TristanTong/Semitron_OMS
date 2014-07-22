@@ -291,7 +291,7 @@ namespace Semitron_OMS.BLL.Common
         /// <summary>
         /// 登陆
         /// </summary>
-        public AdminModel Login(string ParentSystem, string IP, string username, string pwd, out PageResult result)
+        public AdminModel Login(string strParentSystem, string IP, string username, string pwd, out PageResult result)
         {
             AdminModel model = new AdminModel();
 
@@ -307,14 +307,14 @@ namespace Semitron_OMS.BLL.Common
             {
                 string condition = "A.AvailFlag=1 and R.AvailFlag=1 and P.AvailFlag=1 and O.AvailFlag=1";
                 //得到子系统权限父节点下的所有子权限id
-                if (string.IsNullOrEmpty(ParentSystem))
+                if (string.IsNullOrEmpty(strParentSystem))
                 {
-                    ParentSystem = "-1";
+                    strParentSystem = "-1";
                 }
 
                 Semitron_OMS.BLL.Common.Permission bllPermission = new BLL.Common.Permission();
 
-                DataTable dtPermission = bllPermission.GetSubPermissionIds(int.Parse(ParentSystem));
+                DataTable dtPermission = bllPermission.GetSubPermissionIds(strParentSystem);
 
                 //得到所有拥有的权限id
                 condition += " and A.Username='" + username + "' and A.Password='" + pwd + "'";
@@ -403,19 +403,29 @@ namespace Semitron_OMS.BLL.Common
                     perModule.ID = -1;
                     perModule.Code = "-1";
                     perModule.Name = "-1";
-                    BasePer bp = new BasePer();
-                    bp.ID = int.Parse(ParentSystem);
-                    bp.Name = "Semitron_OMS";
-                    bp.Code = "Semitron_OMS";
-                    PermissionUtility.GetPermissionModuleWithSingleSubSys(bp, dt, perModule);
+
+                    List<BasePer> bpList = new List<BasePer>();
+                    foreach (string strParentId in strParentSystem.Split(','))
+                    {
+                        BasePer bp = new BasePer();
+                        bp.ID = int.Parse(strParentId);
+                        bp.Name = "Semitron_Sys_" + strParentId;
+                        bp.Code = "Semitron_Sys_" + strParentId;
+
+                        bpList.Add(bp);
+                    }
+                    PermissionUtility.GetPermissionModuleWithMultiSubSys(bpList, dt, perModule);
                     model.PerModule = perModule;
 
                     result.State = 1;
                     result.Info = "登陆成功!";
 
-                    if (PermissionUtility.IsExistPageCode(perModule.SubSystemPers[bp.ID], "SYS/AdminManage.aspx"))
+                    foreach (BasePer bp in bpList)
                     {
-                        result.Remark = PermissionUtility.ToCodeCommaString(PermissionUtility.GetButtonPer(perModule.SubSystemPers[bp.ID], "SYS/AdminManage.aspx"));
+                        if (PermissionUtility.IsExistPageCode(perModule.SubSystemPers[bp.ID], "SYS/AdminManage.aspx"))
+                        {
+                            result.Remark = PermissionUtility.ToCodeCommaString(PermissionUtility.GetButtonPer(perModule.SubSystemPers[bp.ID], "SYS/AdminManage.aspx"));
+                        }
                     }
                 }
             }

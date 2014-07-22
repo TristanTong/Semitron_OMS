@@ -531,14 +531,12 @@ namespace Semitron_OMS.DAL.Common
         /// <summary>
         /// 得到子系统权限父节点下的所有子权限id
         /// </summary>
-        /// <param name="iParentId"></param>
+        /// <param name="strParentIds">子系统父节点字符串</param>
         /// <returns></returns>
-        public DataSet GetSubPermissionIds(int iParentId)
+        public DataSet GetSubPermissionIds(string strParentIds)
         {
-            SqlParameter[] parameters = {
-					new SqlParameter("@PermissionID", SqlDbType.Int,4)};
-            parameters[0].Value = iParentId;
-            string strSql = " WITH  total ( PermissionID, Name, Pid ) AS ( SELECT PermissionID ,Name,Pid FROM Permission a WHERE  a.PermissionID = " + iParentId + " UNION ALL SELECT a.PermissionID , a.Name , a.Pid FROM  total , dbo.Permission a WHERE  a.Pid = total.PermissionID AND a.AvailFlag = 1 ) SELECT  PermissionID FROM  total";
+            SqlParameter[] parameters = { };
+            string strSql = " WITH  total ( PermissionID, Name, Pid ) AS ( SELECT PermissionID ,Name,Pid FROM Permission a WHERE  a.PermissionID in (" + strParentIds + ") UNION ALL SELECT a.PermissionID , a.Name , a.Pid FROM  total , dbo.Permission a WHERE  a.Pid = total.PermissionID AND a.AvailFlag = 1 ) SELECT  PermissionID FROM  total";
 
             return DbHelperSQL.Query(strSql, parameters);
         }

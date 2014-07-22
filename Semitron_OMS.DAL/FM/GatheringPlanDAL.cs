@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2014/7/6 17:40:58   童荣辉    初版
+* V0.01  2014/7/21 22:00:31   童荣辉    初版
 *
 * Copyright (c) 2013 SemitronElec Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -30,6 +30,29 @@ namespace Semitron_OMS.DAL.FM
 		{}
 		#region  BasicMethod
 
+		/// <summary>
+		/// 得到最大ID
+		/// </summary>
+		public int GetMaxId()
+		{
+		return DbHelperSQL.GetMaxID("ID", "GatheringPlan"); 
+		}
+
+		/// <summary>
+		/// 是否存在该记录
+		/// </summary>
+		public bool Exists(int ID)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select count(1) from GatheringPlan");
+			strSql.Append(" where ID=@ID");
+			SqlParameter[] parameters = {
+					new SqlParameter("@ID", SqlDbType.Int,4)
+			};
+			parameters[0].Value = ID;
+
+			return DbHelperSQL.Exists(strSql.ToString(),parameters);
+		}
 
 
 		/// <summary>
@@ -39,33 +62,67 @@ namespace Semitron_OMS.DAL.FM
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into GatheringPlan(");
-			strSql.Append("ShippingListNo,GatheringPlanDate,ProductCode,Qty,Price,TotalGathering,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+			strSql.Append("CorporationID,GatheringPlanDate,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,FeeBackDate,SalesManProportion,SalesManPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
 			strSql.Append(" values (");
-			strSql.Append("@ShippingListNo,@GatheringPlanDate,@ProductCode,@Qty,@Price,@TotalGathering,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+			strSql.Append("@CorporationID,@GatheringPlanDate,@InnerOrderNO,@CustomerOrderNO,@CustomerOrderDetailID,@PaymentTypeID,@IsCustomerVATInvoice,@CustomerVATInvoiceNo,@TrackingNumber,@IsCustomerPay,@Qty,@SaleStandardCurrency,@SalePrice,@SaleTotal,@SaleRealCurrency,@SaleExchangeRate,@SaleRealPrice,@SaleRealTotal,@OtherFee,@OtherFeeRemark,@FeeBackDate,@SalesManProportion,@SalesManPay,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ShippingListNo", SqlDbType.NVarChar,50),
+					new SqlParameter("@CorporationID", SqlDbType.Int,4),
 					new SqlParameter("@GatheringPlanDate", SqlDbType.DateTime),
-					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
+					new SqlParameter("@InnerOrderNO", SqlDbType.NVarChar,50),
+					new SqlParameter("@CustomerOrderNO", SqlDbType.NVarChar,50),
+					new SqlParameter("@CustomerOrderDetailID", SqlDbType.Int,4),
+					new SqlParameter("@PaymentTypeID", SqlDbType.Int,4),
+					new SqlParameter("@IsCustomerVATInvoice", SqlDbType.Bit,1),
+					new SqlParameter("@CustomerVATInvoiceNo", SqlDbType.NVarChar,50),
+					new SqlParameter("@TrackingNumber", SqlDbType.NVarChar,50),
+					new SqlParameter("@IsCustomerPay", SqlDbType.Bit,1),
 					new SqlParameter("@Qty", SqlDbType.Int,4),
-					new SqlParameter("@Price", SqlDbType.Decimal,9),
-					new SqlParameter("@TotalGathering", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleStandardCurrency", SqlDbType.Int,4),
+					new SqlParameter("@SalePrice", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleTotal", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleRealCurrency", SqlDbType.Int,4),
+					new SqlParameter("@SaleExchangeRate", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleRealPrice", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleRealTotal", SqlDbType.Decimal,9),
+					new SqlParameter("@OtherFee", SqlDbType.Decimal,9),
+					new SqlParameter("@OtherFeeRemark", SqlDbType.NVarChar,512),
+					new SqlParameter("@FeeBackDate", SqlDbType.DateTime),
+					new SqlParameter("@SalesManProportion", SqlDbType.Decimal,9),
+					new SqlParameter("@SalesManPay", SqlDbType.Decimal,9),
 					new SqlParameter("@State", SqlDbType.Int,4),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
-			parameters[0].Value = model.ShippingListNo;
+			parameters[0].Value = model.CorporationID;
 			parameters[1].Value = model.GatheringPlanDate;
-			parameters[2].Value = model.ProductCode;
-			parameters[3].Value = model.Qty;
-			parameters[4].Value = model.Price;
-			parameters[5].Value = model.TotalGathering;
-			parameters[6].Value = model.State;
-			parameters[7].Value = model.CreateTime;
-			parameters[8].Value = model.CreateUser;
-			parameters[9].Value = model.UpdateTime;
-			parameters[10].Value = model.UpdateUser;
+			parameters[2].Value = model.InnerOrderNO;
+			parameters[3].Value = model.CustomerOrderNO;
+			parameters[4].Value = model.CustomerOrderDetailID;
+			parameters[5].Value = model.PaymentTypeID;
+			parameters[6].Value = model.IsCustomerVATInvoice;
+			parameters[7].Value = model.CustomerVATInvoiceNo;
+			parameters[8].Value = model.TrackingNumber;
+			parameters[9].Value = model.IsCustomerPay;
+			parameters[10].Value = model.Qty;
+			parameters[11].Value = model.SaleStandardCurrency;
+			parameters[12].Value = model.SalePrice;
+			parameters[13].Value = model.SaleTotal;
+			parameters[14].Value = model.SaleRealCurrency;
+			parameters[15].Value = model.SaleExchangeRate;
+			parameters[16].Value = model.SaleRealPrice;
+			parameters[17].Value = model.SaleRealTotal;
+			parameters[18].Value = model.OtherFee;
+			parameters[19].Value = model.OtherFeeRemark;
+			parameters[20].Value = model.FeeBackDate;
+			parameters[21].Value = model.SalesManProportion;
+			parameters[22].Value = model.SalesManPay;
+			parameters[23].Value = model.State;
+			parameters[24].Value = model.CreateTime;
+			parameters[25].Value = model.CreateUser;
+			parameters[26].Value = model.UpdateTime;
+			parameters[27].Value = model.UpdateUser;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -84,12 +141,29 @@ namespace Semitron_OMS.DAL.FM
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("update GatheringPlan set ");
-			strSql.Append("ShippingListNo=@ShippingListNo,");
+			strSql.Append("CorporationID=@CorporationID,");
 			strSql.Append("GatheringPlanDate=@GatheringPlanDate,");
-			strSql.Append("ProductCode=@ProductCode,");
+			strSql.Append("InnerOrderNO=@InnerOrderNO,");
+			strSql.Append("CustomerOrderNO=@CustomerOrderNO,");
+			strSql.Append("CustomerOrderDetailID=@CustomerOrderDetailID,");
+			strSql.Append("PaymentTypeID=@PaymentTypeID,");
+			strSql.Append("IsCustomerVATInvoice=@IsCustomerVATInvoice,");
+			strSql.Append("CustomerVATInvoiceNo=@CustomerVATInvoiceNo,");
+			strSql.Append("TrackingNumber=@TrackingNumber,");
+			strSql.Append("IsCustomerPay=@IsCustomerPay,");
 			strSql.Append("Qty=@Qty,");
-			strSql.Append("Price=@Price,");
-			strSql.Append("TotalGathering=@TotalGathering,");
+			strSql.Append("SaleStandardCurrency=@SaleStandardCurrency,");
+			strSql.Append("SalePrice=@SalePrice,");
+			strSql.Append("SaleTotal=@SaleTotal,");
+			strSql.Append("SaleRealCurrency=@SaleRealCurrency,");
+			strSql.Append("SaleExchangeRate=@SaleExchangeRate,");
+			strSql.Append("SaleRealPrice=@SaleRealPrice,");
+			strSql.Append("SaleRealTotal=@SaleRealTotal,");
+			strSql.Append("OtherFee=@OtherFee,");
+			strSql.Append("OtherFeeRemark=@OtherFeeRemark,");
+			strSql.Append("FeeBackDate=@FeeBackDate,");
+			strSql.Append("SalesManProportion=@SalesManProportion,");
+			strSql.Append("SalesManPay=@SalesManPay,");
 			strSql.Append("State=@State,");
 			strSql.Append("CreateTime=@CreateTime,");
 			strSql.Append("CreateUser=@CreateUser,");
@@ -97,30 +171,64 @@ namespace Semitron_OMS.DAL.FM
 			strSql.Append("UpdateUser=@UpdateUser");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ShippingListNo", SqlDbType.NVarChar,50),
+					new SqlParameter("@CorporationID", SqlDbType.Int,4),
 					new SqlParameter("@GatheringPlanDate", SqlDbType.DateTime),
-					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
+					new SqlParameter("@InnerOrderNO", SqlDbType.NVarChar,50),
+					new SqlParameter("@CustomerOrderNO", SqlDbType.NVarChar,50),
+					new SqlParameter("@CustomerOrderDetailID", SqlDbType.Int,4),
+					new SqlParameter("@PaymentTypeID", SqlDbType.Int,4),
+					new SqlParameter("@IsCustomerVATInvoice", SqlDbType.Bit,1),
+					new SqlParameter("@CustomerVATInvoiceNo", SqlDbType.NVarChar,50),
+					new SqlParameter("@TrackingNumber", SqlDbType.NVarChar,50),
+					new SqlParameter("@IsCustomerPay", SqlDbType.Bit,1),
 					new SqlParameter("@Qty", SqlDbType.Int,4),
-					new SqlParameter("@Price", SqlDbType.Decimal,9),
-					new SqlParameter("@TotalGathering", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleStandardCurrency", SqlDbType.Int,4),
+					new SqlParameter("@SalePrice", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleTotal", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleRealCurrency", SqlDbType.Int,4),
+					new SqlParameter("@SaleExchangeRate", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleRealPrice", SqlDbType.Decimal,9),
+					new SqlParameter("@SaleRealTotal", SqlDbType.Decimal,9),
+					new SqlParameter("@OtherFee", SqlDbType.Decimal,9),
+					new SqlParameter("@OtherFeeRemark", SqlDbType.NVarChar,512),
+					new SqlParameter("@FeeBackDate", SqlDbType.DateTime),
+					new SqlParameter("@SalesManProportion", SqlDbType.Decimal,9),
+					new SqlParameter("@SalesManPay", SqlDbType.Decimal,9),
 					new SqlParameter("@State", SqlDbType.Int,4),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
-			parameters[0].Value = model.ShippingListNo;
+			parameters[0].Value = model.CorporationID;
 			parameters[1].Value = model.GatheringPlanDate;
-			parameters[2].Value = model.ProductCode;
-			parameters[3].Value = model.Qty;
-			parameters[4].Value = model.Price;
-			parameters[5].Value = model.TotalGathering;
-			parameters[6].Value = model.State;
-			parameters[7].Value = model.CreateTime;
-			parameters[8].Value = model.CreateUser;
-			parameters[9].Value = model.UpdateTime;
-			parameters[10].Value = model.UpdateUser;
-			parameters[11].Value = model.ID;
+			parameters[2].Value = model.InnerOrderNO;
+			parameters[3].Value = model.CustomerOrderNO;
+			parameters[4].Value = model.CustomerOrderDetailID;
+			parameters[5].Value = model.PaymentTypeID;
+			parameters[6].Value = model.IsCustomerVATInvoice;
+			parameters[7].Value = model.CustomerVATInvoiceNo;
+			parameters[8].Value = model.TrackingNumber;
+			parameters[9].Value = model.IsCustomerPay;
+			parameters[10].Value = model.Qty;
+			parameters[11].Value = model.SaleStandardCurrency;
+			parameters[12].Value = model.SalePrice;
+			parameters[13].Value = model.SaleTotal;
+			parameters[14].Value = model.SaleRealCurrency;
+			parameters[15].Value = model.SaleExchangeRate;
+			parameters[16].Value = model.SaleRealPrice;
+			parameters[17].Value = model.SaleRealTotal;
+			parameters[18].Value = model.OtherFee;
+			parameters[19].Value = model.OtherFeeRemark;
+			parameters[20].Value = model.FeeBackDate;
+			parameters[21].Value = model.SalesManProportion;
+			parameters[22].Value = model.SalesManPay;
+			parameters[23].Value = model.State;
+			parameters[24].Value = model.CreateTime;
+			parameters[25].Value = model.CreateUser;
+			parameters[26].Value = model.UpdateTime;
+			parameters[27].Value = model.UpdateUser;
+			parameters[28].Value = model.ID;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -184,7 +292,7 @@ namespace Semitron_OMS.DAL.FM
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 ID,ShippingListNo,GatheringPlanDate,ProductCode,Qty,Price,TotalGathering,State,CreateTime,CreateUser,UpdateTime,UpdateUser from GatheringPlan ");
+			strSql.Append("select  top 1 ID,CorporationID,GatheringPlanDate,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,FeeBackDate,SalesManProportion,SalesManPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser from GatheringPlan ");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -216,29 +324,111 @@ namespace Semitron_OMS.DAL.FM
 				{
 					model.ID=int.Parse(row["ID"].ToString());
 				}
-				if(row["ShippingListNo"]!=null)
+				if(row["CorporationID"]!=null && row["CorporationID"].ToString()!="")
 				{
-					model.ShippingListNo=row["ShippingListNo"].ToString();
+					model.CorporationID=int.Parse(row["CorporationID"].ToString());
 				}
 				if(row["GatheringPlanDate"]!=null && row["GatheringPlanDate"].ToString()!="")
 				{
 					model.GatheringPlanDate=DateTime.Parse(row["GatheringPlanDate"].ToString());
 				}
-				if(row["ProductCode"]!=null)
+				if(row["InnerOrderNO"]!=null)
 				{
-					model.ProductCode=row["ProductCode"].ToString();
+					model.InnerOrderNO=row["InnerOrderNO"].ToString();
+				}
+				if(row["CustomerOrderNO"]!=null)
+				{
+					model.CustomerOrderNO=row["CustomerOrderNO"].ToString();
+				}
+				if(row["CustomerOrderDetailID"]!=null && row["CustomerOrderDetailID"].ToString()!="")
+				{
+					model.CustomerOrderDetailID=int.Parse(row["CustomerOrderDetailID"].ToString());
+				}
+				if(row["PaymentTypeID"]!=null && row["PaymentTypeID"].ToString()!="")
+				{
+					model.PaymentTypeID=int.Parse(row["PaymentTypeID"].ToString());
+				}
+				if(row["IsCustomerVATInvoice"]!=null && row["IsCustomerVATInvoice"].ToString()!="")
+				{
+					if((row["IsCustomerVATInvoice"].ToString()=="1")||(row["IsCustomerVATInvoice"].ToString().ToLower()=="true"))
+					{
+						model.IsCustomerVATInvoice=true;
+					}
+					else
+					{
+						model.IsCustomerVATInvoice=false;
+					}
+				}
+				if(row["CustomerVATInvoiceNo"]!=null)
+				{
+					model.CustomerVATInvoiceNo=row["CustomerVATInvoiceNo"].ToString();
+				}
+				if(row["TrackingNumber"]!=null)
+				{
+					model.TrackingNumber=row["TrackingNumber"].ToString();
+				}
+				if(row["IsCustomerPay"]!=null && row["IsCustomerPay"].ToString()!="")
+				{
+					if((row["IsCustomerPay"].ToString()=="1")||(row["IsCustomerPay"].ToString().ToLower()=="true"))
+					{
+						model.IsCustomerPay=true;
+					}
+					else
+					{
+						model.IsCustomerPay=false;
+					}
 				}
 				if(row["Qty"]!=null && row["Qty"].ToString()!="")
 				{
 					model.Qty=int.Parse(row["Qty"].ToString());
 				}
-				if(row["Price"]!=null && row["Price"].ToString()!="")
+				if(row["SaleStandardCurrency"]!=null && row["SaleStandardCurrency"].ToString()!="")
 				{
-					model.Price=decimal.Parse(row["Price"].ToString());
+					model.SaleStandardCurrency=int.Parse(row["SaleStandardCurrency"].ToString());
 				}
-				if(row["TotalGathering"]!=null && row["TotalGathering"].ToString()!="")
+				if(row["SalePrice"]!=null && row["SalePrice"].ToString()!="")
 				{
-					model.TotalGathering=decimal.Parse(row["TotalGathering"].ToString());
+					model.SalePrice=decimal.Parse(row["SalePrice"].ToString());
+				}
+				if(row["SaleTotal"]!=null && row["SaleTotal"].ToString()!="")
+				{
+					model.SaleTotal=decimal.Parse(row["SaleTotal"].ToString());
+				}
+				if(row["SaleRealCurrency"]!=null && row["SaleRealCurrency"].ToString()!="")
+				{
+					model.SaleRealCurrency=int.Parse(row["SaleRealCurrency"].ToString());
+				}
+				if(row["SaleExchangeRate"]!=null && row["SaleExchangeRate"].ToString()!="")
+				{
+					model.SaleExchangeRate=decimal.Parse(row["SaleExchangeRate"].ToString());
+				}
+				if(row["SaleRealPrice"]!=null && row["SaleRealPrice"].ToString()!="")
+				{
+					model.SaleRealPrice=decimal.Parse(row["SaleRealPrice"].ToString());
+				}
+				if(row["SaleRealTotal"]!=null && row["SaleRealTotal"].ToString()!="")
+				{
+					model.SaleRealTotal=decimal.Parse(row["SaleRealTotal"].ToString());
+				}
+				if(row["OtherFee"]!=null && row["OtherFee"].ToString()!="")
+				{
+					model.OtherFee=decimal.Parse(row["OtherFee"].ToString());
+				}
+				if(row["OtherFeeRemark"]!=null)
+				{
+					model.OtherFeeRemark=row["OtherFeeRemark"].ToString();
+				}
+				if(row["FeeBackDate"]!=null && row["FeeBackDate"].ToString()!="")
+				{
+					model.FeeBackDate=DateTime.Parse(row["FeeBackDate"].ToString());
+				}
+				if(row["SalesManProportion"]!=null && row["SalesManProportion"].ToString()!="")
+				{
+					model.SalesManProportion=decimal.Parse(row["SalesManProportion"].ToString());
+				}
+				if(row["SalesManPay"]!=null && row["SalesManPay"].ToString()!="")
+				{
+					model.SalesManPay=decimal.Parse(row["SalesManPay"].ToString());
 				}
 				if(row["State"]!=null && row["State"].ToString()!="")
 				{
@@ -270,7 +460,7 @@ namespace Semitron_OMS.DAL.FM
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ID,ShippingListNo,GatheringPlanDate,ProductCode,Qty,Price,TotalGathering,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+			strSql.Append("select ID,CorporationID,GatheringPlanDate,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,FeeBackDate,SalesManProportion,SalesManPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
 			strSql.Append(" FROM GatheringPlan ");
 			if(strWhere.Trim()!="")
 			{
@@ -290,7 +480,7 @@ namespace Semitron_OMS.DAL.FM
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" ID,ShippingListNo,GatheringPlanDate,ProductCode,Qty,Price,TotalGathering,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+			strSql.Append(" ID,CorporationID,GatheringPlanDate,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,FeeBackDate,SalesManProportion,SalesManPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
 			strSql.Append(" FROM GatheringPlan ");
 			if(strWhere.Trim()!="")
 			{

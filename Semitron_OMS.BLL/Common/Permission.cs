@@ -236,10 +236,10 @@ namespace Semitron_OMS.BLL.Common
         /// <summary>
         /// 得到子系统权限父节点下的所有子权限id
         /// </summary>
-        /// <param name="iParentId"></param>
-        public DataTable GetSubPermissionIds(int iParentId)
+        /// <param name="strParentIds">子系统父节点字符串</param>
+        public DataTable GetSubPermissionIds(string strParentIds)
         {
-            DataSet ds = dal.GetSubPermissionIds(iParentId);
+            DataSet ds = dal.GetSubPermissionIds(strParentIds);
             DataTable dtPermission = new DataTable(); ;
             if (ds != null && ds.Tables.Count > 0)
             {

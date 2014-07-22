@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2014/7/6 17:40:58   童荣辉    初版
+* V0.01  2014/7/21 22:00:31   童荣辉    初版
 *
 * Copyright (c) 2013 SemitronElec Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -30,6 +30,22 @@ namespace Semitron_OMS.BLL.FM
 		public GatheringPlanBLL()
 		{}
 		#region  BasicMethod
+
+		/// <summary>
+		/// 得到最大ID
+		/// </summary>
+		public int GetMaxId()
+		{
+			return dal.GetMaxId();
+		}
+
+		/// <summary>
+		/// 是否存在该记录
+		/// </summary>
+		public bool Exists(int ID)
+		{
+			return dal.Exists(ID);
+		}
 
 		/// <summary>
 		/// 增加一条数据

@@ -65,95 +65,96 @@ namespace Semitron_OMS.UI.Admin.Base
                 Semitron_OMS.CommonWeb.MessageBox.ShowAndRedirects(this.Page, "由于您长时间未操作，您的登陆已失效。请重新登陆。", "/Admin/Login.aspx");
                 return;
             }
-            string strSubSystem = System.Configuration.ConfigurationManager.AppSettings["ParenSystem"].ToString();
+            string strSubSystems = System.Configuration.ConfigurationManager.AppSettings["ParenSystem"].ToString();
             int iSubSystem = -1;
             //得到子系统权限父节点下的所有子权限id
-            if (!string.IsNullOrEmpty(strSubSystem))
+            foreach (string strSys in strSubSystems.Split(','))
             {
-                iSubSystem = Convert.ToInt32(strSubSystem);
-            }
-            //当前继承页所传递的页面代码是否在权限系统中
-            if (PermissionUtility.IsExistPageCode(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode))
-            {
-                //获得数据库中当前继承页的所有数据集权限集合
-                DataSet ds = ps.GetList(1000, "LinkUrl = '" + PageCode + "' AND Type = 4 AND AvailFlag = 1", "SK");
-                string strDataCodes = string.Empty;
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        strDataCodes += dr["Code"].ToString().Trim() + ",";
-                    }
-                    if (strDataCodes.EndsWith(","))
-                    {
-                        strDataCodes = strDataCodes.Substring(0, strDataCodes.Length - 1);
-                    }
-                    //当前继承页的所有数据集CODE传值隐藏域
-                    if (HidenAllCodeId != null && HidenAllCodeId != string.Empty)
-                    {
-                        HiddenField hid = this.Page.FindControl(HidenAllCodeId) as HiddenField;
-                        if (hid != null) hid.Value = strDataCodes;
-                    }
-                }
+                iSubSystem = Convert.ToInt32(strSys);
 
-                //遍历分配到当前用户的按钮、数据集和右键菜单
-
-                //将加入权限控制的所有按钮属性先设置为不可见。
-                if (currButtonCodes != null)
+                //当前继承页所传递的页面代码是否在权限系统中
+                if (PermissionUtility.IsExistPageCode(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode))
                 {
-                    for (int c = 0; c < currButtonCodes.Length; c++)
+                    //获得数据库中当前继承页的所有数据集权限集合
+                    DataSet ds = ps.GetList(1000, "LinkUrl = '" + PageCode + "' AND Type = 4 AND AvailFlag = 1", "SK");
+                    string strDataCodes = string.Empty;
+                    if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
-                        Control control = this.FindControl(currButtonCodes[c]);
+                        foreach (DataRow dr in ds.Tables[0].Rows)
+                        {
+                            strDataCodes += dr["Code"].ToString().Trim() + ",";
+                        }
+                        if (strDataCodes.EndsWith(","))
+                        {
+                            strDataCodes = strDataCodes.Substring(0, strDataCodes.Length - 1);
+                        }
+                        //当前继承页的所有数据集CODE传值隐藏域
+                        if (HidenAllCodeId != null && HidenAllCodeId != string.Empty)
+                        {
+                            HiddenField hid = this.Page.FindControl(HidenAllCodeId) as HiddenField;
+                            if (hid != null) hid.Value = strDataCodes;
+                        }
+                    }
+
+                    //遍历分配到当前用户的按钮、数据集和右键菜单
+
+                    //将加入权限控制的所有按钮属性先设置为不可见。
+                    if (currButtonCodes != null)
+                    {
+                        for (int c = 0; c < currButtonCodes.Length; c++)
+                        {
+                            Control control = this.FindControl(currButtonCodes[c]);
+                            if (control is Button)
+                                (control as Button).Visible = false;
+                        }
+                    }
+                    //有权限的按钮Code
+                    List<ButtonPer> lstbtnPer = PermissionUtility.GetButtonPer(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode);
+                    foreach (ButtonPer btnPer in lstbtnPer)
+                    {
+                        Control control = this.FindControl(btnPer.Code);
+                        //是否为按钮
                         if (control is Button)
-                            (control as Button).Visible = false;
+                            (control as Button).Visible = true;
                     }
-                }
-                //有权限的按钮Code
-                List<ButtonPer> lstbtnPer = PermissionUtility.GetButtonPer(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode);
-                foreach (ButtonPer btnPer in lstbtnPer)
-                {
-                    Control control = this.FindControl(btnPer.Code);
-                    //是否为按钮
-                    if (control is Button)
-                        (control as Button).Visible = true;
-                }
 
-                string Viewarray = string.Empty;
-                string Datasrouce = string.Empty; //记录分配到当前用户的数据集权限Code 
-                //有权限的数据集CODE传值隐藏域
-                List<DataSetPer> lstDsPer = PermissionUtility.GetDataSetPer(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode);
-                //当前继承页的所有数据集CODE传值隐藏域
-                foreach (DataSetPer dsp in lstDsPer)
-                {
-                    Datasrouce += dsp.Code.Trim() + ",";
-                }
-                if (Datasrouce.EndsWith(","))
-                {
-                    Datasrouce = Datasrouce.Substring(0, Datasrouce.Length - 1);
-                }
-                if (Datasrouce != string.Empty)
-                {
-                    if (HidenId != null && HidenId != string.Empty)
+                    string Viewarray = string.Empty;
+                    string Datasrouce = string.Empty; //记录分配到当前用户的数据集权限Code 
+                    //有权限的数据集CODE传值隐藏域
+                    List<DataSetPer> lstDsPer = PermissionUtility.GetDataSetPer(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode);
+                    //当前继承页的所有数据集CODE传值隐藏域
+                    foreach (DataSetPer dsp in lstDsPer)
                     {
-                        HiddenField hid = this.Page.FindControl(HidenId) as HiddenField;
-                        if (hid != null) hid.Value = Datasrouce;
+                        Datasrouce += dsp.Code.Trim() + ",";
                     }
-                }
+                    if (Datasrouce.EndsWith(","))
+                    {
+                        Datasrouce = Datasrouce.Substring(0, Datasrouce.Length - 1);
+                    }
+                    if (Datasrouce != string.Empty)
+                    {
+                        if (HidenId != null && HidenId != string.Empty)
+                        {
+                            HiddenField hid = this.Page.FindControl(HidenId) as HiddenField;
+                            if (hid != null) hid.Value = Datasrouce;
+                        }
+                    }
 
-                //有权限的右键菜单CODE传值隐藏域
-                List<RightMenuPer> lstRmPer = PermissionUtility.GetRightMenuPer(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode);
-                foreach (RightMenuPer rmp in lstRmPer)
-                {
-                    Viewarray += rmp.Name.Trim() + ":" + rmp.Code.Trim() + ",";
-                }
-                if (Viewarray.EndsWith(","))
-                {
-                    Viewarray = Viewarray.Substring(0, Viewarray.Length - 1);
-                }
-                if (HidenMenuContext != null && HidenMenuContext != string.Empty)
-                {
-                    HiddenField hid = this.Page.FindControl(HidenMenuContext) as HiddenField;
-                    if (hid != null) hid.Value = Viewarray;
+                    //有权限的右键菜单CODE传值隐藏域
+                    List<RightMenuPer> lstRmPer = PermissionUtility.GetRightMenuPer(adminModel.PerModule.SubSystemPers[iSubSystem], PageCode);
+                    foreach (RightMenuPer rmp in lstRmPer)
+                    {
+                        Viewarray += rmp.Name.Trim() + ":" + rmp.Code.Trim() + ",";
+                    }
+                    if (Viewarray.EndsWith(","))
+                    {
+                        Viewarray = Viewarray.Substring(0, Viewarray.Length - 1);
+                    }
+                    if (HidenMenuContext != null && HidenMenuContext != string.Empty)
+                    {
+                        HiddenField hid = this.Page.FindControl(HidenMenuContext) as HiddenField;
+                        if (hid != null) hid.Value = Viewarray;
+                    }
                 }
             }
         }

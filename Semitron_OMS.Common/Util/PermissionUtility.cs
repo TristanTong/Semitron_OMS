@@ -16,6 +16,20 @@ namespace Semitron_OMS.Common
         /// <summary>
         /// 获得单个子系统的权限系统
         /// </summary>
+        /// <param name="bpList">子系统基本信息实体列表</param>
+        /// <param name="dt">权限数据表</param>
+        /// <param name="perModule">需返回权限系统实体</param>
+        public static void GetPermissionModuleWithMultiSubSys(List<BasePer> bpList, DataTable dt, PermissionModule perModule)
+        {
+            foreach (BasePer bp in bpList)
+            {
+                GetPermissionModuleWithSingleSubSys(bp, dt, perModule);
+            }
+        }
+
+        /// <summary>
+        /// 获得单个子系统的权限系统
+        /// </summary>
         /// <param name="bp">子系统基本信息实体</param>
         /// <param name="dt">权限数据表</param>
         /// <param name="perModule">需返回权限系统实体</param>
@@ -48,7 +62,7 @@ namespace Semitron_OMS.Common
         {
             foreach (DataRow dr in dt.Rows)
             {
-                if (Convert.ToInt32(dr["Type"]) == 1) //模块
+                if (Convert.ToInt32(dr["Type"]) == 1 && subSysPer.ID == Convert.ToInt32(dr["Pid"])) //模块
                 {
                     ModulePer modPer = new ModulePer();
                     modPer.ID = Convert.ToInt32(dr["PermissionID"]);
