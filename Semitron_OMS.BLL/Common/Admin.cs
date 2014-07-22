@@ -315,7 +315,7 @@ namespace Semitron_OMS.BLL.Common
                 Semitron_OMS.BLL.Common.Permission bllPermission = new BLL.Common.Permission();
 
                 DataTable dtPermission = bllPermission.GetSubPermissionIds(strParentSystem);
-
+                 
                 //得到所有拥有的权限id
                 condition += " and A.Username='" + username + "' and A.Password='" + pwd + "'";
                 DataTable dtTotal = this.GetExtent(condition, username, pwd, IP).Tables[0];
