@@ -14,19 +14,32 @@
         $("#FlexigridTableGatheringPlan").flexigrid({
             width: 'auto',//表格宽度
             height: gridHeight, //表格高度
-            url: '/Handle/Common/GatheringPlanHandle.ashx', //数据请求地址
+            url: '/Handle/FM/GatheringPlanHandle.ashx', //数据请求地址
             dataType: 'json', //请求数据的格式
             extParam: [{ name: "meth", value: "GetGatheringPlan" }, { name: "TimeType", value: TimeType },
                 { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
             colModel: [//表格的题头与索要填充的内容。
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
-                    { display: '状态', name: 'AvailFlag', width: 40, sortable: true, align: 'center' },
-                    { display: '产品编码', name: 'ProductCode', width: 60, sortable: true, align: 'center' },
-                    { display: '产品名称', name: 'ProductName', width: 60, hide: true, sortable: true, align: 'left' },
-                    { display: '厂商型号 ', name: 'MPN', width: 160, sortable: true, align: 'left' },
-                    { display: '供应商编码', name: 'CustomerCode', width: 60, sortable: true, align: 'center' },
-                    { display: '供应商名称', name: 'CustomerName', width: 260, sortable: true, align: 'left' },
+                    { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
+                    { display: '收款计划时间', name: 'GatheringPlanDate', width: 70, sortable: true, align: 'center' },
+                    { display: '回款日期', name: 'FeeBackDate', width: 60, sortable: true, align: 'center' },
+                    { display: '公司法人 ', name: 'CorporationID', width: 170, sortable: true, align: 'left' },
+                    { display: '内部订单号 ', name: 'InnerOrderNO', width: 60, sortable: true, align: 'center' },
+                    { display: '客户订单号', name: 'CustomerOrderNO', width: 100, sortable: true, align: 'left' },
+                    { display: '客户名称', name: 'CustomerName', width: 160, sortable: true, align: 'left' },
+                    { display: '客户是否付款', name: 'IsCustomerPay', width: 80, sortable: true, align: 'center' },
+                    { display: '是否开增票', name: 'IsCustomerVATInvoice', width: 60, sortable: true, align: 'center' },
+                    { display: '收款数量', name: 'Qty', width: 60, sortable: true, align: 'right' },
+                    { display: '收款方式', name: 'PaymentTypeID', width: 80, sortable: true, align: 'center' },
+                    { display: '计划收款汇率', name: 'SaleExchangeRate', width: 80, sortable: true, align: 'right' },
+                    { display: '计划收款货币', name: 'SaleRealCurrency', width: 80, sortable: true, align: 'center' },
+                    { display: '计划收款单价', name: 'SaleRealPrice', width: 80, sortable: true, align: 'right' },
+                    { display: '计划收款总额', name: 'SaleRealTotal', width: 80, sortable: true, align: 'right' },
+                    { display: '标准收款货币', name: 'SaleStandardCurrency', width: 80, sortable: true, align: 'center' },
+                    { display: '标准收款单价', name: 'SalePrice', width: 80, sortable: true, align: 'right' },
+                    { display: '标准收款总额', name: 'SaleTotal', width: 80, sortable: true, align: 'right' },
+                    { display: '其他费用', name: 'OtherFee', width: 80, sortable: true, align: 'right' },
                     { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
                     { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
@@ -53,7 +66,7 @@
         });
         //新增按钮
         $("#btnAddGatheringPlan").click(function () {
-            $("#btnEditGatheringPlan").attr("href", "/Admin/Common/GatheringPlan/Edit.html");
+            $("#btnEditGatheringPlan").attr("href", "/Admin/FM/GatheringPlan/Edit.html");
             $("#hidSeletedGatheringPlanId").val("-1");
             return false;
         });
@@ -61,7 +74,7 @@
         $("#btnEditGatheringPlan").click(function () {
             var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
             if (!obj) {
-                $("#btnEditGatheringPlan").attr("href", "/Admin/Common/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}");
+                $("#btnEditGatheringPlan").attr("href", "/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}");
                 return false;
             }
 
@@ -70,7 +83,7 @@
                 return false;
             }
             var id = obj[0][1];
-            $("#btnEditGatheringPlan").attr("href", "/Admin/Common/GatheringPlan/Edit.html?GatheringPlanId=" + id);
+            $("#btnEditGatheringPlan").attr("href", "/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId=" + id);
             $("#hidSeletedGatheringPlanId").val(id);
 
             return false;
@@ -90,46 +103,6 @@
             return false;
         });
 
-        //审核收款计划
-        $("#btnApproveGatheringPlan").click(function () {
-            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
-            if (!obj) {
-                return false;
-            }
-            if (obj[0][2] == "无效") {
-                artDialog.tips("所选收款计划已无效，无法完成此操作。");
-                return false;
-            }
-            if (obj[0][4] == "已审核") {
-                artDialog.tips("所选收款计划已审核，请勿重复操作。");
-                return false;
-            }
-            var id = obj[0][1];
-            $("#hidSeletedGatheringPlanId").val(id);
-
-            alertMsg.confirm("审核收款计划后，收款计划不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
-                okCall: function () {
-                    var url = "/Handle/Common/GatheringPlanHandle.ashx";
-                    var data = { "meth": "ApproveGatheringPlan", "EntryId": id };
-                    var successFun = function (json) {
-                        if (json.State == "0") {
-                            alertMsg.error(json.Info);
-                            return false;
-                        } else {
-                            //刷新表格
-                            alertMsg.correct(json.Info);
-                            $("#FlexigridTableGatheringPlan").flexReload();
-                            return true;
-                        }
-                    };
-                    var errorFun = function (x, e) {
-                        alertMsg.error(x.responseText);
-                    };
-                    JsAjax(url, data, successFun, errorFun);
-                }
-            });
-            return false;
-        });
     });
 </script>
 <script type="text/javascript">
@@ -139,8 +112,8 @@
         var TimeType = $("#ulSearchGatheringPlan li select[name=sltTimeType]").val();
         var startTime = $("#ulSearchGatheringPlan li input[name=BeginTime]").val();
         var endTime = $("#ulSearchGatheringPlan li input[name=EndTime]").val();
-        var MPN = $("#ulSearchGatheringPlan li input[name=MPN]").val();
-        var ProductCode = $("#ulSearchGatheringPlan li input[name=ProductCode]").val();
+        var CustomerOrderNO = $("#ulSearchGatheringPlan li input[name=CustomerOrderNO]").val();
+        var InnerOrderNO = $("#ulSearchGatheringPlan li input[name=InnerOrderNO]").val();
         var CustomerCode = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.SCode']").val();
         var CustomerName = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.SName']").val();
 
@@ -150,8 +123,8 @@
               { name: "TimeType", value: TimeType },
               { name: "startTime", value: startTime },
               { name: "endTime", value: endTime },
-              { name: "ProductCode", value: ProductCode },
-              { name: "MPN", value: MPN },
+              { name: "InnerOrderNO", value: InnerOrderNO },
+              { name: "CustomerOrderNO", value: CustomerOrderNO },
               { name: "CustomerCode", value: CustomerCode },
               { name: "AvailFlag", value: "1" }//这里应该是错的
             ]
@@ -165,7 +138,7 @@
         alertMsg.confirm("收款计划删除后将无法恢复，你确认要删除吗？", {
             okCall: function () {
                 //调用删除收款计划方法
-                var url = "/Handle/Common/GatheringPlanHandle.ashx";
+                var url = "/Handle/FM/GatheringPlanHandle.ashx";
                 var data = { "meth": "DelGatheringPlan", "Id": id };
                 var successFun = function (json) {
                     if (json.State == "0") {
@@ -193,12 +166,12 @@
 
             <li style="width: 180px">
                 <div style="float: left;">内部订单号：</div>
-                <input style="width: 80px;" name="ProductCode" class="txt" maxlength="36" />m
+                <input style="width: 80px;" name="InnerOrderNO" class="txt" maxlength="36" />m
             </li>
             <li style="width: 180px">
                 <div style="float: left;">客户订单号：</div>
                 <div style="float: left;">
-                    <input style="width: 80px;" name="MPN" class="txt" maxlength="64" />m
+                    <input style="width: 80px;" name="CustomerOrderNO" class="txt" maxlength="64" />m
                 </div>
             </li>
             <li style="width: 180px">
@@ -228,7 +201,7 @@
             <li>
                 <select class="combox" name="sltTimeType" style="width: 100px">
                     <option value="3" title="收款计划时间">收款计划时间</option>
-                    <!--  <option value="4" title="审核时间">审核时间</option>-->
+                    <option value="4" title="回款日期">回款日期</option>
                     <option value="1" title="创建时间">创建时间</option>
                     <option value="2" title="更新时间">更新时间</option>
                 </select>
@@ -239,7 +212,7 @@
                         <button type="submit" id="btnSearchGatheringPlan">检索</button>
                     </div>
                 </div>
-                <!--<a class="button" href="/Admin/Common/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索收款计划)"><span>高级检索</span></a>-->
+                <!--<a class="button" href="/Admin/FM/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索收款计划)"><span>高级检索</span></a>-->
             </li>
         </ul>
     </div>
@@ -248,9 +221,9 @@
     <div class="panelBar">
         <input type="hidden" value="-1" id="hidSeletedGatheringPlanId" />
         <ul class="toolBar">
-            <li><a class="add" href="/Admin/Common/GatheringPlan/Edit.html" target="navTab" rel="editGatheringPlan" id="btnAddGatheringPlan"><span>新建收款计划</span></a></li>
+            <li><a class="add" href="/Admin/FM/GatheringPlan/Edit.html" target="navTab" rel="editGatheringPlan" id="btnAddGatheringPlan"><span>新建收款计划</span></a></li>
             <li class="line">line</li>
-            <li><a class="edit" href="/Admin/Common/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}" rel="editGatheringPlan" target="navTab" id="btnEditGatheringPlan"><span>修改收款计划</span></a></li>
+            <li><a class="edit" href="/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}" rel="editGatheringPlan" target="navTab" id="btnEditGatheringPlan"><span>修改收款计划</span></a></li>
             <li class="line">line</li>
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteGatheringPlan"><span>删除收款计划</span></a></li>
             <!-- <li class="line">line</li>

@@ -21,19 +21,20 @@
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
                     { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
-                    { display: '付款计划时间', name: 'PaymentPlanDate', width: 120, sortable: true, align: 'center' },
-                    { display: '公司法人 ', name: 'CorporationID', width: 160, sortable: true, align: 'left' },
-                    { display: '采购订单号 ', name: 'PONO', width: 160, sortable: true, align: 'left' },
+                    { display: '付款计划时间', name: 'PaymentPlanDate', width: 70, sortable: true, align: 'center' },
+                    { display: '公司法人 ', name: 'CorporationID', width: 170, sortable: true, align: 'left' },
+                    { display: '采购订单号 ', name: 'PONO', width: 100, sortable: true, align: 'left' },
                     { display: '产品编码', name: 'ProductCode', width: 60, sortable: true, align: 'center' },
-                    { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'center' },
+                    { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
                     { display: '供应商名称', name: 'SupplierName', width: 160, sortable: true, align: 'left' },
                     { display: '是否向供应商付款', name: 'IsPaySupplier', width: 100, sortable: true, align: 'center' },
                     { display: '供应商是否开增票', name: 'IsSupplierVATInvoice', width: 100, sortable: true, align: 'center' },
-                    { display: '付款数量', name: 'Qty', width: 100, sortable: true, align: 'right' },
+                    { display: '付款数量', name: 'Qty', width: 60, sortable: true, align: 'right' },
                     { display: '供应商付款方式', name: 'VendorPaymentTypeID', width: 80, sortable: true, align: 'center' },
-                    { display: '实际付款汇率', name: 'BuyExchangeRate', width: 80, sortable: true, align: 'right' },
-                    { display: '实际付款货币', name: 'BuyRealCurrency', width: 80, sortable: true, align: 'center' },
-                    { display: '实际付款单价', name: 'BuyRealPrice', width: 80, sortable: true, align: 'right' },
+                    { display: '计划付款汇率', name: 'BuyExchangeRate', width: 80, sortable: true, align: 'right' },
+                    { display: '计划付款货币', name: 'BuyRealCurrency', width: 80, sortable: true, align: 'center' },
+                    { display: '计划付款单价', name: 'BuyRealPrice', width: 80, sortable: true, align: 'right' },
+                    { display: '计划付款总额', name: 'BuyRealTotal', width: 80, sortable: true, align: 'right' },
                     { display: '标准付款货币', name: 'BuyStandardCurrency', width: 80, sortable: true, align: 'center' },
                     { display: '标准付款单价', name: 'BuyPrice', width: 80, sortable: true, align: 'right' },
                     { display: '标准付款总额', name: 'BuyCost', width: 80, sortable: true, align: 'right' },
@@ -64,7 +65,7 @@
         });
         //新增按钮
         $("#btnAddPaymentPlan").click(function () {
-            $("#btnEditPaymentPlan").attr("href", "/Admin/Common/PaymentPlan/Edit.html");
+            $("#btnEditPaymentPlan").attr("href", "/Admin/FM/PaymentPlan/Edit.html");
             $("#hidSeletedPaymentPlanId").val("-1");
             return false;
         });
@@ -72,7 +73,7 @@
         $("#btnEditPaymentPlan").click(function () {
             var obj = GetSelectedRow("FlexigridTablePaymentPlan", "付款计划");
             if (!obj) {
-                $("#btnEditPaymentPlan").attr("href", "/Admin/Common/PaymentPlan/Edit.html?PaymentPlanId={PaymentPlanId}");
+                $("#btnEditPaymentPlan").attr("href", "/Admin/FM/PaymentPlan/Edit.html?PaymentPlanId={PaymentPlanId}");
                 return false;
             }
 
@@ -81,7 +82,7 @@
                 return false;
             }
             var id = obj[0][1];
-            $("#btnEditPaymentPlan").attr("href", "/Admin/Common/PaymentPlan/Edit.html?PaymentPlanId=" + id);
+            $("#btnEditPaymentPlan").attr("href", "/Admin/FM/PaymentPlan/Edit.html?PaymentPlanId=" + id);
             $("#hidSeletedPaymentPlanId").val(id);
 
             return false;
@@ -164,7 +165,7 @@
               { name: "ProductCode", value: ProductCode },
               { name: "PONO", value: PONO },
               { name: "SupplierCode", value: SupplierCode },
-              { name: "AvailFlag", value: "1" }//这里应该是错的
+              { name: "State", value: "1" }//这里应该是错的
             ]
         };
         p.newp = 1;         //跳转到第一页。
@@ -258,9 +259,9 @@
     <div class="panelBar">
         <input type="hidden" value="-1" id="hidSeletedPaymentPlanId" />
         <ul class="toolBar">
-            <li><a class="add" href="/Admin/Common/PaymentPlan/Edit.html" target="navTab" rel="editPaymentPlan" id="btnAddPaymentPlan"><span>新建付款计划</span></a></li>
+            <li><a class="add" href="/Admin/FM/PaymentPlan/Edit.html" target="navTab" rel="editPaymentPlan" id="btnAddPaymentPlan"><span>新建付款计划</span></a></li>
             <li class="line">line</li>
-            <li><a class="edit" href="/Admin/Common/PaymentPlan/Edit.html?PaymentPlanId={PaymentPlanId}" rel="editPaymentPlan" target="navTab" id="btnEditPaymentPlan"><span>修改付款计划</span></a></li>
+            <li><a class="edit" href="/Admin/FM/PaymentPlan/Edit.html?PaymentPlanId={PaymentPlanId}" rel="editPaymentPlan" target="navTab" id="btnEditPaymentPlan"><span>修改付款计划</span></a></li>
             <li class="line">line</li>
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeletePaymentPlan"><span>删除付款计划</span></a></li>
             <!-- <li class="line">line</li>

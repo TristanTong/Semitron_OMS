@@ -14,11 +14,14 @@
 *│　版权所有：森美创（深圳）科技有限公司　　　　　　　　　　　　　　  │
 *└──────────────────────────────────┘
 */
+
 using System;
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Semitron_OMS.DBUtility;//Please add references
+using Semitron_OMS.DBUtility;
+using Semitron_OMS.Common;
+using Semitron_OMS.DAL.Common;//Please add references
 namespace Semitron_OMS.DAL.FM
 {
 	/// <summary>
@@ -564,8 +567,29 @@ namespace Semitron_OMS.DAL.FM
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod
-
+        public DataSet GetGatheringPlanPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            //查询表名
+            string strTableName = " dbo.GatheringPlan AS P WITH(NOLOCK) LEFT JOIN dbo.Customer AS S WITH(NOLOCK) ON S.ID=P.CustomerID LEFT JOIN dbo.Corporation AS C ON C.ID=P.CorporationID LEFT JOIN dbo.PaymentType AS T ON T.ID=P.PaymentTypeID LEFT JOIN dbo.CurrencyType AS CT ON CT.ID=P.SaleRealCurrency LEFT JOIN dbo.CurrencyType AS CT1 ON CT1.ID=P.SaleStandardCurrency ";
+            //查询字段
+            string strGetFields = " P.ID,State=CASE WHEN P.State=1 THEN '有效' ELSE '无效' END ,GatheringPlanDate=CONVERT(VARCHAR(10),P.GatheringPlanDate,120),FeeBackDate=CONVERT(VARCHAR(10),P.FeeBackDate,120),CorporationID=C.CompanyName,P.InnerOrderNO,P.CustomerOrderNO,S.CustomerName,IsCustomerPay=CASE WHEN P.IsCustomerPay=1 THEN '是' ELSE '否' END ,IsCustomerVATInvoice=CASE WHEN P.IsCustomerVATInvoice=1 THEN '是' ELSE '否' END ,P.Qty,PaymentTypeID=T.PaymentType,P.SaleExchangeRate,SaleRealCurrency=CT.CurrencyName,P.SaleRealPrice,P.SaleRealTotal,SaleStandardCurrency=CT1.CurrencyName,P.SalePrice,P.SaleTotal,P.OtherFee,P.CreateUser,CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120) ";
+            //查询条件
+            string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
+            //数据查询
+            CommonDAL commonDAL = new CommonDAL();
+            return commonDAL.GetDataExt(Semitron_OMS.Common.ConstantValue.ProcedureNames.PageProcedureName,
+                strTableName,
+                strGetFields,
+                searchInfo.PageSize,
+                searchInfo.PageIndex,
+                strWhere,
+                searchInfo.OrderByField,
+                searchInfo.OrderType,
+                out o_RowsCount);
+        }
 		#endregion  ExtensionMethod
-	}
+
+        
+    }
 }
 

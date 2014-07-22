@@ -87,7 +87,9 @@
     <Content Include="Admin\Common\Warehouse\Main.html" />
     <Content Include="Admin\CRM\CustomerManager.aspx" />
     <Content Include="Admin\CRM\SupplierManager.aspx" />
+    <Content Include="Admin\FM\GatheringPlan\Edit.html" />
     <Content Include="Admin\FM\GatheringPlan\Main.html" />
+    <Content Include="Admin\FM\PaymentPlan\Edit.html" />
     <Content Include="Admin\FM\PaymentPlan\Main.html" />
     <Content Include="Admin\Images\bgItem.png" />
     <Content Include="Admin\Images\btn_bg.gif" />

@@ -15,7 +15,7 @@ namespace Semitron_OMS.UI.Handle.FM
     {
         //付款计划对象
         log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(PaymentPlanHandle));
-        Semitron_OMS.BLL.FM.PaymentPlanBLL _bllProductType = new Semitron_OMS.BLL.FM.PaymentPlanBLL();
+        Semitron_OMS.BLL.FM.PaymentPlanBLL _bllPaymentPlan = new Semitron_OMS.BLL.FM.PaymentPlanBLL();
         HttpRequest _request = HttpContext.Current.Request;
         AdminModel _adminModel = new AdminModel();
 
@@ -45,11 +45,11 @@ namespace Semitron_OMS.UI.Handle.FM
                     case "GetPaymentPlan":
                         context.Response.Write(GetPaymentPlan());
                         break;
-                    //生成付款计划
-                    case "GenerateCode":
-                        context.Response.Write(GenerateCode());
-                        break;
                 }
+            }
+            else
+            {
+                context.Response.Write("{\"statusCode\":\"200\",\"message\":\"\u64cd\u4f5c\u6210\u529f\",\"navTabId\":\"\",\"rel\":\"\",\"callbackType\":\"\",\"forwardUrl\":\"\",\"confirmMsg\":\"\"}");
             }
             context.Response.End();
         }
@@ -82,8 +82,8 @@ namespace Semitron_OMS.UI.Handle.FM
             searchInfo.OrderByField = DataUtility.GetPageFormValue(strOrder, string.Empty);
             //排序类型
             searchInfo.OrderType = DataUtility.ToStr(_request.Form["sortorder"]).ToUpper() == "ASC" ? 0 : 1;
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.AvailFlag",
-              _request.Form["AvailFlag"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.State",
+              _request.Form["State"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.ProductCode",
                 _request.Form["ProductCode"], ConditionEnm.AllLike));//这里alllike就是模糊查询了
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.PONO",
@@ -122,7 +122,7 @@ namespace Semitron_OMS.UI.Handle.FM
             DataTable dt = new DataTable();
             try
             {
-                DataSet ds = _bllProductType.GetPaymentPlanPageData(searchInfo, out o_RowsCount);
+                DataSet ds = _bllPaymentPlan.GetPaymentPlanPageData(searchInfo, out o_RowsCount);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     dt = ds.Tables[0];
@@ -135,11 +135,6 @@ namespace Semitron_OMS.UI.Handle.FM
             }
             string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
             return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);
-        }
-
-        private string GenerateCode()
-        {
-            throw new NotImplementedException();
         }
 
         public bool IsReusable

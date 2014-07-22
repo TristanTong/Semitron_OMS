@@ -18,55 +18,57 @@ using System;
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using Semitron_OMS.DBUtility;//Please add references
+using Semitron_OMS.DBUtility;
+using Semitron_OMS.Common;
+using Semitron_OMS.DAL.Common;//Please add references
 namespace Semitron_OMS.DAL.FM
 {
-	/// <summary>
-	/// 数据访问类:PaymentPlanDAL
-	/// </summary>
-	public partial class PaymentPlanDAL
-	{
-		public PaymentPlanDAL()
-		{}
-		#region  BasicMethod
+    /// <summary>
+    /// 数据访问类:PaymentPlanDAL
+    /// </summary>
+    public partial class PaymentPlanDAL
+    {
+        public PaymentPlanDAL()
+        { }
+        #region  BasicMethod
 
-		/// <summary>
-		/// 得到最大ID
-		/// </summary>
-		public int GetMaxId()
-		{
-		return DbHelperSQL.GetMaxID("ID", "PaymentPlan"); 
-		}
+        /// <summary>
+        /// 得到最大ID
+        /// </summary>
+        public int GetMaxId()
+        {
+            return DbHelperSQL.GetMaxID("ID", "PaymentPlan");
+        }
 
-		/// <summary>
-		/// 是否存在该记录
-		/// </summary>
-		public bool Exists(int ID)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select count(1) from PaymentPlan");
-			strSql.Append(" where ID=@ID");
-			SqlParameter[] parameters = {
+        /// <summary>
+        /// 是否存在该记录
+        /// </summary>
+        public bool Exists(int ID)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from PaymentPlan");
+            strSql.Append(" where ID=@ID");
+            SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
 			};
-			parameters[0].Value = ID;
+            parameters[0].Value = ID;
 
-			return DbHelperSQL.Exists(strSql.ToString(),parameters);
-		}
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
+        }
 
 
-		/// <summary>
-		/// 增加一条数据
-		/// </summary>
-		public int Add(Semitron_OMS.Model.FM.PaymentPlanModel model)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("insert into PaymentPlan(");
-			strSql.Append("CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
-			strSql.Append(" values (");
-			strSql.Append("@CorporationID,@PONO,@POPlanID,@PaymentPlanDate,@ProductCode,@MPN,@SupplierID,@Qty,@BuyStandardCurrency,@BuyPrice,@BuyCost,@BuyRealCurrency,@BuyExchangeRate,@BuyRealPrice,@BuyRealTotal,@VendorPaymentTypeID,@IsSupplierVATInvoice,@SupplierVATInvoice,@IsPaySupplier,@OtherFee,@OtherFeeRemark,@BuyerProportion,@BuyerPay,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
-			strSql.Append(";select @@IDENTITY");
-			SqlParameter[] parameters = {
+        /// <summary>
+        /// 增加一条数据
+        /// </summary>
+        public int Add(Semitron_OMS.Model.FM.PaymentPlanModel model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into PaymentPlan(");
+            strSql.Append("CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+            strSql.Append(" values (");
+            strSql.Append("@CorporationID,@PONO,@POPlanID,@PaymentPlanDate,@ProductCode,@MPN,@SupplierID,@Qty,@BuyStandardCurrency,@BuyPrice,@BuyCost,@BuyRealCurrency,@BuyExchangeRate,@BuyRealPrice,@BuyRealTotal,@VendorPaymentTypeID,@IsSupplierVATInvoice,@SupplierVATInvoice,@IsPaySupplier,@OtherFee,@OtherFeeRemark,@BuyerProportion,@BuyerPay,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+            strSql.Append(";select @@IDENTITY");
+            SqlParameter[] parameters = {
 					new SqlParameter("@CorporationID", SqlDbType.Int,4),
 					new SqlParameter("@PONO", SqlDbType.NVarChar,50),
 					new SqlParameter("@POPlanID", SqlDbType.Int,4),
@@ -95,82 +97,82 @@ namespace Semitron_OMS.DAL.FM
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
-			parameters[0].Value = model.CorporationID;
-			parameters[1].Value = model.PONO;
-			parameters[2].Value = model.POPlanID;
-			parameters[3].Value = model.PaymentPlanDate;
-			parameters[4].Value = model.ProductCode;
-			parameters[5].Value = model.MPN;
-			parameters[6].Value = model.SupplierID;
-			parameters[7].Value = model.Qty;
-			parameters[8].Value = model.BuyStandardCurrency;
-			parameters[9].Value = model.BuyPrice;
-			parameters[10].Value = model.BuyCost;
-			parameters[11].Value = model.BuyRealCurrency;
-			parameters[12].Value = model.BuyExchangeRate;
-			parameters[13].Value = model.BuyRealPrice;
-			parameters[14].Value = model.BuyRealTotal;
-			parameters[15].Value = model.VendorPaymentTypeID;
-			parameters[16].Value = model.IsSupplierVATInvoice;
-			parameters[17].Value = model.SupplierVATInvoice;
-			parameters[18].Value = model.IsPaySupplier;
-			parameters[19].Value = model.OtherFee;
-			parameters[20].Value = model.OtherFeeRemark;
-			parameters[21].Value = model.BuyerProportion;
-			parameters[22].Value = model.BuyerPay;
-			parameters[23].Value = model.State;
-			parameters[24].Value = model.CreateTime;
-			parameters[25].Value = model.CreateUser;
-			parameters[26].Value = model.UpdateTime;
-			parameters[27].Value = model.UpdateUser;
+            parameters[0].Value = model.CorporationID;
+            parameters[1].Value = model.PONO;
+            parameters[2].Value = model.POPlanID;
+            parameters[3].Value = model.PaymentPlanDate;
+            parameters[4].Value = model.ProductCode;
+            parameters[5].Value = model.MPN;
+            parameters[6].Value = model.SupplierID;
+            parameters[7].Value = model.Qty;
+            parameters[8].Value = model.BuyStandardCurrency;
+            parameters[9].Value = model.BuyPrice;
+            parameters[10].Value = model.BuyCost;
+            parameters[11].Value = model.BuyRealCurrency;
+            parameters[12].Value = model.BuyExchangeRate;
+            parameters[13].Value = model.BuyRealPrice;
+            parameters[14].Value = model.BuyRealTotal;
+            parameters[15].Value = model.VendorPaymentTypeID;
+            parameters[16].Value = model.IsSupplierVATInvoice;
+            parameters[17].Value = model.SupplierVATInvoice;
+            parameters[18].Value = model.IsPaySupplier;
+            parameters[19].Value = model.OtherFee;
+            parameters[20].Value = model.OtherFeeRemark;
+            parameters[21].Value = model.BuyerProportion;
+            parameters[22].Value = model.BuyerPay;
+            parameters[23].Value = model.State;
+            parameters[24].Value = model.CreateTime;
+            parameters[25].Value = model.CreateUser;
+            parameters[26].Value = model.UpdateTime;
+            parameters[27].Value = model.UpdateUser;
 
-			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
-			if (obj == null)
-			{
-				return 0;
-			}
-			else
-			{
-				return Convert.ToInt32(obj);
-			}
-		}
-		/// <summary>
-		/// 更新一条数据
-		/// </summary>
-		public bool Update(Semitron_OMS.Model.FM.PaymentPlanModel model)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("update PaymentPlan set ");
-			strSql.Append("CorporationID=@CorporationID,");
-			strSql.Append("PONO=@PONO,");
-			strSql.Append("POPlanID=@POPlanID,");
-			strSql.Append("PaymentPlanDate=@PaymentPlanDate,");
-			strSql.Append("ProductCode=@ProductCode,");
-			strSql.Append("MPN=@MPN,");
-			strSql.Append("SupplierID=@SupplierID,");
-			strSql.Append("Qty=@Qty,");
-			strSql.Append("BuyStandardCurrency=@BuyStandardCurrency,");
-			strSql.Append("BuyPrice=@BuyPrice,");
-			strSql.Append("BuyCost=@BuyCost,");
-			strSql.Append("BuyRealCurrency=@BuyRealCurrency,");
-			strSql.Append("BuyExchangeRate=@BuyExchangeRate,");
-			strSql.Append("BuyRealPrice=@BuyRealPrice,");
-			strSql.Append("BuyRealTotal=@BuyRealTotal,");
-			strSql.Append("VendorPaymentTypeID=@VendorPaymentTypeID,");
-			strSql.Append("IsSupplierVATInvoice=@IsSupplierVATInvoice,");
-			strSql.Append("SupplierVATInvoice=@SupplierVATInvoice,");
-			strSql.Append("IsPaySupplier=@IsPaySupplier,");
-			strSql.Append("OtherFee=@OtherFee,");
-			strSql.Append("OtherFeeRemark=@OtherFeeRemark,");
-			strSql.Append("BuyerProportion=@BuyerProportion,");
-			strSql.Append("BuyerPay=@BuyerPay,");
-			strSql.Append("State=@State,");
-			strSql.Append("CreateTime=@CreateTime,");
-			strSql.Append("CreateUser=@CreateUser,");
-			strSql.Append("UpdateTime=@UpdateTime,");
-			strSql.Append("UpdateUser=@UpdateUser");
-			strSql.Append(" where ID=@ID");
-			SqlParameter[] parameters = {
+            object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool Update(Semitron_OMS.Model.FM.PaymentPlanModel model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update PaymentPlan set ");
+            strSql.Append("CorporationID=@CorporationID,");
+            strSql.Append("PONO=@PONO,");
+            strSql.Append("POPlanID=@POPlanID,");
+            strSql.Append("PaymentPlanDate=@PaymentPlanDate,");
+            strSql.Append("ProductCode=@ProductCode,");
+            strSql.Append("MPN=@MPN,");
+            strSql.Append("SupplierID=@SupplierID,");
+            strSql.Append("Qty=@Qty,");
+            strSql.Append("BuyStandardCurrency=@BuyStandardCurrency,");
+            strSql.Append("BuyPrice=@BuyPrice,");
+            strSql.Append("BuyCost=@BuyCost,");
+            strSql.Append("BuyRealCurrency=@BuyRealCurrency,");
+            strSql.Append("BuyExchangeRate=@BuyExchangeRate,");
+            strSql.Append("BuyRealPrice=@BuyRealPrice,");
+            strSql.Append("BuyRealTotal=@BuyRealTotal,");
+            strSql.Append("VendorPaymentTypeID=@VendorPaymentTypeID,");
+            strSql.Append("IsSupplierVATInvoice=@IsSupplierVATInvoice,");
+            strSql.Append("SupplierVATInvoice=@SupplierVATInvoice,");
+            strSql.Append("IsPaySupplier=@IsPaySupplier,");
+            strSql.Append("OtherFee=@OtherFee,");
+            strSql.Append("OtherFeeRemark=@OtherFeeRemark,");
+            strSql.Append("BuyerProportion=@BuyerProportion,");
+            strSql.Append("BuyerPay=@BuyerPay,");
+            strSql.Append("State=@State,");
+            strSql.Append("CreateTime=@CreateTime,");
+            strSql.Append("CreateUser=@CreateUser,");
+            strSql.Append("UpdateTime=@UpdateTime,");
+            strSql.Append("UpdateUser=@UpdateUser");
+            strSql.Append(" where ID=@ID");
+            SqlParameter[] parameters = {
 					new SqlParameter("@CorporationID", SqlDbType.Int,4),
 					new SqlParameter("@PONO", SqlDbType.NVarChar,50),
 					new SqlParameter("@POPlanID", SqlDbType.Int,4),
@@ -200,372 +202,398 @@ namespace Semitron_OMS.DAL.FM
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
-			parameters[0].Value = model.CorporationID;
-			parameters[1].Value = model.PONO;
-			parameters[2].Value = model.POPlanID;
-			parameters[3].Value = model.PaymentPlanDate;
-			parameters[4].Value = model.ProductCode;
-			parameters[5].Value = model.MPN;
-			parameters[6].Value = model.SupplierID;
-			parameters[7].Value = model.Qty;
-			parameters[8].Value = model.BuyStandardCurrency;
-			parameters[9].Value = model.BuyPrice;
-			parameters[10].Value = model.BuyCost;
-			parameters[11].Value = model.BuyRealCurrency;
-			parameters[12].Value = model.BuyExchangeRate;
-			parameters[13].Value = model.BuyRealPrice;
-			parameters[14].Value = model.BuyRealTotal;
-			parameters[15].Value = model.VendorPaymentTypeID;
-			parameters[16].Value = model.IsSupplierVATInvoice;
-			parameters[17].Value = model.SupplierVATInvoice;
-			parameters[18].Value = model.IsPaySupplier;
-			parameters[19].Value = model.OtherFee;
-			parameters[20].Value = model.OtherFeeRemark;
-			parameters[21].Value = model.BuyerProportion;
-			parameters[22].Value = model.BuyerPay;
-			parameters[23].Value = model.State;
-			parameters[24].Value = model.CreateTime;
-			parameters[25].Value = model.CreateUser;
-			parameters[26].Value = model.UpdateTime;
-			parameters[27].Value = model.UpdateUser;
-			parameters[28].Value = model.ID;
+            parameters[0].Value = model.CorporationID;
+            parameters[1].Value = model.PONO;
+            parameters[2].Value = model.POPlanID;
+            parameters[3].Value = model.PaymentPlanDate;
+            parameters[4].Value = model.ProductCode;
+            parameters[5].Value = model.MPN;
+            parameters[6].Value = model.SupplierID;
+            parameters[7].Value = model.Qty;
+            parameters[8].Value = model.BuyStandardCurrency;
+            parameters[9].Value = model.BuyPrice;
+            parameters[10].Value = model.BuyCost;
+            parameters[11].Value = model.BuyRealCurrency;
+            parameters[12].Value = model.BuyExchangeRate;
+            parameters[13].Value = model.BuyRealPrice;
+            parameters[14].Value = model.BuyRealTotal;
+            parameters[15].Value = model.VendorPaymentTypeID;
+            parameters[16].Value = model.IsSupplierVATInvoice;
+            parameters[17].Value = model.SupplierVATInvoice;
+            parameters[18].Value = model.IsPaySupplier;
+            parameters[19].Value = model.OtherFee;
+            parameters[20].Value = model.OtherFeeRemark;
+            parameters[21].Value = model.BuyerProportion;
+            parameters[22].Value = model.BuyerPay;
+            parameters[23].Value = model.State;
+            parameters[24].Value = model.CreateTime;
+            parameters[25].Value = model.CreateUser;
+            parameters[26].Value = model.UpdateTime;
+            parameters[27].Value = model.UpdateUser;
+            parameters[28].Value = model.ID;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		/// <summary>
-		/// 删除一条数据
-		/// </summary>
-		public bool Delete(int ID)
-		{
-			
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from PaymentPlan ");
-			strSql.Append(" where ID=@ID");
-			SqlParameter[] parameters = {
+        /// <summary>
+        /// 删除一条数据
+        /// </summary>
+        public bool Delete(int ID)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from PaymentPlan ");
+            strSql.Append(" where ID=@ID");
+            SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
 			};
-			parameters[0].Value = ID;
+            parameters[0].Value = ID;
 
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		/// <summary>
-		/// 批量删除数据
-		/// </summary>
-		public bool DeleteList(string IDlist )
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("delete from PaymentPlan ");
-			strSql.Append(" where ID in ("+IDlist + ")  ");
-			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
-			if (rows > 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 批量删除数据
+        /// </summary>
+        public bool DeleteList(string IDlist)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from PaymentPlan ");
+            strSql.Append(" where ID in (" + IDlist + ")  ");
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Semitron_OMS.Model.FM.PaymentPlanModel GetModel(int ID)
-		{
-			
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser from PaymentPlan ");
-			strSql.Append(" where ID=@ID");
-			SqlParameter[] parameters = {
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Semitron_OMS.Model.FM.PaymentPlanModel GetModel(int ID)
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser from PaymentPlan ");
+            strSql.Append(" where ID=@ID");
+            SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
 			};
-			parameters[0].Value = ID;
+            parameters[0].Value = ID;
 
-			Semitron_OMS.Model.FM.PaymentPlanModel model=new Semitron_OMS.Model.FM.PaymentPlanModel();
-			DataSet ds=DbHelperSQL.Query(strSql.ToString(),parameters);
-			if(ds.Tables[0].Rows.Count>0)
-			{
-				return DataRowToModel(ds.Tables[0].Rows[0]);
-			}
-			else
-			{
-				return null;
-			}
-		}
+            Semitron_OMS.Model.FM.PaymentPlanModel model = new Semitron_OMS.Model.FM.PaymentPlanModel();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                return DataRowToModel(ds.Tables[0].Rows[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
-		/// <summary>
-		/// 得到一个对象实体
-		/// </summary>
-		public Semitron_OMS.Model.FM.PaymentPlanModel DataRowToModel(DataRow row)
-		{
-			Semitron_OMS.Model.FM.PaymentPlanModel model=new Semitron_OMS.Model.FM.PaymentPlanModel();
-			if (row != null)
-			{
-				if(row["ID"]!=null && row["ID"].ToString()!="")
-				{
-					model.ID=int.Parse(row["ID"].ToString());
-				}
-				if(row["CorporationID"]!=null && row["CorporationID"].ToString()!="")
-				{
-					model.CorporationID=int.Parse(row["CorporationID"].ToString());
-				}
-				if(row["PONO"]!=null)
-				{
-					model.PONO=row["PONO"].ToString();
-				}
-				if(row["POPlanID"]!=null && row["POPlanID"].ToString()!="")
-				{
-					model.POPlanID=int.Parse(row["POPlanID"].ToString());
-				}
-				if(row["PaymentPlanDate"]!=null && row["PaymentPlanDate"].ToString()!="")
-				{
-					model.PaymentPlanDate=DateTime.Parse(row["PaymentPlanDate"].ToString());
-				}
-				if(row["ProductCode"]!=null)
-				{
-					model.ProductCode=row["ProductCode"].ToString();
-				}
-				if(row["MPN"]!=null)
-				{
-					model.MPN=row["MPN"].ToString();
-				}
-				if(row["SupplierID"]!=null && row["SupplierID"].ToString()!="")
-				{
-					model.SupplierID=int.Parse(row["SupplierID"].ToString());
-				}
-				if(row["Qty"]!=null && row["Qty"].ToString()!="")
-				{
-					model.Qty=int.Parse(row["Qty"].ToString());
-				}
-				if(row["BuyStandardCurrency"]!=null && row["BuyStandardCurrency"].ToString()!="")
-				{
-					model.BuyStandardCurrency=int.Parse(row["BuyStandardCurrency"].ToString());
-				}
-				if(row["BuyPrice"]!=null && row["BuyPrice"].ToString()!="")
-				{
-					model.BuyPrice=decimal.Parse(row["BuyPrice"].ToString());
-				}
-				if(row["BuyCost"]!=null && row["BuyCost"].ToString()!="")
-				{
-					model.BuyCost=decimal.Parse(row["BuyCost"].ToString());
-				}
-				if(row["BuyRealCurrency"]!=null && row["BuyRealCurrency"].ToString()!="")
-				{
-					model.BuyRealCurrency=int.Parse(row["BuyRealCurrency"].ToString());
-				}
-				if(row["BuyExchangeRate"]!=null && row["BuyExchangeRate"].ToString()!="")
-				{
-					model.BuyExchangeRate=decimal.Parse(row["BuyExchangeRate"].ToString());
-				}
-				if(row["BuyRealPrice"]!=null && row["BuyRealPrice"].ToString()!="")
-				{
-					model.BuyRealPrice=decimal.Parse(row["BuyRealPrice"].ToString());
-				}
-				if(row["BuyRealTotal"]!=null && row["BuyRealTotal"].ToString()!="")
-				{
-					model.BuyRealTotal=decimal.Parse(row["BuyRealTotal"].ToString());
-				}
-				if(row["VendorPaymentTypeID"]!=null && row["VendorPaymentTypeID"].ToString()!="")
-				{
-					model.VendorPaymentTypeID=int.Parse(row["VendorPaymentTypeID"].ToString());
-				}
-				if(row["IsSupplierVATInvoice"]!=null && row["IsSupplierVATInvoice"].ToString()!="")
-				{
-					if((row["IsSupplierVATInvoice"].ToString()=="1")||(row["IsSupplierVATInvoice"].ToString().ToLower()=="true"))
-					{
-						model.IsSupplierVATInvoice=true;
-					}
-					else
-					{
-						model.IsSupplierVATInvoice=false;
-					}
-				}
-				if(row["SupplierVATInvoice"]!=null)
-				{
-					model.SupplierVATInvoice=row["SupplierVATInvoice"].ToString();
-				}
-				if(row["IsPaySupplier"]!=null && row["IsPaySupplier"].ToString()!="")
-				{
-					if((row["IsPaySupplier"].ToString()=="1")||(row["IsPaySupplier"].ToString().ToLower()=="true"))
-					{
-						model.IsPaySupplier=true;
-					}
-					else
-					{
-						model.IsPaySupplier=false;
-					}
-				}
-				if(row["OtherFee"]!=null && row["OtherFee"].ToString()!="")
-				{
-					model.OtherFee=decimal.Parse(row["OtherFee"].ToString());
-				}
-				if(row["OtherFeeRemark"]!=null)
-				{
-					model.OtherFeeRemark=row["OtherFeeRemark"].ToString();
-				}
-				if(row["BuyerProportion"]!=null && row["BuyerProportion"].ToString()!="")
-				{
-					model.BuyerProportion=decimal.Parse(row["BuyerProportion"].ToString());
-				}
-				if(row["BuyerPay"]!=null && row["BuyerPay"].ToString()!="")
-				{
-					model.BuyerPay=decimal.Parse(row["BuyerPay"].ToString());
-				}
-				if(row["State"]!=null && row["State"].ToString()!="")
-				{
-					model.State=int.Parse(row["State"].ToString());
-				}
-				if(row["CreateTime"]!=null && row["CreateTime"].ToString()!="")
-				{
-					model.CreateTime=DateTime.Parse(row["CreateTime"].ToString());
-				}
-				if(row["CreateUser"]!=null)
-				{
-					model.CreateUser=row["CreateUser"].ToString();
-				}
-				if(row["UpdateTime"]!=null && row["UpdateTime"].ToString()!="")
-				{
-					model.UpdateTime=DateTime.Parse(row["UpdateTime"].ToString());
-				}
-				if(row["UpdateUser"]!=null)
-				{
-					model.UpdateUser=row["UpdateUser"].ToString();
-				}
-			}
-			return model;
-		}
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public Semitron_OMS.Model.FM.PaymentPlanModel DataRowToModel(DataRow row)
+        {
+            Semitron_OMS.Model.FM.PaymentPlanModel model = new Semitron_OMS.Model.FM.PaymentPlanModel();
+            if (row != null)
+            {
+                if (row["ID"] != null && row["ID"].ToString() != "")
+                {
+                    model.ID = int.Parse(row["ID"].ToString());
+                }
+                if (row["CorporationID"] != null && row["CorporationID"].ToString() != "")
+                {
+                    model.CorporationID = int.Parse(row["CorporationID"].ToString());
+                }
+                if (row["PONO"] != null)
+                {
+                    model.PONO = row["PONO"].ToString();
+                }
+                if (row["POPlanID"] != null && row["POPlanID"].ToString() != "")
+                {
+                    model.POPlanID = int.Parse(row["POPlanID"].ToString());
+                }
+                if (row["PaymentPlanDate"] != null && row["PaymentPlanDate"].ToString() != "")
+                {
+                    model.PaymentPlanDate = DateTime.Parse(row["PaymentPlanDate"].ToString());
+                }
+                if (row["ProductCode"] != null)
+                {
+                    model.ProductCode = row["ProductCode"].ToString();
+                }
+                if (row["MPN"] != null)
+                {
+                    model.MPN = row["MPN"].ToString();
+                }
+                if (row["SupplierID"] != null && row["SupplierID"].ToString() != "")
+                {
+                    model.SupplierID = int.Parse(row["SupplierID"].ToString());
+                }
+                if (row["Qty"] != null && row["Qty"].ToString() != "")
+                {
+                    model.Qty = int.Parse(row["Qty"].ToString());
+                }
+                if (row["BuyStandardCurrency"] != null && row["BuyStandardCurrency"].ToString() != "")
+                {
+                    model.BuyStandardCurrency = int.Parse(row["BuyStandardCurrency"].ToString());
+                }
+                if (row["BuyPrice"] != null && row["BuyPrice"].ToString() != "")
+                {
+                    model.BuyPrice = decimal.Parse(row["BuyPrice"].ToString());
+                }
+                if (row["BuyCost"] != null && row["BuyCost"].ToString() != "")
+                {
+                    model.BuyCost = decimal.Parse(row["BuyCost"].ToString());
+                }
+                if (row["BuyRealCurrency"] != null && row["BuyRealCurrency"].ToString() != "")
+                {
+                    model.BuyRealCurrency = int.Parse(row["BuyRealCurrency"].ToString());
+                }
+                if (row["BuyExchangeRate"] != null && row["BuyExchangeRate"].ToString() != "")
+                {
+                    model.BuyExchangeRate = decimal.Parse(row["BuyExchangeRate"].ToString());
+                }
+                if (row["BuyRealPrice"] != null && row["BuyRealPrice"].ToString() != "")
+                {
+                    model.BuyRealPrice = decimal.Parse(row["BuyRealPrice"].ToString());
+                }
+                if (row["BuyRealTotal"] != null && row["BuyRealTotal"].ToString() != "")
+                {
+                    model.BuyRealTotal = decimal.Parse(row["BuyRealTotal"].ToString());
+                }
+                if (row["VendorPaymentTypeID"] != null && row["VendorPaymentTypeID"].ToString() != "")
+                {
+                    model.VendorPaymentTypeID = int.Parse(row["VendorPaymentTypeID"].ToString());
+                }
+                if (row["IsSupplierVATInvoice"] != null && row["IsSupplierVATInvoice"].ToString() != "")
+                {
+                    if ((row["IsSupplierVATInvoice"].ToString() == "1") || (row["IsSupplierVATInvoice"].ToString().ToLower() == "true"))
+                    {
+                        model.IsSupplierVATInvoice = true;
+                    }
+                    else
+                    {
+                        model.IsSupplierVATInvoice = false;
+                    }
+                }
+                if (row["SupplierVATInvoice"] != null)
+                {
+                    model.SupplierVATInvoice = row["SupplierVATInvoice"].ToString();
+                }
+                if (row["IsPaySupplier"] != null && row["IsPaySupplier"].ToString() != "")
+                {
+                    if ((row["IsPaySupplier"].ToString() == "1") || (row["IsPaySupplier"].ToString().ToLower() == "true"))
+                    {
+                        model.IsPaySupplier = true;
+                    }
+                    else
+                    {
+                        model.IsPaySupplier = false;
+                    }
+                }
+                if (row["OtherFee"] != null && row["OtherFee"].ToString() != "")
+                {
+                    model.OtherFee = decimal.Parse(row["OtherFee"].ToString());
+                }
+                if (row["OtherFeeRemark"] != null)
+                {
+                    model.OtherFeeRemark = row["OtherFeeRemark"].ToString();
+                }
+                if (row["BuyerProportion"] != null && row["BuyerProportion"].ToString() != "")
+                {
+                    model.BuyerProportion = decimal.Parse(row["BuyerProportion"].ToString());
+                }
+                if (row["BuyerPay"] != null && row["BuyerPay"].ToString() != "")
+                {
+                    model.BuyerPay = decimal.Parse(row["BuyerPay"].ToString());
+                }
+                if (row["State"] != null && row["State"].ToString() != "")
+                {
+                    model.State = int.Parse(row["State"].ToString());
+                }
+                if (row["CreateTime"] != null && row["CreateTime"].ToString() != "")
+                {
+                    model.CreateTime = DateTime.Parse(row["CreateTime"].ToString());
+                }
+                if (row["CreateUser"] != null)
+                {
+                    model.CreateUser = row["CreateUser"].ToString();
+                }
+                if (row["UpdateTime"] != null && row["UpdateTime"].ToString() != "")
+                {
+                    model.UpdateTime = DateTime.Parse(row["UpdateTime"].ToString());
+                }
+                if (row["UpdateUser"] != null)
+                {
+                    model.UpdateUser = row["UpdateUser"].ToString();
+                }
+            }
+            return model;
+        }
 
-		/// <summary>
-		/// 获得数据列表
-		/// </summary>
-		public DataSet GetList(string strWhere)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
-			strSql.Append(" FROM PaymentPlan ");
-			if(strWhere.Trim()!="")
-			{
-				strSql.Append(" where "+strWhere);
-			}
-			return DbHelperSQL.Query(strSql.ToString());
-		}
+        /// <summary>
+        /// 获得数据列表
+        /// </summary>
+        public DataSet GetList(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append(" FROM PaymentPlan ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 
-		/// <summary>
-		/// 获得前几行数据
-		/// </summary>
-		public DataSet GetList(int Top,string strWhere,string filedOrder)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ");
-			if(Top>0)
-			{
-				strSql.Append(" top "+Top.ToString());
-			}
-			strSql.Append(" ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
-			strSql.Append(" FROM PaymentPlan ");
-			if(strWhere.Trim()!="")
-			{
-				strSql.Append(" where "+strWhere);
-			}
-			strSql.Append(" order by " + filedOrder);
-			return DbHelperSQL.Query(strSql.ToString());
-		}
+        /// <summary>
+        /// 获得前几行数据
+        /// </summary>
+        public DataSet GetList(int Top, string strWhere, string filedOrder)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select ");
+            if (Top > 0)
+            {
+                strSql.Append(" top " + Top.ToString());
+            }
+            strSql.Append(" ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append(" FROM PaymentPlan ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            strSql.Append(" order by " + filedOrder);
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 
-		/// <summary>
-		/// 获取记录总数
-		/// </summary>
-		public int GetRecordCount(string strWhere)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select count(1) FROM PaymentPlan ");
-			if(strWhere.Trim()!="")
-			{
-				strSql.Append(" where "+strWhere);
-			}
-			object obj = DbHelperSQL.GetSingle(strSql.ToString());
-			if (obj == null)
-			{
-				return 0;
-			}
-			else
-			{
-				return Convert.ToInt32(obj);
-			}
-		}
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
-		{
-			StringBuilder strSql=new StringBuilder();
-			strSql.Append("SELECT * FROM ( ");
-			strSql.Append(" SELECT ROW_NUMBER() OVER (");
-			if (!string.IsNullOrEmpty(orderby.Trim()))
-			{
-				strSql.Append("order by T." + orderby );
-			}
-			else
-			{
-				strSql.Append("order by T.ID desc");
-			}
-			strSql.Append(")AS Row, T.*  from PaymentPlan T ");
-			if (!string.IsNullOrEmpty(strWhere.Trim()))
-			{
-				strSql.Append(" WHERE " + strWhere);
-			}
-			strSql.Append(" ) TT");
-			strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
-			return DbHelperSQL.Query(strSql.ToString());
-		}
+        /// <summary>
+        /// 获取记录总数
+        /// </summary>
+        public int GetRecordCount(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) FROM PaymentPlan ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            object obj = DbHelperSQL.GetSingle(strSql.ToString());
+            if (obj == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(obj);
+            }
+        }
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("SELECT * FROM ( ");
+            strSql.Append(" SELECT ROW_NUMBER() OVER (");
+            if (!string.IsNullOrEmpty(orderby.Trim()))
+            {
+                strSql.Append("order by T." + orderby);
+            }
+            else
+            {
+                strSql.Append("order by T.ID desc");
+            }
+            strSql.Append(")AS Row, T.*  from PaymentPlan T ");
+            if (!string.IsNullOrEmpty(strWhere.Trim()))
+            {
+                strSql.Append(" WHERE " + strWhere);
+            }
+            strSql.Append(" ) TT");
+            strSql.AppendFormat(" WHERE TT.Row between {0} and {1}", startIndex, endIndex);
+            return DbHelperSQL.Query(strSql.ToString());
+        }
 
-		/*
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetList(int PageSize,int PageIndex,string strWhere)
-		{
-			SqlParameter[] parameters = {
-					new SqlParameter("@tblName", SqlDbType.VarChar, 255),
-					new SqlParameter("@fldName", SqlDbType.VarChar, 255),
-					new SqlParameter("@PageSize", SqlDbType.Int),
-					new SqlParameter("@PageIndex", SqlDbType.Int),
-					new SqlParameter("@IsReCount", SqlDbType.Bit),
-					new SqlParameter("@OrderType", SqlDbType.Bit),
-					new SqlParameter("@strWhere", SqlDbType.VarChar,1000),
-					};
-			parameters[0].Value = "PaymentPlan";
-			parameters[1].Value = "ID";
-			parameters[2].Value = PageSize;
-			parameters[3].Value = PageIndex;
-			parameters[4].Value = 0;
-			parameters[5].Value = 0;
-			parameters[6].Value = strWhere;	
-			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
-		}*/
+        /*
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+        {
+            SqlParameter[] parameters = {
+                    new SqlParameter("@tblName", SqlDbType.VarChar, 255),
+                    new SqlParameter("@fldName", SqlDbType.VarChar, 255),
+                    new SqlParameter("@PageSize", SqlDbType.Int),
+                    new SqlParameter("@PageIndex", SqlDbType.Int),
+                    new SqlParameter("@IsReCount", SqlDbType.Bit),
+                    new SqlParameter("@OrderType", SqlDbType.Bit),
+                    new SqlParameter("@strWhere", SqlDbType.VarChar,1000),
+                    };
+            parameters[0].Value = "PaymentPlan";
+            parameters[1].Value = "ID";
+            parameters[2].Value = PageSize;
+            parameters[3].Value = PageIndex;
+            parameters[4].Value = 0;
+            parameters[5].Value = 0;
+            parameters[6].Value = strWhere;	
+            return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
+        }*/
 
-		#endregion  BasicMethod
-		#region  ExtensionMethod
+        #endregion  BasicMethod
+        #region  ExtensionMethod
+        /// <summary>
+        /// 分页查询记录数据
+        /// </summary>
+        /// <param name="searchInfo">SQL辅助类对象</param>
+        /// <param name="o_RowsCount">总查询数</param>
+        /// <returns>记录数据</returns>
+        public DataSet GetPaymentPlanPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            //查询表名
+            string strTableName = " dbo.PaymentPlan AS P WITH(NOLOCK) LEFT JOIN dbo.Supplier AS S WITH(NOLOCK) ON S.ID=P.SupplierID LEFT JOIN dbo.Corporation AS C ON C.ID=P.CorporationID LEFT JOIN dbo.PaymentType AS T ON T.ID=P.VendorPaymentTypeID LEFT JOIN dbo.CurrencyType AS CT ON CT.ID=P.BuyRealCurrency LEFT JOIN dbo.CurrencyType AS CT1 ON CT1.ID=P.BuyStandardCurrency ";
+            //查询字段
+            string strGetFields = " P.ID,State=CASE WHEN P.State=1 THEN '有效' ELSE '无效' END ,PaymentPlanDate=CONVERT(VARCHAR(10),P.PaymentPlanDate,120),CorporationID=C.CompanyName,P.PONO,P.ProductCode,P.MPN,S.SupplierName,IsPaySupplier=CASE WHEN P.IsPaySupplier=1 THEN '是' ELSE '否' END ,IsSupplierVATInvoice=CASE WHEN P.IsSupplierVATInvoice=1 THEN '是' ELSE '否' END ,P.Qty,VendorPaymentTypeID=T.PaymentType,P.BuyExchangeRate,BuyRealCurrency=CT.CurrencyName,P.BuyRealPrice,P.BuyRealTotal,BuyStandardCurrency=CT1.CurrencyName,P.BuyPrice,P.BuyCost,P.OtherFee,P.CreateUser,CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120) ";
+            //查询条件
+            string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
+            //数据查询
+            CommonDAL commonDAL = new CommonDAL();
+            return commonDAL.GetDataExt(Semitron_OMS.Common.ConstantValue.ProcedureNames.PageProcedureName,
+                strTableName,
+                strGetFields,
+                searchInfo.PageSize,
+                searchInfo.PageIndex,
+                strWhere,
+                searchInfo.OrderByField,
+                searchInfo.OrderType,
+                out o_RowsCount);
+        }
+        #endregion  ExtensionMethod
 
-		#endregion  ExtensionMethod
-	}
+    }
 }
 

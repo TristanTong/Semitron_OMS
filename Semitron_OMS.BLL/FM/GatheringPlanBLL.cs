@@ -188,8 +188,18 @@ namespace Semitron_OMS.BLL.FM
 
 		#endregion  BasicMethod
 		#region  ExtensionMethod
-
+        /// <summary>
+        /// 分页查询记录数据
+        /// </summary>
+        /// <param name="searchInfo">SQL辅助类对象</param>
+        /// <param name="o_RowsCount">总查询数</param>
+        /// <returns>记录数据</returns>
+        public DataSet GetGatheringPlanPageData(PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            return dal.GetGatheringPlanPageData(searchInfo, out o_RowsCount);
+        }
 		#endregion  ExtensionMethod
-	}
+        
+    }
 }
 
