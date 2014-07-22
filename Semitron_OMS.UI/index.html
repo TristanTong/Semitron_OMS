@@ -76,14 +76,25 @@
                 }
             });
 
-            //加载菜单
+            //加载菜单OMS
             $.ajax({
                 url: "/Handle/Sys/Admin.ashx",
                 type: "POST",
                 dataType: "html",
-                data: { "meth": "GetIndexMenu" },
+                data: { "meth": "GetIndexMenu", "ParentSystem": "577" },
                 success: function (htmlData) {
                     $("#menuOMS").append(htmlData);
+                    return true;
+                }
+            });
+            //加载菜单FM
+            $.ajax({
+                url: "/Handle/Sys/Admin.ashx",
+                type: "POST",
+                dataType: "html",
+                data: { "meth": "GetIndexMenuFM", "ParentSystem": "1066" },
+                success: function (htmlData) {
+                    $("#menuFM").append(htmlData);
                     return true;
                 }
             });
@@ -195,8 +206,7 @@
                         <h2><span>Folder</span>财务系统</h2>
                     </div>
                     <div class="accordionContent">
-                        <ul class="tree treeFolder ">
-                            <li><a href="#">开发中，敬请期待...</a></li>
+                        <ul class="tree treeFolder " id="menuFM">
                         </ul>
                     </div>
                     <div class="accordionHeader">

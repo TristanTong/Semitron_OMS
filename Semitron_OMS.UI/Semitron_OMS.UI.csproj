@@ -87,6 +87,8 @@
     <Content Include="Admin\Common\Warehouse\Main.html" />
     <Content Include="Admin\CRM\CustomerManager.aspx" />
     <Content Include="Admin\CRM\SupplierManager.aspx" />
+    <Content Include="Admin\FM\GatheringPlan\Main.html" />
+    <Content Include="Admin\FM\PaymentPlan\Main.html" />
     <Content Include="Admin\Images\bgItem.png" />
     <Content Include="Admin\Images\btn_bg.gif" />
     <Content Include="Admin\Images\butClose.gif" />
@@ -1513,6 +1515,12 @@
     <Compile Include="Handle\CRM\SupplierHandle.ashx.cs">
       <DependentUpon>SupplierHandle.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handle\FM\GatheringPlanHandle.ashx.cs">
+      <DependentUpon>GatheringPlanHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\FM\PaymentPlanHandle.ashx.cs">
+      <DependentUpon>PaymentPlanHandle.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handle\OMS\AdminBindCustomerHandle.ashx.cs">
       <DependentUpon>AdminBindCustomerHandle.ashx</DependentUpon>
     </Compile>
@@ -1641,6 +1649,8 @@
     <Content Include="Handle\OMS\InventoryHandle.ashx" />
     <Content Include="Handle\OMS\InventoryAuditHandle.ashx" />
     <Content Include="Handle\Common\ProductInfoHandle.ashx" />
+    <Content Include="Handle\FM\PaymentPlanHandle.ashx" />
+    <Content Include="Handle\FM\GatheringPlanHandle.ashx" />
     <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />
@@ -1709,8 +1719,6 @@
     <None Include="Styles\custom-theme\images\vssver2.scc" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Admin\FM\" />
-    <Folder Include="Handle\FM\" />
     <Folder Include="Scripts\artDialog\plugins\.svn\prop-base\" />
     <Folder Include="Scripts\artDialog\plugins\.svn\props\" />
     <Folder Include="Scripts\artDialog\plugins\.svn\text-base\" />

@@ -1,21 +1,22 @@
 ﻿<script type="text/javascript">
     $(function () {
         var gridHeight = document.documentElement.clientHeight - 298;
+        var gridWidth = document.documentElement.clientWidth - 250;
         //初始化查询条件收起张开事件
-        //InitExpandSearch("FlexigridTableProductInfo", "btnSearchOpenClose", "tableSearch", 294, 144);
-        $("#divProductInfoContent").attr("style", "height:" + gridHeight + 20 + "px");
+        //InitExpandSearch("FlexigridTableGatheringPlan", "btnSearchOpenClose", "tableSearch", 294, 144);
+        $("#divGatheringPlanContent").attr("style", "height:" + gridHeight + 20 + "px");
 
-        $("#ulSearchProductInfo li input[name=BeginTime]").val("2013-01-01");
-        var TimeType = $("#ulSearchProductInfo li select[name=sltTimeType]").val();
-        var startTime = $("#ulSearchProductInfo li input[name=BeginTime]").val();
-        var endTime = $("#ulSearchProductInfo li input[name=EndTime]").val();
-        //初始产品信息表格
-        $("#FlexigridTableProductInfo").flexigrid({
-            width: 'auto', //表格宽度
+        $("#ulSearchGatheringPlan li input[name=BeginTime]").val("2013-01-01");
+        var TimeType = $("#ulSearchGatheringPlan li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchGatheringPlan li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchGatheringPlan li input[name=EndTime]").val();
+        //初始收款计划表格
+        $("#FlexigridTableGatheringPlan").flexigrid({
+            width: 'auto',//表格宽度
             height: gridHeight, //表格高度
-            url: '/Handle/Common/ProductInfoHandle.ashx', //数据请求地址
+            url: '/Handle/Common/GatheringPlanHandle.ashx', //数据请求地址
             dataType: 'json', //请求数据的格式
-            extParam: [{ name: "meth", value: "GetProductInfo" }, { name: "TimeType", value: TimeType },
+            extParam: [{ name: "meth", value: "GetGatheringPlan" }, { name: "TimeType", value: TimeType },
                 { name: "State", value: "1" }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
             colModel: [//表格的题头与索要填充的内容。
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
@@ -24,8 +25,8 @@
                     { display: '产品编码', name: 'ProductCode', width: 60, sortable: true, align: 'center' },
                     { display: '产品名称', name: 'ProductName', width: 60, hide: true, sortable: true, align: 'left' },
                     { display: '厂商型号 ', name: 'MPN', width: 160, sortable: true, align: 'left' },
-                    { display: '供应商编码', name: 'SupplierCode', width: 60, sortable: true, align: 'center' },
-                    { display: '供应商名称', name: 'SupplierName', width: 260, sortable: true, align: 'left' },
+                    { display: '供应商编码', name: 'CustomerCode', width: 60, sortable: true, align: 'center' },
+                    { display: '供应商名称', name: 'CustomerName', width: 260, sortable: true, align: 'left' },
                     { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
                     { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
@@ -33,7 +34,7 @@
             ],
             sortname: "CreateTime",
             sortorder: "DESC",
-            title: "产品信息数据列表",
+            title: "收款计划数据列表",
             showTableToggleBtn: true,
             usepager: true,
             useRp: true,
@@ -46,70 +47,70 @@
 
 
         //查询按钮
-        $("#btnSearchProductInfo").click(function () {
-            SearchProductInfo();
+        $("#btnSearchGatheringPlan").click(function () {
+            SearchGatheringPlan();
             return false;
         });
         //新增按钮
-        $("#btnAddProductInfo").click(function () {
-            $("#btnEditProductInfo").attr("href", "/Admin/Common/ProductInfo/Edit.html");
-            $("#hidSeletedProductInfoId").val("-1");
+        $("#btnAddGatheringPlan").click(function () {
+            $("#btnEditGatheringPlan").attr("href", "/Admin/Common/GatheringPlan/Edit.html");
+            $("#hidSeletedGatheringPlanId").val("-1");
             return false;
         });
         //编辑按钮
-        $("#btnEditProductInfo").click(function () {
-            var obj = GetSelectedRow("FlexigridTableProductInfo", "产品信息");
+        $("#btnEditGatheringPlan").click(function () {
+            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
             if (!obj) {
-                $("#btnEditProductInfo").attr("href", "/Admin/Common/ProductInfo/Edit.html?ProductInfoId={ProductInfoId}");
+                $("#btnEditGatheringPlan").attr("href", "/Admin/Common/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}");
                 return false;
             }
 
             if (obj[0][2] == "无效") {
-                artDialog.tips("当前产品信息记录已无效，无法完成此操作。");
+                artDialog.tips("当前收款计划记录已无效，无法完成此操作。");
                 return false;
             }
             var id = obj[0][1];
-            $("#btnEditProductInfo").attr("href", "/Admin/Common/ProductInfo/Edit.html?ProductInfoId=" + id);
-            $("#hidSeletedProductInfoId").val(id);
+            $("#btnEditGatheringPlan").attr("href", "/Admin/Common/GatheringPlan/Edit.html?GatheringPlanId=" + id);
+            $("#hidSeletedGatheringPlanId").val(id);
 
             return false;
         });
         //删除
-        $("#btnDeleteProductInfo").click(function () {
-            var obj = GetSelectedRow("FlexigridTableProductInfo", "产品信息");
+        $("#btnDeleteGatheringPlan").click(function () {
+            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
             if (!obj) {
                 return false;
             }
             if (obj[0][2] == "无效") {
-                artDialog.tips("当前产品信息已无效，请勿重复操作。");
+                artDialog.tips("当前收款计划已无效，请勿重复操作。");
                 return false;
             }
             var id = obj[0][1];
-            DelProductInfo(id);
+            DelGatheringPlan(id);
             return false;
         });
 
-        //审核产品信息
-        $("#btnApproveProductInfo").click(function () {
-            var obj = GetSelectedRow("FlexigridTableProductInfo", "产品信息");
+        //审核收款计划
+        $("#btnApproveGatheringPlan").click(function () {
+            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
             if (!obj) {
                 return false;
             }
             if (obj[0][2] == "无效") {
-                artDialog.tips("所选产品信息已无效，无法完成此操作。");
+                artDialog.tips("所选收款计划已无效，无法完成此操作。");
                 return false;
             }
             if (obj[0][4] == "已审核") {
-                artDialog.tips("所选产品信息已审核，请勿重复操作。");
+                artDialog.tips("所选收款计划已审核，请勿重复操作。");
                 return false;
             }
             var id = obj[0][1];
-            $("#hidSeletedProductInfoId").val(id);
+            $("#hidSeletedGatheringPlanId").val(id);
 
-            alertMsg.confirm("审核产品信息后，产品信息不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
+            alertMsg.confirm("审核收款计划后，收款计划不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
                 okCall: function () {
-                    var url = "/Handle/Common/ProductInfoHandle.ashx";
-                    var data = { "meth": "ApproveProductInfo", "EntryId": id };
+                    var url = "/Handle/Common/GatheringPlanHandle.ashx";
+                    var data = { "meth": "ApproveGatheringPlan", "EntryId": id };
                     var successFun = function (json) {
                         if (json.State == "0") {
                             alertMsg.error(json.Info);
@@ -117,7 +118,7 @@
                         } else {
                             //刷新表格
                             alertMsg.correct(json.Info);
-                            $("#FlexigridTableProductInfo").flexReload();
+                            $("#FlexigridTableGatheringPlan").flexReload();
                             return true;
                         }
                     };
@@ -133,39 +134,39 @@
 </script>
 <script type="text/javascript">
     //查询
-    function SearchProductInfo() {
+    function SearchGatheringPlan() {
 
-        var TimeType = $("#ulSearchProductInfo li select[name=sltTimeType]").val();
-        var startTime = $("#ulSearchProductInfo li input[name=BeginTime]").val();
-        var endTime = $("#ulSearchProductInfo li input[name=EndTime]").val();
-        var MPN = $("#ulSearchProductInfo li input[name=MPN]").val();
-        var ProductCode = $("#ulSearchProductInfo li input[name=ProductCode]").val();
-        var SupplierCode = $("#ulSearchProductInfo li input[name='ProductInfo_SearchSupplier.SCode']").val();
-        var SupplierName = $("#ulSearchProductInfo li input[name='ProductInfo_SearchSupplier.SName']").val();
+        var TimeType = $("#ulSearchGatheringPlan li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchGatheringPlan li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchGatheringPlan li input[name=EndTime]").val();
+        var MPN = $("#ulSearchGatheringPlan li input[name=MPN]").val();
+        var ProductCode = $("#ulSearchGatheringPlan li input[name=ProductCode]").val();
+        var CustomerCode = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.SCode']").val();
+        var CustomerName = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.SName']").val();
 
         var p = {
             extParam: [   //扩展参数
-              { name: "meth", value: "GetProductInfo" },
+              { name: "meth", value: "GetGatheringPlan" },
               { name: "TimeType", value: TimeType },
               { name: "startTime", value: startTime },
               { name: "endTime", value: endTime },
               { name: "ProductCode", value: ProductCode },
               { name: "MPN", value: MPN },
-              { name: "SupplierCode", value: SupplierCode },
+              { name: "CustomerCode", value: CustomerCode },
               { name: "AvailFlag", value: "1" }//这里应该是错的
             ]
         };
         p.newp = 1;         //跳转到第一页。
-        $("#FlexigridTableProductInfo").flexOptions(p).flexReload();
+        $("#FlexigridTableGatheringPlan").flexOptions(p).flexReload();
     }
 
-    //删除产品信息
-    function DelProductInfo(id) {
-        alertMsg.confirm("产品信息删除后将无法恢复，你确认要删除吗？", {
+    //删除收款计划
+    function DelGatheringPlan(id) {
+        alertMsg.confirm("收款计划删除后将无法恢复，你确认要删除吗？", {
             okCall: function () {
-                //调用删除产品信息方法
-                var url = "/Handle/Common/ProductInfoHandle.ashx";
-                var data = { "meth": "DelProductInfo", "Id": id };
+                //调用删除收款计划方法
+                var url = "/Handle/Common/GatheringPlanHandle.ashx";
+                var data = { "meth": "DelGatheringPlan", "Id": id };
                 var successFun = function (json) {
                     if (json.State == "0") {
                         alertMsg.error(json.Info);
@@ -173,7 +174,7 @@
                     } else {
                         //刷新表格
                         alertMsg.correct(json.Info);
-                        $("#FlexigridTableProductInfo").flexReload();
+                        $("#FlexigridTableGatheringPlan").flexReload();
                         return true;
                     }
                 };
@@ -188,24 +189,24 @@
 
 <div class="pageHeader">
     <div class="searchBar">
-        <ul class="searchContent" id="ulSearchProductInfo">
+        <ul class="searchContent" id="ulSearchGatheringPlan">
 
             <li style="width: 180px">
-                <div style="float: left;">产品编码：</div>
+                <div style="float: left;">内部订单号：</div>
                 <input style="width: 80px;" name="ProductCode" class="txt" maxlength="36" />m
             </li>
             <li style="width: 180px">
-                <div style="float: left;">厂商型号：</div>
+                <div style="float: left;">客户订单号：</div>
                 <div style="float: left;">
                     <input style="width: 80px;" name="MPN" class="txt" maxlength="64" />m
                 </div>
             </li>
             <li style="width: 180px">
-                <div style="float: left;">供应商：</div>
+                <div style="float: left;">客户名称：</div>
                 <div style="float: left; width: 120px">
-                    <input name="ProductInfo_SearchSupplier.SCode" value="" type="hidden" />
-                    <input name="ProductInfo_SearchSupplier.SName" type="text" style="width: 80px;" readonly="readonly" />
-                    <a class="btnLook" href="/Admin/CRM/Supplier/Lookup.html" lookupgroup="ProductInfo_SearchSupplier" rel="lSearchProductInfo_Main_SearchSuppplier">查找带回</a>
+                    <input name="GatheringPlan_SearchCustomer.SCode" value="" type="hidden" />
+                    <input name="GatheringPlan_SearchCustomer.SName" type="text" style="width: 80px;" readonly="readonly" />
+                    <a class="btnLook" href="/Admin/CRM/Customer/Lookup.html" lookupgroup="GatheringPlan_SearchCustomer" rel="lSearchGatheringPlan_Main_SearchSuppplier">查找带回</a>
                 </div>
             </li>
             <li style="width: 180px">
@@ -226,8 +227,8 @@
             </li>
             <li>
                 <select class="combox" name="sltTimeType" style="width: 100px">
-                    <!--<option value="3" title="产品信息时间">产品信息时间</option>
-                    <option value="4" title="审核时间">审核时间</option>-->
+                    <option value="3" title="收款计划时间">收款计划时间</option>
+                    <!--  <option value="4" title="审核时间">审核时间</option>-->
                     <option value="1" title="创建时间">创建时间</option>
                     <option value="2" title="更新时间">更新时间</option>
                 </select>
@@ -235,40 +236,41 @@
             <li>
                 <div class="buttonActive">
                     <div class="buttonContent">
-                        <button type="submit" id="btnSearchProductInfo">检索</button>
+                        <button type="submit" id="btnSearchGatheringPlan">检索</button>
                     </div>
                 </div>
-                <!--<a class="button" href="/Admin/Common/ProductInfo/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索产品信息)"><span>高级检索</span></a>-->
+                <!--<a class="button" href="/Admin/Common/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索收款计划)"><span>高级检索</span></a>-->
             </li>
         </ul>
     </div>
 </div>
 <div class="pageContent">
     <div class="panelBar">
-        <input type="hidden" value="-1" id="hidSeletedProductInfoId" />
+        <input type="hidden" value="-1" id="hidSeletedGatheringPlanId" />
         <ul class="toolBar">
-            <li><a class="add" href="/Admin/Common/ProductInfo/Edit.html" target="navTab" rel="editProductInfo" id="btnAddProductInfo"><span>新建产品信息</span></a></li>
+            <li><a class="add" href="/Admin/Common/GatheringPlan/Edit.html" target="navTab" rel="editGatheringPlan" id="btnAddGatheringPlan"><span>新建收款计划</span></a></li>
             <li class="line">line</li>
-            <li><a class="edit" href="/Admin/Common/ProductInfo/Edit.html?ProductInfoId={ProductInfoId}" rel="editProductInfo" target="navTab" id="btnEditProductInfo"><span>修改产品信息</span></a></li>
+            <li><a class="edit" href="/Admin/Common/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}" rel="editGatheringPlan" target="navTab" id="btnEditGatheringPlan"><span>修改收款计划</span></a></li>
             <li class="line">line</li>
-            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteProductInfo"><span>删除产品信息</span></a></li>
-            <li class="line">line</li>
-            <li><a class="icon" href="javascript:;" title="要审核所选产品信息吗?" id="btnApproveProductInfo"><span>审核产品信息</span></a></li>
+            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteGatheringPlan"><span>删除收款计划</span></a></li>
+            <!-- <li class="line">line</li>
+           <li><a class="icon" href="javascript:;" title="要审核所选收款计划吗?" id="btnApproveGatheringPlan"><span>审核收款计划</span></a></li>-->
             <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
         </ul>
     </div>
     <div class="tabs" currentindex="0" eventtype="click">
-        <!-- <div class="tabsHeader">
+        <div class="tabsHeader">
             <div class="tabsHeaderContent">
                 <ul>
-                    <li class="selected"><a href="javascript:;"><span>查单据</span></a></li>
-                    <li><a href="javascript:;"><span>查明细</span></a></li>
+                    <li class="selected"><a href="javascript:;"><span>查数据</span></a></li>
+                    <li><a href="javascript:;"><span>查附件</span></a></li>
                 </ul>
             </div>
-        </div>-->
-        <div class="tabsContent" style="height: 450px;" id="divProductInfoContent">
+        </div>
+        <div class="tabsContent" style="height: 450px;" id="divGatheringPlanContent">
             <div inited="1000" style="display: block;">
-                <table id="FlexigridTableProductInfo" style="display: none"></table>
+                <!--<div style="width: 150px; border: 1px gray solid; float: right"><span>显示附件</span></div>-->
+                <table id="FlexigridTableGatheringPlan" style="display: none;"></table>
             </div>
         </div>
         <div class="tabsFooter">

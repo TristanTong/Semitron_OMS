@@ -6,7 +6,7 @@
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2014/7/6 17:40:57   童荣辉    初版
+* V0.01  2014/7/21 22:00:31   童荣辉    初版
 *
 * Copyright (c) 2013 SemitronElec Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -30,6 +30,29 @@ namespace Semitron_OMS.DAL.FM
 		{}
 		#region  BasicMethod
 
+		/// <summary>
+		/// 得到最大ID
+		/// </summary>
+		public int GetMaxId()
+		{
+		return DbHelperSQL.GetMaxID("ID", "PaymentPlan"); 
+		}
+
+		/// <summary>
+		/// 是否存在该记录
+		/// </summary>
+		public bool Exists(int ID)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select count(1) from PaymentPlan");
+			strSql.Append(" where ID=@ID");
+			SqlParameter[] parameters = {
+					new SqlParameter("@ID", SqlDbType.Int,4)
+			};
+			parameters[0].Value = ID;
+
+			return DbHelperSQL.Exists(strSql.ToString(),parameters);
+		}
 
 
 		/// <summary>
@@ -39,37 +62,67 @@ namespace Semitron_OMS.DAL.FM
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into PaymentPlan(");
-			strSql.Append("EntryNo,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,Price,TotalPayment,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+			strSql.Append("CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
 			strSql.Append(" values (");
-			strSql.Append("@EntryNo,@PaymentPlanDate,@ProductCode,@MPN,@SupplierID,@Qty,@Price,@TotalPayment,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+			strSql.Append("@CorporationID,@PONO,@POPlanID,@PaymentPlanDate,@ProductCode,@MPN,@SupplierID,@Qty,@BuyStandardCurrency,@BuyPrice,@BuyCost,@BuyRealCurrency,@BuyExchangeRate,@BuyRealPrice,@BuyRealTotal,@VendorPaymentTypeID,@IsSupplierVATInvoice,@SupplierVATInvoice,@IsPaySupplier,@OtherFee,@OtherFeeRemark,@BuyerProportion,@BuyerPay,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
 			strSql.Append(";select @@IDENTITY");
 			SqlParameter[] parameters = {
-					new SqlParameter("@EntryNo", SqlDbType.NVarChar,50),
+					new SqlParameter("@CorporationID", SqlDbType.Int,4),
+					new SqlParameter("@PONO", SqlDbType.NVarChar,50),
+					new SqlParameter("@POPlanID", SqlDbType.Int,4),
 					new SqlParameter("@PaymentPlanDate", SqlDbType.DateTime),
 					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
 					new SqlParameter("@MPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@SupplierID", SqlDbType.Int,4),
 					new SqlParameter("@Qty", SqlDbType.Int,4),
-					new SqlParameter("@Price", SqlDbType.Decimal,9),
-					new SqlParameter("@TotalPayment", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyStandardCurrency", SqlDbType.Int,4),
+					new SqlParameter("@BuyPrice", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyCost", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyRealCurrency", SqlDbType.Int,4),
+					new SqlParameter("@BuyExchangeRate", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyRealPrice", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyRealTotal", SqlDbType.Decimal,9),
+					new SqlParameter("@VendorPaymentTypeID", SqlDbType.Int,4),
+					new SqlParameter("@IsSupplierVATInvoice", SqlDbType.Bit,1),
+					new SqlParameter("@SupplierVATInvoice", SqlDbType.NVarChar,50),
+					new SqlParameter("@IsPaySupplier", SqlDbType.Bit,1),
+					new SqlParameter("@OtherFee", SqlDbType.Decimal,9),
+					new SqlParameter("@OtherFeeRemark", SqlDbType.NVarChar,512),
+					new SqlParameter("@BuyerProportion", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyerPay", SqlDbType.Decimal,9),
 					new SqlParameter("@State", SqlDbType.Int,4),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
-			parameters[0].Value = model.EntryNo;
-			parameters[1].Value = model.PaymentPlanDate;
-			parameters[2].Value = model.ProductCode;
-			parameters[3].Value = model.MPN;
-			parameters[4].Value = model.SupplierID;
-			parameters[5].Value = model.Qty;
-			parameters[6].Value = model.Price;
-			parameters[7].Value = model.TotalPayment;
-			parameters[8].Value = model.State;
-			parameters[9].Value = model.CreateTime;
-			parameters[10].Value = model.CreateUser;
-			parameters[11].Value = model.UpdateTime;
-			parameters[12].Value = model.UpdateUser;
+			parameters[0].Value = model.CorporationID;
+			parameters[1].Value = model.PONO;
+			parameters[2].Value = model.POPlanID;
+			parameters[3].Value = model.PaymentPlanDate;
+			parameters[4].Value = model.ProductCode;
+			parameters[5].Value = model.MPN;
+			parameters[6].Value = model.SupplierID;
+			parameters[7].Value = model.Qty;
+			parameters[8].Value = model.BuyStandardCurrency;
+			parameters[9].Value = model.BuyPrice;
+			parameters[10].Value = model.BuyCost;
+			parameters[11].Value = model.BuyRealCurrency;
+			parameters[12].Value = model.BuyExchangeRate;
+			parameters[13].Value = model.BuyRealPrice;
+			parameters[14].Value = model.BuyRealTotal;
+			parameters[15].Value = model.VendorPaymentTypeID;
+			parameters[16].Value = model.IsSupplierVATInvoice;
+			parameters[17].Value = model.SupplierVATInvoice;
+			parameters[18].Value = model.IsPaySupplier;
+			parameters[19].Value = model.OtherFee;
+			parameters[20].Value = model.OtherFeeRemark;
+			parameters[21].Value = model.BuyerProportion;
+			parameters[22].Value = model.BuyerPay;
+			parameters[23].Value = model.State;
+			parameters[24].Value = model.CreateTime;
+			parameters[25].Value = model.CreateUser;
+			parameters[26].Value = model.UpdateTime;
+			parameters[27].Value = model.UpdateUser;
 
 			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
 			if (obj == null)
@@ -88,14 +141,29 @@ namespace Semitron_OMS.DAL.FM
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("update PaymentPlan set ");
-			strSql.Append("EntryNo=@EntryNo,");
+			strSql.Append("CorporationID=@CorporationID,");
+			strSql.Append("PONO=@PONO,");
+			strSql.Append("POPlanID=@POPlanID,");
 			strSql.Append("PaymentPlanDate=@PaymentPlanDate,");
 			strSql.Append("ProductCode=@ProductCode,");
 			strSql.Append("MPN=@MPN,");
 			strSql.Append("SupplierID=@SupplierID,");
 			strSql.Append("Qty=@Qty,");
-			strSql.Append("Price=@Price,");
-			strSql.Append("TotalPayment=@TotalPayment,");
+			strSql.Append("BuyStandardCurrency=@BuyStandardCurrency,");
+			strSql.Append("BuyPrice=@BuyPrice,");
+			strSql.Append("BuyCost=@BuyCost,");
+			strSql.Append("BuyRealCurrency=@BuyRealCurrency,");
+			strSql.Append("BuyExchangeRate=@BuyExchangeRate,");
+			strSql.Append("BuyRealPrice=@BuyRealPrice,");
+			strSql.Append("BuyRealTotal=@BuyRealTotal,");
+			strSql.Append("VendorPaymentTypeID=@VendorPaymentTypeID,");
+			strSql.Append("IsSupplierVATInvoice=@IsSupplierVATInvoice,");
+			strSql.Append("SupplierVATInvoice=@SupplierVATInvoice,");
+			strSql.Append("IsPaySupplier=@IsPaySupplier,");
+			strSql.Append("OtherFee=@OtherFee,");
+			strSql.Append("OtherFeeRemark=@OtherFeeRemark,");
+			strSql.Append("BuyerProportion=@BuyerProportion,");
+			strSql.Append("BuyerPay=@BuyerPay,");
 			strSql.Append("State=@State,");
 			strSql.Append("CreateTime=@CreateTime,");
 			strSql.Append("CreateUser=@CreateUser,");
@@ -103,34 +171,64 @@ namespace Semitron_OMS.DAL.FM
 			strSql.Append("UpdateUser=@UpdateUser");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
-					new SqlParameter("@EntryNo", SqlDbType.NVarChar,50),
+					new SqlParameter("@CorporationID", SqlDbType.Int,4),
+					new SqlParameter("@PONO", SqlDbType.NVarChar,50),
+					new SqlParameter("@POPlanID", SqlDbType.Int,4),
 					new SqlParameter("@PaymentPlanDate", SqlDbType.DateTime),
 					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
 					new SqlParameter("@MPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@SupplierID", SqlDbType.Int,4),
 					new SqlParameter("@Qty", SqlDbType.Int,4),
-					new SqlParameter("@Price", SqlDbType.Decimal,9),
-					new SqlParameter("@TotalPayment", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyStandardCurrency", SqlDbType.Int,4),
+					new SqlParameter("@BuyPrice", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyCost", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyRealCurrency", SqlDbType.Int,4),
+					new SqlParameter("@BuyExchangeRate", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyRealPrice", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyRealTotal", SqlDbType.Decimal,9),
+					new SqlParameter("@VendorPaymentTypeID", SqlDbType.Int,4),
+					new SqlParameter("@IsSupplierVATInvoice", SqlDbType.Bit,1),
+					new SqlParameter("@SupplierVATInvoice", SqlDbType.NVarChar,50),
+					new SqlParameter("@IsPaySupplier", SqlDbType.Bit,1),
+					new SqlParameter("@OtherFee", SqlDbType.Decimal,9),
+					new SqlParameter("@OtherFeeRemark", SqlDbType.NVarChar,512),
+					new SqlParameter("@BuyerProportion", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyerPay", SqlDbType.Decimal,9),
 					new SqlParameter("@State", SqlDbType.Int,4),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@UpdateTime", SqlDbType.DateTime),
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50),
 					new SqlParameter("@ID", SqlDbType.Int,4)};
-			parameters[0].Value = model.EntryNo;
-			parameters[1].Value = model.PaymentPlanDate;
-			parameters[2].Value = model.ProductCode;
-			parameters[3].Value = model.MPN;
-			parameters[4].Value = model.SupplierID;
-			parameters[5].Value = model.Qty;
-			parameters[6].Value = model.Price;
-			parameters[7].Value = model.TotalPayment;
-			parameters[8].Value = model.State;
-			parameters[9].Value = model.CreateTime;
-			parameters[10].Value = model.CreateUser;
-			parameters[11].Value = model.UpdateTime;
-			parameters[12].Value = model.UpdateUser;
-			parameters[13].Value = model.ID;
+			parameters[0].Value = model.CorporationID;
+			parameters[1].Value = model.PONO;
+			parameters[2].Value = model.POPlanID;
+			parameters[3].Value = model.PaymentPlanDate;
+			parameters[4].Value = model.ProductCode;
+			parameters[5].Value = model.MPN;
+			parameters[6].Value = model.SupplierID;
+			parameters[7].Value = model.Qty;
+			parameters[8].Value = model.BuyStandardCurrency;
+			parameters[9].Value = model.BuyPrice;
+			parameters[10].Value = model.BuyCost;
+			parameters[11].Value = model.BuyRealCurrency;
+			parameters[12].Value = model.BuyExchangeRate;
+			parameters[13].Value = model.BuyRealPrice;
+			parameters[14].Value = model.BuyRealTotal;
+			parameters[15].Value = model.VendorPaymentTypeID;
+			parameters[16].Value = model.IsSupplierVATInvoice;
+			parameters[17].Value = model.SupplierVATInvoice;
+			parameters[18].Value = model.IsPaySupplier;
+			parameters[19].Value = model.OtherFee;
+			parameters[20].Value = model.OtherFeeRemark;
+			parameters[21].Value = model.BuyerProportion;
+			parameters[22].Value = model.BuyerPay;
+			parameters[23].Value = model.State;
+			parameters[24].Value = model.CreateTime;
+			parameters[25].Value = model.CreateUser;
+			parameters[26].Value = model.UpdateTime;
+			parameters[27].Value = model.UpdateUser;
+			parameters[28].Value = model.ID;
 
 			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 			if (rows > 0)
@@ -194,7 +292,7 @@ namespace Semitron_OMS.DAL.FM
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 ID,EntryNo,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,Price,TotalPayment,State,CreateTime,CreateUser,UpdateTime,UpdateUser from PaymentPlan ");
+			strSql.Append("select  top 1 ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser from PaymentPlan ");
 			strSql.Append(" where ID=@ID");
 			SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -226,9 +324,17 @@ namespace Semitron_OMS.DAL.FM
 				{
 					model.ID=int.Parse(row["ID"].ToString());
 				}
-				if(row["EntryNo"]!=null)
+				if(row["CorporationID"]!=null && row["CorporationID"].ToString()!="")
 				{
-					model.EntryNo=row["EntryNo"].ToString();
+					model.CorporationID=int.Parse(row["CorporationID"].ToString());
+				}
+				if(row["PONO"]!=null)
+				{
+					model.PONO=row["PONO"].ToString();
+				}
+				if(row["POPlanID"]!=null && row["POPlanID"].ToString()!="")
+				{
+					model.POPlanID=int.Parse(row["POPlanID"].ToString());
 				}
 				if(row["PaymentPlanDate"]!=null && row["PaymentPlanDate"].ToString()!="")
 				{
@@ -250,13 +356,79 @@ namespace Semitron_OMS.DAL.FM
 				{
 					model.Qty=int.Parse(row["Qty"].ToString());
 				}
-				if(row["Price"]!=null && row["Price"].ToString()!="")
+				if(row["BuyStandardCurrency"]!=null && row["BuyStandardCurrency"].ToString()!="")
 				{
-					model.Price=decimal.Parse(row["Price"].ToString());
+					model.BuyStandardCurrency=int.Parse(row["BuyStandardCurrency"].ToString());
 				}
-				if(row["TotalPayment"]!=null && row["TotalPayment"].ToString()!="")
+				if(row["BuyPrice"]!=null && row["BuyPrice"].ToString()!="")
 				{
-					model.TotalPayment=decimal.Parse(row["TotalPayment"].ToString());
+					model.BuyPrice=decimal.Parse(row["BuyPrice"].ToString());
+				}
+				if(row["BuyCost"]!=null && row["BuyCost"].ToString()!="")
+				{
+					model.BuyCost=decimal.Parse(row["BuyCost"].ToString());
+				}
+				if(row["BuyRealCurrency"]!=null && row["BuyRealCurrency"].ToString()!="")
+				{
+					model.BuyRealCurrency=int.Parse(row["BuyRealCurrency"].ToString());
+				}
+				if(row["BuyExchangeRate"]!=null && row["BuyExchangeRate"].ToString()!="")
+				{
+					model.BuyExchangeRate=decimal.Parse(row["BuyExchangeRate"].ToString());
+				}
+				if(row["BuyRealPrice"]!=null && row["BuyRealPrice"].ToString()!="")
+				{
+					model.BuyRealPrice=decimal.Parse(row["BuyRealPrice"].ToString());
+				}
+				if(row["BuyRealTotal"]!=null && row["BuyRealTotal"].ToString()!="")
+				{
+					model.BuyRealTotal=decimal.Parse(row["BuyRealTotal"].ToString());
+				}
+				if(row["VendorPaymentTypeID"]!=null && row["VendorPaymentTypeID"].ToString()!="")
+				{
+					model.VendorPaymentTypeID=int.Parse(row["VendorPaymentTypeID"].ToString());
+				}
+				if(row["IsSupplierVATInvoice"]!=null && row["IsSupplierVATInvoice"].ToString()!="")
+				{
+					if((row["IsSupplierVATInvoice"].ToString()=="1")||(row["IsSupplierVATInvoice"].ToString().ToLower()=="true"))
+					{
+						model.IsSupplierVATInvoice=true;
+					}
+					else
+					{
+						model.IsSupplierVATInvoice=false;
+					}
+				}
+				if(row["SupplierVATInvoice"]!=null)
+				{
+					model.SupplierVATInvoice=row["SupplierVATInvoice"].ToString();
+				}
+				if(row["IsPaySupplier"]!=null && row["IsPaySupplier"].ToString()!="")
+				{
+					if((row["IsPaySupplier"].ToString()=="1")||(row["IsPaySupplier"].ToString().ToLower()=="true"))
+					{
+						model.IsPaySupplier=true;
+					}
+					else
+					{
+						model.IsPaySupplier=false;
+					}
+				}
+				if(row["OtherFee"]!=null && row["OtherFee"].ToString()!="")
+				{
+					model.OtherFee=decimal.Parse(row["OtherFee"].ToString());
+				}
+				if(row["OtherFeeRemark"]!=null)
+				{
+					model.OtherFeeRemark=row["OtherFeeRemark"].ToString();
+				}
+				if(row["BuyerProportion"]!=null && row["BuyerProportion"].ToString()!="")
+				{
+					model.BuyerProportion=decimal.Parse(row["BuyerProportion"].ToString());
+				}
+				if(row["BuyerPay"]!=null && row["BuyerPay"].ToString()!="")
+				{
+					model.BuyerPay=decimal.Parse(row["BuyerPay"].ToString());
 				}
 				if(row["State"]!=null && row["State"].ToString()!="")
 				{
@@ -288,7 +460,7 @@ namespace Semitron_OMS.DAL.FM
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select ID,EntryNo,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,Price,TotalPayment,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+			strSql.Append("select ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
 			strSql.Append(" FROM PaymentPlan ");
 			if(strWhere.Trim()!="")
 			{
@@ -308,7 +480,7 @@ namespace Semitron_OMS.DAL.FM
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" ID,EntryNo,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,Price,TotalPayment,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+			strSql.Append(" ID,CorporationID,PONO,POPlanID,PaymentPlanDate,ProductCode,MPN,SupplierID,Qty,BuyStandardCurrency,BuyPrice,BuyCost,BuyRealCurrency,BuyExchangeRate,BuyRealPrice,BuyRealTotal,VendorPaymentTypeID,IsSupplierVATInvoice,SupplierVATInvoice,IsPaySupplier,OtherFee,OtherFeeRemark,BuyerProportion,BuyerPay,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
 			strSql.Append(" FROM PaymentPlan ");
 			if(strWhere.Trim()!="")
 			{
