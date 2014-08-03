@@ -1,136 +1,325 @@
 <script type="text/javascript">
     $(function () {
+        var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
+        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleStandardCurrency']", 1, 10, false);
+        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleRealCurrency']", 1, 10, false);
+        data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
+        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID']", -1, 10, true);
+
         //debugger;
-        var id = $("#hidSeletedGatheringPlanId").val();
+        var id = $("#hidSeletedGatheringPlanId").val(); //alert(id);
+        $("#divEditGatheringPlan input[name='SeletedGatheringPlanId']").val(id);
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
             GetGatheringPlanById(id);
         }
+
+        //计算标准价
+        $("#divEditGatheringPlan .calBlur").blur(function () {
+            //收款数量
+            var Qty = parseInt($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity']").val());
+
+            //标准收款单价
+            var SalePrice = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice']").val());
+
+            //实际收款单价=标准收款单价*实际收款汇率
+            var value = SalePrice * parseFloat($("#divEditGatheringPlan p input[name='SaleExchangeRate']").val());
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='SaleRealPrice']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //收款标准售价总额=标准收款单价*收款数量
+            value = SalePrice * Qty;
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //实际收款单价
+            var SaleRealPrice = parseFloat($("#divEditGatheringPlan p input[name='SaleRealPrice']").val())
+
+            //实际收款总额=实际收款单价*收款数量
+            value = SaleRealPrice * Qty;
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='SaleRealTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //实收应收差额(USD)=(标准收款单价(USD)-应收单价(USD))*收款数量
+            value = (SalePrice - parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice']").val())) * Qty;
+            var strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //毛利润=收款标准售价总额-标准买货总金额
+            var POPrice = parseFloat($("#divEditGatheringPlan p input[name='POPrice']").val());
+            value = SalePrice * Qty - (POPrice * Qty);
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='GrossProfits']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //净利润=收款标准售价总额-标准买货总金额-其他物流费用
+            value = SalePrice * Qty - (POPrice * Qty) - parseFloat($("#divEditGatheringPlan p input[name='OtherFee']").val());
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='NetProfit']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //实际净利润=净利润+实收应收差额(USD)
+            value = parseFloat($("#divEditGatheringPlan p input[name='NetProfit']").val()) + parseFloat($("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val());
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='RealNetProfit']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //利润率=(标准收款单价/标准买货单价- 1)*100%
+            if (POPrice == 0) POPrice = SalePrice;
+            value = SalePrice / POPrice;
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            else strvalue = ((value - 1) * 100).toString();
+            $("#divEditGatheringPlan p input[name='ProfitMargin']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            return false;
+        });
     });
+
+    //根据Id获得入库单记录
+    function GetGatheringPlanById(id) {
+        try {
+            var url = "/Handle/FM/GatheringPlanHandle.ashx";
+            var data = { "meth": "GetGatheringPlanById", "Id": id };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseGatheringPlan").click();
+                    return false;
+                } else {
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderDetailId']").val(json.CustomerOrderDetailID);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationID']").val(json.CorporationID);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationName']").val(json.CorporationName);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CPN']").val(json.CPN);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice']").val(json.SaleStandardPrice);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO']").val(json.InnerOrderNO);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderNO']").val(json.CustomerOrderNO);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerID']").val(json.CustomerID);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerName']").val(json.CustomerName);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity']").val(json.Qty);
+                    $("#divEditGatheringPlan p select[name='SaleStandardCurrency']").val(json.SaleStandardCurrency);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice']").val(json.SalePrice);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal']").val(json.SaleTotal);
+                    $("#divEditGatheringPlan p select[name='SaleRealCurrency']").val(json.SaleRealCurrency);
+                    $("#divEditGatheringPlan p input[name='SaleExchangeRate']").val(json.SaleExchangeRate);
+                    $("#divEditGatheringPlan p input[name='SaleRealPrice']").val(json.SaleRealPrice);
+                    $("#divEditGatheringPlan p input[name='SaleRealTotal']").val(json.SaleRealTotal);
+                    $("#divEditGatheringPlan p select[name='GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID']").val(json.PaymentTypeID);
+                    $("#divEditGatheringPlan p select[name='IsCustomerVATInvoice']").val(json.IsCustomerVATInvoice == true ? "true" : "false");
+                    $("#divEditGatheringPlan p input[name='CustomerVATInvoiceNo']").val(json.CustomerVATInvoiceNo);
+                    $("#divEditGatheringPlan p select[name='IsCustomerPay']").val(json.IsCustomerPay == true ? "true" : "false");
+                    $("#divEditGatheringPlan p input[name='TrackingNumber']").val(json.TrackingNumber);
+                    $("#divEditGatheringPlan p input[name='OtherFee']").val(json.OtherFee);
+                    $("#divEditGatheringPlan p input[name='OtherFeeRemark']").val(json.OtherFeeRemark);
+                    $("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val(json.StandardIncomeRealDiff);
+                    $("#divEditGatheringPlan p input[name='SalesManProportion']").val(json.SalesManProportion);
+                    $("#divEditGatheringPlan p input[name='SalesManPay']").val(json.SalesManPay);
+                    $("#divEditGatheringPlan p input[name='GrossProfits']").val(json.GrossProfits);
+                    $("#divEditGatheringPlan p input[name='NetProfit']").val(json.NetProfit);
+                    $("#divEditGatheringPlan p input[name='ProfitMargin']").val(json.ProfitMargin);
+                    $("#divEditGatheringPlan p input[name='POPrice']").val(json.POPrice);
+                    $("#divEditGatheringPlan p input[name='ProductCodes']").val(json.ProductCodes);
+                    var gatheringPlanDate = json.GatheringPlanDate;
+                    if (gatheringPlanDate && gatheringPlanDate.length > 10) {
+                        gatheringPlanDate = gatheringPlanDate.substr(0, 10);
+                        if (gatheringPlanDate == "0001-01-01") {
+                            gatheringPlanDate = "";
+                        }
+                    }
+                    else {
+                        gatheringPlanDate = "";
+                    }
+                    $("#divEditGatheringPlan p input[name='GatheringPlanDate']").val(gatheringPlanDate);
+                    var feeBackDate = json.FeeBackDate;
+                    if (feeBackDate && feeBackDate.length > 10) {
+                        feeBackDate = feeBackDate.substr(0, 10);
+                        if (feeBackDate == "0001-01-01") {
+                            feeBackDate = "";
+                        }
+                    }
+                    else {
+                        feeBackDate = "";
+                    }
+                    $("#divEditGatheringPlan p input[name='FeeBackDate']").val(feeBackDate);
+                    $("#divEditGatheringPlan p select[name='State']").val(json.State);
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseGatheringPlan").click();
+            return;
+        }
+    }
 </script>
 <div class="pageContent">
-    <form method="POST" action="/Handle/FM/GatheringPlanHandle.ashx" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+    <form method="POST" action="/Handle/FM/GatheringPlanHandle.ashx?meth=EditGatheringPlan" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
         <div class="pageFormContent" layouth="56" id="divEditGatheringPlan">
+            <input name="SeletedGatheringPlanId" value="" type="hidden" />
             <p>
-                <label>客 户 号：</label>
-                <input name="sn" type="text" size="30" value="100001" readonly="readonly" />
+                <label>产品清单：</label>
+                <input type="text" class="required" name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderDetailId" value="" readonly="readonly" lookupgroup="GatheringPlan_Edit_CustomerOrderDetailLookup" size="30" />
+                <a class="btnLook" href="/Admin/OMS/CustomerOrderDetail/Lookup.html" lookupgroup="GatheringPlan_Edit_CustomerOrderDetailLookup">查找带回</a>
+            </p>
+            <p>
+                <label>公司抬头：</label>
+                <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationID" value="" type="hidden" />
+                <input type="text" readonly="readonly" value="" class="required" name="GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationName" class="textInput" size="30">
+            </p>
+            <p>
+                <label>内部订单号：</label>
+                <input type="text" readonly="readonly" value="" class="required" name="GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO" class="textInput" size="30">
+            </p>
+            <p>
+                <label>客户订单号：</label>
+                <input type="text" readonly="readonly" value="" class="required" name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderNO" class="textInput" size="30">
+            </p>
+            <p>
+                <label>客户型号：</label>
+                <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.CPN" class="required" readonly="readonly" class="required" type="text" size="30" />
             </p>
             <p>
                 <label>客户名称：</label>
-                <input name="name" class="required" type="text" size="30" value="张慧华" alt="请输入客户名称" />
+                <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerID" value="" type="hidden" />
+                <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerName" class="required" readonly="readonly" type="text" size="30" />
             </p>
             <p>
-                <label>部门名称：</label>
-                <input type="hidden" name="orgLookup.id" value="${orgLookup.id}" />
-                <input type="text" class="required" name="orgLookup.orgName" value="" suggestfields="orgNum,orgName" suggesturl="demo/database/db_lookupSuggest.html" lookupgroup="orgLookup" />
-                <a class="btnLook" href="demo/database/dwzOrgLookup.html" lookupgroup="orgLookup">查找带回</a>
+                <label>应收单价(USD)：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice" class="required number calBlur" readonly="readonly" size="30" />
+            </p>
+
+            <p>
+                <label>收款数量：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity" class="digits required calBlur" size="30" />
             </p>
             <p>
-                <label>部门编号：</label>
-                <input type="text" readonly="readonly" value="" name="dwz_orgLookup.orgNum" class="textInput">
-            </p>
-            <p>
-                <label>识 别 码：</label>
-                <input name="code" class="digits" type="text" size="30" alt="请输入数字" />
-            </p>
-            <p>
-                <label>客户类型：</label>
-                <select name="type" class="required combox">
-                    <option value="">请选择</option>
-                    <option value="个人">个人</option>
-                    <option value="公司" selected>公司</option>
+                <label>收款标准货币：</label>
+                <select name="SaleStandardCurrency" disabled class="required">
+                    <option value="">--请选择--</option>
                 </select>
             </p>
             <p>
-                <label>营业执照号：</label>
-                <input type="text" size="30" />
+                <label>收款标准单价：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>执照签发日期：</label>
-                <input type="text" name="startDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
+                <label>收款标准售价总额：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal" class="required number calBlur" readonly="readonly" size="30" />
             </p>
             <p>
-                <label>执照到期日期：</label>
-                <input type="text" name="endDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
-            </p>
-            <p>
-                <label>注册资金：</label>
-                <select name="capital" class="required combox">
-                    <option value="">请选择</option>
-                    <option value="10">10</option>
-                    <option value="50" selected>50</option>
-                    <option value="100">100</option>
+                <label>实际收款货币：</label>
+                <select name="SaleRealCurrency" class="required">
+                    <option value="">--请选择--</option>
                 </select>
-                <span class="unit">万元</span>
             </p>
             <p>
-                <label>注册类型：</label>
-                <input type="text" size="30" />
+                <label>实际收款汇率：</label>
+                <input type="text" name="SaleExchangeRate" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>注册地址：</label>
-                <input type="text" size="30" />
+                <label>实际收款单价：</label>
+                <input type="text" name="SaleRealPrice" class="required number calBlur" readonly="readonly" size="30" />
             </p>
             <p>
-                <label>所属行业：</label>
-                <input type="text" size="30" />
+                <label>实际收款总额：</label>
+                <input type="text" name="SaleRealTotal" class="required number calBlur" readonly="readonly" size="30" />
+            </p>
+
+            <p>
+                <label>实际付款方式：</label>
+                <select name="GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID" class="required">
+                    <option value="">--请选择--</option>
+                </select>
             </p>
             <p>
-                <label>组织机构代码：</label>
-                <input type="text" size="30" />
+                <label>实收应收差额(USD)：</label>
+                <input type="text" name="StandardIncomeRealDiff" class="number calBlur" readonly="readonly" size="30" />
             </p>
             <p>
-                <label>国税登记证号码：</label>
-                <input type="text" size="30" />
+                <label>是否开增票：</label>
+                <select name="IsCustomerVATInvoice" class="">
+                    <option value="true">是</option>
+                    <option value="false" selected>否</option>
+                </select>
             </p>
             <p>
-                <label>地税登记证号码：</label>
-                <input type="text" size="30" />
+                <label>增票号：</label>
+                <input name="CustomerVATInvoiceNo" class="" type="text" size="30" />
             </p>
             <p>
-                <label>贷款卡编码：</label>
-                <input type="text" size="30" />
+                <label>客户是否付款：</label>
+                <select name="IsCustomerPay" class="">
+                    <option value="true">是</option>
+                    <option value="false" selected>否</option>
+                </select>
             </p>
             <p>
-                <label>法人姓名：</label>
-                <input type="text" size="30" />
+                <label>快递单号：</label>
+                <input name="TrackingNumber" class="" type="text" size="30" />
             </p>
             <p>
-                <label>法人代表身份证号：</label>
-                <input type="text" size="30" />
+                <label>其他费用(USD)：</label>
+                <input type="text" name="OtherFee" class="number calBlur" value="0" size="30" />
+            </p>
+            <p style="width: auto">
+                <label>其他费用备注：</label>
+                <input name="OtherFeeRemark" class="" type="text" size="119" />
             </p>
             <p>
-                <label>身份证到期日期：</label>
-                <input type="text" size="30" />
+                <label>销售提成比例(%)：</label>
+                <input type="text" name="SalesManProportion" class="number" size="30" />
             </p>
             <p>
-                <label>其他证件及号码：</label>
-                <input type="text" size="30" />
+                <label>销售提成：</label>
+                <input type="text" name="SalesManPay" class="number" size="30" />
             </p>
             <p>
-                <label>曾用名称：</label>
-                <input type="text" size="30" />
+                <label>买货单价(USD)：</label>
+                <input type="text" name="POPrice" class="number calBlur" size="30" />
             </p>
             <p>
-                <label>首次贷款日期：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <div class="divider"></div>
-            <p>
-                <label>建档日期：</label>
-                <input readonly="readonly" type="text" size="30" />
+                <label>产品编码：</label>
+                <input type="text" name="ProductCodes" maxlength="32" size="30" />
             </p>
             <p>
-                <label>管户经理：</label>
-                <input readonly="readonly" type="text" size="30" />
+                <label>毛利润(USD)：</label>
+                <input type="text" name="GrossProfits" class="number calBlur" size="30" />
             </p>
             <p>
-                <label>最新修改时间：</label>
-                <input readonly="readonly" type="text" size="30" />
+                <label>净利润(USD)：</label>
+                <input type="text" name="NetProfit" class="number calBlur" size="30" />
             </p>
             <p>
-                <label>最新修改人员：</label>
-                <input readonly="readonly" type="text" size="30" />
+                <label>实际净利润(USD)：</label>
+                <input type="text" name="RealNetProfit" class="number calBlur" size="30" />
+            </p>
+            <p>
+                <label>利润率(%)：</label>
+                <input type="text" name="ProfitMargin" class="number calBlur" size="30" />
+            </p>
+            <p>
+                <label>收款计划时间：</label>
+                <input type="text" name="GatheringPlanDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>回款日期：</label>
+                <input type="text" name="FeeBackDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>状态：</label>
+                <select name="State" class="required combox">
+                    <option value="1" selected>有效</option>
+                    <option value="0">无效</option>
+                </select>
             </p>
         </div>
         <div class="formBar">
@@ -145,7 +334,7 @@
                 <li>
                     <div class="button">
                         <div class="buttonContent">
-                            <button type="button" class="close">取消</button>
+                            <button type="button" class="close" id="btnCloseGatheringPlan">取消</button>
                         </div>
                     </div>
                 </li>

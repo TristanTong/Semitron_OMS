@@ -340,6 +340,12 @@ namespace Semitron_OMS.Model.OMS
         public int StockQty { get; set; }
 
         public int UnInStockQty { get; set; }
+
+        public int CorporationID { get; set; }
+
+        public string CorporationName { get; set; }
+
+        public int SupplierID { get; set; }
     }
 }
 

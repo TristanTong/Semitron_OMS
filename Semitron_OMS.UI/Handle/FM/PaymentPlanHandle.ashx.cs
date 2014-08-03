@@ -1,5 +1,11 @@
-﻿using Semitron_OMS.Common;
+﻿using Newtonsoft.Json;
+using Semitron_OMS.BLL.CRM;
+using Semitron_OMS.BLL.OMS;
+using Semitron_OMS.Common;
 using Semitron_OMS.Model.Common;
+using Semitron_OMS.Model.CRM;
+using Semitron_OMS.Model.FM;
+using Semitron_OMS.Model.OMS;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,6 +43,10 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 methStr = context.Request.Form["meth"];
             }
+            if (context.Request.QueryString["meth"] != null)
+            {
+                methStr = context.Request.QueryString["meth"];
+            }
             if (!string.IsNullOrEmpty(methStr))
             {
                 switch (methStr)
@@ -45,13 +55,207 @@ namespace Semitron_OMS.UI.Handle.FM
                     case "GetPaymentPlan":
                         context.Response.Write(GetPaymentPlan());
                         break;
+                    //编辑付款计划
+                    case "EditPaymentPlan":
+                        context.Response.Write(EditPaymentPlan());
+                        break;
+                    //获取付款计划实体
+                    case "GetPaymentPlanById":
+                        context.Response.Write(GetPaymentPlanById());
+                        break;
+                    //删除付款计划
+                    case "DelPaymentPlan":
+                        context.Response.Write(DelPaymentPlan());
+                        break;
                 }
             }
-            else
-            {
-                context.Response.Write("{\"statusCode\":\"200\",\"message\":\"\u64cd\u4f5c\u6210\u529f\",\"navTabId\":\"\",\"rel\":\"\",\"callbackType\":\"\",\"forwardUrl\":\"\",\"confirmMsg\":\"\"}");
-            }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 删除付款计划
+        /// </summary>
+        private string DelPaymentPlan()
+        {
+            PageResult result = new PageResult();
+            int iId = -1;
+            if (_request.Form["Id"] == null || !int.TryParse(_request.Form["Id"].ToString(), out iId))
+            {
+                result.State = 0;
+                result.Info = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                string strResult = this._bllPaymentPlan.ValidateAndDelPaymentPlan(iId);
+                if (strResult == "OK")
+                {
+                    result.State = 1;
+                    result.Info = "删除付款计划成功。";
+                }
+                else
+                {
+                    result.State = 0;
+                    result.Info = strResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "删除付款计划出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，删除付款计划出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
+        }
+
+        //获取付款计划实体
+        private string GetPaymentPlanById()
+        {
+            PageResult result = new PageResult();
+            int iId = -1;
+            if (_request.Form["Id"] == null || !int.TryParse(_request.Form["Id"].ToString(), out iId))
+            {
+                result.State = 0;
+                result.Info = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                PaymentPlanModel model = this._bllPaymentPlan.GetModel(iId);
+                string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+                string strSupplierName = string.Empty;
+                SupplierModel sModel = new SupplierBLL().GetModel((int)model.SupplierID);
+                if (sModel != null)
+                {
+                    strSupplierName = sModel.SupplierName;
+                }
+                string strCorporationName = string.Empty;
+                CorporationModel corModel = new CorporationBLL().GetModel(model.CorporationID);
+                if (corModel != null)
+                {
+                    strCorporationName = corModel.CompanyName;
+                }
+                strResult = strResult.Substring(0, strResult.Length - 1)
+                    + ",\"SupplierName\":\"" + strSupplierName
+                    + "\",\"CorporationName\":\"" + strCorporationName
+                    + "\"}";
+                return strResult;
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "获取付款计划详细信息出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username
+                    + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress
+                    + "，获取付款计划详细信息出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 新增或修改付款计划
+        /// </summary>
+        /// <returns></returns>
+        private string EditPaymentPlan()
+        {
+            PageResultJUI result = new PageResultJUI();
+            int iId = -1;
+            if (_request.Form["SeletedPaymentPlanId"] == null || !int.TryParse(_request.Form["SeletedPaymentPlanId"].ToString(), out iId))
+            {
+                result.statusCode = 300;
+                result.message = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                PaymentPlanModel model = new PaymentPlanModel();
+                if (iId > 0)
+                {
+                    model = this._bllPaymentPlan.GetModel(iId);
+                }
+                else
+                {
+                    model.ID = iId;
+                    SQLOperateHelper.SetEntityFiledValue(model, "CreateUser", _adminModel.Username);
+                    SQLOperateHelper.SetEntityFiledValue(model, "CreateTime", DateTime.Now);
+                }
+                string strGetResult = this.GetNewModel(model);
+                if (strGetResult != "OK")
+                {
+                    result.statusCode = 300;
+                    result.message = strGetResult;
+                    return result.ToString();
+                }
+
+                string strResult = this._bllPaymentPlan.ValidateAndUpdate(model);
+                if (strResult == "OK")
+                {
+                    result.callbackType = "closeCurrent";
+                    result.statusCode = 200;
+                    //result.message = "\u64cd\u4f5c\u6210\u529f";
+                    //result.Remark = model.ID.ToString();
+                    result.message = "编辑付款计划成功！";
+                }
+                else
+                {
+                    result.statusCode = 300;
+                    result.message = strResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.statusCode = 300;
+                result.message = "编辑付款计划出现异常，请联系管理员！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑付款计划出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 获得新实体对象
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private string GetNewModel(PaymentPlanModel model)
+        {
+            if (_request.Form["PaymentPlan_Edit_POPlanLookup.POPlanId"] == null
+                || _request.Form["PaymentPlan_Edit_POPlanLookup.CorporationID"] == null
+                || _request.Form["PaymentPlan_Edit_POPlanLookup.PONo"] == null
+                || _request.Form["PaymentPlan_Edit_POPlanLookup.MPN"] == null
+                //||...
+                )
+            {
+                return "系统错误,参数获取异常。";
+            }
+
+            SQLOperateHelper.SetEntityFiledValue(model, "POPlanID", _request.Form["PaymentPlan_Edit_POPlanLookup.POPlanId"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "CorporationID", _request.Form["PaymentPlan_Edit_POPlanLookup.CorporationID"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "PONo", _request.Form["PaymentPlan_Edit_POPlanLookup.PONo"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "ProductCode", _request.Form["PaymentPlan_Edit_POPlanLookup.ProductCode"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "MPN", _request.Form["PaymentPlan_Edit_POPlanLookup.MPN"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SupplierID", _request.Form["PaymentPlan_Edit_POPlanLookup.SupplierID"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "Qty", _request.Form["PaymentPlan_Edit_POPlanLookup.POQuantity"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyStandardCurrency", 1);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyPrice", _request.Form["PaymentPlan_Edit_POPlanLookup.Price"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyCost", _request.Form["PaymentPlan_Edit_POPlanLookup.TotalPrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyRealCurrency", _request.Form["BuyRealCurrency"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyExchangeRate", _request.Form["BuyExchangeRate"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyRealPrice", _request.Form["BuyRealPrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyRealTotal", _request.Form["BuyRealTotal"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "VendorPaymentTypeID", _request.Form["PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "IsSupplierVATInvoice", _request.Form["IsSupplierVATInvoice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SupplierVATInvoice", _request.Form["SupplierVATInvoice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "IsPaySupplier", _request.Form["IsPaySupplier"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "OtherFee", _request.Form["OtherFee"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "OtherFeeRemark", _request.Form["OtherFeeRemark"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyerProportion", _request.Form["BuyerProportion"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyerPay", _request.Form["BuyerPay"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "PaymentPlanDate", _request.Form["PaymentPlanDate"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "State", _request.Form["State"]);
+
+            SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
+            SQLOperateHelper.SetEntityFiledValue(model, "UpdateTime", DateTime.Now);
+            return "OK";
         }
 
         /// <summary>

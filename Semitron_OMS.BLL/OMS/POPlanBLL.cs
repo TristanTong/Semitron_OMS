@@ -279,13 +279,13 @@ namespace Semitron_OMS.BLL.OMS
         }
 
         /// <summary>
-        /// 获取已到货未出库的采购计划
+        /// 获取采购计划查找列表
         /// </summary>
         /// <returns></returns>
-        public List<POPlanUnInStockModel> GetPOPlanUnInStockList(List<SQLConditionFilter> lstFilter)
+        public List<POPlanUnInStockModel> GetPOPlanLookupList(List<SQLConditionFilter> lstFilter, string strQueryType)
         {
             List<POPlanUnInStockModel> listModel = new List<POPlanUnInStockModel>();
-            DataTable dt = dal.GetPOPlanUnInStockList(lstFilter);
+            DataTable dt = dal.GetPOPlanLookupList(lstFilter, strQueryType);
             foreach (DataRow dr in dt.Rows)
             {
                 POPlanUnInStockModel model = new POPlanUnInStockModel();
@@ -297,6 +297,9 @@ namespace Semitron_OMS.BLL.OMS
                 model.BuyPrice = dr["BuyPrice"].ToDecimal();
                 model.BuyCost = dr["BuyCost"].ToDecimal();
                 model.ArrivedDate = dr["ArrivedDate"].ToString();
+                model.CorporationID = dr["CorporationID"].ToInt(-1);
+                model.CorporationName = dr["CorporationName"].ToString();
+                model.SupplierID = dr["SupplierID"].ToInt(-1);
                 model.SupplierCode = dr["SupplierCode"].ToString();
                 model.SupplierName = dr["SupplierName"].ToString();
                 model.ArrivedQty = dr["ArrivedQty"].ToInt();

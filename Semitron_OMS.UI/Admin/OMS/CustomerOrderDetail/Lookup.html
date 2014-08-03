@@ -1,15 +1,18 @@
 ﻿<script type="text/javascript">
     $(function () {
+
         $("#divLookupCustomerOrderDetail button[type='submit']").click(function () {
             $("#divLookupCustomerOrderDetail table tbody").html("");
             var url = "/Handle/OMS/CustomerOrderDetailHandle.ashx";
-            var InnerOrderNo = $("#divLookupCustomerOrderDetail p input[name='InnerOrderNo']").val();
-            var CustomerCode = $("#divLookupCustomerOrderDetail p input[name='CustomerCode']").val();
-            var CustOrderDateBegin = $("#divLookupCustomerOrderDetail p input[name='CustOrderDateBegin']").val();
-            var CustOrderDateEnd = $("#divLookupCustomerOrderDetail p input[name='CustOrderDateEnd']").val();
+            var InnerOrderNo = $("#divLookupCustomerOrderDetail div input[name='InnerOrderNo']").val();
+            var CustomerCode = $("#divLookupCustomerOrderDetail div input[name='CustomerCode']").val();
+            //var CustOrderDateBegin = $("#divLookupCustomerOrderDetail div input[name='CustOrderDateBegin']").val();
+            //var CustOrderDateEnd = $("#divLookupCustomerOrderDetail div input[name='CustOrderDateEnd']").val();
+            var QueryType = $("#divLookupCustomerOrderDetail div select[name='QueryType']").val(); //为2表示查询所有的产品清单数据
+
             var data = data = {
-                "meth": "GetCustomerOrderDetailUnOutStockList", "InnerOrderNo": InnerOrderNo, "CustomerCode": CustomerCode,
-                "CustOrderDateBegin": CustOrderDateBegin, "CustOrderDateEnd": CustOrderDateEnd
+                "meth": "GetCustomerOrderDetailLookupList", "InnerOrderNo": InnerOrderNo, "CustomerCode": CustomerCode,
+                "QueryType": QueryType
             };
 
             var successFun = function (json) {
@@ -20,12 +23,26 @@
                     for (var i = 0; i < json.length; i++) {
                         $("#divLookupCustomerOrderDetail table tbody").append("<tr>"
                             + "<td width=\"50px\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({CustomerOrderDetailId:'"
-                            + json[i].CustomerOrderDetailId + "', InnerOrderNO:'" + json[i].InnerOrderNO + "', CustomerOrderNO:'" + json[i].CustomerOrderNO
-                            + "',CPN:'" + json[i].CPN + "', CustOrderDate:'" + json[i].CustOrderDate
-                            + "',CustQuantity:'" + json[i].CustQuantity + "',PlanedQty:'" + json[i].PlanedQty
+                            + json[i].CustomerOrderDetailId
+                            + "',InnerOrderNO:'" + json[i].InnerOrderNO
+                            + "',CustomerOrderNO:'" + json[i].CustomerOrderNO
+                            + "',PaymentTypeID:'" + json[i].PaymentTypeID
+                            + "',CPN:'" + json[i].CPN
+                            + "',CorporationID:'" + json[i].CorporationID
+                            + "',CorporationName:'" + json[i].CorporationName
+                            + "',CustOrderDate:'" + json[i].CustOrderDate
+                            + "',CustQuantity:'" + json[i].CustQuantity
+                            + "',PlanedQty:'" + json[i].PlanedQty
                             + "',UnOutStockQty:'" + json[i].UnOutStockQty
-                            + "',CustomerCode:'" + json[i].CustomerCode + "',CustomerName:'" + json[i].CustomerName + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
-                            + json[i].CustomerOrderDetailId + "</td> <td width=\"60px\">" + json[i].InnerOrderNO + "</td> <td width=\"101px\">"
+                            + "',SaleStandardPrice:'" + json[i].SalePrice
+                            + "',SalePrice:'" + json[i].SalePrice
+                            + "',SaleTotal:'" + json[i].SaleTotal
+                            + "',CustomerID:'" + json[i].CustomerID
+                            + "',CustomerCode:'" + json[i].CustomerCode
+                            + "',CustomerName:'" + json[i].CustomerName + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
+                            + json[i].CustomerOrderDetailId + "</td> <td width=\"101px\">"
+                            + json[i].CorporationName + "</td> <td width=\"60px\">"
+                            + json[i].InnerOrderNO + "</td> <td width=\"101px\">"
                             + json[i].CustomerOrderNO + "</td><td width=\"101px\">"
                             + json[i].CPN + "</td> <td width=\"60px\">" + json[i].CustOrderDate + "</td> <td width=\"60px\">"
                             + json[i].InnerSalesMan + "</td><td width=\"59px\">" + json[i].AssignToInnerBuyer + "</td> <td width=\"59px\">"
@@ -59,12 +76,11 @@
             <input name="CustomerCode" type="text" size="15" value="" />
         </div>
         <div>
-            <label>订单时间：</label>
-            <input type="text" name="CustOrderDateBegin" class="date textInput valid" size="8" readonly="readonly">
-            <a class="inputDateButton" href="javascript:;">选择</a>
-            <input type="text" name="CustOrderDateEnd" class="date textInput valid" size="8" readonly="readonly">
-            <a class="inputDateButton" href="javascript:;">选择</a>
-            <span class="inputInfo">选择区间</span>
+            <label>查找类型：</label>
+            <select name="QueryType" class=" combox">
+                <option value="1">未出库</option>
+                <option value="2">全部</option>
+            </select>
         </div>
         <div class="subBar">
             <ul>
@@ -84,6 +100,7 @@
                     <tr>
                         <th width="55px">查找带回</th>
                         <th width="40px">清单ID</th>
+                        <th width="110px">公司抬头</th>
                         <th width="66px">内部订单号</th>
                         <th width="110px">客户订单号</th>
                         <th width="110px">客户型号</th>

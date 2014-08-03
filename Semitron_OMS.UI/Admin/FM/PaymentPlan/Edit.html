@@ -1,141 +1,234 @@
 <script type="text/javascript">
     $(function () {
-        //debugger;
+        var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
+        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyStandardCurrency']", 1, 10, false);
+        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyRealCurrency']", 1, 10, false);
+        data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
+        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID']", -1, 10, true);
+
         var id = $("#hidSeletedPaymentPlanId").val();
+        $("#divEditPaymentPlan input[name='SeletedPaymentPlanId']").val(id);
+
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
             GetPaymentPlanById(id);
         }
+
+        //计算标准价
+        $("#divEditPaymentPlan .calBlur").blur(function () {
+            //付款数量
+            var Qty = parseInt($("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.POQuantity']").val());
+
+            //标准付款单价
+            var Price = parseFloat($("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val());
+
+            //实际付款单价=标准付款单价*实际付款汇率
+            var value = Price * parseFloat($("#divEditPaymentPlan p input[name='BuyExchangeRate']").val());
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditPaymentPlan p input[name='BuyRealPrice']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //付款标准售价总额=标准付款单价*付款数量
+            value = Price * Qty;
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.TotalPrice").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //实际付款单价
+            var BuyRealPrice = parseFloat($("#divEditPaymentPlan p input[name='BuyRealPrice']").val())
+
+            //实际付款总额=实际付款单价*付款数量
+            value = BuyRealPrice * Qty;
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditPaymentPlan p input[name='BuyRealTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+        });
     });
+
+    //根据Id获得入库单记录
+    function GetPaymentPlanById(id) {
+        try {
+            var url = "/Handle/FM/PaymentPlanHandle.ashx";
+            var data = { "meth": "GetPaymentPlanById", "Id": id };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnClosePaymentPlan").click();
+                    return false;
+                } else {
+                    //debugger;
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.POPlanId']").val(json.POPlanID);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.CorporationID']").val(json.CorporationID);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.CorporationName']").val(json.CorporationName);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.PONo']").val(json.PONO);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.ProductCode']").val(json.ProductCode);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.MPN']").val(json.MPN);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.SupplierID']").val(json.SupplierID);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.SupplierName']").val(json.SupplierName);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.POQuantity']").val(json.Qty);
+                    $("#divEditPaymentPlan p input[name='BuyStandardCurrency']").val(json.BuyStandardCurrency);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val(json.BuyPrice);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.TotalPrice']").val(json.BuyCost);
+                    $("#divEditPaymentPlan p input[name='BuyRealCurrency']").val(json.BuyRealCurrency);
+                    $("#divEditPaymentPlan p input[name='BuyExchangeRate']").val(json.BuyExchangeRate);
+                    $("#divEditPaymentPlan p input[name='BuyRealPrice']").val(json.BuyRealPrice);
+                    $("#divEditPaymentPlan p input[name='BuyRealTotal']").val(json.BuyRealTotal);
+                    $("#divEditPaymentPlan p select[name='PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID']").val(json.VendorPaymentTypeID);
+                    $("#divEditPaymentPlan p input[name='IsSupplierVATInvoice']").val(json.IsSupplierVATInvoice == true ? "true" : "false");
+                    $("#divEditPaymentPlan p input[name='SupplierVATInvoice']").val(json.SupplierVATInvoice);
+                    $("#divEditPaymentPlan p input[name='IsPaySupplier']").val(json.IsPaySupplier == true ? "true" : "false");
+                    $("#divEditPaymentPlan p input[name='OtherFee']").val(json.OtherFee);
+                    $("#divEditPaymentPlan p input[name='OtherFeeRemark']").val(json.OtherFeeRemark);
+                    $("#divEditPaymentPlan p input[name='BuyerProportion']").val(json.BuyerProportion);
+                    $("#divEditPaymentPlan p input[name='BuyerPay']").val(json.BuyerPay);
+                    var paymentPlanDate = json.PaymentPlanDate;
+                    if (paymentPlanDate && paymentPlanDate.length > 10) {
+                        paymentPlanDate = paymentPlanDate.substr(0, 10);
+                        if (paymentPlanDate == "0001-01-01") {
+                            paymentPlanDate = "";
+                        }
+                    }
+                    else {
+                        paymentPlanDate = "";
+                    }
+                    $("#divEditPaymentPlan p input[name='PaymentPlanDate']").val(paymentPlanDate);
+                    $("#divEditPaymentPlan p select[name='State']").val(json.State);
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnClosePaymentPlan").click();
+            return;
+        }
+    }
 </script>
 <div class="pageContent">
-    <form method="POST" action="/Handle/FM/PaymentPlanHandle.ashx" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+    <form method="POST" action="/Handle/FM/PaymentPlanHandle.ashx?meth=EditPaymentPlan" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
         <div class="pageFormContent" layouth="56" id="divEditPaymentPlan">
+            <input name="SeletedPaymentPlanId" value="" type="hidden" />
             <p>
-                <label>客 户 号：</label>
-                <input name="sn" type="text" size="30" value="100001" readonly="readonly" />
+                <label>采购计划：</label>
+                <input type="text" class="required" name="PaymentPlan_Edit_POPlanLookup.POPlanId" value="" readonly="readonly" lookupgroup="PaymentPlan_Edit_POPlanLookup" size="30" />
+                <a class="btnLook" href="/Admin/OMS/POPlan/Lookup.html" lookupgroup="PaymentPlan_Edit_POPlanLookup">查找带回</a>
             </p>
             <p>
-                <label>客户名称：</label>
-                <input name="name" class="required" type="text" size="30" value="张慧华" alt="请输入客户名称" />
+                <label>公司抬头：</label>
+                <input name="PaymentPlan_Edit_POPlanLookup.CorporationID" value="" type="hidden" />
+                <input type="text" readonly="readonly" value="" class="required" name="PaymentPlan_Edit_POPlanLookup.CorporationName" class="textInput" size="30">
             </p>
             <p>
-                <label>部门名称：</label>
-                <input type="hidden" name="orgLookup.id" value="${orgLookup.id}" />
-                <input type="text" class="required" name="orgLookup.orgName" value="" suggestfields="orgNum,orgName" suggesturl="demo/database/db_lookupSuggest.html" lookupgroup="orgLookup" />
-                <a class="btnLook" href="demo/database/dwzOrgLookup.html" lookupgroup="orgLookup">查找带回</a>
+                <label>采购订单号：</label>
+                <input type="text" readonly="readonly" value="" class="required" name="PaymentPlan_Edit_POPlanLookup.PONo" class="textInput" size="30">
             </p>
             <p>
-                <label>部门编号：</label>
-                <input type="text" readonly="readonly" value="" name="dwz_orgLookup.orgNum" class="textInput">
+                <label>产品编码：</label>
+                <input name="PaymentPlan_Edit_POPlanLookup.ProductCode" class="required" readonly="readonly" class="required" type="text" size="30" />
             </p>
             <p>
-                <label>识 别 码：</label>
-                <input name="code" class="digits" type="text" size="30" alt="请输入数字" />
+                <label>厂商型号：</label>
+                <input name="PaymentPlan_Edit_POPlanLookup.MPN" class="required" readonly="readonly" class="required" type="text" size="30" />
             </p>
             <p>
-                <label>客户类型：</label>
-                <select name="type" class="required combox">
-                    <option value="">请选择</option>
-                    <option value="个人">个人</option>
-                    <option value="公司" selected>公司</option>
+                <label>供应商：</label>
+                <input name="PaymentPlan_Edit_POPlanLookup.SupplierID" value="" type="hidden" />
+                <input name="PaymentPlan_Edit_POPlanLookup.SupplierName" class="required" class="required" readonly="readonly" type="text" size="30" />
+            </p>
+            <p>
+                <label>付款数量：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.POQuantity" class="digits required calBlur" size="30" />
+            </p>
+            <p>
+                <label>付款标准货币：</label>
+                <select name="BuyStandardCurrency" disabled class="required ">
+                    <option value="">--请选择--</option>
                 </select>
             </p>
             <p>
-                <label>营业执照号：</label>
-                <input type="text" size="30" />
+                <label>付款标准单价：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.Price" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>执照签发日期：</label>
-                <input type="text" name="startDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
+                <label>付款标准总额：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.TotalPrice" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>执照到期日期：</label>
-                <input type="text" name="endDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
-            </p>
-            <p>
-                <label>注册资金：</label>
-                <select name="capital" class="required combox">
-                    <option value="">请选择</option>
-                    <option value="10">10</option>
-                    <option value="50" selected>50</option>
-                    <option value="100">100</option>
+                <label>实际付款货币：</label>
+                <select name="BuyRealCurrency" class="required calBlur">
+                    <option value="">--请选择--</option>
                 </select>
-                <span class="unit">万元</span>
             </p>
             <p>
-                <label>注册类型：</label>
-                <input type="text" size="30" />
+                <label>实际付款汇率：</label>
+                <input type="text" name="BuyExchangeRate" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>注册地址：</label>
-                <input type="text" size="30" />
+                <label>实际付款单价：</label>
+                <input type="text" name="BuyRealPrice" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>所属行业：</label>
-                <input type="text" size="30" />
+                <label>实际付款总额：</label>
+                <input type="text" name="BuyRealTotal" class="required number calBlur" size="30" />
             </p>
             <p>
-                <label>组织机构代码：</label>
-                <input type="text" size="30" />
+                <label>付款方式：</label>
+                <select name="PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID" class="required">
+                    <option value="">--请选择--</option>
+                </select>
             </p>
             <p>
-                <label>国税登记证号码：</label>
-                <input type="text" size="30" />
+                <label>是否开增票：</label>
+                <select name="IsSupplierVATInvoice" class="combox">
+                    <option value="true">是</option>
+                    <option value="false" selected>否</option>
+                </select>
             </p>
             <p>
-                <label>地税登记证号码：</label>
-                <input type="text" size="30" />
+                <label>增票号：</label>
+                <input name="SupplierVATInvoice" class="" type="text" size="30" />
             </p>
             <p>
-                <label>贷款卡编码：</label>
-                <input type="text" size="30" />
+                <label>是否向供应商付款：</label>
+                <select name="IsPaySupplier" class=" combox">
+                    <option value="true">是</option>
+                    <option value="false" selected>否</option>
+                </select>
             </p>
             <p>
-                <label>法人姓名：</label>
-                <input type="text" size="30" />
+                <label>其他费用：</label>
+                <input type="text" name="OtherFee" class="number" size="30" />
             </p>
             <p>
-                <label>法人代表身份证号：</label>
-                <input type="text" size="30" />
+                <label>其他费用备注：</label>
+                <input name="OtherFeeRemark" class="" type="text" size="30" />
             </p>
             <p>
-                <label>身份证到期日期：</label>
-                <input type="text" size="30" />
+                <label>采购提成比例(%)：</label>
+                <input type="text" name="BuyerProportion" class="number" size="30" />
             </p>
             <p>
-                <label>其他证件及号码：</label>
-                <input type="text" size="30" />
+                <label>采购提成：</label>
+                <input type="text" name="BuyerPay" class="number" size="30" />
             </p>
             <p>
-                <label>曾用名称：</label>
-                <input type="text" size="30" />
+                <label>付款计划时间：</label>
+                <input type="text" name="PaymentPlanDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
             </p>
             <p>
-                <label>首次贷款日期：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <div class="divider"></div>
-            <p>
-                <label>建档日期：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <p>
-                <label>管户经理：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <p>
-                <label>最新修改时间：</label>
-                <input readonly="readonly" type="text" size="30" />
-            </p>
-            <p>
-                <label>最新修改人员：</label>
-                <input readonly="readonly" type="text" size="30" />
+                <label>状态：</label>
+                <select name="State" class="required combox">
+                    <option value="1" selected>有效</option>
+                    <option value="0">无效</option>
+                </select>
             </p>
         </div>
         <div class="formBar">
             <ul>
-                <!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
@@ -146,7 +239,7 @@
                 <li>
                     <div class="button">
                         <div class="buttonContent">
-                            <button type="button" class="close">取消</button>
+                            <button type="button" class="close" id="btnClosePaymentPlan">取消</button>
                         </div>
                     </div>
                 </li>

@@ -42,7 +42,7 @@
             strJson += "\"OutStockDate\":\"" + $("#divEditShippingList p input[name='OutStockDate']").val() + "\",";
             strJson += "\"EstimateArrivedDate\":\"" + $("#divEditShippingList p input[name='EstimateArrivedDate']").val() + "\",";
             strJson += "\"RealArrivedDate\":\"" + $("#divEditShippingList p input[name='RealArrivedDate']").val() + "\",";
-            strJson += "\"ByHandUserID\":\"" + $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.AdminId']").val() + "\"";
+            strJson += "\"ByHandUserID\":\"" + $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.AdminID']").val() + "\"";
             strJson += "}";
             var url = "/Handle/OMS/ShippingListHandle.ashx";
             //新增
@@ -97,7 +97,7 @@
                 strJson += "OutQty:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ShippingPlanDetail.StockCode']").val());
                 strJson += "StockCode:\"" + defaultValue + "\",";
-                defaultValue = $.trim($("input[name='items[" + e + "].ChargeUserID.AdminId']").val());
+                defaultValue = $.trim($("input[name='items[" + e + "].ChargeUserID.AdminID']").val());
                 strJson += "ChargeUserID:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ShippingListDetail.Remark']").val());
                 strJson += "Remark:\"" + defaultValue + "\"";
@@ -137,7 +137,7 @@
                         shippingPlanDate = "";
                     }
                     $("#divEditShippingList p input[name='ShippingListDate']").val(shippingPlanDate);
-                    $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
+                    $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.AdminID']").val(json.ByHandUserID);
                     $("#divEditShippingList p input[name='ShippingList_Edit_adminLookup.Name']").val(json.ByHandUserName);
                     var outStockDate = json.OutStockDate;
                     if (outStockDate && outStockDate.length > 10) {
@@ -256,8 +256,8 @@
             </p>
             <p>
                 <label>制&nbsp;&nbsp;单&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="ShippingList_Edit_adminLookup.AdminId" value="${ShippingList_Edit_adminLookup.AdminId}" />
-                <input type="text" class="required" name="ShippingList_Edit_adminLookup.Name" lookupgroup="ShippingList_Edit_adminLookup" style="width: 80px" readonly="readonly" />
+                <input type="hidden" name="ShippingList_Edit_adminLookup.AdminID" value="${ShippingList_Edit_adminLookup.AdminID}" />
+                <input type="text" class="required" name="ShippingList_Edit_adminLookup.Name"  suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" lookupgroup="ShippingList_Edit_adminLookup" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="ShippingList_Edit_adminLookup">查找带回</a>
             </p>
             <p>
@@ -294,7 +294,7 @@
                             <th type="text" name="items[#index#].ShippingPlanDetail.StockCode" size="8" fieldclass="required " fieldattrs="{maxlength:36}" width="75">实际出库仓</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.StockName" size="15" fieldclass="" fieldattrs="{maxlength:36}" width="110">实际出库仓名称</th>
                             <th type="text" name="items[#index#].ShippingPlanDetail.OutStockQty" defaultval="0" size="6" fieldclass="digits required" width="80">出库数量</th>
-                            <th type="lookup" name="items[#index#].ChargeUserID.AdminId" lookupgroup="items[#index#].ChargeUserID" lookupurl="/Admin/Sys/Admin/Lookup.html" size="6" fieldclass="digits required readonly" fieldattrs="{readonly:readonly}" width="60">责任人ID</th>
+                            <th type="lookup" name="items[#index#].ChargeUserID.AdminID" lookupgroup="items[#index#].ChargeUserID" lookupurl="/Admin/Sys/Admin/Lookup.html" size="6" fieldclass="digits required readonly" fieldattrs="{readonly:readonly}" width="60">责任人ID</th>
                             <th type="text" name="items[#index#].ChargeUserID.Name" size="8" fieldclass=" readonly" fieldattrs="{maxlength:36}" width="80">责任人姓名</th>
                             <th type="text" name="items[#index#].ShippingListDetail.Remark" size="48" width="80">备注</th>
                             <th type="del" size="6" width="90">操作</th>

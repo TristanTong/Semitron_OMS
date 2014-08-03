@@ -73,9 +73,9 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "QCConfirm":
                         context.Response.Write(QCConfirm(context));
                         break;
-                    //获取已到货未出库的采购计划
-                    case "GetPOPlanUnInStockList":
-                        context.Response.Write(GetPOPlanUnInStockList());
+                    //获取采购计划查找列表
+                    case "GetPOPlanLookupList":
+                        context.Response.Write(GetPOPlanLookupList());
                         break;
                     //自动生成采购计划
                     case "GeneratePOPlan":
@@ -116,15 +116,16 @@ namespace Semitron_OMS.UI.Handle.OMS
         }
 
         /// <summary>
-        /// 获取已到货未出库的采购计划
+        /// 获取采购计划查找列表
         /// </summary>
         /// <returns></returns>
-        private string GetPOPlanUnInStockList()
+        private string GetPOPlanLookupList()
         {
 
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.PONO", _request.Form["PONo"], ConditionEnm.Equal));
+            string strQueryType = DataUtility.GetPageFormValue(_request.Form["QueryType"], string.Empty);
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["ArrivedBeginDate"], string.Empty);
             if (strStartTime != string.Empty)
             {
@@ -144,7 +145,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             try
             {
                 List<POPlanUnInStockModel> listModel = new List<POPlanUnInStockModel>();
-                listModel = this._bllPOPlan.GetPOPlanUnInStockList(lstFilter);
+                listModel = this._bllPOPlan.GetPOPlanLookupList(lstFilter, strQueryType);
                 return JsonConvert.SerializeObject(listModel, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
             }
             catch (Exception ex)

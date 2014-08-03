@@ -1,5 +1,11 @@
-﻿using Semitron_OMS.Common;
+﻿using Newtonsoft.Json;
+using Semitron_OMS.BLL.CRM;
+using Semitron_OMS.BLL.OMS;
+using Semitron_OMS.Common;
 using Semitron_OMS.Model.Common;
+using Semitron_OMS.Model.CRM;
+using Semitron_OMS.Model.FM;
+using Semitron_OMS.Model.OMS;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,6 +42,10 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 methStr = context.Request.Form["meth"];
             }
+            if (context.Request.QueryString["meth"] != null)
+            {
+                methStr = context.Request.QueryString["meth"];
+            }
             if (!string.IsNullOrEmpty(methStr))
             {
                 switch (methStr)
@@ -44,14 +54,222 @@ namespace Semitron_OMS.UI.Handle.FM
                     case "GetGatheringPlan":
                         context.Response.Write(GetGatheringPlan());
                         break;
+                    //编辑收款计划
+                    case "EditGatheringPlan":
+                        context.Response.Write(EditGatheringPlan());
+                        break;
+                    //获取收款计划实体
+                    case "GetGatheringPlanById":
+                        context.Response.Write(GetGatheringPlanById());
+                        break;
+                    //删除收款计划
+                    case "DelGatheringPlan":
+                        context.Response.Write(DelGatheringPlan());
+                        break;
                 }
-            }
-            else
-            {
-                context.Response.Write("{\"statusCode\":\"200\",\"message\":\"\u64cd\u4f5c\u6210\u529f\",\"navTabId\":\"\",\"rel\":\"\",\"callbackType\":\"\",\"forwardUrl\":\"\",\"confirmMsg\":\"\"}");
             }
 
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 删除收款计划
+        /// </summary>
+        private string DelGatheringPlan()
+        {
+            PageResult result = new PageResult();
+            int iId = -1;
+            if (_request.Form["Id"] == null || !int.TryParse(_request.Form["Id"].ToString(), out iId))
+            {
+                result.State = 0;
+                result.Info = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                string strResult = this._bllGatheringPlan.ValidateAndDelGatheringPlan(iId);
+                if (strResult == "OK")
+                {
+                    result.State = 1;
+                    result.Info = "删除收款计划成功。";
+                }
+                else
+                {
+                    result.State = 0;
+                    result.Info = strResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "删除收款计划出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，删除收款计划出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
+        }
+
+        //获取收款计划实体
+        private string GetGatheringPlanById()
+        {
+            PageResult result = new PageResult();
+            int iId = -1;
+            if (_request.Form["Id"] == null || !int.TryParse(_request.Form["Id"].ToString(), out iId))
+            {
+                result.State = 0;
+                result.Info = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                GatheringPlanModel model = this._bllGatheringPlan.GetModel(iId);
+                string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+                string strCPN = string.Empty;
+                string strSaleStandardPrice = string.Empty;
+                CustomerOrderDetailModel dModel = new CustomerOrderDetailBLL().GetModel(model.CustomerOrderDetailID);
+                if (dModel != null)
+                {
+                    strCPN = dModel.CPN;
+                    strSaleStandardPrice = dModel.SalePrice.ToString();
+                }
+                string strCustomerName = string.Empty;
+                CustomerModel cModel = new CustomerBLL().GetModel((int)model.CustomerID);
+                if (cModel != null)
+                {
+                    strCustomerName = cModel.CustomerName;
+                }
+                string strCorporationName = string.Empty;
+                CorporationModel corModel = new CorporationBLL().GetModel(model.CorporationID);
+                if (corModel != null)
+                {
+                    strCorporationName = corModel.CompanyName;
+                }
+                strResult = strResult.Substring(0, strResult.Length - 1) + ",\"CPN\":\"" + strCPN
+                    + "\",\"SaleStandardPrice\":\"" + strSaleStandardPrice
+                    + "\",\"CustomerName\":\"" + strCustomerName
+                    + "\",\"CorporationName\":\"" + strCorporationName
+                    + "\"}";
+                return strResult;
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "获取收款计划详细信息出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取收款计划详细信息出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 新增或修改收款计划
+        /// </summary>
+        /// <returns></returns>
+        private string EditGatheringPlan()
+        {
+            PageResultJUI result = new PageResultJUI();
+            int iId = -1;
+            if (_request.Form["SeletedGatheringPlanId"] == null || !int.TryParse(_request.Form["SeletedGatheringPlanId"].ToString(), out iId))
+            {
+                result.statusCode = 300;
+                result.message = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                GatheringPlanModel model = new GatheringPlanModel();
+                if (iId > 0)
+                {
+                    model = this._bllGatheringPlan.GetModel(iId);
+                }
+                else
+                {
+                    model.ID = iId;
+                    SQLOperateHelper.SetEntityFiledValue(model, "CreateUser", _adminModel.Username);
+                    SQLOperateHelper.SetEntityFiledValue(model, "CreateTime", DateTime.Now);
+                }
+                string strGetResult = this.GetNewModel(model);
+                if (strGetResult != "OK")
+                {
+                    result.statusCode = 300;
+                    result.message = strGetResult;
+                    return result.ToString();
+                }
+
+                string strResult = this._bllGatheringPlan.ValidateAndUpdate(model);
+                if (strResult == "OK")
+                {
+                    result.callbackType = "closeCurrent";
+                    result.statusCode = 200;
+                    //result.message = "\u64cd\u4f5c\u6210\u529f";
+                    //result.Remark = model.ID.ToString();
+                    result.message = "编辑收款计划成功！";
+                }
+                else
+                {
+                    result.statusCode = 300;
+                    result.message = strResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.statusCode = 300;
+                result.message = "编辑收款计划出现异常，请联系管理员！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑收款计划出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 获得新实体对象
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private string GetNewModel(GatheringPlanModel model)
+        {
+            if (_request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderDetailId"] == null
+                || _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationID"] == null
+                || _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO"] == null
+                || _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderNO"] == null
+                //||...
+                )
+            {
+                return "系统错误,参数获取异常。";
+            }
+
+            SQLOperateHelper.SetEntityFiledValue(model, "CustomerOrderDetailID", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderDetailId"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "CorporationID", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationID"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "InnerOrderNO", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "CustomerOrderNO", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderNO"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "CustomerID", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerID"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "Qty", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SaleStandardCurrency", 1);
+            SQLOperateHelper.SetEntityFiledValue(model, "SalePrice", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SaleTotal", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SaleRealCurrency", _request.Form["SaleRealCurrency"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SaleExchangeRate", _request.Form["SaleExchangeRate"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SaleRealPrice", _request.Form["SaleRealPrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SaleRealTotal", _request.Form["SaleRealTotal"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "PaymentTypeID", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "IsCustomerVATInvoice", _request.Form["IsCustomerVATInvoice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "CustomerVATInvoiceNo", _request.Form["CustomerVATInvoiceNo"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "IsCustomerPay", _request.Form["IsCustomerPay"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "TrackingNumber", _request.Form["TrackingNumber"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "OtherFee", _request.Form["OtherFee"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "OtherFeeRemark", _request.Form["OtherFeeRemark"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "StandardIncomeRealDiff", _request.Form["StandardIncomeRealDiff"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SalesManProportion", _request.Form["SalesManProportion"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SalesManPay", _request.Form["SalesManPay"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "POPrice", _request.Form["POPrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "GrossProfits", _request.Form["GrossProfits"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "NetProfit", _request.Form["NetProfit"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "ProfitMargin", _request.Form["ProfitMargin"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "GatheringPlanDate", _request.Form["GatheringPlanDate"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "FeeBackDate", _request.Form["FeeBackDate"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "State", _request.Form["State"]);
+
+            SQLOperateHelper.SetEntityFiledValue(model, "UpdateUser", _adminModel.Username);
+            SQLOperateHelper.SetEntityFiledValue(model, "UpdateTime", DateTime.Now);
+
+            return "OK";
         }
 
         /// <summary>

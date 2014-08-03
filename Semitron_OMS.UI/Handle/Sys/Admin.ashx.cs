@@ -27,7 +27,7 @@ namespace Semitron_OMS.UI.Handle.Sys
     public class Admin : IHttpHandler, IRequiresSessionState
     {
         log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(Admin));
-
+        Semitron_OMS.BLL.Common.Admin _adminBll = new Semitron_OMS.BLL.Common.Admin();
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "application/json";
@@ -132,9 +132,20 @@ namespace Semitron_OMS.UI.Handle.Sys
                         context.Response.Charset = "utf-8";
                         context.Response.Write(GetIndexMenuFM(context));
                         break;
+                    case "LookupAdmin":
+                        context.Response.Write(LookupAdmin());
+                        break;
                 }
             }
+
             context.Response.End();
+        }
+
+        private string LookupAdmin()
+        {
+            DataTable dt = _adminBll.GetDataTableByCache();//使用缓存
+            string strJson = JsonConvert.SerializeObject(_adminBll.DataTableToList(dt.Select("AvailFlag=1").CopyToDataTable()));
+            return strJson;
         }
 
         private string GetIndexMenu(HttpContext context)
@@ -351,7 +362,7 @@ namespace Semitron_OMS.UI.Handle.Sys
             spId = request.Form["spids"].ToString();
             int PageIndex = 1;          //页码
             int pageSize = 1;           //页大小
-            string tblName = " Admin as A left join AdminBindSPInfo as B on A.AdminID=B.AdminId and b.SPID=" + spId + " and b.Valid=1  left join SPInfo s on b.SPID=s.id left join UserRole ur on ur.AdminID=a.AdminID";  //表名
+            string tblName = " Admin as A left join AdminBindSPInfo as B on A.AdminID=B.AdminID and b.SPID=" + spId + " and b.Valid=1  left join SPInfo s on b.SPID=s.id left join UserRole ur on ur.AdminID=a.AdminID";  //表名
             string strGetFields = " a.AdminID,a.Username ,Name ,a.Phone,a.Email,case when s.id is null then 'false' else  'true' end as checked999";      //查询列名
             string strOrder = string.Empty; //排序字段
             int OrderType = 1;              //排序类型,1降序，0升序
@@ -535,7 +546,7 @@ namespace Semitron_OMS.UI.Handle.Sys
             cpId = request.Form["cpids"].ToString();
             int PageIndex = 1;          //页码
             int pageSize = 1;           //页大小
-            string tblName = " Admin as A left join AdminBindCPInfo as B on A.AdminID=B.AdminId and b.cpid=" + cpId + " and b.Valid=1  left join cpinfo c on b.cpid=c.id left join UserRole ur on ur.AdminID=a.AdminID";  //表名
+            string tblName = " Admin as A left join AdminBindCPInfo as B on A.AdminID=B.AdminID and b.cpid=" + cpId + " and b.Valid=1  left join cpinfo c on b.cpid=c.id left join UserRole ur on ur.AdminID=a.AdminID";  //表名
             string strGetFields = " a.AdminID,a.Username ,Name ,a.Phone,a.Email,case when c.id is null then 'false' else  'true' end as checked999";      //查询列名
             string strOrder = string.Empty; //排序字段
             int OrderType = 1;              //排序类型,1降序，0升序
@@ -1062,8 +1073,8 @@ namespace Semitron_OMS.UI.Handle.Sys
                 result.Info = "ID参数异常。";
                 return result.ToString();
             }
-            int adminId = int.Parse(request.Form["id"].ToString());
-            AdminModel model = admin.GetModel(adminId);
+            int AdminID = int.Parse(request.Form["id"].ToString());
+            AdminModel model = admin.GetModel(AdminID);
             result.State = 1;
             result.Remark = JsonConvert.SerializeObject(model, Formatting.Indented, new IsoDateTimeConverter());
             return result.Remark.ToString();

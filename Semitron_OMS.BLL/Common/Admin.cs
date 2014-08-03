@@ -315,7 +315,7 @@ namespace Semitron_OMS.BLL.Common
                 Semitron_OMS.BLL.Common.Permission bllPermission = new BLL.Common.Permission();
 
                 DataTable dtPermission = bllPermission.GetSubPermissionIds(strParentSystem);
-                 
+
                 //得到所有拥有的权限id
                 condition += " and A.Username='" + username + "' and A.Password='" + pwd + "'";
                 DataTable dtTotal = this.GetExtent(condition, username, pwd, IP).Tables[0];
@@ -435,7 +435,18 @@ namespace Semitron_OMS.BLL.Common
             logBll.AddExecute("Admin", msg, "", (int)OperationsType.Add);
             return model;
         }
+
+        /// <summary>
+        /// 根据数据库缓存依赖获得数据
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetDataTableByCache()
+        {
+            return Semitron_OMS.DAL.SQLNotifier.GetDataTable(ConstantValue.SQLNotifierDepObj.AdminDepSql, ConstantValue.SQLNotifierDepObj.AdminDepSql, ConstantValue.TableNames.Admin, null);
+        }
         #endregion  ExtensionMethod
+
+
     }
 }
 

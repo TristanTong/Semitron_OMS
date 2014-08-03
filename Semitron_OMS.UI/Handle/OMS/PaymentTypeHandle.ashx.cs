@@ -8,6 +8,7 @@ using Semitron_OMS.Model.Common;
 using Newtonsoft.Json;
 using Semitron_OMS.Model.OMS;
 using System.IO;
+using System.Text;
 
 namespace Semitron_OMS.UI.Handle.OMS
 {
@@ -64,9 +65,52 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "GetPaymentTypeById":
                         context.Response.Write(GetPaymentTypeById());
                         break;
+                    //获取付款方式下拉框列表字符串
+                    case "GetPaymentTypeSeletList":
+                        context.Response.ContentType = "text/plain";
+                        context.Response.Charset = "utf-8";
+                        context.Response.Write(GetPaymentTypeSeletList());
+                        break;
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获取付款方式下拉框列表字符串
+        /// </summary>
+        /// <returns></returns>
+        private string GetPaymentTypeSeletList()
+        {
+            //ID,PaymentType,SK,AvailFlag
+            string strShow = DataUtility.GetPageFormValue("IsShowAll", string.Empty);
+            DataTable dt = this._bllPaymentType.GetDataTableByCache();
+            //分别获取有效和无效的计费代码。
+            DataRow[] drValid = dt.Select("AvailFlag=1", "SK Asc,PaymentType Asc");
+            DataRow[] drUnValid = dt.Select("AvailFlag=0", "SK Asc,PaymentType Asc");
+            StringBuilder sb = new StringBuilder();
+            if (strShow == "true")
+            {
+                sb.AppendFormat("{0}|{1},", "－－有效－－", "-1");
+            }
+            foreach (DataRow dr in drValid)
+            {
+                sb.AppendFormat("{0}|{1},", dr["PaymentType"].ToString(), dr["ID"].ToString());
+            }
+            if (strShow == "true")
+            {
+                sb.AppendFormat("{0}|{1},", "－－无效－－", "-2");
+                foreach (DataRow dr in drUnValid)
+                {
+                    sb.AppendFormat("{0}|{1},", dr["PaymentType"].ToString(), dr["ID"].ToString());
+                }
+            }
+            if (sb.ToString().EndsWith(","))
+            {
+                //移除最后一个逗号
+                sb.Remove(sb.ToString().Length - 1, 1);
+            }
+            return sb.ToString();
         }
 
         /// <summary>

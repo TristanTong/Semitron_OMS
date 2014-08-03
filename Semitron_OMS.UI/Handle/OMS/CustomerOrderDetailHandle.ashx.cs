@@ -63,9 +63,9 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "GetCustomerOrderDetailById":
                         context.Response.Write(GetCustomerOrderDetailById());
                         break;
-                    //获取待出货计划的产品清单列表
-                    case "GetCustomerOrderDetailUnOutStockList":
-                        context.Response.Write(GetCustomerOrderDetailUnOutStockList());
+                    //获取产品清单查找列表
+                    case "GetCustomerOrderDetailLookupList":
+                        context.Response.Write(GetCustomerOrderDetailLookupList());
                         break;
                 }
             }
@@ -73,14 +73,15 @@ namespace Semitron_OMS.UI.Handle.OMS
         }
 
         /// <summary>
-        /// 获取待出货计划的产品清单列表
+        /// 获取产品清单查找列表
         /// </summary>
-        private string GetCustomerOrderDetailUnOutStockList()
+        private string GetCustomerOrderDetailLookupList()
         {
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.InnerOrderNo", _request.Form["InnerOrderNo"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("C.CCode", _request.Form["CustomerCode"], ConditionEnm.Equal));
+            string strQueryType = DataUtility.GetPageFormValue(_request.Form["QueryType"], string.Empty);
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["CustOrderDateBegin"], string.Empty);
             if (strStartTime != string.Empty)
             {
@@ -96,7 +97,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             try
             {
                 List<CustomerOrderDetailUnOutStockModel> listModel = new List<CustomerOrderDetailUnOutStockModel>();
-                listModel = this._bllCustomerOrderDetail.GetCustomerOrderDetailUnOutStockList(lstFilter);
+                listModel = this._bllCustomerOrderDetail.GetCustomerOrderDetailLookupList(lstFilter, strQueryType);
                 return JsonConvert.SerializeObject(listModel, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
             }
             catch (Exception ex)

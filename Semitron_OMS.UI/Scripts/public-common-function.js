@@ -271,9 +271,10 @@ function LoadSelect(url, data, selId, selValue, subLength, bShowSelect) {
         dataType: "text",
         data: data,
         success: function (result) {
-            $("#" + selId + "").children("option").remove();
+            //alert(result);
+            $(selId).children("option").remove();
             if (bShowSelectTemp) {
-                $("#" + selId + "").append("<option value='' title='请选择'>--请选择--</option>");
+                $(selId).append("<option value='' title='请选择'>--请选择--</option>");
             }
             if (result != "") {
                 var itemArr = result.split(",");
@@ -281,16 +282,16 @@ function LoadSelect(url, data, selId, selValue, subLength, bShowSelect) {
                     for (var i = 0; i < itemArr.length; i++) {
                         var kv = itemArr[i].split("|");
                         if (kv.length == 2) {
-                            $("#" + selId + "").append("<option value='" + kv[1] + "' title='" + kv[0] + "'>" + GetShortDiscription(kv[0], subLength) + "</option>");
+                            $(selId).append("<option value='" + kv[1] + "' title='" + kv[0] + "'>" + GetShortDiscription(kv[0], subLength) + "</option>");
                         }
                     }
                     if (selValue != "") {
-                        $("#" + selId + "").val(selValue);
+                        $(selId).val(selValue);
                     }
                     //下拉框值0处理，默认JS会识别0 == ""为True
                     //此处处理js会识别0 != ""为false的情况
                     if (parseInt(selValue) == 0) {
-                        $("#" + selId + "").val(selValue);
+                        $(selId).val(selValue);
                     }
                 }
             }

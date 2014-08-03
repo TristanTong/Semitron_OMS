@@ -275,14 +275,13 @@ namespace Semitron_OMS.BLL.OMS
         }
 
         /// <summary>
-        /// 获取待出货计划的产品清单列表
+        /// 获取产品清单查找列表
         /// </summary>
         /// <param name="lstFilter">过滤条件</param>
-        public List<CustomerOrderDetailUnOutStockModel> GetCustomerOrderDetailUnOutStockList(List<SQLConditionFilter> lstFilter)
+        public List<CustomerOrderDetailUnOutStockModel> GetCustomerOrderDetailLookupList(List<SQLConditionFilter> lstFilter, string strQueryType)
         {
-            //CustomerOrderDetailId,InnerOrderNo,CustomerOrderNO,CPN,CustOrderDate,InnerSalesMan,AssignToInnerBuyer,UnOutStockQty,CustQuantity,DoingOutStockQty,PlaningQty,AlreadyQty,CustomerCode,CustomerName
             List<CustomerOrderDetailUnOutStockModel> listModel = new List<CustomerOrderDetailUnOutStockModel>();
-            DataTable dt = dal.GetCustomerOrderDetailUnOutStockList(lstFilter);
+            DataTable dt = dal.GetCustomerOrderDetailLookupList(lstFilter);
             foreach (DataRow dr in dt.Rows)
             {
                 CustomerOrderDetailUnOutStockModel model = new CustomerOrderDetailUnOutStockModel();
@@ -290,25 +289,39 @@ namespace Semitron_OMS.BLL.OMS
                 model.InnerOrderNO = dr["InnerOrderNo"].ToString();
                 model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
                 model.CPN = dr["CPN"].ToString();
+                model.CorporationID = dr["CorporationID"].ToInt(-1);
+                model.CorporationName = dr["CorporationName"].ToString();
                 model.CustOrderDate = dr["CustOrderDate"].ToString();
                 model.InnerSalesMan = dr["InnerSalesMan"].ToString();
                 model.AssignToInnerBuyer = dr["AssignToInnerBuyer"].ToString();
-
                 model.CustQuantity = dr["CustQuantity"].ToInt(0);
                 model.DoingOutStockQty = dr["DoingOutStockQty"].ToInt(0);
                 model.PlaningQty = dr["PlaningQty"].ToInt(0);
                 model.AlreadyQty = dr["AlreadyQty"].ToInt(0);
+                model.SalePrice = dr["SalePrice"].ToDecimal(0M);
+                model.SaleTotal = dr["SaleTotal"].ToDecimal(0M);
+                model.CustomerID = dr["CustomerID"].ToInt(-1);
                 model.CustomerCode = dr["CustomerCode"].ToString();
                 model.CustomerName = dr["CustomerName"].ToString();
+                model.PaymentTypeID = dr["PaymentTypeID"].ToInt(0);
 
                 model.UnOutStockQty = model.CustQuantity - model.DoingOutStockQty - model.PlaningQty - model.AlreadyQty;
 
                 model.PlanedQty = model.DoingOutStockQty + model.PlaningQty + model.AlreadyQty;
 
-                //如果为可出货的记录，则显示
-                if (model.UnOutStockQty > 0)
+                switch (strQueryType)
                 {
-                    listModel.Add(model);
+                    case "2"://加载所有的记录
+                        listModel.Add(model);
+                        break;
+                    default:
+                        //如果为可出货的记录，则显示
+                        if (model.UnOutStockQty > 0)
+                        {
+                            listModel.Add(model);
+                        }
+
+                        break;
                 }
             }
             return listModel;

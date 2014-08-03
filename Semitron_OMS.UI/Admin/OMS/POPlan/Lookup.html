@@ -4,11 +4,12 @@
             $("#divLookupPOPlan table tbody").html("");
             var url = "/Handle/OMS/POPlanHandle.ashx";
             var PONo = $("#divLookupPOPlan p input[name='PONo']").val()
-            var ArrivedBeginDate = $("#divLookupPOPlan p input[name='ArrivedBeginDate']").val()
-            var ArrivedEndDate = $("#divLookupPOPlan p input[name='ArrivedEndDate']").val()
+            var ArrivedBeginDate = $("#divLookupPOPlan p input[name='ArrivedBeginDate']").val();
+            var ArrivedEndDate = $("#divLookupPOPlan p input[name='ArrivedEndDate']").val();
+            var QueryType = $("#divLookupPOPlan p select[name='QueryType']").val(); //为2表示查询所有的数据
             var data = data = {
-                "meth": "GetPOPlanUnInStockList", "PONo": PONo,
-                "ArrivedBeginDate": ArrivedBeginDate, "ArrivedEndDate": ArrivedEndDate
+                "meth": "GetPOPlanLookupList", "PONo": PONo,
+                "ArrivedBeginDate": ArrivedBeginDate, "ArrivedEndDate": ArrivedEndDate, "QueryType": QueryType
             };
 
             var successFun = function (json) {
@@ -16,11 +17,21 @@
                     alertMsg.error(json.Info);
                     return false;
                 } else {
+
                     for (var i = 0; i < json.length; i++) {
                         $("#divLookupPOPlan table tbody").append("<tr>"
                             + "<td width=\"50px\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({POPlanId:'"
-                            + json[i].POPlanId + "', PONo:'" + json[i].PONo + "', ProductCode:'" + json[i].ProductCode
-                            + "',InQty:'" + json[i].UnInStockQty + "', Price:'" + json[i].BuyPrice
+                            + json[i].POPlanId
+                            + "', PONo:'" + json[i].PONo
+                            + "', ProductCode:'" + json[i].ProductCode
+                            + "', MPN:'" + json[i].MPN
+                            + "',CorporationID:'" + json[i].CorporationID
+                            + "',CorporationName:'" + json[i].CorporationName
+                            + "',SupplierID:'" + json[i].SupplierID
+                            + "',SupplierName:'" + json[i].SupplierName
+                            + "', POQuantity:'" + json[i].POQuantity
+                            + "',InQty:'" + json[i].UnInStockQty
+                            + "', Price:'" + json[i].BuyPrice
                             + "',TotalPrice:'" + json[i].BuyCost + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
                             + json[i].POPlanId + "</td> <td width=\"102px\">" + json[i].PONo + "</td> <td width=\"48px\">"
                             + json[i].ProductCode + "</td><td width=\"48px\">"
@@ -57,6 +68,13 @@
             <input type="text" name="ArrivedEndDate" class="date textInput valid" size="8" readonly="readonly">
             <a class="inputDateButton" href="javascript:;">选择</a>
             <span class="inputInfo">选择区间</span>
+        </p>
+        <p>
+            <label>查找类型：</label>
+            <select name="QueryType" class=" combox">
+                <option value="1">未入库</option>
+                <option value="2">全部</option>
+            </select>
         </p>
         <div class="subBar">
             <ul>

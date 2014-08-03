@@ -198,9 +198,51 @@ namespace Semitron_OMS.BLL.FM
         {
             return dal.GetPaymentPlanPageData(searchInfo, out o_RowsCount);
         }
+
+        /// <summary>
+        /// 验证并编辑付款计划实体
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public string ValidateAndUpdate(PaymentPlanModel model)
+        {
+            if (model.ID <= 0)
+            {
+                this.Add(model);
+                return "OK";
+            }
+            if (this.Update(model))
+            {
+                return "OK";
+            }
+            return "OK";
+        }
+
+        /// <summary>
+        /// 验证并逻辑删除付款计划
+        /// </summary>
+        /// <param name="iId"></param>
+        /// <returns></returns>
+        public string ValidateAndDelPaymentPlan(int iId)
+        {
+            if (!this.SetValid(iId, 0))
+            {
+                return "删除失败,系统异常。";
+            }
+            return "OK";
+        }
+
+        /// <summary>
+        /// 设置状态
+        /// </summary>
+        /// <param name="iId"></param>
+        /// <param name="iState"></param>
+        /// <returns></returns>
+        private bool SetValid(int iId, int iState)
+        {
+            return dal.SetValid(iId, iState);
+        }
         #endregion  ExtensionMethod
-
-
     }
 }
 

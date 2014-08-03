@@ -46,7 +46,7 @@
             strJson += "\"EntryNo\":\"" + $("#divEditGodownEntry p input[name='EntryNo']").val() + "\",";
             strJson += "\"InStockDate\":\"" + $("#divEditGodownEntry p input[name='InStockDate']").val() + "\",";
             strJson += "\"InWarehouseCode\":\"" + $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.WCode']").val() + "\",";
-            strJson += "\"ByHandUserID\":\"" + $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.AdminId']").val() + "\"";
+            strJson += "\"ByHandUserID\":\"" + $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.AdminID']").val() + "\"";
             strJson += "}"; //alert(strJson);
             var url = "/Handle/OMS/GodownEntryHandle.ashx";
             //新增
@@ -142,7 +142,7 @@
                     $("#divEditGodownEntry p input[name='InStockDate']").val(inStockDate);
                     $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.WCode']").val(json.InWarehouseCode);
                     $("#divEditGodownEntry p input[name='GodownEntry_Edit_SearchWarehouse.WName']").val(json.InWarehouseName);
-                    $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
+                    $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.AdminID']").val(json.ByHandUserID);
                     $("#divEditGodownEntry p input[name='GodownEntry_Edit_adminLookup.Name']").val(json.ByHandUserName);
                     return false;
                 }
@@ -229,8 +229,8 @@
             </p>
             <p>
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="GodownEntry_Edit_adminLookup.AdminId" value="${GodownEntry_Edit_adminLookup.AdminId}" />
-                <input type="text" class="required" name="GodownEntry_Edit_adminLookup.Name" lookupgroup="GodownEntry_Edit_adminLookup" style="width: 110px" readonly="readonly" />
+                <input type="hidden" name="GodownEntry_Edit_adminLookup.AdminID" value="${GodownEntry_Edit_adminLookup.AdminID}" />
+                <input type="text" class="required" name="GodownEntry_Edit_adminLookup.Name" lookupgroup="GodownEntry_Edit_adminLookup" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" readonly="readonly" style="width: 110px" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="GodownEntry_Edit_adminLookup">查找带回</a>
             </p>
             <div class="divider"></div>

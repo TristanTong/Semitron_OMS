@@ -21,12 +21,12 @@
         var ShippingListNo = $("#divSearchExtShippingList div input[name=ShippingListNo]").val();
         var ProductCode = $("#divSearchExtShippingList div input[name=ProductCode]").val();
         var StockCode = $("#divSearchExtShippingList div input[name='SearchExt_ShippingList_Warehouse.WCode']").val();
-        var ApprovedUser = $("#divSearchExtShippingList div input[name='adminLookupSearchExt_ShippingList_ApprovedUser.AdminId']").val();
-        if (ApprovedUser == "${adminLookupSearchExt_ShippingList_ApprovedUser.AdminId}") {
+        var ApprovedUser = $("#divSearchExtShippingList div input[name='adminLookupSearchExt_ShippingList_ApprovedUser.AdminID']").val();
+        if (ApprovedUser == "${adminLookupSearchExt_ShippingList_ApprovedUser.AdminID}") {
             ApprovedUser = "";
         }
-        var ByHandUserID = $("#divSearchExtShippingList div input[name='adminLookupSearchExt_ShippingList_ByHandUserID.AdminId']").val();
-        if (ByHandUserID == "${adminLookupSearchExt_ShippingList_ByHandUserID.AdminId}") {
+        var ByHandUserID = $("#divSearchExtShippingList div input[name='adminLookupSearchExt_ShippingList_ByHandUserID.AdminID']").val();
+        if (ByHandUserID == "${adminLookupSearchExt_ShippingList_ByHandUserID.AdminID}") {
             ByHandUserID = "";
         }
         var IsApproved = $("#divSearchExtShippingList div select[name=IsApproved]").val();
@@ -129,15 +129,15 @@
             </div>
             <div class="unit">
                 <label>审&nbsp;&nbsp;核&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="adminLookupSearchExt_ShippingList_ApprovedUser.AdminId" value="${adminLookupSearchExt_ShippingList_ApprovedUser.AdminId}" />
-                <input type="text" name="adminLookupSearchExt_ShippingList_ApprovedUser.Name" value="" lookupgroup="adminLookupSearchExt_ShippingList_ApprovedUser" style="width: 80px" readonly="readonly" />
+                <input type="hidden" name="adminLookupSearchExt_ShippingList_ApprovedUser.AdminID" value="${adminLookupSearchExt_ShippingList_ApprovedUser.AdminID}" />
+                <input type="text" name="adminLookupSearchExt_ShippingList_ApprovedUser.Name" value="" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" lookupgroup="adminLookupSearchExt_ShippingList_ApprovedUser" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_ShippingList_ApprovedUser" rel="dlg_SearchExt_ShippingList_ApprovedUser">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>
             <div class="unit">
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="adminLookupSearchExt_ShippingList_ByHandUserID.AdminId" value="${adminLookupSearchExt_ShippingList_ByHandUserID.AdminId}" />
-                <input type="text" name="adminLookupSearchExt_ShippingList_ByHandUserID.Name" value="" lookupgroup="adminLookupSearchExt_ShippingList_ByHandUserID" style="width: 80px" readonly="readonly" />
+                <input type="hidden" name="adminLookupSearchExt_ShippingList_ByHandUserID.AdminID" value="${adminLookupSearchExt_ShippingList_ByHandUserID.AdminID}" />
+                <input type="text" name="adminLookupSearchExt_ShippingList_ByHandUserID.Name" value="" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin"lookupgroup="adminLookupSearchExt_ShippingList_ByHandUserID" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_ShippingList_ByHandUserID" rel="dlg_SearchExt_ShippingList_ByHandUserID">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>

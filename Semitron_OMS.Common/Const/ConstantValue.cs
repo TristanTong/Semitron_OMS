@@ -457,21 +457,25 @@ namespace Semitron_OMS.Common
         public struct SQLNotifierDepObj
         {
             /// <summary>
+            /// 客户表的通知依赖
+            /// </summary>
+            public const string AdminDepSql = "SELECT  AdminID ,Username ,Name ,Phone ,Email ,AvailFlag,Password ,CustID ,CreateTime ,LastLoginTime ,Type FROM dbo.Admin";
+            /// <summary>
             /// 采购关联供应商通知依赖
             /// </summary>
-            public static string AdminBindSupplierDepSql = "SELECT [BindID],[ServiceType],[AdminID],[SupplierID],[CreateTime] FROM [OMS].[dbo].[AdminBindSupplier] WHERE [AdminID]=@AdminID";
+            public const string AdminBindSupplierDepSql = "SELECT [BindID],[ServiceType],[AdminID],[SupplierID],[CreateTime] FROM [OMS].[dbo].[AdminBindSupplier] WHERE [AdminID]=@AdminID";
             /// <summary>
             /// 销售关联客户通知依赖
             /// </summary>
-            public static string AdminBindCustomerDepSql = "SELECT [BindID],[ServiceType],[AdminID],[CustomerID],[CreateTime] FROM [OMS].[dbo].[AdminBindCustomer]  WHERE [AdminID]=@AdminID";
+            public const string AdminBindCustomerDepSql = "SELECT [BindID],[ServiceType],[AdminID],[CustomerID],[CreateTime] FROM [OMS].[dbo].[AdminBindCustomer]  WHERE [AdminID]=@AdminID";
             /// <summary>
             /// 根据角色ID取得对应的用户通知依赖
             /// </summary>
-            public static string AdminDepGetByRoleIds = "SELECT A.AdminID,A.NAME,A.AvailFlag,A.CustID,A.Username,A.Type FROM Admin AS A INNER JOIN UserRole AS U ON A.AdminID=U.AdminID WHERE U.RoleID IN (@RoleIds)";
+            public const string AdminDepGetByRoleIds = "SELECT A.AdminID,A.NAME,A.AvailFlag,A.CustID,A.Username,A.Type FROM Admin AS A INNER JOIN UserRole AS U ON A.AdminID=U.AdminID WHERE U.RoleID IN (@RoleIds)";
             /// <summary>
             /// 品牌表的通知依赖
             /// </summary>
-            public static string BrandTableDepSql = "SELECT  ID ,BrandName ,Code ,SK ,AvailFlag  FROM Brand";
+            public const string BrandTableDepSql = "SELECT  ID ,BrandName ,Code ,SK ,AvailFlag  FROM Brand";
             /// <summary>
             /// 公共数据表的通知依赖
             /// </summary>

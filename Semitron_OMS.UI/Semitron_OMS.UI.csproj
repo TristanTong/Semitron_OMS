@@ -161,8 +161,10 @@
     <Content Include="dwz.frag.xml" />
     <Content Include="Error.htm" />
     <Content Include="favicon.ico" />
+    <Content Include="file_system\Doc\OMS状态图.jpg" />
     <Content Include="file_system\Doc\OMS用例图.jpg" />
     <Content Include="FlowDemo\UserCase.html" />
+    <Content Include="FlowDemo\StateGraph.html" />
     <Content Include="Global.asax" />
     <Content Include="HttpErrors\401-1.htm" />
     <Content Include="HttpErrors\401-2.htm" />
@@ -1653,6 +1655,7 @@
     <Content Include="Handle\Common\ProductInfoHandle.ashx" />
     <Content Include="Handle\FM\PaymentPlanHandle.ashx" />
     <Content Include="Handle\FM\GatheringPlanHandle.ashx" />
+    <Content Include="file_system\Doc\OMS状态图.pdf" />
     <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />

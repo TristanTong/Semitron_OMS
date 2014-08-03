@@ -592,6 +592,30 @@ namespace Semitron_OMS.DAL.FM
                 searchInfo.OrderType,
                 out o_RowsCount);
         }
+        /// <summary>
+        /// 设置状态
+        /// </summary>
+        public bool SetValid(int iId, int iState)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update PaymentPlan set State=@State");
+            strSql.Append(" where ID=@ID ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@ID", SqlDbType.Int,4),
+                    new SqlParameter("@State", SqlDbType.Int,4)
+			};
+            parameters[0].Value = iId;
+            parameters[1].Value = iState;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion  ExtensionMethod
 
     }

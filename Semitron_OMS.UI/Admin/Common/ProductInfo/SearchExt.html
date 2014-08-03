@@ -21,12 +21,12 @@
         var EntryNo = $("#divSearchExtGodownEntry div input[name=EntryNo]").val();
         var ProductCode = $("#divSearchExtGodownEntry div input[name=ProductCode]").val();
         var InWarehouseCode = $("#divSearchExtGodownEntry div input[name='SearchExtWarehouse.WCode']").val();
-        var ApprovedUser = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId']").val();
-        if (ApprovedUser == "${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId}") {
+        var ApprovedUser = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ApprovedUser.AdminID']").val();
+        if (ApprovedUser == "${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminID}") {
             ApprovedUser = "";
         }
-        var ByHandUserID = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId']").val();
-        if (ByHandUserID == "${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId}") {
+        var ByHandUserID = $("#divSearchExtGodownEntry div input[name='adminLookupSearchExt_GodownEntry_ByHandUserID.AdminID']").val();
+        if (ByHandUserID == "${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminID}") {
             ByHandUserID = "";
         }
         var IsApproved = $("#divSearchExtGodownEntry div select[name=IsApproved]").val();
@@ -129,14 +129,14 @@
             </div>
             <div class="unit">
                 <label>审&nbsp;&nbsp;核&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId" value="${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminId}" />
+                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ApprovedUser.AdminID" value="${adminLookupSearchExt_GodownEntry_ApprovedUser.AdminID}" />
                 <input type="text" name="adminLookupSearchExt_GodownEntry_ApprovedUser.Name" value="" lookupgroup="adminLookupSearchExt_GodownEntry_ApprovedUser" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_GodownEntry_ApprovedUser" rel="dlg_SearchExt_ApprovedUser">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>
             <div class="unit">
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId" value="${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminId}" id="hidByHandUserID" />
+                <input type="hidden" name="adminLookupSearchExt_GodownEntry_ByHandUserID.AdminID" value="${adminLookupSearchExt_GodownEntry_ByHandUserID.AdminID}" id="hidByHandUserID" />
                 <input type="text" name="adminLookupSearchExt_GodownEntry_ByHandUserID.Name" value="" lookupgroup="adminLookupSearchExt_GodownEntry_ByHandUserID" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_GodownEntry_ByHandUserID" rel="dlg_SearchExt_ByHandUserID">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>

@@ -39,7 +39,7 @@
             var strJson = "{";
             strJson += "\"ShippingPlanNo\":\"" + $("#divEditShippingPlan p input[name='ShippingPlanNo']").val() + "\",";
             strJson += "\"ShippingPlanDate\":\"" + $("#divEditShippingPlan p input[name='ShippingPlanDate']").val() + "\",";
-            strJson += "\"ByHandUserID\":\"" + $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminId']").val() + "\"";
+            strJson += "\"ByHandUserID\":\"" + $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminID']").val() + "\"";
             strJson += "}";
             var url = "/Handle/OMS/ShippingPlanHandle.ashx";
             //新增
@@ -135,7 +135,7 @@
                         shippingPlanDate = "";
                     }
                     $("#divEditShippingPlan p input[name='ShippingPlanDate']").val(shippingPlanDate);
-                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminId']").val(json.ByHandUserID);
+                    $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.AdminID']").val(json.ByHandUserID);
                     $("#divEditShippingPlan p input[name='ShippingPlan_Edit_adminLookup.Name']").val(json.ByHandUserName);
                     return false;
                 }
@@ -221,8 +221,8 @@
             </p>
             <p>
                 <label>经&nbsp;&nbsp;&nbsp;&nbsp;手&nbsp;&nbsp;&nbsp;&nbsp;人：</label>
-                <input type="hidden" name="ShippingPlan_Edit_adminLookup.AdminId" value="${ShippingPlan_Edit_adminLookup.AdminId}" />
-                <input type="text" class="required" name="ShippingPlan_Edit_adminLookup.Name" lookupgroup="ShippingPlan_Edit_adminLookup" style="width: 110px" readonly="readonly" />
+                <input type="hidden" name="ShippingPlan_Edit_adminLookup.AdminID" value="${ShippingPlan_Edit_adminLookup.AdminID}" />
+                <input type="text" class="required" name="ShippingPlan_Edit_adminLookup.Name" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin"lookupgroup="ShippingPlan_Edit_adminLookup" style="width: 110px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="ShippingPlan_Edit_adminLookup">查找带回</a>
             </p>
             <div class="divider"></div>

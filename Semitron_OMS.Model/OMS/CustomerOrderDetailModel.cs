@@ -287,6 +287,18 @@ namespace Semitron_OMS.Model.OMS
         public string CustomerName { get; set; }
 
         public int PlanedQty { get; set; }
+
+        public decimal SalePrice { get; set; }
+
+        public int CorporationID { get; set; }
+
+        public string CorporationName { get; set; }
+
+        public decimal SaleTotal { get; set; }
+
+        public int CustomerID { get; set; }
+
+        public int PaymentTypeID { get; set; }
     }
 }
 

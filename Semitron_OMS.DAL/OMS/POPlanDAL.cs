@@ -700,20 +700,22 @@ namespace Semitron_OMS.DAL.OMS
         }
 
         /// <summary>
-        //获取已到货未出库的采购计划 
+        //获取采购计划查找列表 
         /// </summary>
         /// <param name="lstFilter"></param>
         /// <returns></returns>
-        public DataTable GetPOPlanUnInStockList(System.Collections.Generic.List<SQLConditionFilter> lstFilter)
+        public DataTable GetPOPlanLookupList(System.Collections.Generic.List<SQLConditionFilter> lstFilter, string strQueryType)
         {
             //查询字段
-            string strGetFields = " POPlanId=P.Id,P.PONo,P.ProductCode,P.MPN,P.POQuantity,P.ArrivedQty,P.StockQty,P.BuyPrice,P.BuyCost,ArrivedDate=CONVERT(varchar(10),P.ShipmentDate,120),SupplierCode=S.SCode,S.SupplierName ";
+            string strGetFields = " POPlanId=P.Id,P.PONo,P.ProductCode,P.MPN,P.POQuantity,P.ArrivedQty,P.StockQty,P.BuyPrice,P.BuyCost,ArrivedDate=CONVERT(varchar(10),P.ShipmentDate,120),P.SupplierID,SupplierCode=S.SCode,S.SupplierName,O.CorporationID,CorporationName=C.CompanyName ";
 
             //查询表名
-            string strTableName = " POPlan AS P LEFT JOIN Supplier AS S ON P.SupplierID=S.ID ";
+            string strTableName = " POPlan AS P WITH (NOLOCK) LEFT JOIN Supplier AS S WITH (NOLOCK) ON P.SupplierID=S.ID LEFT JOIN dbo.PO AS O WITH (NOLOCK) ON O.PONO =P.PONO LEFT JOIN dbo.Corporation AS C ON C.ID=O.CorporationID ";
 
             //查询条件
-            string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + "AND P.State IN (145,150) AND P.ArrivedQty>P.StockQty";
+            string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + "AND P.State IN (145,150)";
+            if (strQueryType != "2")
+                strWhere += " AND P.ArrivedQty>P.StockQty";
 
             return DbHelperSQL.Query("SELECT " + strGetFields + " FROM " + strTableName + " WHERE " + strWhere).Tables[0];
         }

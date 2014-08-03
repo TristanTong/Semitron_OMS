@@ -200,8 +200,8 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.AllLike));
 
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("A2.AdminId", _request.Form["ApprovedUser"], ConditionEnm.Equal));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("A1.AdminId", _request.Form["ByHandUserID"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("A2.AdminID", _request.Form["ApprovedUser"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("A1.AdminID", _request.Form["ByHandUserID"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.IsApproved", _request.Form["IsApproved"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.State", _request.Form["State"], ConditionEnm.Equal));
 

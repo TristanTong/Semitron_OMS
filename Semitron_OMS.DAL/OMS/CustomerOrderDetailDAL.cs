@@ -648,30 +648,30 @@ namespace Semitron_OMS.DAL.OMS
         }
 
         /// <summary>
-        /// 获取待出货计划的产品清单列表
+        /// 获取产品清单查找列表
         /// </summary>
         /// <param name="lstFilter"></param>
         /// <returns></returns>
-        public DataTable GetCustomerOrderDetailUnOutStockList(System.Collections.Generic.List<SQLConditionFilter> lstFilter)
+        public DataTable GetCustomerOrderDetailLookupList(System.Collections.Generic.List<SQLConditionFilter> lstFilter)
         {
             //查询字段
-            string strGetFields = " CustomerOrderDetailId=D.ID,D.InnerOrderNo,O.CustomerOrderNO,D.CPN,CustOrderDate=CONVERT(VARCHAR(10),O.CustOrderDate,120),O.InnerSalesMan,AssignToInnerBuyer=A1.Name,D.CustQuantity,PlaningQty=ISNULL(SUM(CASE WHEN ISNULL(SP.IsApproved,0)=0 THEN LD.OutQty ELSE 0 END),0),DoingOutStockQty=ISNULL(SUM(CASE WHEN ISNULL(SL.IsApproved,0)=0 THEN LD.OutQty ELSE 0 END),0),AlreadyQty=ISNULL(D.AlreadyQty,0),CustomerCode=C.CCode,C.CustomerName ";
+            string strGetFields = " CustomerOrderDetailId=D.ID,D.InnerOrderNo,O.CustomerOrderNO,O.PaymentTypeID,D.CPN,CustOrderDate=CONVERT(VARCHAR(10),O.CustOrderDate,120),O.InnerSalesMan,AssignToInnerBuyer=A1.Name,D.CustQuantity,PlaningQty=ISNULL(SUM(CASE WHEN ISNULL(SP.IsApproved,0)=0 THEN LD.OutQty ELSE 0 END),0),DoingOutStockQty=ISNULL(SUM(CASE WHEN ISNULL(SL.IsApproved,0)=0 THEN LD.OutQty ELSE 0 END),0),AlreadyQty=ISNULL(D.AlreadyQty,0),CustomerCode=C.CCode,C.CustomerName,CustomerID=C.ID,O.CorporationID,CorporationName=MAX(CP.CompanyName),SalePrice=MAX(D.SalePrice),SaleTotal =MAX(D.SalePrice*D.CustQuantity) ";
 
             //查询表名
-            string strTableName = " dbo.CustomerOrderDetail AS D WITH (NOLOCK) INNER JOIN dbo.CustomerOrder AS O ON D.InnerOrderNO=O.InnerOrderNO LEFT JOIN dbo.Customer AS C WITH(NOLOCK) ON C.ID=O.CustomerID LEFT JOIN dbo.Admin AS A1 ON A1.AdminID=O.AssignToInnerBuyer LEFT JOIN dbo.ShippingPlanDetail AS PD WITH(NOLOCK) ON PD.CustomerDetailID=D.ID AND PD.AvailFlag=1 LEFT JOIN dbo.ShippingPlan AS SP WITH(NOLOCK) ON Sp.ID=PD.ShippingPlanID AND SP.State=1 LEFT JOIN dbo.ShippingListDetail AS LD WITH(NOLOCK) ON LD.ShippingPlanDetailID=PD.ID AND LD.AvailFlag=1 LEFT JOIN dbo.ShippingList AS SL WITH(NOLOCK) ON SL.ID=LD.ShippingListID AND SL.State=1 ";
+            string strTableName = " dbo.CustomerOrderDetail AS D WITH (NOLOCK) INNER JOIN dbo.CustomerOrder AS O ON D.InnerOrderNO=O.InnerOrderNO LEFT JOIN dbo.Customer AS C WITH(NOLOCK) ON C.ID=O.CustomerID LEFT JOIN dbo.Admin AS A1 ON A1.AdminID=O.AssignToInnerBuyer LEFT JOIN dbo.ShippingPlanDetail AS PD WITH(NOLOCK) ON PD.CustomerDetailID=D.ID AND PD.AvailFlag=1 LEFT JOIN dbo.ShippingPlan AS SP WITH(NOLOCK) ON Sp.ID=PD.ShippingPlanID AND SP.State=1 LEFT JOIN dbo.ShippingListDetail AS LD WITH(NOLOCK) ON LD.ShippingPlanDetailID=PD.ID AND LD.AvailFlag=1 LEFT JOIN dbo.ShippingList AS SL WITH(NOLOCK) ON SL.ID=LD.ShippingListID AND SL.State=1 LEFT JOIN dbo.Corporation AS CP ON CP.ID=O.CorporationID ";
 
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + " AND D.AvailFlag=1 AND O.State!=-100";
 
             //分组条件
-            string strGroupBy = " D.ID,D.InnerOrderNo,O.CustomerOrderNO,D.CPN,O.CustOrderDate,O.InnerSalesMan,A1.Name,D.CustQuantity,D.AlreadyQty,C.CCode,C.CustomerName ";
+            string strGroupBy = " D.ID,D.InnerOrderNo,O.CustomerOrderNO,D.CPN,O.CustOrderDate,O.InnerSalesMan,A1.Name,D.CustQuantity,D.AlreadyQty,C.CCode,C.CustomerName,C.ID,O.CorporationID,O.PaymentTypeID ";
 
             return DbHelperSQL.Query("SELECT " + strGetFields + " FROM " + strTableName + " WHERE " + strWhere + " GROUP BY " + strGroupBy).Tables[0];
         }
 
         #endregion  ExtensionMethod
 
-        
+
     }
 }
 
