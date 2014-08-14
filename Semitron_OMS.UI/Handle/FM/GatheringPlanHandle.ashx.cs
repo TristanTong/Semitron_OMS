@@ -8,6 +8,7 @@ using Semitron_OMS.Model.FM;
 using Semitron_OMS.Model.OMS;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -66,10 +67,53 @@ namespace Semitron_OMS.UI.Handle.FM
                     case "DelGatheringPlan":
                         context.Response.Write(DelGatheringPlan());
                         break;
+                    //获取附件列表
+                    case "GetGatheringPlanAttachmentHtml":
+                        context.Response.ContentType = "text/plain";
+                        context.Response.Charset = "utf-8";
+                        context.Response.Write(GetGatheringPlanAttachmentHtml());
+                        break;
                 }
             }
 
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获取附件列表
+        /// </summary>
+        private string GetGatheringPlanAttachmentHtml()
+        {
+            PageResult result = new PageResult();
+
+            try
+            {
+                List<GatheringPlanModel> lstModel = this._bllGatheringPlan.GetModelList("InnerOrderNO='" + DataUtility.GetPageFormValue(_request.Form["InnerOrderNO"], string.Empty) + "'");
+                if (lstModel.Count > 0)
+                {
+                    string strIds = string.Empty;
+                    lstModel.ForEach(m => { strIds += m.ID + ","; });
+                    strIds = strIds.TrimEnd(',');
+                    string strFileServerUrl = ConfigurationManager.AppSettings.Get(ConstantValue.AppSettingsNames.FileServerUrl);
+                    return new AttachmentBLL().GetAttachmentHtml(
+                        ConstantValue.TableAttachment.ColumnObjType.GatheringPlanFilePath,
+                        strIds,
+                        strFileServerUrl);
+                }
+                else
+                {
+                    result.State = 0;
+                    result.Info = "获取附件列表为空。";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "获取附件列表出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取附件列表出现异常：" + ex.Message, ex);
+            }
+
+            return result.ToString();
         }
 
         /// <summary>

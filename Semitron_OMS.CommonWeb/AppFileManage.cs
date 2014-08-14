@@ -33,15 +33,28 @@ namespace Semitron_OMS.CommonWeb
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public string UploadAppTempFile(HttpContext context)
+        public string UploadAppTempFile(HttpContext context, ref string strUploadPath)
         {
+            strUploadPath = string.Empty;
+
             HttpPostedFile file = context.Request.Files["Filedata"];
-            string strFolder = @context.Request["folder"].ToString().Trim();
+            string strFolder = string.Empty;
+            if (context.Request["folder"] != null)
+            {
+                strFolder = @context.Request["folder"].ToString().Trim();
+            }
+            //文件种类
             string strFileType = string.Empty;
+            if (context.Request["FileType"] != null)
+            {
+                strFileType = context.Request["FileType"].ToString().Trim();
+            }
+
             if (strFolder.IndexOf("/Admin/UserControl/") != -1)
             {
                 strFileType = strFolder.Remove(0, "/Admin/UserControl/".Length);
             }
+
             string uploadPath = string.Empty;
             //文件扩展名
             string strFileExtension = string.Empty;
@@ -55,14 +68,11 @@ namespace Semitron_OMS.CommonWeb
             //系统默认的图片文件路径(放入图片文件服务器)
             switch (strFileType)
             {
-                case ConstantValue.AppSettingsNames.CustomerFilePath:
-                case ConstantValue.AppSettingsNames.QCFilePath:
-                case ConstantValue.AppSettingsNames.DownloadCenterFilePath:
-                case ConstantValue.AppSettingsNames.OrderFeeFilePath:
-                    uploadPath = (CommonMethods.GetUploadFilePath(context, strFileType) + "_" + strFileName + strFileExtension).Replace("\\" + strFileType + "\\", "\\" + strFileType + TEMP_FORDER);
+                case "":
+                    uploadPath = HttpContext.Current.Server.MapPath(strFolder) + "\\";
                     break;
                 default:
-                    uploadPath = HttpContext.Current.Server.MapPath(strFolder) + "\\";
+                    uploadPath = (CommonMethods.GetUploadFilePath(context, strFileType) + "_" + strFileName + strFileExtension).Replace("\\" + strFileType + "\\", "\\" + strFileType + TEMP_FORDER);
                     break;
             }
 
@@ -79,6 +89,12 @@ namespace Semitron_OMS.CommonWeb
                     Directory.CreateDirectory(strDirecPath);
                 }
                 file.SaveAs(uploadPath);
+
+                //保存成功,返回保存成功的完整路径
+                if (File.Exists(uploadPath))
+                {
+                    strUploadPath = uploadPath;
+                }
 
                 List<string> lstFilePath = new List<string>();
 
@@ -98,7 +114,7 @@ namespace Semitron_OMS.CommonWeb
                     }
                     else
                     {
-                        //是否多文件上传(0:当文件上传；1：多文件上传)
+                        //是否多文件上传(0:单文件上传；1：多文件上传)
                         int iMulti = -1;
                         //是否单文件还是多文件上传
                         if (HttpContext.Current.Request.Form["IsMulti"] != null)

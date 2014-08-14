@@ -99,6 +99,7 @@
                   { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
 	    				{ display: '内部订单号', name: 'InnerOrderNO', width: 100, sortable: true, align: 'center' },
                         { display: '状态', name: 'State', width: 100, sortable: true, align: 'center' },
+                        { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
 	    				{ display: '订单日期', name: 'CustOrderDate', width: 65, sortable: true, align: 'center' },
                         { display: '出货日期', name: 'ShipmentDate', width: 65, sortable: true, align: 'center' },
 	    				{ display: '客户名称', name: 'CustomerName', width: 160, sortable: true, align: 'left' },
@@ -464,6 +465,7 @@
                                 });
                                 $("#txtInnerOrderNOE").val(json.Remark);
                                 $("#txtInnerOrderNOE").attr("disabled", "disabled");
+                                
                                 //初始化明细表格
                                 InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
                                 $("#sltSaleStandardCurrencyE").val("1");
@@ -554,6 +556,7 @@
                             art.dialog.list["divEdit"].close();
                             artDialog.tips(json.Info);
                             $("#FlexigridTable").flexReload();
+                            InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
                             return true;
                         }
                     };
@@ -849,8 +852,8 @@
                     { name: "InnerOrderNO", value: InnerOrderNO },
                     { name: "AvailFlag", value: "1" }], //扩展参数
                 colModel: [//表格的题头与索要填充的内容。
-                   { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
-                  { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
+                        { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                        { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
 	    				{ display: '内部订单号', name: 'InnerOrderNO', width: 100, sortable: true, align: 'center' },
                         { display: '客户型号', name: 'CPN', width: 100, sortable: true, align: 'left' },
 	    				{ display: '厂家标准型号', name: 'MPN', width: 100, sortable: true, align: 'left' },
@@ -860,7 +863,7 @@
                         { display: '要求交期', name: 'CRD', width: 60, sortable: true, align: 'center' },
                         { display: '数量', name: 'CustQuantity', width: 60, sortable: true, align: 'left' },
                         { display: '卖汇率', name: 'SaleExchangeRate', width: 60, sortable: true, align: 'left' },
-                         { display: '实际卖货币', name: 'SaleRealCurrency', width: 60, sortable: true, align: 'left' },
+                        { display: '实际卖货币', name: 'SaleRealCurrency', width: 60, sortable: true, align: 'left' },
                         { display: '实际卖价', name: 'SaleRealPrice', width: 60, sortable: true, align: 'left' },
                         { display: '标准卖货币', name: 'SaleStandardCurrency', width: 80, sortable: true, align: 'center' },
                         { display: '卖价', name: 'SalePrice', width: 60, sortable: true, align: 'left' },
@@ -890,7 +893,7 @@
                 ]
             };
             p.newp = 1;         //跳转到第一页。
-            $("#FlexiTableDetail").flexOptions(p).flexReload();
+            $("#FlexiTableDetail").flexOptions(p).flexReload(); 
         }
 
         //初始化加载明细表格
@@ -1027,7 +1030,7 @@
                         return false;
                     }
                     if (MFG == "") {
-                        artDialog.tips("厂家标准型号不能为空!");
+                        artDialog.tips("品牌不能为空!");
                         return false;
                     }
 
@@ -1049,6 +1052,7 @@
                             art.dialog.list["divEditDetail"].close();
                             artDialog.tips(json.Info);
                             $("#FlexiTableDetail").flexReload();
+                            InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
                             return true;
                         }
                     };
@@ -1352,7 +1356,7 @@
                 <div id="divImportFile" style="display: none;">
                     <iframe id="frameImportFile" src="" frameborder="0" scrolling="no" style="width: 475px; height: 360px;"></iframe>
                     <br />
-                    <span class="red">温馨提示：附件支持多文件上传，请点击Upload图标选择本地文件。单个文件最大5M。</span>
+                    <span class="red">温馨提示：附件支持多文件上传，请点击Upload图标选择本地文件。单个文件最大1G。</span>
                 </div>
                 <%--新增/编辑/查看产品清单记录对话框--%>
                 <div id="divEditDetail">

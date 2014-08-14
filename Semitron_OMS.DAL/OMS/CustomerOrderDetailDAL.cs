@@ -546,7 +546,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetCustomerOrderDetailPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
         {
             //查询表名
-            string strTableName = " dbo.CustomerOrderDetail AS D INNER JOIN dbo.CustomerOrder AS O ON O.InnerOrderNO = D.InnerOrderNO LEFT JOIN dbo.Customer AS C ON C.ID = O.CustomerID LEFT JOIN Brand AS B ON B.ID=D.MFG";
+            string strTableName = " dbo.CustomerOrderDetail AS D LEFT JOIN dbo.CustomerOrder AS O ON O.InnerOrderNO = D.InnerOrderNO LEFT JOIN dbo.Customer AS C ON C.ID = O.CustomerID LEFT JOIN Brand AS B ON B.ID=D.MFG";
             //查询字段
             string strGetFields = " D.ID , D.InnerOrderNO , O.CustomerOrderNO , C.CustomerName , D.CPN , D.MPN , MFG=B.BrandName , D.DC , D.ROHS , D.CRD , D.CustQuantity , D.SaleExchangeRate , SaleRealCurrency = ( SELECT TOP 1 ShortName FROM   CurrencyType WHERE  CurrencyType.ID = D.SaleRealCurrency ) , D.SaleRealPrice , SaleStandardCurrency = ( SELECT TOP 1 ShortName FROM   CurrencyType WHERE  CurrencyType.ID = D.SaleStandardCurrency ) , D.SalePrice , D.OtherFee , D.OtherFeeRemark , IsCustomerPay = CASE D.IsCustomerPay WHEN 1 THEN '是' ELSE '否' END , AvailFlag = CASE D.AvailFlag WHEN 1 THEN '是' ELSE '否' END , ShipmentDate = CONVERT(VARCHAR(10), D.ShipmentDate, 120) , CustomerInStockDate = CONVERT(VARCHAR(10), D.CustomerInStockDate, 120) , CreateTime = CONVERT(VARCHAR(20), D.CreateTime, 120) , UpdateTime = CONVERT(VARCHAR(20), D.UpdateTime, 120) ";
             //查询条件
@@ -595,7 +595,7 @@ namespace Semitron_OMS.DAL.OMS
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from CustomerOrderDetail");
-            strSql.Append(" where InnerOrderNO=@InnerOrderNO AND CPN=@CPN");
+            strSql.Append(" where InnerOrderNO=@InnerOrderNO AND CPN=@CPN AND AvailFlag=1");
             SqlParameter[] parameters = {
 					new SqlParameter("@InnerOrderNO", SqlDbType.VarChar,32),
                     new SqlParameter("@CPN", SqlDbType.VarChar,32)

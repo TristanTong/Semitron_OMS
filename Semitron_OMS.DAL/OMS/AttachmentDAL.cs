@@ -375,8 +375,8 @@ namespace Semitron_OMS.DAL.OMS
         public bool BatchSaveFiles(string strObjType, string strObjId, string strFilePaths, string strUserName)
         {
             SqlParameter[] parameters = {
-					new SqlParameter("@ObjType", SqlDbType.VarChar,16),
-                    new SqlParameter("@ObjId", SqlDbType.VarChar,16),
+					new SqlParameter("@ObjType", SqlDbType.NVarChar,64),
+                    new SqlParameter("@ObjId", SqlDbType.VarChar,128),
                     new SqlParameter("@FilePaths", SqlDbType.NVarChar),
                     new SqlParameter("@CreateUser", SqlDbType.VarChar,16)
 			};
@@ -385,9 +385,36 @@ namespace Semitron_OMS.DAL.OMS
             parameters[2].Value = strFilePaths;
             parameters[3].Value = strUserName;
             int rowsAffected = 0;
-            return DbHelperSQL.RunProcedure(ConstantValue.ProcedureNames.AttachmentBatchSaveFiles, parameters, out rowsAffected) >=0 ? true : false;
+            return DbHelperSQL.RunProcedure(ConstantValue.ProcedureNames.AttachmentBatchSaveFiles, parameters, out rowsAffected) >= 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 根据附件地址删除附件
+        /// </summary>
+        /// <param name="strUrl"></param>
+        /// <returns></returns>
+        public bool DeleteByUrl(string strUrl)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("Update Attachment set AvailFlag=0");
+            strSql.Append(" where UrlPath=@UrlPath");
+            SqlParameter[] parameters = {
+					new SqlParameter("@UrlPath", SqlDbType.NVarChar)
+			};
+            parameters[0].Value = strUrl;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion  ExtensionMethod
+
     }
 }
 

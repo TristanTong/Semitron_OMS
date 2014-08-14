@@ -445,6 +445,14 @@ namespace Semitron_OMS.Common
                 /// 计费明细财务附件
                 /// </summary>
                 public const string OrderFee = "OrderFee";
+                /// <summary>
+                /// 付款计划附件
+                /// </summary>
+                public const string PaymentPlanFilePath = "PaymentPlanFilePath";
+                /// <summary>
+                /// 收款计划附件
+                /// </summary>
+                public const string GatheringPlanFilePath = "GatheringPlanFilePath";
             }
             #endregion ColumnValues
         }

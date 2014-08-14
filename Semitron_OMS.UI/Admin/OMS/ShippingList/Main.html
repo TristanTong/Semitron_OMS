@@ -143,7 +143,7 @@
             var id = obj[0][1];
             $("#hidSeletedShippingListId").val(id);
 
-            alertMsg.confirm("审核出库单后，出库单不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
+            alertMsg.confirm("审核出库单后，出库单不能再被修改，对应的产品库存数会减少。请通知财务对客户订单核算！", {
                 okCall: function () {
                     var url = "/Handle/OMS/ShippingListHandle.ashx";
                     var data = { "meth": "ApproveShippingList", "EntryId": id };

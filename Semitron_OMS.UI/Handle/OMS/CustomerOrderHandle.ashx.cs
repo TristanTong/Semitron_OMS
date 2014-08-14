@@ -294,7 +294,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                     string strFileUrl = DataUtility.GetPageFormValue(_request.Form["AttachmentFiles"], string.Empty).TrimEnd('|');
                     if (!new BLL.OMS.AttachmentBLL().BatchSaveFiles(strFilePath,
                         ConstantValue.TableAttachment.ColumnObjType.CustomerOrder,
-                        model.CustomerOrderNO, strFileUrl, _adminModel.Username))
+                        model.ID.ToString(), strFileUrl, _adminModel.Username))
                     {
                         result.Info += "但保存上传附件失败，请重新上传。";
                     }
@@ -351,7 +351,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                     string strFileUrl = DataUtility.GetPageFormValue(_request.Form["AttachmentFiles"], string.Empty).TrimEnd('|');
                     if (!new BLL.OMS.AttachmentBLL().BatchSaveFiles(strFilePath,
                         ConstantValue.TableAttachment.ColumnObjType.CustomerOrder,
-                        model.CustomerOrderNO, strFileUrl, _adminModel.Username))
+                        model.ID.ToString(), strFileUrl, _adminModel.Username))
                     {
                         result.Info += "但保存上传附件失败，请重新上传。";
                     }
@@ -428,7 +428,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
                 strResult = strResult.Substring(0, strResult.Length - 1) + ",\"AttachmentFiles\":\""
                     + new BLL.OMS.AttachmentBLL().GetUrlListByObj(ConstantValue.TableAttachment.ColumnObjType.CustomerOrder,
-                    model.CustomerOrderNO).Replace('/', '*') + "\"}";
+                    model.ID.ToString()).Replace('/', '*') + "\"}";
                 return strResult;
             }
             catch (Exception ex)

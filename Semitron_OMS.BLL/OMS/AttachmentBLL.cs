@@ -205,7 +205,7 @@ namespace Semitron_OMS.BLL.OMS
         public string GetUrlListByObj(string strObjType, string strObjId)
         {
             string strUrlPaths = string.Empty;
-            DataSet ds = dal.GetList("AvailFlag=1 AND ObjType='" + strObjType + "' AND ObjId='" + strObjId + "'");
+            DataSet ds = dal.GetList("AvailFlag=1 AND ObjType='" + strObjType + "' AND ObjId IN (SELECT value FROM dbo.SplitToTable('" + strObjId + "',','))");
             if (ds.IsExsitData())
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -213,7 +213,58 @@ namespace Semitron_OMS.BLL.OMS
             }
             return strUrlPaths.TrimEnd('|');
         }
+
+        /// <summary>
+        /// 获取附件Html
+        /// </summary>
+        public string GetAttachmentHtml(string strObjType, string strIds, string strFileServerUrl)
+        {
+            string strUrlPath = this.GetUrlListByObj(strObjType, strIds);
+            string[] arrUrlPath = strUrlPath.Split('|');
+            string strHtml = string.Empty;
+            foreach (string strUrl in arrUrlPath)
+            {
+                int index = strUrl.LastIndexOf("/");
+                string strImageUrl = strUrl;
+                if (strUrl.EndsWith(".txt"))
+                {
+                    strImageUrl = strFileServerUrl + "Icon/" + "txtIcon.jpg";
+                }
+                else if (strUrl.EndsWith(".pdf"))
+                {
+                    strImageUrl = strFileServerUrl + "Icon/" + "pdfIcon.jpg";
+                }
+                else if (strUrl.EndsWith(".doc") || strUrl.EndsWith(".docx"))
+                {
+                    strImageUrl = strFileServerUrl + "Icon/" + "docIcon.jpg";
+                }
+                else if (strUrl.EndsWith(".xls") || strUrl.EndsWith(".xlsx"))
+                {
+                    strImageUrl = strFileServerUrl + "Icon/" + "excelIcon.jpg";
+                }
+                strHtml += "<div style=\"width: 200px; height: 150px; padding: 20px 10px 10px  10px; float: left; text-align: center;\"> <a href=\"" + strUrl + "\" target=\"_blank\"><img alt=\"\" src=\""
+                    + strImageUrl + "\" style=\"width: 200px; height: 150px;\" />"
+                    + strUrl.Substring((index > -1 ? (index + 1) : 0)) + "</a><div class=\"cancelFile\"><a onclick=\"DeleteAttach('" + strUrl.Replace("/", "*").Trim() + "')\"><img src=\"/Scripts/jquery.uploadify-v2.1.0/cancel.png\" border=\"0\"></a></div></div>";
+            }
+            return strHtml;
+        }
+
+        /// <summary>
+        /// 验证并删除附件
+        /// </summary>
+        /// <param name="strUrl">地址url</param>
+        /// <returns>操作结果</returns>
+        public string ValidateAndDelAttachment(string strUrl)
+        {
+            string strResult = "OK";
+            if (!dal.DeleteByUrl(strUrl))
+            {
+                strResult = "删除附件失败！";
+            }
+            return strResult;
+        }
         #endregion  ExtensionMethod
+
     }
 }
 

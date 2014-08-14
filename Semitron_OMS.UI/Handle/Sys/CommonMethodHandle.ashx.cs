@@ -81,9 +81,20 @@ namespace Semitron_OMS.UI.Handle.Sys
                     context.Response.ContentType = "text/plain";
                     context.Response.Charset = "utf-8";
                     string[] strArrTemp = methStr.Split('$');
-                    string strResult = UploadifySaveFile(context);
+                    string strUploadPath = string.Empty;//记录上传成功后文件的完整目录
+                    string strResult = UploadifySaveFile(context, ref strUploadPath);
                     if (strArrTemp.Length == 2 && strArrTemp[1].Trim().ToLower().EndsWith("true"))
                     {
+                        //是否直接保存至数据据表Attachment
+                        string strToDatabaseDirectly = "false";
+                        if (context.Request["ToDatabaseDirect"] != null)
+                        {
+                            strToDatabaseDirectly = context.Request["ToDatabaseDirect"].ToString().Trim();
+                            if (strToDatabaseDirectly == "true")
+                            {
+                                strResult = SaveDatabaseDirectly(context, strUploadPath);
+                            }
+                        }
                         //控制上传控件文件完成后是否自动从列表中消失
                         context.Response.Write(strResult);
                     }
@@ -258,7 +269,7 @@ namespace Semitron_OMS.UI.Handle.Sys
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private string UploadifySaveFile(HttpContext context)
+        private string UploadifySaveFile(HttpContext context, ref string strUploadPath)
         {
             #region 以下代码已移到AppFileManage.cs中进行处理
             //HttpPostedFile file = context.Request.Files["Filedata"];
@@ -359,7 +370,60 @@ namespace Semitron_OMS.UI.Handle.Sys
             //}
             #endregion
 
-            return AppFileManage.CreateInstance.UploadAppTempFile(context);
+            return AppFileManage.CreateInstance.UploadAppTempFile(context, ref strUploadPath);
+        }
+
+        /// <summary>
+        /// 直接保存附件至数据库
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="strUploadPath">保存成功的文件完整路径</param>
+        /// <returns></returns>
+        private string SaveDatabaseDirectly(HttpContext context, string strUploadPath)
+        {
+            string strResult = "1";
+            string strFilePath = context.Server.MapPath("../..");
+            string strFileUrl = CommonMethods.GetUrlByPhysical(strUploadPath.Replace(strFilePath, ""));
+
+            //文件对象类型
+            string strFileType = string.Empty;
+            if (context.Request["FileType"] != null)
+            {
+                strFileType = context.Request["FileType"].ToString().Trim();
+            }
+            //文件对象Id
+            string strObjId = string.Empty;
+            if (context.Request["ObjId"] != null)
+            {
+                strObjId = context.Request["ObjId"].ToString().Trim();
+            }
+
+            if (strFileType == string.Empty || strObjId == string.Empty)
+            {
+                strResult = "0";
+                return strResult;
+            }
+
+            if (!new BLL.OMS.AttachmentBLL().BatchSaveFiles(strFilePath,
+                strFileType,
+                strObjId, strFileUrl, _adminModel.Username))
+            {
+                strResult = "0";
+            }
+            else
+            {
+                //从会话中清空此上传的附件地址
+                if (context.Session[ConstantValue.SessionKeys.UploadifyFilePath] != null)
+                {
+                    List<string> lstFilePath = (List<string>)context.Session[ConstantValue.SessionKeys.UploadifyFilePath];
+                    if (lstFilePath != null && lstFilePath.Count > 0)
+                    {
+                        lstFilePath.Remove(strUploadPath);
+                        context.Session[ConstantValue.SessionKeys.UploadifyFilePath] = lstFilePath;
+                    }
+                }
+            }
+            return strResult;
         }
 
         /// <summary>

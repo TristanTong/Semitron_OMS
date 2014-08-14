@@ -21,6 +21,7 @@
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
                     { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
+                    { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
                     { display: '付款计划时间', name: 'PaymentPlanDate', width: 70, sortable: true, align: 'center' },
                     { display: '公司法人 ', name: 'CorporationID', width: 170, sortable: true, align: 'left' },
                     { display: '采购订单号 ', name: 'PONO', width: 100, sortable: true, align: 'left' },
@@ -87,6 +88,25 @@
 
             return false;
         });
+        //上传附件
+        $("#btnAddPaymentPlanAttachment").click(function () {
+            var obj = GetSelectedRow("FlexigridTablePaymentPlan", "付款计划");
+            if (!obj) {
+                $("#btnAddPaymentPlanAttachment").attr("href", "/Admin/FM/PaymentPlan/Upload.html?PaymentPlanId={PaymentPlanId}");
+                return false;
+            }
+
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前付款计划记录已无效，无法完成此操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#btnAddPaymentPlanAttachment").attr("href", "/Admin/FM/PaymentPlan/Upload.html?PaymentPlanId=" + id);
+            $("#hidSeletedPaymentPlanId").val(id);
+
+            return false;
+        });
+
         //删除
         $("#btnDeletePaymentPlan").click(function () {
             var obj = GetSelectedRow("FlexigridTablePaymentPlan", "付款计划");
@@ -102,46 +122,30 @@
             return false;
         });
 
-        //审核付款计划
-        //$("#btnApprovePaymentPlan").click(function () {
-        //    var obj = GetSelectedRow("FlexigridTablePaymentPlan", "付款计划");
-        //    if (!obj) {
-        //        return false;
-        //    }
-        //    if (obj[0][2] == "无效") {
-        //        artDialog.tips("所选付款计划已无效，无法完成此操作。");
-        //        return false;
-        //    }
-        //    if (obj[0][4] == "已审核") {
-        //        artDialog.tips("所选付款计划已审核，请勿重复操作。");
-        //        return false;
-        //    }
-        //    var id = obj[0][1];
-        //    $("#hidSeletedPaymentPlanId").val(id);
+        $("#divPaymentPlanContent div button[name='btnSearchAttach']").click(function () {
+            var PONO = $("#divPaymentPlanContent div input[name='PONO']").val();
+            $("#divPaymentPlanContent div[class='attachment']").html("");
 
-        //    alertMsg.confirm("审核付款计划后，付款计划不能再被修改，对应的产品库存数会增加。请通知业务员对客户订单进行出货！", {
-        //        okCall: function () {
-        //            var url = "/Handle/FM/PaymentPlanHandle.ashx";
-        //            var data = { "meth": "ApprovePaymentPlan", "EntryId": id };
-        //            var successFun = function (json) {
-        //                if (json.State == "0") {
-        //                    alertMsg.error(json.Info);
-        //                    return false;
-        //                } else {
-        //                    //刷新表格
-        //                    alertMsg.correct(json.Info);
-        //                    $("#FlexigridTablePaymentPlan").flexReload();
-        //                    return true;
-        //                }
-        //            };
-        //            var errorFun = function (x, e) {
-        //                alertMsg.error(x.responseText);
-        //            };
-        //            JsAjax(url, data, successFun, errorFun);
-        //        }
-        //    });
-        //    return false;
-        //});
+            $.ajax({
+                url: "/Handle/FM/PaymentPlanHandle.ashx",
+                type: "POST",
+                dataType: "html",
+                data: { "meth": "GetPaymentPlanAttachmentHtml", "PONO": PONO },
+                success: function (htmlData) {
+                    if (htmlData.indexOf("\"State\":\"0\"") > -1) {
+                        var json = JSON.parse(htmlData);
+                        alertMsg.error(json.Info);
+                        return false;
+                    }
+
+                    $("#divPaymentPlanContent div[class='attachment']").html(htmlData);
+                    return true;
+                }
+            });
+
+            return false;
+        });
+
     });
 </script>
 <script type="text/javascript">
@@ -197,15 +201,43 @@
             }
         });
     }
+
+    //删除附件
+    function DeleteAttach(strUrl) {
+        alertMsg.confirm("付款计划附件删除后将无法恢复，你确认要删除吗？", {
+            okCall: function () {
+                //strUrl.replace(/\*/g, "/");
+                //调用删除付款计划方法
+                var url = "/Handle/Common/AttachmentHandle.ashx";
+                var data = { "meth": "DelAttachment", "Url": strUrl };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        return false;
+                    } else {
+                        //刷新表格
+                        alertMsg.correct(json.Info);
+                        $("#divPaymentPlanContent div button[name='btnSearchAttach']").click();
+                        $("#FlexigridTablePaymentPlan").flexReload();
+                        return true;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alertMsg.error(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            }
+        });
+    }
 </script>
 
 <div class="pageHeader">
     <div class="searchBar">
         <ul class="searchContent" id="ulSearchPaymentPlan">
-            <li style="width: 180px">
+            <li style="width: 210px">
                 <div style="float: left;">采购订单号：</div>
                 <div style="float: left;">
-                    <input style="width: 80px;" name="PONO" class="txt" maxlength="64" />m
+                    <input style="width: 110px;" name="PONO" class="txt" maxlength="64" />m
                 </div>
             </li>
             <li style="width: 180px">
@@ -250,7 +282,7 @@
                         <button type="submit" id="btnSearchPaymentPlan">检索</button>
                     </div>
                 </div>
-                <a class="button" href="/Admin/FM/PaymentPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索付款计划)"><span>高级检索</span></a>
+                <a class="button" href="/Admin/FM/PaymentPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="付款计划(高级检索查询框)"><span>高级检索</span></a>
             </li>
         </ul>
     </div>
@@ -264,8 +296,9 @@
             <li><a class="edit" href="/Admin/FM/PaymentPlan/Edit.html?PaymentPlanId={PaymentPlanId}" rel="editPaymentPlan" target="navTab" id="btnEditPaymentPlan"><span>修改付款计划</span></a></li>
             <li class="line">line</li>
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeletePaymentPlan"><span>删除付款计划</span></a></li>
-            <!-- <li class="line">line</li>
-            <li><a class="icon" href="javascript:;" title="要审核所选付款计划吗?" id="btnApprovePaymentPlan"><span>审核付款计划</span></a></li>-->
+            <li class="line">line</li>
+            <li><a class="add" href="/Admin/FM/PaymentPlan/Upload.html?PaymentPlanId={PaymentPlanId}" target="dialog" rel="addPaymentPlanAttachment" id="btnAddPaymentPlanAttachment" title="付款计划上传附件" width="645" height="370"><span>上传附件</span></a></li>
+            <!--<li><a class="icon" href="javascript:;" title="要审核所选付款计划吗?" id="btnApprovePaymentPlan"><span>审核付款计划</span></a></li>-->
             <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
         </ul>
     </div>
@@ -282,10 +315,27 @@
             <div inited="1000" style="display: block;">
                 <table id="FlexigridTablePaymentPlan" style="display: none"></table>
             </div>
+            <div style="display: none;">
+                <div style="width: 100%; float: left;">
+                    <div style="float: left;">采购订单号：</div>
+                    <div style="float: left;">
+                        <input style="width: 120px;" name="PONO" class="txt" maxlength="64" />
+                    </div>
+                    <div style="float: left;">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" name="btnSearchAttach">检索</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; float: left;" class="attachment">
+                </div>
+            </div>
         </div>
         <div class="tabsFooter">
             <div class="tabsFooterContent"></div>
         </div>
+
     </div>
 </div>
-
