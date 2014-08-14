@@ -22,6 +22,7 @@
                     { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
                     { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
+                    { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
                     { display: '收款计划时间', name: 'GatheringPlanDate', width: 70, sortable: true, align: 'center' },
                     { display: '回款日期', name: 'FeeBackDate', width: 60, sortable: true, align: 'center' },
                     { display: '公司法人 ', name: 'CorporationID', width: 170, sortable: true, align: 'left' },
@@ -102,7 +103,48 @@
             DelGatheringPlan(id);
             return false;
         });
+        //上传附件
+        $("#btnAddGatheringPlanAttachment").click(function () {
+            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "付款计划");
+            if (!obj) {
+                $("#btnAddGatheringPlanAttachment").attr("href", "/Admin/FM/GatheringPlan/Upload.html?GatheringPlanId={GatheringPlanId}");
+                return false;
+            }
 
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前付款计划记录已无效，无法完成此操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#btnAddGatheringPlanAttachment").attr("href", "/Admin/FM/GatheringPlan/Upload.html?GatheringPlanId=" + id);
+            $("#hidSeletedGatheringPlanId").val(id);
+
+            return false;
+        });
+
+        $("#divGatheringPlanContent div button[name='btnSearchAttach']").click(function () {
+            var InnerOrderNO = $("#divGatheringPlanContent div input[name='InnerOrderNO']").val();
+            $("#divGatheringPlanContent div[class='attachment']").html("");
+
+            $.ajax({
+                url: "/Handle/FM/GatheringPlanHandle.ashx",
+                type: "POST",
+                dataType: "html",
+                data: { "meth": "GetGatheringPlanAttachmentHtml", "InnerOrderNO": InnerOrderNO },
+                success: function (htmlData) {
+                    if (htmlData.indexOf("\"State\":\"0\"") > -1) {
+                        var json = JSON.parse(htmlData);
+                        alertMsg.error(json.Info);
+                        return false;
+                    }
+
+                    $("#divGatheringPlanContent div[class='attachment']").html(htmlData);
+                    return true;
+                }
+            });
+
+            return false;
+        });
     });
 </script>
 <script type="text/javascript">
@@ -147,6 +189,34 @@
                     } else {
                         //刷新表格
                         alertMsg.correct(json.Info);
+                        $("#FlexigridTableGatheringPlan").flexReload();
+                        return true;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alertMsg.error(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            }
+        });
+    }
+
+    //删除附件
+    function DeleteAttach(strUrl) {
+        alertMsg.confirm("付款计划附件删除后将无法恢复，你确认要删除吗？", {
+            okCall: function () {
+                //strUrl.replace(/\*/g, "/");
+                //调用删除付款计划方法
+                var url = "/Handle/Common/AttachmentHandle.ashx";
+                var data = { "meth": "DelAttachment", "Url": strUrl };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        return false;
+                    } else {
+                        //刷新表格
+                        alertMsg.correct(json.Info);
+                        $("#divGatheringPlanContent div button[name='btnSearchAttach']").click();
                         $("#FlexigridTableGatheringPlan").flexReload();
                         return true;
                     }
@@ -226,6 +296,8 @@
             <li><a class="edit" href="/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}" rel="editGatheringPlan" target="navTab" id="btnEditGatheringPlan"><span>修改收款计划</span></a></li>
             <li class="line">line</li>
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteGatheringPlan"><span>删除收款计划</span></a></li>
+            <li class="line">line</li>
+            <li><a class="add" href="/Admin/FM/GatheringPlan/Upload.html?GatheringPlanId={GatheringPlanId}" target="dialog" rel="addGatheringPlanAttachment" id="btnAddGatheringPlanAttachment" title="收款计划上传附件" width="645" height="370"><span>上传附件</span></a></li>
             <!-- <li class="line">line</li>
            <li><a class="icon" href="javascript:;" title="要审核所选收款计划吗?" id="btnApproveGatheringPlan"><span>审核收款计划</span></a></li>-->
             <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
@@ -244,6 +316,23 @@
             <div inited="1000" style="display: block;">
                 <!--<div style="width: 150px; border: 1px gray solid; float: right"><span>显示附件</span></div>-->
                 <table id="FlexigridTableGatheringPlan" style="display: none;"></table>
+            </div>
+            <div style="display: none;">
+                <div style="width: 100%; float: left;">
+                    <div style="float: left;">内部订单号：</div>
+                    <div style="float: left;">
+                        <input style="width: 120px;" name="InnerOrderNO" class="txt" maxlength="64" />
+                    </div>
+                    <div style="float: left;">
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button type="submit" name="btnSearchAttach">检索</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%; float: left;" class="attachment">
+                </div>
             </div>
         </div>
         <div class="tabsFooter">

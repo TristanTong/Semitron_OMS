@@ -89,8 +89,10 @@
     <Content Include="Admin\CRM\SupplierManager.aspx" />
     <Content Include="Admin\FM\GatheringPlan\Edit.html" />
     <Content Include="Admin\FM\GatheringPlan\Main.html" />
+    <Content Include="Admin\FM\GatheringPlan\Upload.html" />
     <Content Include="Admin\FM\PaymentPlan\Edit.html" />
     <Content Include="Admin\FM\PaymentPlan\Main.html" />
+    <Content Include="Admin\FM\PaymentPlan\Upload.html" />
     <Content Include="Admin\Images\bgItem.png" />
     <Content Include="Admin\Images\btn_bg.gif" />
     <Content Include="Admin\Images\butClose.gif" />
@@ -228,8 +230,10 @@
     <Content Include="Images\cpnt2.gif" />
     <Content Include="Images\detailtitle.jpg" />
     <Content Include="Images\dhico.gif" />
+    <Content Include="file_system\Icon\docIcon.jpg" />
     <Content Include="Images\enico.gif" />
     <Content Include="Images\errmsg.jpg" />
+    <Content Include="file_system\Icon\excelIcon.jpg" />
     <Content Include="Images\fangda.gif" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Images\ico.gif" />
@@ -246,6 +250,7 @@
     <Content Include="Images\nav_hover.gif" />
     <Content Include="Images\niYrsonBEx.jpg" />
     <Content Include="Images\part_search_bg.jpg" />
+    <Content Include="file_system\Icon\pdfIcon.jpg" />
     <Content Include="Images\pic_65.gif" />
     <Content Include="Images\pic_66.gif" />
     <Content Include="Images\product_bg.jpg" />
@@ -261,6 +266,7 @@
     <Content Include="Images\subtb_02.jpg" />
     <Content Include="Images\subtb_03.jpg" />
     <Content Include="Images\topbg.gif" />
+    <Content Include="file_system\Icon\txtIcon.jpg" />
     <Content Include="Images\xia.gif" />
     <Content Include="Images\xzb_main.png" />
     <Content Include="index.html" />
@@ -345,6 +351,7 @@
     <Content Include="jui\sortDrag\form.html" />
     <Content Include="jui\w_dialog.html" />
     <Content Include="jui\w_removeSelected.html" />
+    <Content Include="jui\w_uploadify.html" />
     <Content Include="jui\w_validation.html" />
     <Content Include="login_dialog.html" />
     <Content Include="main.html" />
@@ -1504,6 +1511,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handle\Common\AttachmentHandle.ashx.cs">
+      <DependentUpon>AttachmentHandle.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handle\Common\ProductInfoHandle.ashx.cs">
       <DependentUpon>ProductInfoHandle.ashx</DependentUpon>
     </Compile>
@@ -1656,6 +1666,7 @@
     <Content Include="Handle\FM\PaymentPlanHandle.ashx" />
     <Content Include="Handle\FM\GatheringPlanHandle.ashx" />
     <Content Include="file_system\Doc\OMS状态图.pdf" />
+    <Content Include="Handle\Common\AttachmentHandle.ashx" />
     <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />

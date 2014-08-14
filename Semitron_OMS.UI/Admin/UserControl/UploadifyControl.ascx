@@ -63,7 +63,7 @@
         var queueSizeLimit = 999; //单次上传的文件个数 
         var folder = '/Upload'; //上传文件夹
         var isAutoDisappear = false; //完成后是否自动消失
-        var sizeLimit = 1048576 * 5; //5M 上传文件的大小限制
+        var sizeLimit = 1048576 * 1000; //5M 上传文件的大小限制
 
         //根据控件属性设定值设定Js变量
         var settingChangeParams = $("#<%=hfSettingChangeParams.ClientID%>").val();

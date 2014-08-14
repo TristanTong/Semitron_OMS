@@ -99,6 +99,7 @@
                   { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
 	    				{ display: '采购订单号', name: 'PONO', width: 100, sortable: true, align: 'center' },
                         { display: '状态', name: 'State', width: 100, sortable: true, align: 'center' },
+                        { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
                         { display: '产品编码', name: 'ProductCode', width: 70, sortable: true, align: 'left' },
 	    				{ display: '供应商', name: 'SupplierName', width: 160, sortable: true, align: 'left' },
                         { display: '客户型号', name: 'CPN', width: 140, sortable: true, align: 'left' },

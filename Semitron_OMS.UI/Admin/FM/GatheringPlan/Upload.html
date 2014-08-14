@@ -1,0 +1,70 @@
+﻿<!--<h2 class="contentTitle">付款计划附件上传</h2>-->
+
+<style type="text/css" media="screen">
+    .my-uploadify-button {
+        background: none;
+        border: none;
+        text-shadow: none;
+        border-radius: 0;
+    }
+
+    .uploadify:hover .my-uploadify-button {
+        background: none;
+        border: none;
+    }
+
+    .GatheringPlanFileQueue {
+        width: 400px;
+        height: 150px;
+        overflow: auto;
+        border: 1px solid #E5E5E5;
+        margin-bottom: 10px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        var id = $("#hidSeletedGatheringPlanId").val();
+        var strOption = "{"
+        + "swf:'uploadify/scripts/uploadify.swf',"
+        + "uploader:'/Handle/Sys/CommonMethodHandle.ashx',"
+        + "formData:{meth:'UploadifySaveFile$isAutoDisappear=true'"
+            + ",FileType:'GatheringPlanFilePath'"
+            + ",ToDatabaseDirect:'true'"
+            + ",IsMulti:'1'"
+            + ",ObjId:'" + id + "'},"
+        + "queueID:'GatheringPlanFileQueue',"
+        + "buttonImage:'uploadify/img/add.jpg',"
+        + "buttonClass:'my-uploadify-button',"
+        + "width:102,"
+        + "auto:false"
+        + "}";
+        $("#GatheringPlanFileInput").attr("uploaderoption", strOption);
+    });
+
+</script>
+<div class="pageContent" style="margin: 10px 10px" layouth="50">
+    <input id="GatheringPlanFileInput" type="file" name="Filedata"
+        uploaderoption="" />
+
+    <div id="GatheringPlanFileQueue" class="GatheringPlanFileQueue"></div>
+
+    <input type="image" src="uploadify/img/upload.jpg" onclick="$('#GatheringPlanFileInput').uploadify('upload', '*');" />
+    <input type="image" src="uploadify/img/cancel.jpg" onclick="$('#GatheringPlanFileInput').uploadify('cancel', '*');" />
+
+    <!--   <div class="divider"></div>
+    <textarea cols="60" rows="10">
+        选择与付款相关的附件文档上传.
+    </textarea>-->
+
+</div>
+<div class="formBar">
+    <ul>
+        <li>
+            <div class="button">
+                <div class="buttonContent">
+                    <button type="button" class="close">取消</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

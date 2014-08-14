@@ -99,6 +99,7 @@
                         { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
 	    				{ display: '是否有效', name: 'AvailFlag', width: 60, sortable: true, align: 'center' },
                         { display: '公司抬头', name: 'CompanyName', width: 180, sortable: true, align: 'left' },
+                        { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
                         { display: '客户是否付款', name: 'IsCustomerPay', width: 80, sortable: true, align: 'center' },
                         { display: '是否对客户开增票', name: 'IsCustomerVATInvoice', width: 100, sortable: true, align: 'center' },
                         { display: '客户名称', name: 'CustomerName', width: 160, sortable: true, align: 'left' },
@@ -397,7 +398,7 @@
                     if (type == "Download" || type == "Upload") {
                         //清除所有附件
                         $(".divAttachment").empty();
-                        var urlPaths = json.AttachmentFiles.replace(/\*/g, "/");
+                        var urlPaths = json.AttachmentFiles.replace(/\*/g, "/"); 
                         $(".divAttachment").append(GetFileDivHtml(urlPaths));
                         if (type == "Download") {
                             $(".cancelFile").hide();
@@ -858,8 +859,8 @@
                     <%--<asp:Button runat="server" Text="新增" CssClass="btnHigh" ID="btnAdd" />--%>
                     <asp:Button runat="server" Text="编辑" CssClass="btnHigh" ID="btnEdit" />
                     <%--<asp:Button runat="server" Text="删除" CssClass="btnHigh" ID="btnDel" />--%>
-                    <asp:Button runat="server" Text="上传财务附件" CssClass="btnHigh" ID="btnUpload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />
-                    <asp:Button runat="server" Text="下载财务附件" CssClass="btnHigh" ID="btnDownload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />
+                    <asp:Button runat="server" Text="上传附件" CssClass="btnHigh" ID="btnUpload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />
+                    <asp:Button runat="server" Text="下载附件" CssClass="btnHigh" ID="btnDownload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />
                     <asp:Button runat="server" Text="查看" CssClass="btnHigh" ID="btnView" />
                 </div>
                 <div style="float: right; width: 46px; padding: 10px 5px 5px 5px;">

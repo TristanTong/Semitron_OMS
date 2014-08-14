@@ -460,9 +460,9 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetCustomerOrderPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
         {
             //查询表名
-            string strTableName = " dbo.CustomerOrder AS C LEFT JOIN dbo.PaymentType AS P ON C.PaymentTypeID = P.ID LEFT JOIN dbo.Customer AS T ON C.CustomerID = T.ID LEFT JOIN  dbo.Corporation AS M ON M.ID=C.CorporationID LEFT JOIN CommonTable AS CT ON CT.TableName='CustomerOrder' AND CT.FieldID='State' AND CT.[KEY]=C.STATE LEFT JOIN Admin AS A1 ON A1.AdminID=C.AssignToInnerBuyer";
+            string strTableName = " dbo.CustomerOrder AS C LEFT JOIN dbo.PaymentType AS P ON C.PaymentTypeID = P.ID LEFT JOIN dbo.Customer AS T ON C.CustomerID = T.ID LEFT JOIN  dbo.Corporation AS M ON M.ID=C.CorporationID LEFT JOIN CommonTable AS CT ON CT.TableName='CustomerOrder' AND CT.FieldID='State' AND CT.[KEY]=C.STATE LEFT JOIN Admin AS A1 ON A1.AdminID=C.AssignToInnerBuyer  LEFT JOIN (SELECT  ObjId ,FileNum = COUNT(1) FROM dbo.Attachment WITH ( NOLOCK ) WHERE ObjType = 'CustomerOrder' AND AvailFlag = 1 GROUP BY ObjId) AS A ON A.ObjId=C.ID";
             //查询字段
-            string strGetFields = " C.ID ,C.InnerOrderNO ,C.CustomerOrderNO ,CustomerName = T.CustomerName , CustOrderDate =Convert(varchar(20),C.CustOrderDate,120),C.CustomerBuyer ,M.CompanyName,C.InnerSalesMan ,AssignToInnerBuyer=A1.Name, PaymentType = P.PaymentType  ,ShipmentDate=( SELECT TOP 1 Convert(varchar(20),D.ShipmentDate,120) FROM CustomerOrderDetail AS D WHERE D.InnerOrderNO=C.InnerOrderNO) ,State=CT.Value ,CreateTime=Convert(varchar(20),C.CreateTime,120) ,UpdateTime=Convert(varchar(20),C.UpdateTime,120) ";
+            string strGetFields = " C.ID ,C.InnerOrderNO ,C.CustomerOrderNO ,CustomerName = T.CustomerName , CustOrderDate =Convert(varchar(20),C.CustOrderDate,120),C.CustomerBuyer ,M.CompanyName,C.InnerSalesMan ,AssignToInnerBuyer=A1.Name, PaymentType = P.PaymentType  ,ShipmentDate=( SELECT TOP 1 Convert(varchar(20),D.ShipmentDate,120) FROM CustomerOrderDetail AS D WHERE D.InnerOrderNO=C.InnerOrderNO) ,State=CT.Value ,CreateTime=Convert(varchar(20),C.CreateTime,120) ,UpdateTime=Convert(varchar(20),C.UpdateTime,120),FileNum=ISNULL(A.FileNum,0)";
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询
@@ -603,7 +603,6 @@ namespace Semitron_OMS.DAL.OMS
             DbHelperSQL.RunProcedure(ConstantValue.ProcedureNames.ConfirmFirst, parameters, out rowsAffected);
             return parameters[3].Value.ToString();
         }
-        #endregion  ExtensionMethod
 
         /// <summary>
         /// 根据客户产品清单明细ID设定字段各项值
@@ -627,6 +626,7 @@ namespace Semitron_OMS.DAL.OMS
 
             return DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
         }
+        #endregion  ExtensionMethod
     }
 }
 
