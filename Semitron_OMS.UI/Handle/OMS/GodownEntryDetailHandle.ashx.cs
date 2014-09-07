@@ -61,9 +61,39 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "EditGodownEntryDetail":
                         context.Response.Write(EditGodownEntryDetail());
                         break;
+                    //获取入库单查找明细，得历史入库单价
+                    case "GetGodownEntryDetailLookupList":
+                        context.Response.Write(GetGodownEntryDetailLookupList());
+                        break;
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获取入库单查找明细，得历史入库单价
+        /// </summary>
+        private string GetGodownEntryDetailLookupList()
+        {
+            //SQL条件过滤器集合
+            List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("CustomerOrderDetailId", _request.Form["CustomerOrderDetailId"], ConditionEnm.None));
+            string strQueryType = DataUtility.GetPageFormValue(_request.Form["QueryType"], string.Empty);
+
+            PageResult result = new PageResult();
+            try
+            {
+                List<GodownEntryDetailLookupModel> listModel = new List<GodownEntryDetailLookupModel>();
+                listModel = this._bllGodownEntryDetail.GetGodownEntryDetailLookupList(lstFilter, strQueryType);
+                return JsonConvert.SerializeObject(listModel, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "获取历史入库单价列表出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取历史入库单价列表出现异常：" + ex.Message, ex);
+            }
+            return result.ToString();
         }
 
         /// <summary>

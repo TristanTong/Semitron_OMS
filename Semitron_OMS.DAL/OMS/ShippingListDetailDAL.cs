@@ -468,6 +468,23 @@ namespace Semitron_OMS.DAL.OMS
                 SQLStringList.Add(strSql, parameters);
             }
             DbHelperSQL.ExecuteSqlTran(SQLStringList);
+
+            foreach (Model.OMS.ShippingListDetailModel model in lstShippingListDetailModel)
+            {
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("UPDATE O SET State=135,UpdateTime=GETDATE(),UpdateUser=@UpdateUser FROM dbo.ShippingListDetail AS SLD WITH(NOLOCK) INNER JOIN dbo.ShippingPlanDetail AS SPD WITH(NOLOCK) ON SPD.ID=SLD.ShippingPlanDetailID INNER JOIN dbo.CustomerOrderDetail AS COD WITH(NOLOCK) ON COD.ID=SPD.CustomerDetailID INNER JOIN dbo.CustomerOrder AS O WITH(NOLOCK) ON O.InnerOrderNO=COD.InnerOrderNO WHERE SLD.AvailFlag=1 AND SPD.AvailFlag=1 AND COD.AvailFlag=1 AND SLD.ShippingPlanDetailID=@ShippingPlanDetailID AND SLD.ShippingListID=@ShippingListID AND O.State NOT IN (-100,140)");
+
+                SqlParameter[] parameters = new SqlParameter[] { 
+                    new SqlParameter("@UpdateUser", SqlDbType.NVarChar, 50), 
+                    new SqlParameter("@ShippingListID", SqlDbType.Int, 4),
+                    new SqlParameter("@ShippingPlanDetailID", SqlDbType.Int,4)};
+                parameters[0].Value = model.CreateUser;
+                parameters[1].Value = model.ShippingListID;
+                parameters[2].Value = model.ShippingPlanDetailID;
+                SQLStringList.Add(strSql, parameters);
+            }
+
+            DbHelperSQL.ExecuteSqlTran(SQLStringList);
         }
 
         /// <summary>
@@ -479,9 +496,9 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetShippingListDetailPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
         {
             //查询表名
-            string strTableName = " dbo.ShippingListDetail AS D WITH(NOLOCK) LEFT JOIN ShippingList AS G WITH(NOLOCK) ON D.ShippingListId=G.ID LEFT JOIN ShippingPlanDetail AS P WITH(NOLOCK) ON D.ShippingPlanDetailID=P.ID LEFT JOIN ShippingPlan AS S WITH(NOLOCK) ON P.ShippingPlanID=S.ID JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUserID ";
+            string strTableName = " dbo.ShippingListDetail AS D WITH(NOLOCK) LEFT JOIN ShippingList AS G WITH(NOLOCK) ON D.ShippingListId=G.ID LEFT JOIN ShippingPlanDetail AS P WITH(NOLOCK) ON D.ShippingPlanDetailID=P.ID LEFT JOIN ShippingPlan AS S WITH(NOLOCK) ON P.ShippingPlanID=S.ID JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUserID LEFT JOIN dbo.CustomerOrder AS O WITH(NOLOCK) ON O.InnerOrderNO=P.InnerOrderNO LEFT JOIN dbo.Customer AS C WITH(NOLOCK) ON C.ID=O.CustomerID ";
             //查询字段
-            string strGetFields = " D.ID, AvailFlag=CASE WHEN D.AvailFlag=1 THEN '有效' ELSE '无效' END, G.ShippingListNo, D.ProductCode, D.OutQty, S.ShippingPlanNo , P.CPN, P.MPN,P.PlanQty,G.IsApproved,OutStockDate=Convert(varchar(20),G.OutStockDate,120),D.StockCode,ByHandUser=A1.UserName,ApprovedUser=A2.UserName,CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),D.CreateUser,D.UpdateUser ";
+            string strGetFields = " D.ID, AvailFlag=CASE WHEN D.AvailFlag=1 THEN '有效' ELSE '无效' END, G.ShippingListNo, D.ProductCode, D.OutQty, S.ShippingPlanNo , P.CPN, P.MPN,P.PlanQty,G.IsApproved,OutStockDate=Convert(varchar(20),G.OutStockDate,120),D.StockCode,ByHandUser=A1.UserName,ApprovedUser=A2.UserName,CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),D.CreateUser,D.UpdateUser,C.CustomerName,O.InnerOrderNO,O.CustomerOrderNO ";
             //查询条件
             string strWhere = Semitron_OMS.Common.SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询

@@ -219,6 +219,8 @@ namespace Semitron_OMS.Model.OMS
         public string SupplierName { get; set; }
 
         public string SupplierCode { get; set; }
+
+        public string CustomerName { get; set; }
     }
 }
 

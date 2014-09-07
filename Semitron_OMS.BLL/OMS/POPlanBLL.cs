@@ -292,6 +292,7 @@ namespace Semitron_OMS.BLL.OMS
                 model.POPlanId = dr["POPlanId"].ToInt();
                 model.PONo = dr["PONo"].ToString();
                 model.ProductCode = dr["ProductCode"].ToString();
+                model.InnerBuyer = dr["InnerBuyer"].ToString();
                 model.MPN = dr["MPN"].ToString();
                 model.POQuantity = dr["POQuantity"].ToInt();
                 model.BuyPrice = dr["BuyPrice"].ToDecimal();

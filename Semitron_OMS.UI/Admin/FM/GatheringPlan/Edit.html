@@ -14,6 +14,7 @@
             GetGatheringPlanById(id);
         }
 
+
         //计算标准价
         $("#divEditGatheringPlan .calBlur").blur(function () {
             //收款数量
@@ -50,17 +51,35 @@
             $("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
             //毛利润=收款标准售价总额-标准买货总金额
-            var POPrice = parseFloat($("#divEditGatheringPlan p input[name='POPrice']").val());
+            var POPrice = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_GodownEntryLookup.POPrice']").val());
             value = SalePrice * Qty - (POPrice * Qty);
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='GrossProfits']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //净利润=收款标准售价总额-标准买货总金额-其他物流费用
-            value = SalePrice * Qty - (POPrice * Qty) - parseFloat($("#divEditGatheringPlan p input[name='OtherFee']").val());
+            //运营费用USD 默认=付款标准总额（即标准买货总金额）×0.05
+            value = POPrice * Qty * 0.05;
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            $("#divEditGatheringPlan p input[name='OperatingFee']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //净利润=收款标准售价总额-标准买货总金额-招待费用USD-渠道费用USD-物流费用USD-运营费用USD
+            value = SalePrice * Qty - (POPrice * Qty)
+                - parseFloat($("#divEditGatheringPlan p input[name='OtherFee']").val())
+                - parseFloat($("#divEditGatheringPlan p input[name='ChannelFee']").val())
+                - parseFloat($("#divEditGatheringPlan p input[name='LogisticsFee']").val())
+                - parseFloat($("#divEditGatheringPlan p input[name='OperatingFee']").val());
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='NetProfit']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            //净利润率=(净利润/标准买货总金额)*100%
+            if (POPrice == 0) POPrice = SalePrice;
+            value = parseFloat($("#divEditGatheringPlan p input[name='NetProfit']").val()) / (POPrice * Qty);
+            strvalue = value.toString();
+            if (strvalue == "NaN") strvalue = "0";
+            else strvalue = (value * 100).toString();
+            $("#divEditGatheringPlan p input[name='NetProfitMargin']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
             //实际净利润=净利润+实收应收差额(USD)
             value = parseFloat($("#divEditGatheringPlan p input[name='NetProfit']").val()) + parseFloat($("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val());
@@ -68,7 +87,7 @@
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='RealNetProfit']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //利润率=(标准收款单价/标准买货单价- 1)*100%
+            //毛利润率=(标准收款单价/标准买货单价- 1)*100%
             if (POPrice == 0) POPrice = SalePrice;
             value = SalePrice / POPrice;
             strvalue = value.toString();
@@ -95,6 +114,7 @@
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationID']").val(json.CorporationID);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationName']").val(json.CorporationName);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CPN']").val(json.CPN);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.MPN']").val(json.MPN);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice']").val(json.SaleStandardPrice);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO']").val(json.InnerOrderNO);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderNO']").val(json.CustomerOrderNO);
@@ -113,16 +133,29 @@
                     $("#divEditGatheringPlan p input[name='CustomerVATInvoiceNo']").val(json.CustomerVATInvoiceNo);
                     $("#divEditGatheringPlan p select[name='IsCustomerPay']").val(json.IsCustomerPay == true ? "true" : "false");
                     $("#divEditGatheringPlan p input[name='TrackingNumber']").val(json.TrackingNumber);
-                    $("#divEditGatheringPlan p input[name='OtherFee']").val(json.OtherFee);
+                    $("#divEditGatheringPlan p input[name='OtherFee']").val(json.OtherFee == null ? 0 : json.OtherFee);
                     $("#divEditGatheringPlan p input[name='OtherFeeRemark']").val(json.OtherFeeRemark);
+                    $("#divEditGatheringPlan p input[name='ChannelFee']").val(json.ChannelFee == null ? 0 : json.ChannelFee);
+                    $("#divEditGatheringPlan p input[name='ChannelFeeRemark']").val(json.ChannelFeeRemark);
+                    $("#divEditGatheringPlan p input[name='LogisticsFee']").val(json.LogisticsFee == null ? 0 : json.LogisticsFee);
+                    $("#divEditGatheringPlan p input[name='LogisticsFeeRemark']").val(json.LogisticsFeeRemark);
+                    $("#divEditGatheringPlan p input[name='OperatingFee']").val(json.OperatingFee == null ? 0 : json.OperatingFee);
+                    $("#divEditGatheringPlan p input[name='OperatingFeeRemark']").val(json.OperatingFeeRemark);
                     $("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val(json.StandardIncomeRealDiff);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SalesMan']").val(json.SalesMan);
                     $("#divEditGatheringPlan p input[name='SalesManProportion']").val(json.SalesManProportion);
                     $("#divEditGatheringPlan p input[name='SalesManPay']").val(json.SalesManPay);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.BuyerMan']").val(json.BuyerMan);
+                    $("#divEditGatheringPlan p input[name='BuyerProportion']").val(json.BuyerProportion);
+                    $("#divEditGatheringPlan p input[name='BuyerPay']").val(json.BuyerPay);
                     $("#divEditGatheringPlan p input[name='GrossProfits']").val(json.GrossProfits);
-                    $("#divEditGatheringPlan p input[name='NetProfit']").val(json.NetProfit);
                     $("#divEditGatheringPlan p input[name='ProfitMargin']").val(json.ProfitMargin);
-                    $("#divEditGatheringPlan p input[name='POPrice']").val(json.POPrice);
-                    $("#divEditGatheringPlan p input[name='ProductCodes']").val(json.ProductCodes);
+                    $("#divEditGatheringPlan p input[name='NetProfit']").val(json.NetProfit);
+                    $("#divEditGatheringPlan p input[name='NetProfitMargin']").val(json.NetProfitMargin);
+                    $("#divEditGatheringPlan p input[name='RealNetProfit']").val(json.RealNetProfit);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_GodownEntryLookup.POPrice']").val(json.POPrice);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_GodownEntryLookup.ProductCodes']").val(json.ProductCodes);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_GodownEntryLookup.MPN']").val(json.MPN);
                     var gatheringPlanDate = json.GatheringPlanDate;
                     if (gatheringPlanDate && gatheringPlanDate.length > 10) {
                         gatheringPlanDate = gatheringPlanDate.substr(0, 10);
@@ -134,6 +167,7 @@
                         gatheringPlanDate = "";
                     }
                     $("#divEditGatheringPlan p input[name='GatheringPlanDate']").val(gatheringPlanDate);
+
                     var feeBackDate = json.FeeBackDate;
                     if (feeBackDate && feeBackDate.length > 10) {
                         feeBackDate = feeBackDate.substr(0, 10);
@@ -145,6 +179,10 @@
                         feeBackDate = "";
                     }
                     $("#divEditGatheringPlan p input[name='FeeBackDate']").val(feeBackDate);
+
+                    $("#divEditGatheringPlan p input[name='CustomerInStockDate']").val(json.CustomerInStockDate);
+                    $("#divEditGatheringPlan p input[name='OutStockDate']").val(json.OutStockDate);
+
                     $("#divEditGatheringPlan p select[name='State']").val(json.State);
                     return false;
                 }
@@ -186,6 +224,10 @@
             <p>
                 <label>客户型号：</label>
                 <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.CPN" class="required" readonly="readonly" class="required" type="text" size="30" />
+            </p>
+            <p>
+                <label>厂商型号：</label>
+                <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.MPN" class="required" readonly="readonly" class="required" type="text" size="30" />
             </p>
             <p>
                 <label>客户名称：</label>
@@ -267,12 +309,40 @@
                 <input name="TrackingNumber" class="" type="text" size="30" />
             </p>
             <p>
-                <label>其他费用(USD)：</label>
+                <label>招待费用(USD)：</label>
                 <input type="text" name="OtherFee" class="number calBlur" value="0" size="30" />
             </p>
-            <p style="width: auto">
-                <label>其他费用备注：</label>
-                <input name="OtherFeeRemark" class="" type="text" size="119" />
+            <p>
+                <label>招待费用备注：</label>
+                <input name="OtherFeeRemark" class="" type="text" size="30" />
+            </p>
+            <p>
+                <label>渠道费用(USD)：</label>
+                <input type="text" name="ChannelFee" class="number calBlur" value="0" size="30" />
+            </p>
+            <p>
+                <label>渠道费用备注：</label>
+                <input name="ChannelFeeRemark" class="" type="text" size="30" />
+            </p>
+            <p>
+                <label>物流费用(USD)：</label>
+                <input type="text" name="LogisticsFee" class="number calBlur" value="0" size="30" />
+            </p>
+            <p>
+                <label>物流费用备注：</label>
+                <input name="LogisticsFeeRemark" class="" type="text" size="30" />
+            </p>
+            <p>
+                <label>运营费用(USD)：</label>
+                <input type="text" name="OperatingFee" class="number calBlur" value="0" size="30" />
+            </p>
+            <p>
+                <label>运营费用备注：</label>
+                <input name="OperatingFeeRemark" class="" type="text" size="30" />
+            </p>
+            <p>
+                <label>销售：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SalesMan" size="30" />
             </p>
             <p>
                 <label>销售提成比例(%)：</label>
@@ -280,35 +350,65 @@
             </p>
             <p>
                 <label>销售提成：</label>
-                <input type="text" name="SalesManPay" class="number" size="30" />
+                <input type="text" name="SalesManPay" class="number" value="0" size="30" />
+            </p>
+            <p>
+                <label>采购：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.BuyerMan" size="30" />
+            </p>
+            <p>
+                <label>采购提成比例(%)：</label>
+                <input type="text" name="BuyerProportion" class="number" size="30" />
+            </p>
+            <p>
+                <label>采购提成：</label>
+                <input type="text" name="BuyerPay" class="number" value="0" size="30" />
             </p>
             <p>
                 <label>买货单价(USD)：</label>
-                <input type="text" name="POPrice" class="number calBlur" size="30" />
+                <input type="text" name="GatheringPlan_Edit_GodownEntryLookup.POPrice" class="number calBlur" size="30" />
+                <a class="btnLook" href="/Admin/OMS/GodownEntry/Lookup.html" lookupgroup="GatheringPlan_Edit_GodownEntryLookup">查找带回</a>
+            </p>
+            <p>
+                <label>厂商型号：</label>
+                <input type="text" name="GatheringPlan_Edit_GodownEntryLookup.MPN" value="" readonly="readonly" lookupgroup="GatheringPlan_Edit_GodownEntryLookup" size="30" />
             </p>
             <p>
                 <label>产品编码：</label>
-                <input type="text" name="ProductCodes" maxlength="32" size="30" />
+                <input type="text" name="GatheringPlan_Edit_GodownEntryLookup.ProductCodes" maxlength="32" size="30" />
             </p>
+
             <p>
                 <label>毛利润(USD)：</label>
                 <input type="text" name="GrossProfits" class="number calBlur" size="30" />
+            </p>
+            <p>
+                <label>毛利润率(%)：</label>
+                <input type="text" name="ProfitMargin" class="number calBlur" size="30" />
             </p>
             <p>
                 <label>净利润(USD)：</label>
                 <input type="text" name="NetProfit" class="number calBlur" size="30" />
             </p>
             <p>
-                <label>实际净利润(USD)：</label>
-                <input type="text" name="RealNetProfit" class="number calBlur" size="30" />
+                <label>净利润率(%)：</label>
+                <input type="text" name="NetProfitMargin" class="number calBlur" size="30" />
             </p>
             <p>
-                <label>利润率(%)：</label>
-                <input type="text" name="ProfitMargin" class="number calBlur" size="30" />
+                <label>实际净利润(USD)：</label>
+                <input type="text" name="RealNetProfit" class="number calBlur" value="0" size="30" />
             </p>
             <p>
                 <label>收款计划时间：</label>
                 <input type="text" name="GatheringPlanDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>出货日期：</label>
+                <input type="text" name="OutStockDate" class="" size="30" disabled="disabled" /><a class="inputDateButton" href="javascript:;">选择</a>
+            </p>
+            <p>
+                <label>客户入库日期：</label>
+                <input type="text" name="CustomerInStockDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>
             </p>
             <p>
                 <label>回款日期：</label>

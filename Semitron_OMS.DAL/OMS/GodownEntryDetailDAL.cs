@@ -494,11 +494,27 @@ namespace Semitron_OMS.DAL.OMS
 
             return DbHelperSQL.Query("SELECT " + strGetFields + " FROM " + strTableName + " WHERE " + strWhere, parameters).Tables[0];
         }
+
+        /// <summary>
+        /// 获取入库单查找明细，得历史入库单价
+        /// </summary>
+        public DataTable GetGodownEntryDetailLookupList(System.Collections.Generic.List<Semitron_OMS.Common.SQLConditionFilter> lstFilter)
+        {
+            //查询字段
+            string strGetFields = " GodownEntryID=E.ID,GodownEntryDetailID=D.ID,E.EntryNo,I.MPN,ProductCodes=I.ProductCode,POPrice=D.Price,E.InWarehouseCode,W.WName,S.SCode,S.SupplierName,InStockDate=CONVERT(NVARCHAR(10),E.InStockDate,120) ";
+
+            //查询表名
+            string strTableName = " dbo.GodownEntry AS E WITH(NOLOCK) INNER JOIN dbo.GodownEntryDetail AS D WITH(NOLOCK) ON E.ID=D.GodownEntryID INNER JOIN dbo.ProductInfo AS I WITH(NOLOCK) ON I.ProductCode=D.ProductCode LEFT JOIN dbo.Warehouse AS W ON W.WCode=E.InWarehouseCode LEFT JOIN dbo.Supplier AS S WITH(NOLOCK) ON S.ID=I.SupplierID ";
+
+            //查询条件
+            string strWhere = "  E.State=1 AND D.AvailFlag=1 AND I.AvailFlag=1 AND W.AvailFlag=1 AND S.AvailFlag=1 AND I.MPN IN (SELECT MPN FROM dbo.CustomerOrderDetail AS COD WITH(NOLOCK) WHERE COD.ID=" + lstFilter.Find(r => r.FiledName == "CustomerOrderDetailId").Value + " AND COD.AvailFlag=1)";
+
+            //分组条件
+            string strOrderBy = " E.InStockDate DESC ";
+
+            return DbHelperSQL.Query("SELECT " + strGetFields + " FROM " + strTableName + " WHERE " + strWhere + " ORDER BY " + strOrderBy).Tables[0];
+        }
         #endregion  ExtensionMethod
-
-
-
-
     }
 }
 

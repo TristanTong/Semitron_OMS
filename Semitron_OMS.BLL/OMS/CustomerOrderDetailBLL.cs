@@ -289,6 +289,7 @@ namespace Semitron_OMS.BLL.OMS
                 model.InnerOrderNO = dr["InnerOrderNo"].ToString();
                 model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
                 model.CPN = dr["CPN"].ToString();
+                model.MPN = dr["MPN"].ToString();
                 model.CorporationID = dr["CorporationID"].ToInt(-1);
                 model.CorporationName = dr["CorporationName"].ToString();
                 model.CustOrderDate = dr["CustOrderDate"].ToString();

@@ -266,6 +266,8 @@ namespace Semitron_OMS.Model.OMS
 
         public string CPN { get; set; }
 
+        public string MPN { get; set; }
+
         public string CustOrderDate { get; set; }
 
         public string InnerSalesMan { get; set; }

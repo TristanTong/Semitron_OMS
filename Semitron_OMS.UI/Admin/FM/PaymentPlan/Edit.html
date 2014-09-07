@@ -65,11 +65,12 @@
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.MPN']").val(json.MPN);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.SupplierID']").val(json.SupplierID);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.SupplierName']").val(json.SupplierName);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.InnerBuyer']").val(json.InnerBuyer);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.POQuantity']").val(json.Qty);
                     $("#divEditPaymentPlan p input[name='BuyStandardCurrency']").val(json.BuyStandardCurrency);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val(json.BuyPrice);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.TotalPrice']").val(json.BuyCost);
-                    $("#divEditPaymentPlan p input[name='BuyRealCurrency']").val(json.BuyRealCurrency);
+                    $("#divEditPaymentPlan p select[name='BuyRealCurrency']").val(json.BuyRealCurrency);
                     $("#divEditPaymentPlan p input[name='BuyExchangeRate']").val(json.BuyExchangeRate);
                     $("#divEditPaymentPlan p input[name='BuyRealPrice']").val(json.BuyRealPrice);
                     $("#divEditPaymentPlan p input[name='BuyRealTotal']").val(json.BuyRealTotal);
@@ -79,8 +80,8 @@
                     $("#divEditPaymentPlan p input[name='IsPaySupplier']").val(json.IsPaySupplier == true ? "true" : "false");
                     $("#divEditPaymentPlan p input[name='OtherFee']").val(json.OtherFee);
                     $("#divEditPaymentPlan p input[name='OtherFeeRemark']").val(json.OtherFeeRemark);
-                    $("#divEditPaymentPlan p input[name='BuyerProportion']").val(json.BuyerProportion);
-                    $("#divEditPaymentPlan p input[name='BuyerPay']").val(json.BuyerPay);
+                    //$("#divEditPaymentPlan p input[name='BuyerProportion']").val(json.BuyerProportion);
+                    //$("#divEditPaymentPlan p input[name='BuyerPay']").val(json.BuyerPay);
                     var paymentPlanDate = json.PaymentPlanDate;
                     if (paymentPlanDate && paymentPlanDate.length > 10) {
                         paymentPlanDate = paymentPlanDate.substr(0, 10);
@@ -138,6 +139,10 @@
                 <label>供应商：</label>
                 <input name="PaymentPlan_Edit_POPlanLookup.SupplierID" value="" type="hidden" />
                 <input name="PaymentPlan_Edit_POPlanLookup.SupplierName" class="required" class="required" readonly="readonly" type="text" size="30" />
+            </p>
+            <p>
+                <label>采购员：</label>
+                <input name="PaymentPlan_Edit_POPlanLookup.InnerBuyer" class="required" readonly="readonly" class="required" type="text" size="30" />
             </p>
             <p>
                 <label>付款数量：</label>
@@ -207,14 +212,14 @@
                 <label>其他费用备注：</label>
                 <input name="OtherFeeRemark" class="" type="text" size="30" />
             </p>
-            <p>
+            <!-- <p>
                 <label>采购提成比例(%)：</label>
                 <input type="text" name="BuyerProportion" class="number" size="30" />
             </p>
             <p>
                 <label>采购提成：</label>
                 <input type="text" name="BuyerPay" class="number" size="30" />
-            </p>
+            </p>-->
             <p>
                 <label>付款计划时间：</label>
                 <input type="text" name="PaymentPlanDate" class="date" size="30" /><a class="inputDateButton" href="javascript:;">选择</a>

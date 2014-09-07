@@ -887,13 +887,20 @@ tdRemarkWidth">
                             </td>
                         </tr>
                         <tr class="trMO">
-                            <td class="tdRight tdParamDWidth">付款方式：
-                            </td>
-                            <td class="tdLeft tdRemarkWidth">
+                            <%--<td class="tdRight tdParamDWidth">付款方式：
+                            </td>--%>
+                            <td class="tdLeft tdRemarkWidth" style="display: none;">
                                 <select class="txt" id="sltVendorPaymentTypeIDE" runat="server" style="width: 200px">
                                     <option value="">--请选择--</option>
                                 </select>
                             </td>
+                            <td class="tdRight tdParamDWidth">买汇率：
+                            </td>
+                            <td class="tdLeft tdRemarkWidth">
+                                <input type="text" id="txtBuyExchangeRateE" class="txt OnlyFloat tdRight" maxlength="9" />
+                            </td>
+                        </tr>
+                        <tr class="trMO">
                             <td class="tdRight tdParamDWidth">实际买货币：
                             </td>
                             <td class="tdLeft tdRemarkWidth">
@@ -901,18 +908,12 @@ tdRemarkWidth">
                                     <option value="">--请选择--</option>
                                 </select>
                             </td>
-                        </tr>
-                        <tr class="trMO">
                             <td class="tdRight tdParamDWidth">实际买价：
                             </td>
                             <td class="tdLeft tdRemarkWidth">
                                 <input type="text" id="txtBuyRealPriceE" class="txt OnlyFloat tdRight" maxlength="23" />
                             </td>
-                            <td class="tdRight tdParamDWidth">买汇率：
-                            </td>
-                            <td class="tdLeft tdRemarkWidth">
-                                <input type="text" id="txtBuyExchangeRateE" class="txt OnlyFloat tdRight" maxlength="9" />
-                            </td>
+
                         </tr>
                         <tr class="trMO">
                             <td class="tdRight tdParamDWidth">标准买货币：

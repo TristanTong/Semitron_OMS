@@ -300,6 +300,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 m.ShippingPlanID = model.ID;
                 m.AvailFlag = true;
+                m.CreateUser = _adminModel.Username;
             }
 
             return lstShippingPlanDetailModel;

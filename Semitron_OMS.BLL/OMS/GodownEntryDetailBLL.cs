@@ -262,10 +262,42 @@ namespace Semitron_OMS.BLL.OMS
             }
             return strResult;
         }
+
+        /// <summary>
+        /// 获取入库单查找明细，得历史入库单价
+        /// </summary>
+        public List<GodownEntryDetailLookupModel> GetGodownEntryDetailLookupList(List<SQLConditionFilter> lstFilter, string strQueryType)
+        {
+            List<GodownEntryDetailLookupModel> listModel = new List<GodownEntryDetailLookupModel>();
+            DataTable dt = dal.GetGodownEntryDetailLookupList(lstFilter);
+            foreach (DataRow dr in dt.Rows)
+            {
+                GodownEntryDetailLookupModel model = new GodownEntryDetailLookupModel();
+                model.GodownEntryID = dr["GodownEntryID"].ToInt(-1);
+                model.GodownEntryDetailID = dr["GodownEntryDetailID"].ToInt(-1);
+                model.EntryNo = dr["EntryNo"].ToString();
+                model.MPN = dr["MPN"].ToString();
+                model.ProductCodes = dr["ProductCodes"].ToString();
+                model.POPrice = dr["POPrice"].ToDecimal();
+                model.InWarehouseCode = dr["InWarehouseCode"].ToString();
+                model.WName = dr["WName"].ToString();
+                model.SCode = dr["SCode"].ToString();
+                model.SupplierName = dr["SupplierName"].ToString();
+                model.InStockDate = dr["InStockDate"].ToString();
+
+                switch (strQueryType)
+                {
+                    case "2"://加载所有的记录
+                        listModel.Add(model);
+                        break;
+                    default:
+                        listModel.Add(model);
+                        break;
+                }
+            }
+            return listModel;
+        }
         #endregion  ExtensionMethod
-
-
-
     }
 }
 

@@ -465,7 +465,7 @@
                                 });
                                 $("#txtInnerOrderNOE").val(json.Remark);
                                 $("#txtInnerOrderNOE").attr("disabled", "disabled");
-                                
+
                                 //初始化明细表格
                                 InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
                                 $("#sltSaleStandardCurrencyE").val("1");
@@ -893,7 +893,7 @@
                 ]
             };
             p.newp = 1;         //跳转到第一页。
-            $("#FlexiTableDetail").flexOptions(p).flexReload(); 
+            $("#FlexiTableDetail").flexOptions(p).flexReload();
         }
 
         //初始化加载明细表格
@@ -1476,7 +1476,7 @@
                                 <td class="tdLeft tdRemarkWidth"></td>
                                 <td></td>
                             </tr>
-                            <tr class="trMO">
+                            <%--<tr class="trMO">
                                 <td class="tdRight tdParamDWidth">其他费用(USD)：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
@@ -1488,7 +1488,7 @@
                                     <input type="text" id="txtOtherFeeRemarkE" class="txt " maxlength="256" />
                                 </td>
                                 <td></td>
-                            </tr>
+                            </tr>--%><%--此处不再维护在收款计划中维护招待费用--%>
                         </tbody>
                     </table>
                 </div>

@@ -21,4 +21,5 @@ AppLog
 !Excel.dll
 !Aspose.Cells.dll
 !LitJson.dll
-Web.config
+.config
+file_system

@@ -167,11 +167,16 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 PaymentPlanModel model = this._bllPaymentPlan.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
-                string strSupplierName = string.Empty;
+                string strSupplierName = string.Empty, strInnerBuyer = string.Empty;
                 SupplierModel sModel = new SupplierBLL().GetModel((int)model.SupplierID);
                 if (sModel != null)
                 {
                     strSupplierName = sModel.SupplierName;
+                }//InnerBuyer
+                POModel poModel = new POBLL().GetModelByPONO(model.PONO);
+                if (poModel != null)
+                {
+                    strInnerBuyer = poModel.InnerBuyer;
                 }
                 string strCorporationName = string.Empty;
                 CorporationModel corModel = new CorporationBLL().GetModel(model.CorporationID);
@@ -181,6 +186,7 @@ namespace Semitron_OMS.UI.Handle.FM
                 }
                 strResult = strResult.Substring(0, strResult.Length - 1)
                     + ",\"SupplierName\":\"" + strSupplierName
+                    + "\",\"InnerBuyer\":\"" + strInnerBuyer
                     + "\",\"CorporationName\":\"" + strCorporationName
                     + "\"}";
                 return strResult;
@@ -292,8 +298,8 @@ namespace Semitron_OMS.UI.Handle.FM
             SQLOperateHelper.SetEntityFiledValue(model, "IsPaySupplier", _request.Form["IsPaySupplier"]);
             SQLOperateHelper.SetEntityFiledValue(model, "OtherFee", _request.Form["OtherFee"]);
             SQLOperateHelper.SetEntityFiledValue(model, "OtherFeeRemark", _request.Form["OtherFeeRemark"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "BuyerProportion", _request.Form["BuyerProportion"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "BuyerPay", _request.Form["BuyerPay"]);
+            //SQLOperateHelper.SetEntityFiledValue(model, "BuyerProportion", _request.Form["BuyerProportion"]);
+            //SQLOperateHelper.SetEntityFiledValue(model, "BuyerPay", _request.Form["BuyerPay"]);
             SQLOperateHelper.SetEntityFiledValue(model, "PaymentPlanDate", _request.Form["PaymentPlanDate"]);
             SQLOperateHelper.SetEntityFiledValue(model, "State", _request.Form["State"]);
 

@@ -22,6 +22,7 @@ namespace Semitron_OMS.UI.Admin.OMS
                 //txtBeginTime.Value = DateTime.Now.AddMonths(-6).ToString("yyyy-MM") + "-01 00:00:00";
                 txtBeginTime.Value = "2013-01-01 00:00:00";
                 this.InitSltCustomer(this.sltCustomerID, true, true);
+                this.InitSltState(this.sltOrderState, true, ConstantValue.TableNames.CustomerOrder);
             }
         }
     }

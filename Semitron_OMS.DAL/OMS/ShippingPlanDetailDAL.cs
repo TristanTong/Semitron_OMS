@@ -453,19 +453,21 @@ namespace Semitron_OMS.DAL.OMS
             {
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("insert into ShippingPlanDetail(");
-                strSql.Append("ShippingPlanID,PlanStockCode,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+                strSql.Append("ShippingPlanID,PlanStockCode,InnerOrderNO,CustomerOrderNo,CustomerDetailID,CPN,MPN,ProductCode,PlanQty,Remark,AvailFlag,CreateTime,CreateUser,UpdateTime,UpdateUser)");
                 strSql.Append(" values (");
-                strSql.Append("@ShippingPlanID,@PlanStockCode,@CustomerOrderNo,@CustomerDetailID,@CPN,@MPN,@ProductCode,@PlanQty,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+                strSql.Append("@ShippingPlanID,@PlanStockCode,@InnerOrderNO,@CustomerOrderNo,@CustomerDetailID,@CPN,@MPN,@ProductCode,@PlanQty,@Remark,@AvailFlag,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
                 //strSql.Append(";select @@IDENTITY");
                 SqlParameter[] parameters = {
 					new SqlParameter("@ShippingPlanID", SqlDbType.Int,4),
 					new SqlParameter("@PlanStockCode", SqlDbType.NVarChar,50),
+					new SqlParameter("@InnerOrderNO", SqlDbType.NVarChar,50),
 					new SqlParameter("@CustomerOrderNo", SqlDbType.NVarChar,50),
 					new SqlParameter("@CustomerDetailID", SqlDbType.Int,4),
 					new SqlParameter("@CPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@MPN", SqlDbType.NVarChar,50),
 					new SqlParameter("@ProductCode", SqlDbType.NVarChar,50),
 					new SqlParameter("@PlanQty", SqlDbType.Int,4),
+					new SqlParameter("@Remark", SqlDbType.NVarChar,1024),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateTime", SqlDbType.DateTime),
 					new SqlParameter("@CreateUser", SqlDbType.NVarChar,50),
@@ -473,17 +475,33 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@UpdateUser", SqlDbType.NVarChar,50)};
                 parameters[0].Value = model.ShippingPlanID;
                 parameters[1].Value = model.PlanStockCode;
-                parameters[2].Value = model.CustomerOrderNo;
-                parameters[3].Value = model.CustomerDetailID;
-                parameters[4].Value = model.CPN;
-                parameters[5].Value = model.MPN;
-                parameters[6].Value = model.ProductCode;
-                parameters[7].Value = model.PlanQty;
-                parameters[8].Value = model.AvailFlag;
-                parameters[9].Value = model.CreateTime;
-                parameters[10].Value = model.CreateUser;
-                parameters[11].Value = model.UpdateTime;
-                parameters[12].Value = model.UpdateUser;
+                parameters[2].Value = model.InnerOrderNO;
+                parameters[3].Value = model.CustomerOrderNo;
+                parameters[4].Value = model.CustomerDetailID;
+                parameters[5].Value = model.CPN;
+                parameters[6].Value = model.MPN;
+                parameters[7].Value = model.ProductCode;
+                parameters[8].Value = model.PlanQty;
+                parameters[9].Value = model.Remark;
+                parameters[10].Value = model.AvailFlag;
+                parameters[11].Value = model.CreateTime;
+                parameters[12].Value = model.CreateUser;
+                parameters[13].Value = model.UpdateTime;
+                parameters[14].Value = model.UpdateUser;
+                SQLStringList.Add(strSql, parameters);
+            }
+            DbHelperSQL.ExecuteSqlTran(SQLStringList);
+
+            foreach (Model.OMS.ShippingPlanDetailModel model in lstShippingPlanDetailModel)
+            {
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("UPDATE O SET State=130,UpdateTime=GETDATE(),UpdateUser=@UpdateUser FROM dbo.ShippingPlanDetail AS SPD WITH(NOLOCK)  INNER JOIN dbo.CustomerOrderDetail AS COD WITH(NOLOCK) ON COD.ID=SPD.CustomerDetailID INNER JOIN dbo.CustomerOrder AS O WITH(NOLOCK) ON O.InnerOrderNO=COD.InnerOrderNO WHERE  SPD.AvailFlag=1 AND COD.AvailFlag=1 AND SPD.InnerOrderNO=@InnerOrderNO AND O.State NOT IN (-100,135,140)");
+
+                SqlParameter[] parameters = new SqlParameter[] { 
+                    new SqlParameter("@UpdateUser", SqlDbType.NVarChar, 50), 
+                    new SqlParameter("@InnerOrderNO", SqlDbType.NVarChar,50)};
+                parameters[0].Value = model.CreateUser;
+                parameters[1].Value = model.InnerOrderNO;
                 SQLStringList.Add(strSql, parameters);
             }
             DbHelperSQL.ExecuteSqlTran(SQLStringList);
@@ -498,9 +516,9 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetShippingPlanDetailPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
         {
             //查询表名
-            string strTableName = " dbo.ShippingPlanDetail AS D WITH (NOLOCK) LEFT JOIN ShippingPlan AS G WITH (NOLOCK)  ON D.ShippingPlanId=G.ID LEFT JOIN CustomerOrderDetail AS P WITH (NOLOCK)  ON D.CustomerDetailID=P.ID  LEFT JOIN CustomerOrder AS O WITH (NOLOCK)  ON O.InnerOrderNO=P.InnerOrderNO JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUserID ";
+            string strTableName = " dbo.ShippingPlanDetail AS D WITH (NOLOCK) LEFT JOIN ShippingPlan AS G WITH (NOLOCK)  ON D.ShippingPlanId=G.ID LEFT JOIN CustomerOrderDetail AS P WITH (NOLOCK)  ON D.CustomerDetailID=P.ID  LEFT JOIN CustomerOrder AS O WITH (NOLOCK)  ON O.InnerOrderNO=P.InnerOrderNO  LEFT JOIN dbo.Customer AS C WITH(NOLOCK) ON C.ID=O.CustomerID LEFT JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUserID ";
             //查询字段
-            string strGetFields = " D.ID, AvailFlag=CASE WHEN D.AvailFlag=1 THEN '有效' ELSE '无效' END, G.ShippingPlanNo, D.ProductCode, D.PlanQty,P.InnerOrderNO,O.CustomerOrderNO,P.CPN, P.MPN,P.CustQuantity,G.IsApproved,ShippingPlanDate=Convert(varchar(20),G.ShippingPlanDate,120),D.PlanStockCode,ByHandUser=A1.UserName,ApprovedUser=A2.UserName,CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),D.CreateUser,D.UpdateUser ";
+            string strGetFields = " D.ID, AvailFlag=CASE WHEN D.AvailFlag=1 THEN '有效' ELSE '无效' END, G.ShippingPlanNo, D.ProductCode, D.PlanQty,P.InnerOrderNO,O.CustomerOrderNO,P.CPN, P.MPN,P.CustQuantity,G.IsApproved,ShippingPlanDate=Convert(varchar(20),G.ShippingPlanDate,120),D.PlanStockCode,ByHandUser=A1.UserName,ApprovedUser=A2.UserName,CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),D.CreateUser,D.UpdateUser,C.CustomerName ";
             //查询条件
             string strWhere = Semitron_OMS.Common.SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询
@@ -543,10 +561,10 @@ namespace Semitron_OMS.DAL.OMS
         public DataTable GetShippingPlanDetailUnOutStockList(System.Collections.Generic.List<Semitron_OMS.Common.SQLConditionFilter> lstFilter)
         {
             //查询字段
-            string strGetFields = " D.ID, SP.ShippingPlanNo, D.PlanStockCode, PlanStockName=W.WName, D.CPN, D.MPN, D.ProductCode, D.PlanQty,FinishOutQty=(SELECT SUM(LD.OutQty) FROM dbo.ShippingListDetail AS LD WITH ( NOLOCK ) WHERE LD.AvailFlag=1 AND LD.ShippingPlanDetailID=D.ID), SupplierCode=S.SCode, S.SupplierName ";
+            string strGetFields = " D.ID, SP.ShippingPlanNo, D.PlanStockCode, PlanStockName=W.WName, D.CPN, D.MPN, D.ProductCode, D.PlanQty,FinishOutQty=(SELECT SUM(LD.OutQty) FROM dbo.ShippingListDetail AS LD WITH ( NOLOCK ) WHERE LD.AvailFlag=1 AND LD.ShippingPlanDetailID=D.ID), SupplierCode=S.SCode, S.SupplierName,C.CustomerName,O.InnerOrderNO,O.CustomerOrderNO ";
 
             //查询表名
-            string strTableName = " dbo.ShippingPlanDetail AS D WITH ( NOLOCK ) INNER JOIN dbo.ShippingPlan AS SP WITH ( NOLOCK ) ON SP.ID = D.ShippingPlanID LEFT JOIN dbo.ProductInfo AS P WITH ( NOLOCK ) ON P.ProductCode = D.ProductCode LEFT JOIN dbo.Warehouse AS W ON W.WCode = D.PlanStockCode LEFT JOIN dbo.Supplier AS S  WITH ( NOLOCK ) ON S.ID=P.SupplierID ";
+            string strTableName = " dbo.ShippingPlanDetail AS D WITH ( NOLOCK ) INNER JOIN dbo.ShippingPlan AS SP WITH ( NOLOCK ) ON SP.ID = D.ShippingPlanID LEFT JOIN dbo.ProductInfo AS P WITH ( NOLOCK ) ON P.ProductCode = D.ProductCode LEFT JOIN dbo.Warehouse AS W ON W.WCode = D.PlanStockCode LEFT JOIN dbo.Supplier AS S  WITH ( NOLOCK ) ON S.ID=P.SupplierID LEFT JOIN dbo.CustomerOrder AS O  WITH ( NOLOCK ) ON O.InnerOrderNO=D.InnerOrderNO LEFT JOIN dbo.Customer AS C WITH ( NOLOCK ) ON C.ID=O.CustomerID ";
 
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + " AND D.AvailFlag=1 AND SP.State=1";

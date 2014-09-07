@@ -167,12 +167,16 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 GatheringPlanModel model = this._bllGatheringPlan.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
-                string strCPN = string.Empty;
+                string strCPN = string.Empty, strMPN = string.Empty;
                 string strSaleStandardPrice = string.Empty;
+                DateTime? dCustomerInStockDate = null, dOutStockDate = null;
+
                 CustomerOrderDetailModel dModel = new CustomerOrderDetailBLL().GetModel(model.CustomerOrderDetailID);
                 if (dModel != null)
                 {
                     strCPN = dModel.CPN;
+                    strMPN = dModel.MPN;
+                    dCustomerInStockDate = dModel.CustomerInStockDate;
                     strSaleStandardPrice = dModel.SalePrice.ToString();
                 }
                 string strCustomerName = string.Empty;
@@ -187,7 +191,35 @@ namespace Semitron_OMS.UI.Handle.FM
                 {
                     strCorporationName = corModel.CompanyName;
                 }
-                strResult = strResult.Substring(0, strResult.Length - 1) + ",\"CPN\":\"" + strCPN
+
+                //根据产品清单取得出货时间
+                List<ShippingPlanDetailModel> lstSPDModel = new ShippingPlanDetailBLL().GetModelList("CustomerDetailID='" + model.CustomerOrderDetailID + "'");
+                if (lstSPDModel.Count > 0)
+                {
+                    List<ShippingListDetailModel> lstSLDModel = new ShippingListDetailBLL().GetModelList("ShippingPlanDetailID='" + lstSPDModel[0].ShippingPlanID + "'");
+                    if (lstSPDModel.Count > 0)
+                    {
+                        ShippingListModel slModel = new ShippingListBLL().GetModel(lstSLDModel[0].ShippingListID);
+                        if (slModel != null)
+                        {
+                            dOutStockDate = slModel.OutStockDate;
+                        }
+                    }
+                }
+                if (dOutStockDate == null)
+                {
+                    dOutStockDate = DateTime.MinValue;
+                }
+                if (dCustomerInStockDate == null)
+                {
+                    dCustomerInStockDate = dOutStockDate;//默认为出库日期
+                }
+
+                strResult = strResult.Substring(0, strResult.Length - 1)
+                    + ",\"CPN\":\"" + strCPN
+                    + "\",\"MPN\":\"" + strMPN
+                    + "\",\"CustomerInStockDate\":\"" + ((DateTime)dCustomerInStockDate).ToString("yyyy-MM-dd")
+                    + "\",\"OutStockDate\":\"" + ((DateTime)dOutStockDate).ToString("yyyy-MM-dd")
                     + "\",\"SaleStandardPrice\":\"" + strSaleStandardPrice
                     + "\",\"CustomerName\":\"" + strCustomerName
                     + "\",\"CorporationName\":\"" + strCorporationName
@@ -246,6 +278,31 @@ namespace Semitron_OMS.UI.Handle.FM
                     //result.message = "\u64cd\u4f5c\u6210\u529f";
                     //result.Remark = model.ID.ToString();
                     result.message = "编辑收款计划成功！";
+
+                    try
+                    {
+                        string strCustomerInStockDate = DataUtility.GetPageFormValue(_request.Form["CustomerInStockDate"], string.Empty);
+                        string strIsCustomerPay = DataUtility.GetPageFormValue(_request.Form["IsCustomerPay"], string.Empty);
+                        bool bIsCustomerPay = false;
+                        DateTime? dCustomerInStockDate = null;
+                        if (strCustomerInStockDate != string.Empty)
+                        {
+                            dCustomerInStockDate = DateTime.Parse(strCustomerInStockDate);
+                        }
+                        if (strIsCustomerPay == "true")
+                        {
+                            bIsCustomerPay = true;
+                        }
+                        if (!new CustomerOrderDetailBLL().SetCustomerOrderDetailItems(model.CustomerOrderDetailID, bIsCustomerPay, dCustomerInStockDate))
+                        {
+                            result.message += "但保存客户入库日期失败！";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        result.message += "但保存客户入库日期失败！";
+                        _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑收款计划出现异常：" + ex.Message, ex);
+                    }
                 }
                 else
                 {
@@ -279,6 +336,12 @@ namespace Semitron_OMS.UI.Handle.FM
                 return "系统错误,参数获取异常。";
             }
 
+            string strProductMPN = DataUtility.GetPageFormValue(_request.Form["GatheringPlan_Edit_GodownEntryLookup.MPN"], string.Empty);
+            if (strProductMPN != string.Empty && strProductMPN != DataUtility.GetPageFormValue(_request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.MPN"], string.Empty))
+            {
+                return "入库产品厂商型号与客户请单厂商型号不一致，请确认数据。";
+            }
+
             SQLOperateHelper.SetEntityFiledValue(model, "CustomerOrderDetailID", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderDetailId"]);
             SQLOperateHelper.SetEntityFiledValue(model, "CorporationID", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.CorporationID"]);
             SQLOperateHelper.SetEntityFiledValue(model, "InnerOrderNO", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO"]);
@@ -299,13 +362,26 @@ namespace Semitron_OMS.UI.Handle.FM
             SQLOperateHelper.SetEntityFiledValue(model, "TrackingNumber", _request.Form["TrackingNumber"]);
             SQLOperateHelper.SetEntityFiledValue(model, "OtherFee", _request.Form["OtherFee"]);
             SQLOperateHelper.SetEntityFiledValue(model, "OtherFeeRemark", _request.Form["OtherFeeRemark"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "ChannelFee", _request.Form["ChannelFee"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "ChannelFeeRemark", _request.Form["ChannelFeeRemark"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "LogisticsFee", _request.Form["LogisticsFee"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "LogisticsFeeRemark", _request.Form["LogisticsFeeRemark"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "OperatingFee", _request.Form["OperatingFee"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "OperatingFeeRemark", _request.Form["OperatingFeeRemark"]);
             SQLOperateHelper.SetEntityFiledValue(model, "StandardIncomeRealDiff", _request.Form["StandardIncomeRealDiff"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "SalesMan", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.SalesMan"]);
             SQLOperateHelper.SetEntityFiledValue(model, "SalesManProportion", _request.Form["SalesManProportion"]);
             SQLOperateHelper.SetEntityFiledValue(model, "SalesManPay", _request.Form["SalesManPay"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "POPrice", _request.Form["POPrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyerMan", _request.Form["GatheringPlan_Edit_CustomerOrderDetailLookup.BuyerMan"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyerProportion", _request.Form["BuyerProportion"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "BuyerPay", _request.Form["BuyerPay"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "POPrice", _request.Form["GatheringPlan_Edit_GodownEntryLookup.POPrice"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "ProductCodes", _request.Form["GatheringPlan_Edit_GodownEntryLookup.ProductCodes"]);
             SQLOperateHelper.SetEntityFiledValue(model, "GrossProfits", _request.Form["GrossProfits"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "NetProfit", _request.Form["NetProfit"]);
             SQLOperateHelper.SetEntityFiledValue(model, "ProfitMargin", _request.Form["ProfitMargin"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "NetProfit", _request.Form["NetProfit"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "NetProfitMargin", _request.Form["NetProfitMargin"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "RealNetProfit", _request.Form["RealNetProfit"]);
             SQLOperateHelper.SetEntityFiledValue(model, "GatheringPlanDate", _request.Form["GatheringPlanDate"]);
             SQLOperateHelper.SetEntityFiledValue(model, "FeeBackDate", _request.Form["FeeBackDate"]);
             SQLOperateHelper.SetEntityFiledValue(model, "State", _request.Form["State"]);
