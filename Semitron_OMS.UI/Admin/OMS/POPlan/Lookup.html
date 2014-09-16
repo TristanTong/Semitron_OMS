@@ -32,8 +32,11 @@
                             + "',InnerBuyer:'" + json[i].InnerBuyer
                             + "', POQuantity:'" + json[i].POQuantity
                             + "',InQty:'" + json[i].UnInStockQty
-                            + "', Price:'" + json[i].BuyPrice
-                            + "',TotalPrice:'" + json[i].BuyCost + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
+                            + "',StandardPrice:'" + json[i].StandardPrice
+                             + "',StandardTotalPrice:'" + json[i].StandardTotalPrice
+                            + "',Price:'" + json[i].BuyPrice
+                            + "',TotalPrice:'" + 0//json[i].BuyCost
+                            + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
                             + json[i].POPlanId + "</td> <td width=\"102px\">" + json[i].PONo + "</td> <td width=\"48px\">"
                             + json[i].ProductCode + "</td><td width=\"48px\">"
                             + json[i].InnerBuyer + "</td><td width=\"48px\">"

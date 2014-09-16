@@ -398,7 +398,7 @@
                     if (type == "Download" || type == "Upload") {
                         //清除所有附件
                         $(".divAttachment").empty();
-                        var urlPaths = json.AttachmentFiles.replace(/\*/g, "/"); 
+                        var urlPaths = json.AttachmentFiles.replace(/\*/g, "/");
                         $(".divAttachment").append(GetFileDivHtml(urlPaths));
                         if (type == "Download") {
                             $(".cancelFile").hide();
@@ -856,10 +856,10 @@
             </div>
             <div style="height: 34px" id="divOperation">
                 <div class="OperationDiv" style="float: left;">
-                    <%--<asp:Button runat="server" Text="新增" CssClass="btnHigh" ID="btnAdd" />--%>
-                    <asp:Button runat="server" Text="编辑" CssClass="btnHigh" ID="btnEdit" />
-                    <%--<asp:Button runat="server" Text="删除" CssClass="btnHigh" ID="btnDel" />--%>
-                    <asp:Button runat="server" Text="上传附件" CssClass="btnHigh" ID="btnUpload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />
+                    <%--<asp:Button runat="server" Text="新增" CssClass="btnHigh" ID="btnAdd" />
+                    <asp:Button runat="server" Text="编辑" CssClass="btnHigh" ID="btnEdit" />--%>
+                    <%--<asp:Button runat="server" Text="删除" CssClass="btnHigh" ID="btnDel" />
+                    <asp:Button runat="server" Text="上传附件" CssClass="btnHigh" ID="btnUpload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />--%>
                     <asp:Button runat="server" Text="下载附件" CssClass="btnHigh" ID="btnDownload" ToolTip="客户付款发票，采购支付发票，国税发票，快递回执等电子档" />
                     <asp:Button runat="server" Text="查看" CssClass="btnHigh" ID="btnView" />
                 </div>

@@ -4,7 +4,7 @@
         LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyStandardCurrency']", 1, 10, false);
         LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyRealCurrency']", 1, 10, false);
         data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
-        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID']", -1, 10, true);
+        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID']", -1, 30, true);
 
         var id = $("#hidSeletedPaymentPlanId").val();
         $("#divEditPaymentPlan input[name='SeletedPaymentPlanId']").val(id);
@@ -15,33 +15,45 @@
         }
 
         //计算标准价
-        $("#divEditPaymentPlan .calBlur").blur(function () {
-            //付款数量
-            var Qty = parseInt($("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.POQuantity']").val());
+        $("#divEditPaymentPlan .calRealBlur").blur(function () {
+            //实际付款单价 //需手工输入
+            var BuyRealPrice = parseFloat($("#divEditPaymentPlan p input[name='BuyRealPrice']").val());
 
-            //标准付款单价
-            var Price = parseFloat($("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val());
+            //实际付款总额 //需手工输入
+            var BuyRealTotal = parseFloat($("#divEditPaymentPlan p input[name='BuyRealTotal").val());
 
-            //实际付款单价=标准付款单价*实际付款汇率
-            var value = Price * parseFloat($("#divEditPaymentPlan p input[name='BuyExchangeRate']").val());
+            //实际付款汇率 //需手工输入
+            var BuyExchangeRate = parseFloat($("#divEditPaymentPlan p input[name='BuyExchangeRate']").val());
+
+            //实收标准单价(USD)=实际付款单价/实际付款汇率
+            var value = BuyRealPrice / BuyExchangeRate;
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
-            $("#divEditPaymentPlan p input[name='BuyRealPrice']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+            $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //付款标准售价总额=标准付款单价*付款数量
-            value = Price * Qty;
+            //实收标准总额(USD)=实际付款总额/实际付款汇率
+            value = BuyRealTotal / BuyExchangeRate;
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.TotalPrice").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //实际付款单价
-            var BuyRealPrice = parseFloat($("#divEditPaymentPlan p input[name='BuyRealPrice']").val())
+            ////实收标准单价(USD) //需手工输入
+            //var Price = parseFloat($("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val());
 
-            //实际付款总额=实际付款单价*付款数量
-            value = BuyRealPrice * Qty;
-            strvalue = value.toString();
-            if (strvalue == "NaN") strvalue = "0";
-            $("#divEditPaymentPlan p input[name='BuyRealTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+            ////实收标准总额(USD) //需手工输入
+            //var TotalPrice = parseFloat($("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.TotalPrice").val());
+
+            ////实际付款单价=实收标准单价(USD)*实际付款汇率
+            //var value = Price * BuyExchangeRate;
+            //strvalue = value.toString();
+            //if (strvalue == "NaN") strvalue = "0";
+            //$("#divEditPaymentPlan p input[name='BuyRealPrice']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+
+            ////实际付款总额=实收标准总额(USD) *实际付款汇率
+            //value = TotalPrice * BuyExchangeRate;
+            //strvalue = value.toString();
+            //if (strvalue == "NaN") strvalue = "0";
+            //$("#divEditPaymentPlan p input[name='BuyRealTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
         });
     });
 
@@ -68,6 +80,8 @@
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.InnerBuyer']").val(json.InnerBuyer);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.POQuantity']").val(json.Qty);
                     $("#divEditPaymentPlan p input[name='BuyStandardCurrency']").val(json.BuyStandardCurrency);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.StandardPrice']").val(json.StandardPrice);
+                    $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.StandardTotalPrice']").val(json.StandardTotalPrice);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.Price']").val(json.BuyPrice);
                     $("#divEditPaymentPlan p input[name='PaymentPlan_Edit_POPlanLookup.TotalPrice']").val(json.BuyCost);
                     $("#divEditPaymentPlan p select[name='BuyRealCurrency']").val(json.BuyRealCurrency);
@@ -145,22 +159,16 @@
                 <input name="PaymentPlan_Edit_POPlanLookup.InnerBuyer" class="required" readonly="readonly" class="required" type="text" size="30" />
             </p>
             <p>
-                <label>付款数量：</label>
-                <input type="text" name="PaymentPlan_Edit_POPlanLookup.POQuantity" class="digits required calBlur" size="30" />
+                <label>采购计划数量：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.POQuantity" class="digits required calBlur" readonly="readonly" size="30" />
             </p>
             <p>
-                <label>付款标准货币：</label>
-                <select name="BuyStandardCurrency" disabled class="required ">
-                    <option value="">--请选择--</option>
-                </select>
+                <label>应付标准单价(USD)：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.StandardPrice" class="required number calBlur" readonly="readonly" size="30" />
             </p>
             <p>
-                <label>付款标准单价：</label>
-                <input type="text" name="PaymentPlan_Edit_POPlanLookup.Price" class="required number calBlur" size="30" />
-            </p>
-            <p>
-                <label>付款标准总额：</label>
-                <input type="text" name="PaymentPlan_Edit_POPlanLookup.TotalPrice" class="required number calBlur" size="30" />
+                <label>应付标准总额(USD)：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.StandardTotalPrice" class="required number calBlur" size="30" readonly="readonly" />
             </p>
             <p>
                 <label>实际付款货币：</label>
@@ -170,19 +178,33 @@
             </p>
             <p>
                 <label>实际付款汇率：</label>
-                <input type="text" name="BuyExchangeRate" class="required number calBlur" size="30" />
+                <input type="text" name="BuyExchangeRate" class="required number calRealBlur" size="30" />
             </p>
             <p>
                 <label>实际付款单价：</label>
-                <input type="text" name="BuyRealPrice" class="required number calBlur" size="30" />
+                <input type="text" name="BuyRealPrice" class="required number calRealBlur" size="30" />
             </p>
             <p>
                 <label>实际付款总额：</label>
-                <input type="text" name="BuyRealTotal" class="required number calBlur" size="30" />
+                <input type="text" name="BuyRealTotal" class="required number calRealBlur" size="30" />
+            </p>
+            <p>
+                <label>付款标准货币：</label>
+                <select name="BuyStandardCurrency" disabled class="required ">
+                    <option value="">--请选择--</option>
+                </select>
+            </p>
+            <p>
+                <label>实收标准单价(USD)：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.Price" class="required number calRealBlur" size="30" readonly="readonly" />
+            </p>
+            <p>
+                <label>实收标准总额(USD)：</label>
+                <input type="text" name="PaymentPlan_Edit_POPlanLookup.TotalPrice" class="required number calRealBlur" size="30" readonly="readonly" />
             </p>
             <p>
                 <label>付款方式：</label>
-                <select name="PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID" class="required">
+                <select name="PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID" class="required" style="width: 185px;">
                     <option value="">--请选择--</option>
                 </select>
             </p>

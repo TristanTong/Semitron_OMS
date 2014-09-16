@@ -232,6 +232,10 @@ namespace Semitron_OMS.BLL.OMS
             {
                 return "编辑采购计划失败！";
             }
+            if (!new POBLL().UpdateStateByPONO(model.PONO, model.UpdateUser, (int)EnumPOState.Added))
+            {
+                return "编辑采购计划成功，但级联修改采购订单状态失败，请手动编辑采购订单状态！";
+            }
             return "OK";
         }
         /// <summary>

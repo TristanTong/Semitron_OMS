@@ -4,7 +4,7 @@
         LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleStandardCurrency']", 1, 10, false);
         LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleRealCurrency']", 1, 10, false);
         data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
-        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID']", -1, 10, true);
+        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID']", -1, 30, true);
 
         //debugger;
         var id = $("#hidSeletedGatheringPlanId").val(); //alert(id);
@@ -14,57 +14,63 @@
             GetGatheringPlanById(id);
         }
 
+        //计算实收价
+        $("#divEditGatheringPlan .calRealBlur").blur(function () {
+            //实际收款单价 //需要手工计算输入
+            var SaleRealPrice = parseFloat($("#divEditGatheringPlan p input[name='SaleRealPrice']").val());
 
-        //计算标准价
-        $("#divEditGatheringPlan .calBlur").blur(function () {
-            //收款数量
-            var Qty = parseInt($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity']").val());
+            //实际收款总额 //需要手工计算输入
+            var SaleRealTotal = parseFloat($("#divEditGatheringPlan p input[name='SaleRealTotal']").val());
 
-            //标准收款单价
-            var SalePrice = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice']").val());
+            //实际收款汇率 //需要手工计算输入
+            var SaleExchangeRate = parseFloat($("#divEditGatheringPlan p input[name='SaleExchangeRate']").val());
 
-            //实际收款单价=标准收款单价*实际收款汇率
-            var value = SalePrice * parseFloat($("#divEditGatheringPlan p input[name='SaleExchangeRate']").val());
+            //实收标准单价(USD)=实际收款单价/实际收款汇率
+            var value = SaleRealPrice / SaleExchangeRate;
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
-            $("#divEditGatheringPlan p input[name='SaleRealPrice']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+            $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //收款标准售价总额=标准收款单价*收款数量
-            value = SalePrice * Qty;
+            //实收售价总额(USD)=实际收款总额/实际收款汇率
+            value = SaleRealTotal / SaleExchangeRate;
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
-            $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+            $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //实际收款单价
-            var SaleRealPrice = parseFloat($("#divEditGatheringPlan p input[name='SaleRealPrice']").val())
 
-            //实际收款总额=实际收款单价*收款数量
-            value = SaleRealPrice * Qty;
-            strvalue = value.toString();
-            if (strvalue == "NaN") strvalue = "0";
-            $("#divEditGatheringPlan p input[name='SaleRealTotal").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
-
-            //实收应收差额(USD)=(标准收款单价(USD)-应收单价(USD))*收款数量
-            value = (SalePrice - parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice']").val())) * Qty;
+            //实收应收差额(USD)=实收售价总额(USD)-应收总额(USD)
+            value = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal']").val()) - parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardTotal']").val());
             var strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='StandardIncomeRealDiff']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+        });
 
-            //毛利润=收款标准售价总额-标准买货总金额
+        //计算标准价
+        $("#divEditGatheringPlan .calBlur").blur(function () {
+            //客户订单数量
+            var Qty = parseInt($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity']").val());
+
+            //实收标准单价(USD)
+            var SalePrice = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice']").val())
+            //实收售价总额(USD)
+            var SaleTotal = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal']").val())
+
             var POPrice = parseFloat($("#divEditGatheringPlan p input[name='GatheringPlan_Edit_GodownEntryLookup.POPrice']").val());
-            value = SalePrice * Qty - (POPrice * Qty);
+            //标准买货总金额=买货单价(USD)*客户订单数量
+            //毛利润=实收售价总额(USD)-标准买货总金额
+            value = SaleTotal - (POPrice * Qty);
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='GrossProfits']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //运营费用USD 默认=付款标准总额（即标准买货总金额）×0.05
-            value = POPrice * Qty * 0.05;
+            //运营费用USD 默认=付款标准总额（即标准买货总金额）×0.03
+            value = POPrice * Qty * 0.03;
             strvalue = value.toString();
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='OperatingFee']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //净利润=收款标准售价总额-标准买货总金额-招待费用USD-渠道费用USD-物流费用USD-运营费用USD
-            value = SalePrice * Qty - (POPrice * Qty)
+            //净利润=实收售价总额(USD)-标准买货总金额-招待费用USD-渠道费用USD-物流费用USD-运营费用USD
+            value = SaleTotal - (POPrice * Qty)
                 - parseFloat($("#divEditGatheringPlan p input[name='OtherFee']").val())
                 - parseFloat($("#divEditGatheringPlan p input[name='ChannelFee']").val())
                 - parseFloat($("#divEditGatheringPlan p input[name='LogisticsFee']").val())
@@ -87,7 +93,7 @@
             if (strvalue == "NaN") strvalue = "0";
             $("#divEditGatheringPlan p input[name='RealNetProfit']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
-            //毛利润率=(标准收款单价/标准买货单价- 1)*100%
+            //毛利润率=(实收标准单价(USD)/标准买货单价- 1)*100%
             if (POPrice == 0) POPrice = SalePrice;
             value = SalePrice / POPrice;
             strvalue = value.toString();
@@ -116,6 +122,7 @@
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CPN']").val(json.CPN);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.MPN']").val(json.MPN);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice']").val(json.SaleStandardPrice);
+                    $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardTotal']").val(json.SaleStandardTotal);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.InnerOrderNO']").val(json.InnerOrderNO);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderNO']").val(json.CustomerOrderNO);
                     $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerID']").val(json.CustomerID);
@@ -235,27 +242,16 @@
                 <input name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerName" class="required" readonly="readonly" type="text" size="30" />
             </p>
             <p>
+                <label>客户订单数量：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity" class="digits required calRealBlur" readonly="readonly" size="30" />
+            </p>
+            <p>
                 <label>应收单价(USD)：</label>
                 <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardPrice" class="required number calBlur" readonly="readonly" size="30" />
             </p>
-
             <p>
-                <label>收款数量：</label>
-                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.CustQuantity" class="digits required calBlur" size="30" />
-            </p>
-            <p>
-                <label>收款标准货币：</label>
-                <select name="SaleStandardCurrency" disabled class="required">
-                    <option value="">--请选择--</option>
-                </select>
-            </p>
-            <p>
-                <label>收款标准单价：</label>
-                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice" class="required number calBlur" size="30" />
-            </p>
-            <p>
-                <label>收款标准售价总额：</label>
-                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal" class="required number calBlur" readonly="readonly" size="30" />
+                <label>应收总额(USD)：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SaleStandardTotal" class="required number calBlur" readonly="readonly" size="30" />
             </p>
             <p>
                 <label>实际收款货币：</label>
@@ -265,26 +261,39 @@
             </p>
             <p>
                 <label>实际收款汇率：</label>
-                <input type="text" name="SaleExchangeRate" class="required number calBlur" size="30" />
+                <input type="text" name="SaleExchangeRate" class="required number calRealBlur" size="30" />
             </p>
             <p>
                 <label>实际收款单价：</label>
-                <input type="text" name="SaleRealPrice" class="required number calBlur" readonly="readonly" size="30" />
+                <input type="text" name="SaleRealPrice" class="required number calRealBlur" size="30" />
             </p>
             <p>
                 <label>实际收款总额：</label>
-                <input type="text" name="SaleRealTotal" class="required number calBlur" readonly="readonly" size="30" />
+                <input type="text" name="SaleRealTotal" class="required number calRealBlur" size="30" value="0" />
             </p>
-
             <p>
-                <label>实际付款方式：</label>
-                <select name="GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID" class="required">
+                <label>实收标准货币：</label>
+                <select name="SaleStandardCurrency" disabled class="required">
                     <option value="">--请选择--</option>
                 </select>
             </p>
             <p>
+                <label>实收标准单价(USD)：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SalePrice" class="required number calRealBlur" size="30" value="0" readonly="readonly" />
+            </p>
+            <p>
+                <label>实收售价总额(USD)：</label>
+                <input type="text" name="GatheringPlan_Edit_CustomerOrderDetailLookup.SaleTotal" class="required number calRealBlur" size="30" value="0" readonly="readonly" />
+            </p>
+            <p>
                 <label>实收应收差额(USD)：</label>
                 <input type="text" name="StandardIncomeRealDiff" class="number calBlur" readonly="readonly" size="30" />
+            </p>
+            <p>
+                <label>实际付款方式：</label>
+                <select name="GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID" class="required" style="width: 185px;">
+                    <option value="">--请选择--</option>
+                </select>
             </p>
             <p>
                 <label>是否开增票：</label>

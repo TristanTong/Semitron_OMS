@@ -50,7 +50,7 @@
       <publishTime>07/24/2014 00:07:06</publishTime>
     </File>
     <File Include="Admin/FM/GatheringPlan/Edit.html">
-      <publishTime>08/02/2014 22:25:12</publishTime>
+      <publishTime>09/14/2014 15:01:46</publishTime>
     </File>
     <File Include="Admin/FM/GatheringPlan/Main.html">
       <publishTime>08/10/2014 21:59:17</publishTime>
@@ -59,10 +59,10 @@
       <publishTime>08/10/2014 21:52:00</publishTime>
     </File>
     <File Include="Admin/FM/PaymentPlan/Edit.html">
-      <publishTime>08/02/2014 22:22:34</publishTime>
+      <publishTime>09/14/2014 15:01:33</publishTime>
     </File>
     <File Include="Admin/FM/PaymentPlan/Main.html">
-      <publishTime>08/10/2014 21:52:09</publishTime>
+      <publishTime>09/06/2014 17:33:14</publishTime>
     </File>
     <File Include="Admin/FM/PaymentPlan/Upload.html">
       <publishTime>08/10/2014 17:49:17</publishTime>
@@ -170,22 +170,25 @@
       <publishTime>07/09/2014 22:02:44</publishTime>
     </File>
     <File Include="Admin/OMS/CustomerOrderDetail/Lookup.html">
-      <publishTime>08/02/2014 22:05:03</publishTime>
+      <publishTime>09/14/2014 12:07:44</publishTime>
     </File>
     <File Include="Admin/OMS/CustomerOrderDetailManager.aspx">
-      <publishTime>07/09/2014 22:02:44</publishTime>
+      <publishTime>09/06/2014 18:17:42</publishTime>
     </File>
     <File Include="Admin/OMS/CustomerOrderManager.aspx">
-      <publishTime>08/10/2014 17:57:58</publishTime>
+      <publishTime>09/06/2014 13:44:27</publishTime>
     </File>
     <File Include="Admin/OMS/GodownEntry/Approve.html">
       <publishTime>07/09/2014 22:02:44</publishTime>
     </File>
     <File Include="Admin/OMS/GodownEntry/Edit.html">
-      <publishTime>08/02/2014 10:31:29</publishTime>
+      <publishTime>09/14/2014 14:22:10</publishTime>
     </File>
     <File Include="Admin/OMS/GodownEntry/EditDetail.html">
       <publishTime>07/09/2014 22:02:44</publishTime>
+    </File>
+    <File Include="Admin/OMS/GodownEntry/Lookup.html">
+      <publishTime>09/06/2014 13:33:15</publishTime>
     </File>
     <File Include="Admin/OMS/GodownEntry/Main.html">
       <publishTime>07/21/2014 01:15:56</publishTime>
@@ -194,10 +197,10 @@
       <publishTime>07/24/2014 00:10:38</publishTime>
     </File>
     <File Include="Admin/OMS/Inventory/Main.html">
-      <publishTime>07/21/2014 01:22:00</publishTime>
+      <publishTime>09/07/2014 20:39:12</publishTime>
     </File>
     <File Include="Admin/OMS/OrderFeeManager.aspx">
-      <publishTime>08/09/2014 21:48:42</publishTime>
+      <publishTime>09/14/2014 10:54:13</publishTime>
     </File>
     <File Include="Admin/OMS/PaymentTypeManager.aspx">
       <publishTime>07/09/2014 22:02:44</publishTime>
@@ -206,13 +209,13 @@
       <publishTime>07/10/2014 22:03:21</publishTime>
     </File>
     <File Include="Admin/OMS/POPlan/Lookup.html">
-      <publishTime>08/02/2014 22:10:59</publishTime>
+      <publishTime>09/14/2014 14:39:39</publishTime>
     </File>
     <File Include="Admin/OMS/POPlan/LookupPOPlan.html">
       <publishTime>07/09/2014 22:02:44</publishTime>
     </File>
     <File Include="Admin/OMS/POPlanManager.aspx">
-      <publishTime>08/09/2014 21:28:07</publishTime>
+      <publishTime>08/30/2014 11:24:23</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingList/Edit.html">
       <publishTime>08/10/2014 22:42:00</publishTime>
@@ -221,7 +224,7 @@
       <publishTime>07/21/2014 01:00:31</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingList/Main.html">
-      <publishTime>08/10/2014 22:41:30</publishTime>
+      <publishTime>09/06/2014 17:30:40</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingList/SearchExt.html">
       <publishTime>07/24/2014 00:11:42</publishTime>
@@ -230,16 +233,16 @@
       <publishTime>07/09/2014 22:02:44</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingPlan/Edit.html">
-      <publishTime>07/24/2014 00:09:29</publishTime>
+      <publishTime>09/06/2014 16:35:36</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingPlan/EditDetail.html">
       <publishTime>07/19/2014 18:51:11</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingPlan/Lookup.html">
-      <publishTime>07/21/2014 00:38:45</publishTime>
+      <publishTime>09/06/2014 17:09:19</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingPlan/Main.html">
-      <publishTime>07/20/2014 12:36:41</publishTime>
+      <publishTime>09/06/2014 16:46:26</publishTime>
     </File>
     <File Include="Admin/OMS/ShippingPlan/SearchExt.html">
       <publishTime>07/24/2014 00:09:53</publishTime>
@@ -308,40 +311,40 @@
       <publishTime>10/15/2012 21:37:45</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.BLL.dll">
-      <publishTime>08/10/2014 22:15:20</publishTime>
+      <publishTime>09/14/2014 23:52:40</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.BLL.pdb">
       <publishTime>01/25/2014 01:01:38</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.Common.dll">
-      <publishTime>08/10/2014 22:15:17</publishTime>
+      <publishTime>09/14/2014 23:52:30</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.Common.pdb">
       <publishTime>01/25/2014 01:01:36</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.CommonWeb.dll">
-      <publishTime>08/10/2014 22:15:18</publishTime>
+      <publishTime>09/14/2014 23:52:35</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.DAL.dll">
-      <publishTime>08/10/2014 22:15:19</publishTime>
+      <publishTime>09/14/2014 23:52:37</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.DAL.pdb">
       <publishTime>01/25/2014 01:01:37</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.DBUtility.dll">
-      <publishTime>08/10/2014 22:15:18</publishTime>
+      <publishTime>09/14/2014 23:52:33</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.DBUtility.pdb">
       <publishTime>01/25/2014 01:01:37</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.Model.dll">
-      <publishTime>08/10/2014 22:15:16</publishTime>
+      <publishTime>09/08/2014 21:36:01</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.Model.pdb">
       <publishTime>01/24/2014 22:54:46</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.UI.dll">
-      <publishTime>08/10/2014 22:15:22</publishTime>
+      <publishTime>09/14/2014 23:52:44</publishTime>
     </File>
     <File Include="bin/Semitron_OMS.UI.pdb">
       <publishTime>01/25/2014 01:01:39</publishTime>
@@ -3488,7 +3491,7 @@
       <publishTime>07/09/2014 22:02:45</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/10/2014 22:42:40</publishTime>
+      <publishTime>09/14/2014 23:53:12</publishTime>
     </File>
     <File Include="xheditor/xheditor-1.2.1.min.js">
       <publishTime>07/09/2014 22:02:46</publishTime>

@@ -168,7 +168,7 @@ namespace Semitron_OMS.UI.Handle.FM
                 GatheringPlanModel model = this._bllGatheringPlan.GetModel(iId);
                 string strResult = JsonConvert.SerializeObject(model, Formatting.Indented, new Newtonsoft.Json.Converters.IsoDateTimeConverter());
                 string strCPN = string.Empty, strMPN = string.Empty;
-                string strSaleStandardPrice = string.Empty;
+                string strSaleStandardPrice = string.Empty, strSaleStandardTotal = string.Empty;
                 DateTime? dCustomerInStockDate = null, dOutStockDate = null;
 
                 CustomerOrderDetailModel dModel = new CustomerOrderDetailBLL().GetModel(model.CustomerOrderDetailID);
@@ -178,6 +178,7 @@ namespace Semitron_OMS.UI.Handle.FM
                     strMPN = dModel.MPN;
                     dCustomerInStockDate = dModel.CustomerInStockDate;
                     strSaleStandardPrice = dModel.SalePrice.ToString();
+                    strSaleStandardTotal = (dModel.SalePrice * dModel.CustQuantity).ToString();
                 }
                 string strCustomerName = string.Empty;
                 CustomerModel cModel = new CustomerBLL().GetModel((int)model.CustomerID);
@@ -221,6 +222,7 @@ namespace Semitron_OMS.UI.Handle.FM
                     + "\",\"CustomerInStockDate\":\"" + ((DateTime)dCustomerInStockDate).ToString("yyyy-MM-dd")
                     + "\",\"OutStockDate\":\"" + ((DateTime)dOutStockDate).ToString("yyyy-MM-dd")
                     + "\",\"SaleStandardPrice\":\"" + strSaleStandardPrice
+                    + "\",\"SaleStandardTotal\":\"" + strSaleStandardTotal
                     + "\",\"CustomerName\":\"" + strCustomerName
                     + "\",\"CorporationName\":\"" + strCorporationName
                     + "\"}";

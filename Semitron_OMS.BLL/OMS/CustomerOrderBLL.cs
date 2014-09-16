@@ -303,7 +303,21 @@ namespace Semitron_OMS.BLL.OMS
         {
             return dal.SetItemsByCustomerOrderDetailID(iCustomerOrderDetailID, iPaymentTypeID) > 0 ? true : false;
         }
+
+        /// <summary>
+        /// 根据内部订单号更新客户订单状态
+        /// </summary>
+        /// <param name="strInnerOrderNo">内部订单号</param>
+        /// <param name="strUpdateUser">更新人</param>
+        /// <param name="iState">更新状态</param>
+        /// <returns>是否成功</returns>
+        internal bool UpdateStateByInnerOrderNO(string strInnerOrderNo, string strUpdateUser, int iState)
+        {
+            return dal.UpdateStateByInnerOrderNO(strInnerOrderNo, strUpdateUser, iState);
+        }
         #endregion  ExtensionMethod
+
+
     }
 }
 

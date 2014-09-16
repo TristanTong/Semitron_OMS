@@ -241,6 +241,10 @@ namespace Semitron_OMS.BLL.OMS
             {
                 return "编辑产品清单记录失败！";
             }
+            if (!new CustomerOrderBLL().UpdateStateByInnerOrderNO(model.InnerOrderNO, model.UpdateUser, (int)EnumCustomerOrderState.Added))
+            {
+                return "编辑产品清单记录成功，但级联更新客户订单状态失败，请手工编辑客户订单状态！";
+            }
             return "OK";
         }
 

@@ -178,6 +178,13 @@ namespace Semitron_OMS.UI.Handle.FM
                 {
                     strInnerBuyer = poModel.InnerBuyer;
                 }
+                string strStandardPrice = string.Empty, strStandardTotalPrice = string.Empty;//应收标准单价(USD)
+                POPlanModel plModel = new POPlanBLL().GetModel(model.POPlanID);
+                if (plModel != null)
+                {
+                    strStandardPrice = plModel.BuyPrice.ToString();
+                    strStandardTotalPrice = plModel.BuyCost.ToString();
+                }
                 string strCorporationName = string.Empty;
                 CorporationModel corModel = new CorporationBLL().GetModel(model.CorporationID);
                 if (corModel != null)
@@ -187,6 +194,8 @@ namespace Semitron_OMS.UI.Handle.FM
                 strResult = strResult.Substring(0, strResult.Length - 1)
                     + ",\"SupplierName\":\"" + strSupplierName
                     + "\",\"InnerBuyer\":\"" + strInnerBuyer
+                    + "\",\"StandardPrice\":\"" + strStandardPrice
+                    + "\",\"StandardTotalPrice\":\"" + strStandardTotalPrice
                     + "\",\"CorporationName\":\"" + strCorporationName
                     + "\"}";
                 return strResult;
