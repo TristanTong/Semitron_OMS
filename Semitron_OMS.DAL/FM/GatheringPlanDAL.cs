@@ -65,9 +65,9 @@ namespace Semitron_OMS.DAL.FM
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into GatheringPlan(");
-            strSql.Append("CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,StandardIncomeRealDiff,SalesManProportion,SalesManPay,POPrice,GrossProfits,NetProfit,ProfitMargin,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
+            strSql.Append("CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,ChannelFee,ChannelFeeRemark,LogisticsFee,LogisticsFeeRemark,OperatingFee,OperatingFeeRemark,StandardIncomeRealDiff,SalesMan,SalesManProportion,SalesManPay,BuyerMan,BuyerProportion,BuyerPay,POPrice,GrossProfits,ProfitMargin,NetProfit,NetProfitMargin,RealNetProfit,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser)");
             strSql.Append(" values (");
-            strSql.Append("@CorporationID,@GatheringPlanDate,@CustomerID,@InnerOrderNO,@CustomerOrderNO,@CustomerOrderDetailID,@PaymentTypeID,@IsCustomerVATInvoice,@CustomerVATInvoiceNo,@TrackingNumber,@IsCustomerPay,@Qty,@SaleStandardCurrency,@SalePrice,@SaleTotal,@SaleRealCurrency,@SaleExchangeRate,@SaleRealPrice,@SaleRealTotal,@OtherFee,@OtherFeeRemark,@StandardIncomeRealDiff,@SalesManProportion,@SalesManPay,@POPrice,@GrossProfits,@NetProfit,@ProfitMargin,@FeeBackDate,@ProductCodes,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
+            strSql.Append("@CorporationID,@GatheringPlanDate,@CustomerID,@InnerOrderNO,@CustomerOrderNO,@CustomerOrderDetailID,@PaymentTypeID,@IsCustomerVATInvoice,@CustomerVATInvoiceNo,@TrackingNumber,@IsCustomerPay,@Qty,@SaleStandardCurrency,@SalePrice,@SaleTotal,@SaleRealCurrency,@SaleExchangeRate,@SaleRealPrice,@SaleRealTotal,@OtherFee,@OtherFeeRemark,@ChannelFee,@ChannelFeeRemark,@LogisticsFee,@LogisticsFeeRemark,@OperatingFee,@OperatingFeeRemark,@StandardIncomeRealDiff,@SalesMan,@SalesManProportion,@SalesManPay,@BuyerMan,@BuyerProportion,@BuyerPay,@POPrice,@GrossProfits,@ProfitMargin,@NetProfit,@NetProfitMargin,@RealNetProfit,@FeeBackDate,@ProductCodes,@State,@CreateTime,@CreateUser,@UpdateTime,@UpdateUser)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@CorporationID", SqlDbType.Int,4),
@@ -91,13 +91,25 @@ namespace Semitron_OMS.DAL.FM
 					new SqlParameter("@SaleRealTotal", SqlDbType.Decimal,9),
 					new SqlParameter("@OtherFee", SqlDbType.Decimal,9),
 					new SqlParameter("@OtherFeeRemark", SqlDbType.NVarChar,1024),
+					new SqlParameter("@ChannelFee", SqlDbType.Decimal,9),
+					new SqlParameter("@ChannelFeeRemark", SqlDbType.NVarChar,1024),
+					new SqlParameter("@LogisticsFee", SqlDbType.Decimal,9),
+					new SqlParameter("@LogisticsFeeRemark", SqlDbType.NVarChar,1024),
+					new SqlParameter("@OperatingFee", SqlDbType.Decimal,9),
+					new SqlParameter("@OperatingFeeRemark", SqlDbType.NVarChar,1024),
 					new SqlParameter("@StandardIncomeRealDiff", SqlDbType.Decimal,9),
+					new SqlParameter("@SalesMan", SqlDbType.NVarChar,50),
 					new SqlParameter("@SalesManProportion", SqlDbType.Decimal,9),
 					new SqlParameter("@SalesManPay", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyerMan", SqlDbType.NVarChar,50),
+					new SqlParameter("@BuyerProportion", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyerPay", SqlDbType.Decimal,9),
 					new SqlParameter("@POPrice", SqlDbType.Decimal,9),
 					new SqlParameter("@GrossProfits", SqlDbType.Decimal,9),
-					new SqlParameter("@NetProfit", SqlDbType.Decimal,9),
 					new SqlParameter("@ProfitMargin", SqlDbType.Decimal,9),
+					new SqlParameter("@NetProfit", SqlDbType.Decimal,9),
+					new SqlParameter("@NetProfitMargin", SqlDbType.Decimal,9),
+					new SqlParameter("@RealNetProfit", SqlDbType.Decimal,9),
 					new SqlParameter("@FeeBackDate", SqlDbType.DateTime),
 					new SqlParameter("@ProductCodes", SqlDbType.NVarChar,50),
 					new SqlParameter("@State", SqlDbType.Int,4),
@@ -126,20 +138,32 @@ namespace Semitron_OMS.DAL.FM
             parameters[18].Value = model.SaleRealTotal;
             parameters[19].Value = model.OtherFee;
             parameters[20].Value = model.OtherFeeRemark;
-            parameters[21].Value = model.StandardIncomeRealDiff;
-            parameters[22].Value = model.SalesManProportion;
-            parameters[23].Value = model.SalesManPay;
-            parameters[24].Value = model.POPrice;
-            parameters[25].Value = model.GrossProfits;
-            parameters[26].Value = model.NetProfit;
-            parameters[27].Value = model.ProfitMargin;
-            parameters[28].Value = model.FeeBackDate;
-            parameters[29].Value = model.ProductCodes;
-            parameters[30].Value = model.State;
-            parameters[31].Value = model.CreateTime;
-            parameters[32].Value = model.CreateUser;
-            parameters[33].Value = model.UpdateTime;
-            parameters[34].Value = model.UpdateUser;
+            parameters[21].Value = model.ChannelFee;
+            parameters[22].Value = model.ChannelFeeRemark;
+            parameters[23].Value = model.LogisticsFee;
+            parameters[24].Value = model.LogisticsFeeRemark;
+            parameters[25].Value = model.OperatingFee;
+            parameters[26].Value = model.OperatingFeeRemark;
+            parameters[27].Value = model.StandardIncomeRealDiff;
+            parameters[28].Value = model.SalesMan;
+            parameters[29].Value = model.SalesManProportion;
+            parameters[30].Value = model.SalesManPay;
+            parameters[31].Value = model.BuyerMan;
+            parameters[32].Value = model.BuyerProportion;
+            parameters[33].Value = model.BuyerPay;
+            parameters[34].Value = model.POPrice;
+            parameters[35].Value = model.GrossProfits;
+            parameters[36].Value = model.ProfitMargin;
+            parameters[37].Value = model.NetProfit;
+            parameters[38].Value = model.NetProfitMargin;
+            parameters[39].Value = model.RealNetProfit;
+            parameters[40].Value = model.FeeBackDate;
+            parameters[41].Value = model.ProductCodes;
+            parameters[42].Value = model.State;
+            parameters[43].Value = model.CreateTime;
+            parameters[44].Value = model.CreateUser;
+            parameters[45].Value = model.UpdateTime;
+            parameters[46].Value = model.UpdateUser;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -179,13 +203,25 @@ namespace Semitron_OMS.DAL.FM
             strSql.Append("SaleRealTotal=@SaleRealTotal,");
             strSql.Append("OtherFee=@OtherFee,");
             strSql.Append("OtherFeeRemark=@OtherFeeRemark,");
+            strSql.Append("ChannelFee=@ChannelFee,");
+            strSql.Append("ChannelFeeRemark=@ChannelFeeRemark,");
+            strSql.Append("LogisticsFee=@LogisticsFee,");
+            strSql.Append("LogisticsFeeRemark=@LogisticsFeeRemark,");
+            strSql.Append("OperatingFee=@OperatingFee,");
+            strSql.Append("OperatingFeeRemark=@OperatingFeeRemark,");
             strSql.Append("StandardIncomeRealDiff=@StandardIncomeRealDiff,");
+            strSql.Append("SalesMan=@SalesMan,");
             strSql.Append("SalesManProportion=@SalesManProportion,");
             strSql.Append("SalesManPay=@SalesManPay,");
+            strSql.Append("BuyerMan=@BuyerMan,");
+            strSql.Append("BuyerProportion=@BuyerProportion,");
+            strSql.Append("BuyerPay=@BuyerPay,");
             strSql.Append("POPrice=@POPrice,");
             strSql.Append("GrossProfits=@GrossProfits,");
-            strSql.Append("NetProfit=@NetProfit,");
             strSql.Append("ProfitMargin=@ProfitMargin,");
+            strSql.Append("NetProfit=@NetProfit,");
+            strSql.Append("NetProfitMargin=@NetProfitMargin,");
+            strSql.Append("RealNetProfit=@RealNetProfit,");
             strSql.Append("FeeBackDate=@FeeBackDate,");
             strSql.Append("ProductCodes=@ProductCodes,");
             strSql.Append("State=@State,");
@@ -216,13 +252,25 @@ namespace Semitron_OMS.DAL.FM
 					new SqlParameter("@SaleRealTotal", SqlDbType.Decimal,9),
 					new SqlParameter("@OtherFee", SqlDbType.Decimal,9),
 					new SqlParameter("@OtherFeeRemark", SqlDbType.NVarChar,1024),
+					new SqlParameter("@ChannelFee", SqlDbType.Decimal,9),
+					new SqlParameter("@ChannelFeeRemark", SqlDbType.NVarChar,1024),
+					new SqlParameter("@LogisticsFee", SqlDbType.Decimal,9),
+					new SqlParameter("@LogisticsFeeRemark", SqlDbType.NVarChar,1024),
+					new SqlParameter("@OperatingFee", SqlDbType.Decimal,9),
+					new SqlParameter("@OperatingFeeRemark", SqlDbType.NVarChar,1024),
 					new SqlParameter("@StandardIncomeRealDiff", SqlDbType.Decimal,9),
+					new SqlParameter("@SalesMan", SqlDbType.NVarChar,50),
 					new SqlParameter("@SalesManProportion", SqlDbType.Decimal,9),
 					new SqlParameter("@SalesManPay", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyerMan", SqlDbType.NVarChar,50),
+					new SqlParameter("@BuyerProportion", SqlDbType.Decimal,9),
+					new SqlParameter("@BuyerPay", SqlDbType.Decimal,9),
 					new SqlParameter("@POPrice", SqlDbType.Decimal,9),
 					new SqlParameter("@GrossProfits", SqlDbType.Decimal,9),
-					new SqlParameter("@NetProfit", SqlDbType.Decimal,9),
 					new SqlParameter("@ProfitMargin", SqlDbType.Decimal,9),
+					new SqlParameter("@NetProfit", SqlDbType.Decimal,9),
+					new SqlParameter("@NetProfitMargin", SqlDbType.Decimal,9),
+					new SqlParameter("@RealNetProfit", SqlDbType.Decimal,9),
 					new SqlParameter("@FeeBackDate", SqlDbType.DateTime),
 					new SqlParameter("@ProductCodes", SqlDbType.NVarChar,50),
 					new SqlParameter("@State", SqlDbType.Int,4),
@@ -252,21 +300,33 @@ namespace Semitron_OMS.DAL.FM
             parameters[18].Value = model.SaleRealTotal;
             parameters[19].Value = model.OtherFee;
             parameters[20].Value = model.OtherFeeRemark;
-            parameters[21].Value = model.StandardIncomeRealDiff;
-            parameters[22].Value = model.SalesManProportion;
-            parameters[23].Value = model.SalesManPay;
-            parameters[24].Value = model.POPrice;
-            parameters[25].Value = model.GrossProfits;
-            parameters[26].Value = model.NetProfit;
-            parameters[27].Value = model.ProfitMargin;
-            parameters[28].Value = model.FeeBackDate;
-            parameters[29].Value = model.ProductCodes;
-            parameters[30].Value = model.State;
-            parameters[31].Value = model.CreateTime;
-            parameters[32].Value = model.CreateUser;
-            parameters[33].Value = model.UpdateTime;
-            parameters[34].Value = model.UpdateUser;
-            parameters[35].Value = model.ID;
+            parameters[21].Value = model.ChannelFee;
+            parameters[22].Value = model.ChannelFeeRemark;
+            parameters[23].Value = model.LogisticsFee;
+            parameters[24].Value = model.LogisticsFeeRemark;
+            parameters[25].Value = model.OperatingFee;
+            parameters[26].Value = model.OperatingFeeRemark;
+            parameters[27].Value = model.StandardIncomeRealDiff;
+            parameters[28].Value = model.SalesMan;
+            parameters[29].Value = model.SalesManProportion;
+            parameters[30].Value = model.SalesManPay;
+            parameters[31].Value = model.BuyerMan;
+            parameters[32].Value = model.BuyerProportion;
+            parameters[33].Value = model.BuyerPay;
+            parameters[34].Value = model.POPrice;
+            parameters[35].Value = model.GrossProfits;
+            parameters[36].Value = model.ProfitMargin;
+            parameters[37].Value = model.NetProfit;
+            parameters[38].Value = model.NetProfitMargin;
+            parameters[39].Value = model.RealNetProfit;
+            parameters[40].Value = model.FeeBackDate;
+            parameters[41].Value = model.ProductCodes;
+            parameters[42].Value = model.State;
+            parameters[43].Value = model.CreateTime;
+            parameters[44].Value = model.CreateUser;
+            parameters[45].Value = model.UpdateTime;
+            parameters[46].Value = model.UpdateUser;
+            parameters[47].Value = model.ID;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -330,7 +390,7 @@ namespace Semitron_OMS.DAL.FM
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 ID,CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,StandardIncomeRealDiff,SalesManProportion,SalesManPay,POPrice,GrossProfits,NetProfit,ProfitMargin,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser from GatheringPlan ");
+            strSql.Append("select  top 1 ID,CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,ChannelFee,ChannelFeeRemark,LogisticsFee,LogisticsFeeRemark,OperatingFee,OperatingFeeRemark,StandardIncomeRealDiff,SalesMan,SalesManProportion,SalesManPay,BuyerMan,BuyerProportion,BuyerPay,POPrice,GrossProfits,ProfitMargin,NetProfit,NetProfitMargin,RealNetProfit,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser from GatheringPlan ");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -460,9 +520,37 @@ namespace Semitron_OMS.DAL.FM
                 {
                     model.OtherFeeRemark = row["OtherFeeRemark"].ToString();
                 }
+                if (row["ChannelFee"] != null && row["ChannelFee"].ToString() != "")
+                {
+                    model.ChannelFee = decimal.Parse(row["ChannelFee"].ToString());
+                }
+                if (row["ChannelFeeRemark"] != null)
+                {
+                    model.ChannelFeeRemark = row["ChannelFeeRemark"].ToString();
+                }
+                if (row["LogisticsFee"] != null && row["LogisticsFee"].ToString() != "")
+                {
+                    model.LogisticsFee = decimal.Parse(row["LogisticsFee"].ToString());
+                }
+                if (row["LogisticsFeeRemark"] != null)
+                {
+                    model.LogisticsFeeRemark = row["LogisticsFeeRemark"].ToString();
+                }
+                if (row["OperatingFee"] != null && row["OperatingFee"].ToString() != "")
+                {
+                    model.OperatingFee = decimal.Parse(row["OperatingFee"].ToString());
+                }
+                if (row["OperatingFeeRemark"] != null)
+                {
+                    model.OperatingFeeRemark = row["OperatingFeeRemark"].ToString();
+                }
                 if (row["StandardIncomeRealDiff"] != null && row["StandardIncomeRealDiff"].ToString() != "")
                 {
                     model.StandardIncomeRealDiff = decimal.Parse(row["StandardIncomeRealDiff"].ToString());
+                }
+                if (row["SalesMan"] != null)
+                {
+                    model.SalesMan = row["SalesMan"].ToString();
                 }
                 if (row["SalesManProportion"] != null && row["SalesManProportion"].ToString() != "")
                 {
@@ -472,6 +560,18 @@ namespace Semitron_OMS.DAL.FM
                 {
                     model.SalesManPay = decimal.Parse(row["SalesManPay"].ToString());
                 }
+                if (row["BuyerMan"] != null)
+                {
+                    model.BuyerMan = row["BuyerMan"].ToString();
+                }
+                if (row["BuyerProportion"] != null && row["BuyerProportion"].ToString() != "")
+                {
+                    model.BuyerProportion = decimal.Parse(row["BuyerProportion"].ToString());
+                }
+                if (row["BuyerPay"] != null && row["BuyerPay"].ToString() != "")
+                {
+                    model.BuyerPay = decimal.Parse(row["BuyerPay"].ToString());
+                }
                 if (row["POPrice"] != null && row["POPrice"].ToString() != "")
                 {
                     model.POPrice = decimal.Parse(row["POPrice"].ToString());
@@ -480,13 +580,21 @@ namespace Semitron_OMS.DAL.FM
                 {
                     model.GrossProfits = decimal.Parse(row["GrossProfits"].ToString());
                 }
+                if (row["ProfitMargin"] != null && row["ProfitMargin"].ToString() != "")
+                {
+                    model.ProfitMargin = decimal.Parse(row["ProfitMargin"].ToString());
+                }
                 if (row["NetProfit"] != null && row["NetProfit"].ToString() != "")
                 {
                     model.NetProfit = decimal.Parse(row["NetProfit"].ToString());
                 }
-                if (row["ProfitMargin"] != null && row["ProfitMargin"].ToString() != "")
+                if (row["NetProfitMargin"] != null && row["NetProfitMargin"].ToString() != "")
                 {
-                    model.ProfitMargin = decimal.Parse(row["ProfitMargin"].ToString());
+                    model.NetProfitMargin = decimal.Parse(row["NetProfitMargin"].ToString());
+                }
+                if (row["RealNetProfit"] != null && row["RealNetProfit"].ToString() != "")
+                {
+                    model.RealNetProfit = decimal.Parse(row["RealNetProfit"].ToString());
                 }
                 if (row["FeeBackDate"] != null && row["FeeBackDate"].ToString() != "")
                 {
@@ -526,7 +634,7 @@ namespace Semitron_OMS.DAL.FM
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,StandardIncomeRealDiff,SalesManProportion,SalesManPay,POPrice,GrossProfits,NetProfit,ProfitMargin,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append("select ID,CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,ChannelFee,ChannelFeeRemark,LogisticsFee,LogisticsFeeRemark,OperatingFee,OperatingFeeRemark,StandardIncomeRealDiff,SalesMan,SalesManProportion,SalesManPay,BuyerMan,BuyerProportion,BuyerPay,POPrice,GrossProfits,ProfitMargin,NetProfit,NetProfitMargin,RealNetProfit,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
             strSql.Append(" FROM GatheringPlan ");
             if (strWhere.Trim() != "")
             {
@@ -546,7 +654,7 @@ namespace Semitron_OMS.DAL.FM
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" ID,CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,StandardIncomeRealDiff,SalesManProportion,SalesManPay,POPrice,GrossProfits,NetProfit,ProfitMargin,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
+            strSql.Append(" ID,CorporationID,GatheringPlanDate,CustomerID,InnerOrderNO,CustomerOrderNO,CustomerOrderDetailID,PaymentTypeID,IsCustomerVATInvoice,CustomerVATInvoiceNo,TrackingNumber,IsCustomerPay,Qty,SaleStandardCurrency,SalePrice,SaleTotal,SaleRealCurrency,SaleExchangeRate,SaleRealPrice,SaleRealTotal,OtherFee,OtherFeeRemark,ChannelFee,ChannelFeeRemark,LogisticsFee,LogisticsFeeRemark,OperatingFee,OperatingFeeRemark,StandardIncomeRealDiff,SalesMan,SalesManProportion,SalesManPay,BuyerMan,BuyerProportion,BuyerPay,POPrice,GrossProfits,ProfitMargin,NetProfit,NetProfitMargin,RealNetProfit,FeeBackDate,ProductCodes,State,CreateTime,CreateUser,UpdateTime,UpdateUser ");
             strSql.Append(" FROM GatheringPlan ");
             if (strWhere.Trim() != "")
             {

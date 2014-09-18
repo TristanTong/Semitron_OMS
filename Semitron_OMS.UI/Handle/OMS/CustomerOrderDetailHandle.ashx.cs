@@ -123,8 +123,6 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
-            //获取表格提交参数
-            searchInfo.PageIndex = DataUtility.ToInt(DataUtility.GetPageFormValue(_request.Form["page"], 1));
             //获取表格提交的参数
             //当前查询页码
             searchInfo.PageIndex = DataUtility.ToInt(DataUtility.GetPageFormValue(_request.Form["page"], 1));
@@ -146,6 +144,11 @@ namespace Semitron_OMS.UI.Handle.OMS
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.CustomerID", _request.Form["CustomerID"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.MPN", _request.Form["MPN"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.CPN", _request.Form["CPN"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SP.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SL.ShippingListNo", _request.Form["ShippingListNo"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SPD.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.State", _request.Form["OrderState"], ConditionEnm.Equal));
+
             string strAvailFlag = DataUtility.GetPageFormValue(_request.Form["AvailFlag"], string.Empty);
             if (string.IsNullOrEmpty(strAvailFlag))
             {

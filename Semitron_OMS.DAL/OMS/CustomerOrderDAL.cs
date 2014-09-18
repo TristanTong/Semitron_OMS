@@ -626,7 +626,39 @@ namespace Semitron_OMS.DAL.OMS
 
             return DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
         }
+
+        /// <summary>
+        /// 根据内部订单号更新客户订单状态
+        /// </summary>
+        /// <param name="strInnerOrderNo">内部订单号</param>
+        /// <param name="strUpdateUser">更新人</param>
+        /// <param name="iState">更新状态</param>
+        /// <returns>是否成功</returns>
+        public bool UpdateStateByInnerOrderNO(string strInnerOrderNo, string strUpdateUser, int iState)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("Update CustomerOrder Set State=@State,UpdateUser=@UpdateUser,UpdateTime=getdate()");
+            strSql.Append(" where InnerOrderNO=@InnerOrderNO");
+            SqlParameter[] parameters = {
+					new SqlParameter("@InnerOrderNO", SqlDbType.VarChar,32),
+                    new SqlParameter("@UpdateUser", SqlDbType.VarChar,32),
+					new SqlParameter("@State", SqlDbType.Int,4)};
+            parameters[0].Value = strInnerOrderNo;
+            parameters[1].Value = strUpdateUser;
+            parameters[2].Value = iState;
+
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion  ExtensionMethod
+
     }
 }
 

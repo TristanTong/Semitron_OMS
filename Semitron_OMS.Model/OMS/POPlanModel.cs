@@ -323,6 +323,8 @@ namespace Semitron_OMS.Model.OMS
 
         public string ProductCode { get; set; }
 
+        public string InnerBuyer { get; set; }
+
         public int POQuantity { get; set; }
 
         public decimal BuyPrice { get; set; }

@@ -48,13 +48,25 @@ namespace Semitron_OMS.Model.FM
         private decimal? _salerealtotal;
         private decimal? _otherfee;
         private string _otherfeeremark;
+        private decimal? _channelfee;
+        private string _channelfeeremark;
+        private decimal? _logisticsfee;
+        private string _logisticsfeeremark;
+        private decimal? _operatingfee;
+        private string _operatingfeeremark;
         private decimal? _standardincomerealdiff;
+        private string _salesman;
         private decimal? _salesmanproportion;
         private decimal? _salesmanpay;
+        private string _buyerman;
+        private decimal? _buyerproportion;
+        private decimal? _buyerpay;
         private decimal? _poprice;
         private decimal? _grossprofits;
-        private decimal? _netprofit;
         private decimal? _profitmargin;
+        private decimal? _netprofit;
+        private decimal? _netprofitmargin;
+        private decimal? _realnetprofit;
         private DateTime? _feebackdate;
         private string _productcodes;
         private int _state = 1;
@@ -239,12 +251,68 @@ namespace Semitron_OMS.Model.FM
             get { return _otherfeeremark; }
         }
         /// <summary>
+        /// 渠道费用
+        /// </summary>
+        public decimal? ChannelFee
+        {
+            set { _channelfee = value; }
+            get { return _channelfee; }
+        }
+        /// <summary>
+        /// 渠道费用备注
+        /// </summary>
+        public string ChannelFeeRemark
+        {
+            set { _channelfeeremark = value; }
+            get { return _channelfeeremark; }
+        }
+        /// <summary>
+        /// 物流费用
+        /// </summary>
+        public decimal? LogisticsFee
+        {
+            set { _logisticsfee = value; }
+            get { return _logisticsfee; }
+        }
+        /// <summary>
+        /// 物流费用备注
+        /// </summary>
+        public string LogisticsFeeRemark
+        {
+            set { _logisticsfeeremark = value; }
+            get { return _logisticsfeeremark; }
+        }
+        /// <summary>
+        /// 运营费用
+        /// </summary>
+        public decimal? OperatingFee
+        {
+            set { _operatingfee = value; }
+            get { return _operatingfee; }
+        }
+        /// <summary>
+        /// 运营费用备注
+        /// </summary>
+        public string OperatingFeeRemark
+        {
+            set { _operatingfeeremark = value; }
+            get { return _operatingfeeremark; }
+        }
+        /// <summary>
         /// 标准应收实收美金差额
         /// </summary>
         public decimal? StandardIncomeRealDiff
         {
             set { _standardincomerealdiff = value; }
             get { return _standardincomerealdiff; }
+        }
+        /// <summary>
+        /// 销售
+        /// </summary>
+        public string SalesMan
+        {
+            set { _salesman = value; }
+            get { return _salesman; }
         }
         /// <summary>
         /// 销售提成比例(%)
@@ -263,6 +331,30 @@ namespace Semitron_OMS.Model.FM
             get { return _salesmanpay; }
         }
         /// <summary>
+        /// 采购
+        /// </summary>
+        public string BuyerMan
+        {
+            set { _buyerman = value; }
+            get { return _buyerman; }
+        }
+        /// <summary>
+        /// 采购提成比例
+        /// </summary>
+        public decimal? BuyerProportion
+        {
+            set { _buyerproportion = value; }
+            get { return _buyerproportion; }
+        }
+        /// <summary>
+        /// 采购提成
+        /// </summary>
+        public decimal? BuyerPay
+        {
+            set { _buyerpay = value; }
+            get { return _buyerpay; }
+        }
+        /// <summary>
         /// 采购单价(USD)
         /// </summary>
         public decimal? POPrice
@@ -279,6 +371,14 @@ namespace Semitron_OMS.Model.FM
             get { return _grossprofits; }
         }
         /// <summary>
+        /// 毛利润率
+        /// </summary>
+        public decimal? ProfitMargin
+        {
+            set { _profitmargin = value; }
+            get { return _profitmargin; }
+        }
+        /// <summary>
         /// 净利润(USD)
         /// </summary>
         public decimal? NetProfit
@@ -287,12 +387,20 @@ namespace Semitron_OMS.Model.FM
             get { return _netprofit; }
         }
         /// <summary>
-        /// 利润率
+        /// 净利润率(%)
         /// </summary>
-        public decimal? ProfitMargin
+        public decimal? NetProfitMargin
         {
-            set { _profitmargin = value; }
-            get { return _profitmargin; }
+            set { _netprofitmargin = value; }
+            get { return _netprofitmargin; }
+        }
+        /// <summary>
+        /// 实际净利润(USD)
+        /// </summary>
+        public decimal? RealNetProfit
+        {
+            set { _realnetprofit = value; }
+            get { return _realnetprofit; }
         }
         /// <summary>
         /// 回款日期

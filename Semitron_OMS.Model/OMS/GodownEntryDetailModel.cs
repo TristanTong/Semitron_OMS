@@ -17,144 +17,144 @@
 using System;
 namespace Semitron_OMS.Model.OMS
 {
-	/// <summary>
-	/// 入库单明细表
-	/// </summary>
-	[Serializable]
-	public partial class GodownEntryDetailModel
-	{
-		public GodownEntryDetailModel()
-		{}
-		#region Model
-		private int _id;
-		private int _godownentryid;
-		private string _pono;
-		private int? _poplanid;
-		private string _productcode;
-		private int _inqty;
-		private decimal? _price;
-		private decimal? _totalprice;
-		private string _remark;
-		private bool _availflag;
-		private DateTime? _createtime= DateTime.Now;
-		private string _createuser;
-		private DateTime? _updatetime;
-		private string _updateuser;
-		/// <summary>
-		/// 数据唯一标识
-		/// </summary>
-		public int ID
-		{
-			set{ _id=value;}
-			get{return _id;}
-		}
-		/// <summary>
-		/// 入库单头ID
-		/// </summary>
-		public int GodownEntryID
-		{
-			set{ _godownentryid=value;}
-			get{return _godownentryid;}
-		}
-		/// <summary>
-		/// 采购订单号
-		/// </summary>
-		public string PONo
-		{
-			set{ _pono=value;}
-			get{return _pono;}
-		}
-		/// <summary>
-		///  采购计划ID
-		/// </summary>
-		public int? POPlanId
-		{
-			set{ _poplanid=value;}
-			get{return _poplanid;}
-		}
-		/// <summary>
-		///  产品编码
-		/// </summary>
-		public string ProductCode
-		{
-			set{ _productcode=value;}
-			get{return _productcode;}
-		}
-		/// <summary>
-		///  入库数量
-		/// </summary>
-		public int InQty
-		{
-			set{ _inqty=value;}
-			get{return _inqty;}
-		}
-		/// <summary>
-		///  单价
-		/// </summary>
-		public decimal? Price
-		{
-			set{ _price=value;}
-			get{return _price;}
-		}
-		/// <summary>
-		///  金额
-		/// </summary>
-		public decimal? TotalPrice
-		{
-			set{ _totalprice=value;}
-			get{return _totalprice;}
-		}
-		/// <summary>
-		///  备注
-		/// </summary>
-		public string Remark
-		{
-			set{ _remark=value;}
-			get{return _remark;}
-		}
-		/// <summary>
-		///  是否有效
-		/// </summary>
-		public bool AvailFlag
-		{
-			set{ _availflag=value;}
-			get{return _availflag;}
-		}
-		/// <summary>
-		/// 创建时间
-		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
-		/// <summary>
-		/// 创建人
-		/// </summary>
-		public string CreateUser
-		{
-			set{ _createuser=value;}
-			get{return _createuser;}
-		}
-		/// <summary>
-		/// 修改时间
-		/// </summary>
-		public DateTime? UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
-		/// <summary>
-		/// 修改人
-		/// </summary>
-		public string UpdateUser
-		{
-			set{ _updateuser=value;}
-			get{return _updateuser;}
-		}
-		#endregion Model
+    /// <summary>
+    /// 入库单明细表
+    /// </summary>
+    [Serializable]
+    public partial class GodownEntryDetailModel
+    {
+        public GodownEntryDetailModel()
+        { }
+        #region Model
+        private int _id;
+        private int _godownentryid;
+        private string _pono;
+        private int? _poplanid;
+        private string _productcode;
+        private int _inqty;
+        private decimal? _price;
+        private decimal? _totalprice;
+        private string _remark;
+        private bool _availflag;
+        private DateTime? _createtime = DateTime.Now;
+        private string _createuser;
+        private DateTime? _updatetime;
+        private string _updateuser;
+        /// <summary>
+        /// 数据唯一标识
+        /// </summary>
+        public int ID
+        {
+            set { _id = value; }
+            get { return _id; }
+        }
+        /// <summary>
+        /// 入库单头ID
+        /// </summary>
+        public int GodownEntryID
+        {
+            set { _godownentryid = value; }
+            get { return _godownentryid; }
+        }
+        /// <summary>
+        /// 采购订单号
+        /// </summary>
+        public string PONo
+        {
+            set { _pono = value; }
+            get { return _pono; }
+        }
+        /// <summary>
+        ///  采购计划ID
+        /// </summary>
+        public int? POPlanId
+        {
+            set { _poplanid = value; }
+            get { return _poplanid; }
+        }
+        /// <summary>
+        ///  产品编码
+        /// </summary>
+        public string ProductCode
+        {
+            set { _productcode = value; }
+            get { return _productcode; }
+        }
+        /// <summary>
+        ///  入库数量
+        /// </summary>
+        public int InQty
+        {
+            set { _inqty = value; }
+            get { return _inqty; }
+        }
+        /// <summary>
+        ///  单价
+        /// </summary>
+        public decimal? Price
+        {
+            set { _price = value; }
+            get { return _price; }
+        }
+        /// <summary>
+        ///  金额
+        /// </summary>
+        public decimal? TotalPrice
+        {
+            set { _totalprice = value; }
+            get { return _totalprice; }
+        }
+        /// <summary>
+        ///  备注
+        /// </summary>
+        public string Remark
+        {
+            set { _remark = value; }
+            get { return _remark; }
+        }
+        /// <summary>
+        ///  是否有效
+        /// </summary>
+        public bool AvailFlag
+        {
+            set { _availflag = value; }
+            get { return _availflag; }
+        }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateTime
+        {
+            set { _createtime = value; }
+            get { return _createtime; }
+        }
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public string CreateUser
+        {
+            set { _createuser = value; }
+            get { return _createuser; }
+        }
+        /// <summary>
+        /// 修改时间
+        /// </summary>
+        public DateTime? UpdateTime
+        {
+            set { _updatetime = value; }
+            get { return _updatetime; }
+        }
+        /// <summary>
+        /// 修改人
+        /// </summary>
+        public string UpdateUser
+        {
+            set { _updateuser = value; }
+            get { return _updateuser; }
+        }
+        #endregion Model
 
-	}
+    }
 
     /// <summary>
     /// 入库单明细显示在界面中实体
@@ -259,5 +259,102 @@ namespace Semitron_OMS.Model.OMS
             get;
         }
     }
+
+    /// <summary>
+    /// 入库单明细显示在界面中实体
+    /// </summary>
+    [Serializable]
+    public partial class GodownEntryDetailLookupModel
+    {
+        /// <summary>
+        /// 入库单ID
+        /// </summary>
+        public int GodownEntryID
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// 入库单明细ID
+        /// </summary>
+        public int GodownEntryDetailID
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        /// 入库单号
+        /// </summary>
+        public string EntryNo
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  入库时间
+        /// </summary>
+        public string InStockDate
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  厂商型号
+        /// </summary>
+        public string MPN
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  产品编码
+        /// </summary>
+        public string ProductCodes
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  入库单价
+        /// </summary>
+        public decimal POPrice
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  入库仓编码
+        /// </summary>
+        public string InWarehouseCode
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  入库仓名称
+        /// </summary>
+        public string WName
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  供应商编码
+        /// </summary>
+        public string SCode
+        {
+            set;
+            get;
+        }
+        /// <summary>
+        ///  供应商名称
+        /// </summary>
+        public string SupplierName
+        {
+            set;
+            get;
+        }
+    }
+
 }
 

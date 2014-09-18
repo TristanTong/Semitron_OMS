@@ -29,12 +29,17 @@
                             + "',CorporationName:'" + json[i].CorporationName
                             + "',SupplierID:'" + json[i].SupplierID
                             + "',SupplierName:'" + json[i].SupplierName
+                            + "',InnerBuyer:'" + json[i].InnerBuyer
                             + "', POQuantity:'" + json[i].POQuantity
                             + "',InQty:'" + json[i].UnInStockQty
-                            + "', Price:'" + json[i].BuyPrice
-                            + "',TotalPrice:'" + json[i].BuyCost + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
+                            + "',StandardPrice:'" + json[i].StandardPrice
+                             + "',StandardTotalPrice:'" + json[i].StandardTotalPrice
+                            + "',Price:'" + json[i].BuyPrice
+                            + "',TotalPrice:'" + 0//json[i].BuyCost
+                            + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
                             + json[i].POPlanId + "</td> <td width=\"102px\">" + json[i].PONo + "</td> <td width=\"48px\">"
                             + json[i].ProductCode + "</td><td width=\"48px\">"
+                            + json[i].InnerBuyer + "</td><td width=\"48px\">"
                             + json[i].BuyPrice + "</td> <td width=\"48px\">" + json[i].BuyCost + "</td> <td width=\"65px\">"
                             + json[i].ArrivedDate + "</td><td width=\"47px\">" + json[i].POQuantity + "</td> <td width=\"47px\">"
                             + json[i].ArrivedQty + "</td><td width=\"59px\">" + json[i].StockQty + "</td> <td width=\"59px\">"
@@ -96,6 +101,7 @@
                         <th width="40px">计划ID</th>
                         <th width="110px">采购订单号</th>
                         <th width="53px">产品编码</th>
+                        <th width="53px">采购员</th>
                         <th width="53px">采购单价</th>
                         <th width="53px">采购总价</th>
                         <th width="72px">到货日期</th>

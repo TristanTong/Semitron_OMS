@@ -1,0 +1,71 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        $("#divLookupCustomerOrderDetail table tbody").html("");
+        var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
+        var CustomerOrderDetailId = $("#divEditGatheringPlan p input[name='GatheringPlan_Edit_CustomerOrderDetailLookup.CustomerOrderDetailId']").val();
+        var data = {
+            "meth": "GetGodownEntryDetailLookupList", "CustomerOrderDetailId": CustomerOrderDetailId
+        };
+
+        var successFun = function (json) {
+            if (!json || (json && json.State == "0")) {
+                alertMsg.error(json.Info);
+                return false;
+            } else {
+                debugger;
+                for (var i = 0; i < json.length; i++) {
+                    $("#divLookupGodownEntry table tbody").append("<tr>"
+                        + "<td width=\"51px\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({MPN:'"
+                        + json[i].MPN
+                        + "',ProductCodes:'" + json[i].ProductCodes
+                        + "',POPrice:'" + json[i].POPrice
+                        + "',InWarehouseCode:'" + json[i].InWarehouseCode + "'})\" title=\"查找带回\">选择</a> </td><td width=\"103px\">"
+                        + json[i].EntryNo + "</td> <td width=\"84px\">"
+                        + json[i].InStockDate + "</td> <td width=\"103px\">"
+                        + json[i].MPN + "</td> <td width=\"61px\">"
+                        + json[i].ProductCodes + "</td> <td width=\"60px\">"
+                        + json[i].POPrice + "</td><td width=\"60px\">"
+                        + json[i].InWarehouseCode + "</td><td width=\"102px\">"
+                        + json[i].WName + "</td> <td width=\"60px\">"
+                        + json[i].SCode + "</td> <td >"
+                        + json[i].SupplierName + "</td></tr>");
+                }
+
+                return true;
+            }
+        };
+        var errorFun = function (x, e) {
+            alertMsg.error(x.responseText);
+        };
+        JsAjax(url, data, successFun, errorFun);
+        return false;
+    });
+</script>
+
+<div class="pageContent">
+    <div class="pageFormContent" layouth="55" id="divLookupGodownEntry">
+        <div class="pageContent">
+            <table class="table" layouth="110" targettype="dialog" width="1400px">
+                <thead>
+                    <tr>
+                        <th width="55px">查找带回</th>
+                        <th width="110px">入库单号</th>
+                        <th width="90px">入库时间</th>
+                        <th width="110px">厂商型号</th>
+                        <th width="66px">产品编码</th>
+                        <th width="66px">入库单价</th>
+                        <th width="66px">入库仓编号</th>
+                        <th width="110px">入库仓名称</th>
+                        <th width="66px">供应商编号</th>
+                        <th>供应商名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+

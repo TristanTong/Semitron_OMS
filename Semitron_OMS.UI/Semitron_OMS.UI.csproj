@@ -133,6 +133,7 @@
     <Content Include="Admin\Common\Warehouse\lookupSuggest.html" />
     <Content Include="Admin\OMS\GodownEntry\Edit.html" />
     <Content Include="Admin\OMS\GodownEntry\EditDetail.html" />
+    <Content Include="Admin\OMS\GodownEntry\Lookup.html" />
     <Content Include="Admin\OMS\GodownEntry\Main.html" />
     <Content Include="Admin\OMS\GodownEntry\SearchExt.html" />
     <Content Include="Admin\OMS\Inventory\Main.html" />

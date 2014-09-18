@@ -707,7 +707,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataTable GetPOPlanLookupList(System.Collections.Generic.List<SQLConditionFilter> lstFilter, string strQueryType)
         {
             //查询字段
-            string strGetFields = " POPlanId=P.Id,P.PONo,P.ProductCode,P.MPN,P.POQuantity,P.ArrivedQty,P.StockQty,P.BuyPrice,P.BuyCost,ArrivedDate=CONVERT(varchar(10),P.ShipmentDate,120),P.SupplierID,SupplierCode=S.SCode,S.SupplierName,O.CorporationID,CorporationName=C.CompanyName ";
+            string strGetFields = " POPlanId=P.Id,P.PONo,P.ProductCode,P.MPN,P.POQuantity,P.ArrivedQty,P.StockQty,P.BuyPrice,P.BuyCost,ArrivedDate=CONVERT(varchar(10),P.ShipmentDate,120),P.SupplierID,SupplierCode=S.SCode,S.SupplierName,O.CorporationID,CorporationName=C.CompanyName,O.InnerBuyer ";
 
             //查询表名
             string strTableName = " POPlan AS P WITH (NOLOCK) LEFT JOIN Supplier AS S WITH (NOLOCK) ON P.SupplierID=S.ID LEFT JOIN dbo.PO AS O WITH (NOLOCK) ON O.PONO =P.PONO LEFT JOIN dbo.Corporation AS C ON C.ID=O.CorporationID ";

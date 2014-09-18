@@ -284,6 +284,9 @@ namespace Semitron_OMS.BLL.OMS
                 ShippingPlanDetailDisplayModel model = new ShippingPlanDetailDisplayModel();
                 model.ID = dr["ID"].ToInt(0);
                 model.ShippingPlanNo = dr["ShippingPlanNo"].ToString();
+                model.CustomerName = dr["CustomerName"].ToString();
+                model.InnerOrderNO = dr["InnerOrderNO"].ToString();
+                model.CustomerOrderNO = dr["CustomerOrderNO"].ToString();
                 model.CPN = dr["CPN"].ToString();
                 model.FinishOutQty = dr["FinishOutQty"].ToInt(0);
                 model.PlanStockCode = dr["PlanStockCode"].ToString();

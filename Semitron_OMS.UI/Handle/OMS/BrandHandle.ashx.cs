@@ -88,7 +88,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 //首次生成
                 if (iMax == 1)
                 {
-                    model.Code = "B001";
+                    model.Code = "B0001";
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 }
                 if (model != null && !string.IsNullOrEmpty(model.Code))
                 {
-                    result.Info = "B" + (int.Parse(model.Code.Remove(0, 1)) + 1).ToString().PadLeft(3, '0');
+                    result.Info = "B" + (int.Parse(model.Code.Remove(0, 1)) + 1).ToString().PadLeft(4, '0');
                     result.State = 1;
                 }
             }
@@ -230,7 +230,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             try
             {
                 SQLOperateHelper.SetEntityFiledValue(model, "CreateUser", _adminModel.Username);
-                model.Code = JsonConvert.DeserializeObject<PageResult>(this.GenerateCode()).Remark;
+                model.Code = JsonConvert.DeserializeObject<PageResult>(this.GenerateCode()).Info;//解决并发问题
                 string strResult = this._bllBrand.ValidateAndAdd(model);
                 if (strResult.StartsWith("OK"))
                 {

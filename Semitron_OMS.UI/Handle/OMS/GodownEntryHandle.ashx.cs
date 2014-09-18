@@ -293,6 +293,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             foreach (GodownEntryDetailModel m in lstGodownEntryDetailModel)
             {
                 m.GodownEntryID = model.ID;
+                m.TotalPrice = m.Price * m.InQty;
                 m.AvailFlag = true;
             }
 

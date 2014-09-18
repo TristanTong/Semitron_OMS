@@ -28,6 +28,9 @@
                             + "',CustomerOrderNO:'" + json[i].CustomerOrderNO
                             + "',PaymentTypeID:'" + json[i].PaymentTypeID
                             + "',CPN:'" + json[i].CPN
+                            + "',MPN:'" + json[i].MPN
+                            + "',SalesMan:'" + json[i].InnerSalesMan
+                             + "',BuyerMan:'" + json[i].AssignToInnerBuyer
                             + "',CorporationID:'" + json[i].CorporationID
                             + "',CorporationName:'" + json[i].CorporationName
                             + "',CustOrderDate:'" + json[i].CustOrderDate
@@ -35,21 +38,25 @@
                             + "',PlanedQty:'" + json[i].PlanedQty
                             + "',UnOutStockQty:'" + json[i].UnOutStockQty
                             + "',SaleStandardPrice:'" + json[i].SalePrice
-                            + "',SalePrice:'" + json[i].SalePrice
-                            + "',SaleTotal:'" + json[i].SaleTotal
+                            + "',SaleStandardTotal:'" + json[i].SaleTotal
+                            + "',SalePrice:'" + 0
+                            + "',SaleTotal:'" + 0
                             + "',CustomerID:'" + json[i].CustomerID
                             + "',CustomerCode:'" + json[i].CustomerCode
                             + "',CustomerName:'" + json[i].CustomerName + "'})\" title=\"查找带回\">选择</a> </td><td width=\"36px\">"
                             + json[i].CustomerOrderDetailId + "</td> <td width=\"101px\">"
-                            + json[i].CorporationName + "</td> <td width=\"60px\">"
+                            + json[i].CorporationName + "</td><td  width=\"101px\">"
+                            + json[i].CustomerName + "</td> <td width=\"60px\">"
                             + json[i].InnerOrderNO + "</td> <td width=\"101px\">"
                             + json[i].CustomerOrderNO + "</td><td width=\"101px\">"
-                            + json[i].CPN + "</td> <td width=\"60px\">" + json[i].CustOrderDate + "</td> <td width=\"60px\">"
+                            + json[i].CPN + "</td><td width=\"101px\">"
+                            + json[i].MPN + "</td> <td width=\"60px\">"
+                            + json[i].CustOrderDate + "</td> <td width=\"60px\">"
                             + json[i].InnerSalesMan + "</td><td width=\"59px\">" + json[i].AssignToInnerBuyer + "</td> <td width=\"59px\">"
                             + json[i].UnOutStockQty + "</td><td width=\"59px\">" + json[i].CustQuantity + "</td> <td width=\"59px\">"
                             + json[i].PlaningQty + "</td><td width=\"59px\">" + json[i].DoingOutStockQty + "</td> <td width=\"59px\">"
                             + json[i].AlreadyQty + "</td> <td width=\"59px\">"
-                            + json[i].CustomerCode + "</td><td>" + json[i].CustomerName + "</td></tr>");
+                            + json[i].CustomerCode + "</td></tr>");
                     }
 
                     return true;
@@ -66,7 +73,7 @@
 </script>
 
 <div class="pageContent">
-    <div class="pageFormContent" layouth="30" id="divLookupCustomerOrderDetail">
+    <div class="pageFormContent" id="divLookupCustomerOrderDetail">
         <div>
             <label>内部订单号：</label>
             <input name="InnerOrderNo" type="text" size="15" value="" />
@@ -101,9 +108,11 @@
                         <th width="55px">查找带回</th>
                         <th width="40px">清单ID</th>
                         <th width="110px">公司抬头</th>
+                        <th width="110px">客户名称</th>
                         <th width="66px">内部订单号</th>
                         <th width="110px">客户订单号</th>
                         <th width="110px">客户型号</th>
+                        <th width="110px">厂商型号</th>
                         <th width="66px">订单时间</th>
                         <th width="66px">公司销售</th>
                         <th width="66px">指定采购</th>
@@ -113,7 +122,6 @@
                         <th width="66px">出库中数量</th>
                         <th width="66px">已出库数量</th>
                         <th width="66px">客户编码</th>
-                        <th>客户名称</th>
                     </tr>
                 </thead>
                 <tbody>
