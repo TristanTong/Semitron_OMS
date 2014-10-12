@@ -28,39 +28,79 @@ namespace Semitron_OMS.Common
                     continue;
                 }
                 Type changeType = propInfo.PropertyType;
+                object newValue = propInfo.GetValue(model, null);
+                object oldValue = propInfo.GetValue(oldModel, null);
 
-                if (changeType.Equals(typeof(Nullable<>)))
+                if (changeType.ToString().ToUpper().Contains("SYSTEM.INT32"))
                 {
-                    if (propInfo.GetValue(model, null) == null && propInfo.GetValue(oldModel, null) != null)
+                    try
                     {
-                        propInfo.SetValue(model, propInfo.GetValue(oldModel, null), null);
+                        propInfo.SetValue(model, int.Parse(oldValue.ToString()), null);
                     }
-                }
-                //泛型空类型
-                if (changeType.IsGenericType && changeType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
-                {
-                    if (propInfo.GetValue(model, null) == null && propInfo.GetValue(oldModel, null) != null)
+                    catch
                     {
-                        propInfo.SetValue(model, propInfo.GetValue(oldModel, null), null);
+                        if (changeType.ToString().ToUpper().Contains("SYSTEM.NULLABLE"))
+                        {
+                            propInfo.SetValue(model, null, null);
+                        }
                     }
+                    continue;
                 }
 
-                //整形或数值型，0为属性默认值,当为0时即需要对新实体赋值旧实体值
-                if (changeType == typeof(Int32) || changeType == typeof(Decimal))
+                if (changeType.ToString().ToUpper().Contains("SYSTEM.DECIMAL"))
                 {
-                    //新实体为默认值0且旧实体不为默认值0时,需给新实体值
-                    if (propInfo.GetValue(model, null).ToString() == Convert.ChangeType(0, changeType, CultureInfo.CurrentCulture).ToString()
-                        && propInfo.GetValue(oldModel, null).ToString() != Convert.ChangeType(0, changeType, CultureInfo.CurrentCulture).ToString())
+                    try
                     {
-                        propInfo.SetValue(model, propInfo.GetValue(oldModel, null), null);
+                        propInfo.SetValue(model, decimal.Parse(oldValue.ToString()), null);
                     }
+                    catch
+                    {
+                        if (changeType.ToString().ToUpper().Contains("SYSTEM.NULLABLE"))
+                        {
+                            propInfo.SetValue(model, null, null);
+                        }
+                    }
+                    continue;
                 }
 
                 if (changeType.ToString().ToUpper().Contains("SYSTEM.DATETIME"))
                 {
 
+                    try
+                    {
+                        DateTime o_Result;
+                        if (DateTime.TryParse(oldValue.ToString().Trim(), out o_Result))
+                        {
+                            propInfo.SetValue(model, o_Result, null);
+                        }
+                    }
+                    catch
+                    {
+                        if (changeType.ToString().ToUpper().Contains("SYSTEM.NULLABLE"))
+                        {
+                            propInfo.SetValue(model, null, null);
+                        }
+                    }
+                    continue;
                 }
-
+                if (changeType.Equals(typeof(Nullable<>)))
+                {
+                    if (newValue == null && oldValue != null)
+                    {
+                        propInfo.SetValue(model, oldValue, null);
+                        continue;
+                    }
+                }
+                //泛型空类型
+                if (changeType.IsGenericType && changeType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                {
+                    if (newValue == null && oldValue != null)
+                    {
+                        propInfo.SetValue(model, oldValue, null);
+                        continue;
+                    }
+                }
+                propInfo.SetValue(model, Convert.ChangeType(oldValue, changeType, CultureInfo.CurrentCulture), null);
             }
         }
         /// <summary>

@@ -206,6 +206,61 @@ namespace Semitron_OMS.BLL.OMS
         {
             return dal.GetDataTableByCache(strTableName);
         }
+
+        /// <summary>
+        /// 分页查询记录数据
+        /// </summary>
+        /// <param name="searchInfo">SQL辅助类对象</param>
+        /// <param name="o_RowsCount">总查询数</param>
+        /// <returns>记录数据</returns>
+        public DataSet GetCommonTablePageData(PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            return dal.GetCommonTablePageData(searchInfo, out o_RowsCount);
+        }
+
+        /// <summary>
+        /// 验证并删除数据
+        /// </summary>
+        public string ValidateAndDelCommonTable(int iId)
+        {
+            return this.Delete(iId) ? "OK" : "ERROR";
+        }
+
+        /// <summary>
+        /// 验证并新增或修改数据项
+        /// </summary>
+        public string ValidateAndEdit(CommonTableModel model)
+        {
+            string strResult = "发生错误";
+            if (String.IsNullOrEmpty(model.TableName))
+            {
+                return "数据库表值不能为空";
+            }
+            if (String.IsNullOrEmpty(model.FieldID))
+            {
+                return "字段表值不能为空";
+            }
+            if (String.IsNullOrEmpty(model.Key))
+            {
+                return "键值不能为空";
+            }
+            if (GetModelList("TableName='" + model.TableName
+                + "' AND FieldID='" + model.FieldID
+                + "' AND [Key]='" + model.Key
+                + "' AND ID !='" + model.ID + "'").Count > 0)
+            {
+                return "相同表值数据项已配置，请确认后修改。";
+            }
+            if (model.ID > 0)
+            {
+                strResult = this.Update(model) ? "OK" : "修改数据字典项失败";
+            }
+            else
+            {
+                strResult = this.Add(model) > 0 ? "OK" : "新增数据字典项失败";
+            }
+            return strResult;
+        }
         #endregion  ExtensionMethod
     }
 }

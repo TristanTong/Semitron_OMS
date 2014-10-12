@@ -3,10 +3,10 @@
         $("#divLookupShippingPlan button[type='submit']").click(function () {
             $("#divLookupShippingPlan table tbody").html("");
             var url = "/Handle/OMS/ShippingPlanDetailHandle.ashx";
-            var ShippingPlanNo = $("#divLookupShippingPlan p input[name='ShippingPlanNo']").val()
+            var ShippingPlanNo = $("#divLookupShippingPlan div input[name='ShippingPlanNo']").val()
             //var InnerOrderNO = $("#divLookupShippingPlan p input[name='InnerOrderNO']").val()
-            var ProductCode = $("#divLookupShippingPlan p input[name='ProductCode']").val()
-            var data = data = {
+            var ProductCode = $("#divLookupShippingPlan div input[name='ProductCode']").val()
+            var data = {
                 "meth": "GetShippingPlanDetailUnOutStockList", "ShippingPlanNo": ShippingPlanNo,
                 "ProductCode": ProductCode
             };
@@ -38,8 +38,8 @@
                             + json[i].InnerOrderNO + "</td> <td width=\"102px\">"
                             + json[i].CustomerOrderNO + "</td> <td width=\"102px\">"
                             + json[i].CPN + "</td> <td width=\"102px\">"
-                            + json[i].MPN + "</td><td width=\"47px\">"
-                            + json[i].ProductCode + "</td> <td width=\"47px\">"
+                            + json[i].MPN + "</td><td width=\"59px\">"
+                            + json[i].ProductCode + "</td> <td width=\"59px\">"
                             + json[i].PlanQty + "</td><td width=\"59px\">"
                             + json[i].OutStockQty + "</td><td width=\"59px\">"
                             + json[i].FinishOutQty + "</td><td width=\"59px\">"
@@ -53,7 +53,6 @@
                 alertMsg.error(x.responseText);
             };
             JsAjax(url, data, successFun, errorFun);
-            return false;
             return false;
         });
     });
@@ -99,8 +98,8 @@
                         <th width="112px">客户订单号</th>
                         <th width="111px">客户型号</th>
                         <th width="112px">厂商型号</th>
-                        <th width="53px">产品编码</th>
-                        <th width="53px">计划总数量</th>
+                        <th width="66px">产品编码</th>
+                        <th width="66px">计划总数量</th>
                         <th width="66px">未出库数量</th>
                         <th width="66px">已出库数量</th>
                         <th width="66px">供应商编码</th>

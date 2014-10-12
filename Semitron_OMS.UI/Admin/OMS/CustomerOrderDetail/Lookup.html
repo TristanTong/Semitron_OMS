@@ -6,12 +6,13 @@
             var url = "/Handle/OMS/CustomerOrderDetailHandle.ashx";
             var InnerOrderNo = $("#divLookupCustomerOrderDetail div input[name='InnerOrderNo']").val();
             var CustomerCode = $("#divLookupCustomerOrderDetail div input[name='CustomerCode']").val();
+            var MPN = $("#divLookupCustomerOrderDetail div input[name='MPN']").val();
             //var CustOrderDateBegin = $("#divLookupCustomerOrderDetail div input[name='CustOrderDateBegin']").val();
             //var CustOrderDateEnd = $("#divLookupCustomerOrderDetail div input[name='CustOrderDateEnd']").val();
             var QueryType = $("#divLookupCustomerOrderDetail div select[name='QueryType']").val(); //为2表示查询所有的产品清单数据
 
             var data = data = {
-                "meth": "GetCustomerOrderDetailLookupList", "InnerOrderNo": InnerOrderNo, "CustomerCode": CustomerCode,
+                "meth": "GetCustomerOrderDetailLookupList", "InnerOrderNo": InnerOrderNo, "MPN": MPN, "CustomerCode": CustomerCode,
                 "QueryType": QueryType
             };
 
@@ -81,6 +82,10 @@
         <div>
             <label>客户编码：</label>
             <input name="CustomerCode" type="text" size="15" value="" />
+        </div>
+        <div>
+            <label>厂商型号：</label>
+            <input name="MPN" type="text" size="15" value="" />
         </div>
         <div>
             <label>查找类型：</label>

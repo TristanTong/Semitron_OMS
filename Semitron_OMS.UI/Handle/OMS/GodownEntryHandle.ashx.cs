@@ -125,7 +125,7 @@ namespace Semitron_OMS.UI.Handle.OMS
 
             try
             {
-                int iMax = 1;//this._bllGodownEntry.GetMaxId();
+                int iMax = this._bllGodownEntry.GetMaxId();
                 GodownEntryModel model = new GodownEntryModel();
                 string strNow = DateTime.Now.ToString("yyyyMMdd");
                 string strNum = "10";

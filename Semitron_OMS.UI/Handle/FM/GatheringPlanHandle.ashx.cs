@@ -429,8 +429,22 @@ namespace Semitron_OMS.UI.Handle.FM
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.CustomerOrderNO",
                 _request.Form["CustomerOrderNO"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("S.CCode",
-                _request.Form["CustomerCode"], ConditionEnm.Equal));
+                _request.Form["CCode"], ConditionEnm.Equal));
 
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.MPN",
+               _request.Form["MPN"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.CPN",
+               _request.Form["CPN"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.ProductCodes",
+                _request.Form["ProductCodes"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.SaleRealCurrency",
+              _request.Form["SaleRealCurrency"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.PaymentTypeID",
+              _request.Form["PaymentTypeID"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.IsCustomerVATInvoice",
+              _request.Form["IsCustomerVATInvoice"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.IsCustomerPay",
+              _request.Form["IsCustomerPay"], ConditionEnm.Equal));
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);

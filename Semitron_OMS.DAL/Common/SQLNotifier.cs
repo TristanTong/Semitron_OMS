@@ -9,6 +9,8 @@ using System.Web;
 using System.Diagnostics;
 using System.Configuration;
 using Semitron_OMS.DBUtility;
+using Semitron_OMS.Common.Logger;
+using Semitron_OMS.Common;
 
 namespace Semitron_OMS.DAL
 {
@@ -50,10 +52,13 @@ namespace Semitron_OMS.DAL
         {
             // 用于Service Broker跟踪的表范围sql
             DataTable dt = new DataTable();
+            return dt = DbHelperSQL.GetDataTable(selectSql, parameters);
+
+            //暂停使用
             if (HttpRuntime.Cache[notifyDepSql] != null)
             {
                 dt = HttpRuntime.Cache[notifyDepSql] as DataTable;
-                //LogHelper.WriteLogByType(LogLevel.Info, notifyDepSql + "从缓存中取出数据", null, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                LogHelper.WriteLogInfo(notifyDepSql + "从缓存中取出数据", System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             }
             else
             {
@@ -75,6 +80,7 @@ namespace Semitron_OMS.DAL
                     lstSqlDependencySql.Add(notifyDepSql);
                 }
                 dt = DbHelperSQL.GetDataTable(selectSql, parameters);
+
                 //设定最大缓存时间为20分钟.
                 HttpRuntime.Cache.Insert(notifyDepSql, dt, null, DateTime.MaxValue, TimeSpan.FromMinutes(20));
             }

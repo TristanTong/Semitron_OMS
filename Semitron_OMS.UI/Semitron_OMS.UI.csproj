@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\CheckCodePage.aspx" />
+    <Content Include="Admin\Common\CommonTable\Edit.html" />
+    <Content Include="Admin\Common\CommonTable\Main.html" />
     <Content Include="Admin\Common\EditMyPwd.aspx" />
     <Content Include="Admin\Common\ProductInfo\Edit.html" />
     <Content Include="Admin\Common\ProductInfo\Lookup.html" />
@@ -86,12 +88,18 @@
     <Content Include="Admin\Common\ProductTypeManager.aspx" />
     <Content Include="Admin\Common\Warehouse\Main.html" />
     <Content Include="Admin\CRM\CustomerManager.aspx" />
+    <Content Include="Admin\CRM\Customer\Lookup.html" />
     <Content Include="Admin\CRM\SupplierManager.aspx" />
+    <Content Include="Admin\CRM\Supplier\Lookup.html" />
+    <Content Include="Admin\FM\BankAccount\Edit.html" />
+    <Content Include="Admin\FM\BankAccount\Main.html" />
     <Content Include="Admin\FM\GatheringPlan\Edit.html" />
     <Content Include="Admin\FM\GatheringPlan\Main.html" />
+    <Content Include="Admin\FM\GatheringPlan\SearchExt.html" />
     <Content Include="Admin\FM\GatheringPlan\Upload.html" />
     <Content Include="Admin\FM\PaymentPlan\Edit.html" />
     <Content Include="Admin\FM\PaymentPlan\Main.html" />
+    <Content Include="Admin\FM\PaymentPlan\SearchExt.html" />
     <Content Include="Admin\FM\PaymentPlan\Upload.html" />
     <Content Include="Admin\Images\bgItem.png" />
     <Content Include="Admin\Images\btn_bg.gif" />
@@ -124,6 +132,7 @@
     <Content Include="Admin\Index.aspx" />
     <Content Include="Admin\Login.aspx" />
     <Content Include="Admin\OMS\BrandManager.aspx" />
+    <Content Include="Admin\OMS\Brand\Lookup.html" />
     <Content Include="Admin\OMS\BusinessTransactionsReport.aspx" />
     <Content Include="Admin\OMS\CorporationManager.aspx" />
     <Content Include="Admin\OMS\CurrencyTypeManager.aspx" />
@@ -152,6 +161,7 @@
     <Content Include="Admin\OMS\ShippingPlan\EditDetail.html" />
     <Content Include="Admin\OMS\ShippingPlan\Main.html" />
     <Content Include="Admin\OMS\ShippingPlan\SearchExt.html" />
+    <Content Include="Admin\Report\CustomerOrderTransaction\Main.html" />
     <Content Include="Admin\Sys\Admin\Lookup.html" />
     <Content Include="Admin\Sys\AdminManage.aspx" />
     <Content Include="Admin\Sys\OperationsLog.aspx" />
@@ -1515,6 +1525,9 @@
     <Compile Include="Handle\Common\AttachmentHandle.ashx.cs">
       <DependentUpon>AttachmentHandle.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handle\Common\CommonTableHandle.ashx.cs">
+      <DependentUpon>CommonTableHandle.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handle\Common\ProductInfoHandle.ashx.cs">
       <DependentUpon>ProductInfoHandle.ashx</DependentUpon>
     </Compile>
@@ -1529,6 +1542,9 @@
     </Compile>
     <Compile Include="Handle\CRM\SupplierHandle.ashx.cs">
       <DependentUpon>SupplierHandle.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Handle\FM\BankAccountHandle.ashx.cs">
+      <DependentUpon>BankAccountHandle.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handle\FM\GatheringPlanHandle.ashx.cs">
       <DependentUpon>GatheringPlanHandle.ashx</DependentUpon>
@@ -1668,6 +1684,8 @@
     <Content Include="Handle\FM\GatheringPlanHandle.ashx" />
     <Content Include="file_system\Doc\OMS状态图.pdf" />
     <Content Include="Handle\Common\AttachmentHandle.ashx" />
+    <Content Include="Handle\Common\CommonTableHandle.ashx" />
+    <Content Include="Handle\FM\BankAccountHandle.ashx" />
     <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\check.php" />
     <None Include="Scripts\jquery.uploadify-v2.1.0\com\adobe\air\logging\FileTarget.as" />
@@ -1736,6 +1754,7 @@
     <None Include="Styles\custom-theme\images\vssver2.scc" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\FM\FeeFastFlow\" />
     <Folder Include="Scripts\artDialog\plugins\.svn\prop-base\" />
     <Folder Include="Scripts\artDialog\plugins\.svn\props\" />
     <Folder Include="Scripts\artDialog\plugins\.svn\text-base\" />

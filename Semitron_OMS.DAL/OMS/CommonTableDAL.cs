@@ -19,7 +19,8 @@ using System.Data;
 using System.Text;
 using System.Data.SqlClient;
 using Semitron_OMS.DBUtility;
-using Semitron_OMS.Common;//Please add references
+using Semitron_OMS.Common;
+using Semitron_OMS.DAL.Common;//Please add references
 namespace Semitron_OMS.DAL.OMS
 {
     /// <summary>
@@ -40,7 +41,7 @@ namespace Semitron_OMS.DAL.OMS
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into CommonTable(");
-            strSql.Append("TableName,FieldID,Key,Value,Desc,CreateUser,CreateTime,UpdateUser,UpdateTime)");
+            strSql.Append("TableName,FieldID,[Key],Value,[Desc],CreateUser,CreateTime,UpdateUser,UpdateTime)");
             strSql.Append(" values (");
             strSql.Append("@TableName,@FieldID,@Key,@Value,@Desc,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime)");
             strSql.Append(";select @@IDENTITY");
@@ -83,9 +84,9 @@ namespace Semitron_OMS.DAL.OMS
             strSql.Append("update CommonTable set ");
             strSql.Append("TableName=@TableName,");
             strSql.Append("FieldID=@FieldID,");
-            strSql.Append("Key=@Key,");
+            strSql.Append("[Key]=@Key,");
             strSql.Append("Value=@Value,");
-            strSql.Append("Desc=@Desc,");
+            strSql.Append("[Desc]=@Desc,");
             strSql.Append("CreateUser=@CreateUser,");
             strSql.Append("CreateTime=@CreateTime,");
             strSql.Append("UpdateUser=@UpdateUser,");
@@ -175,7 +176,7 @@ namespace Semitron_OMS.DAL.OMS
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 ID,TableName,FieldID,Key,Value,Desc,CreateUser,CreateTime,UpdateUser,UpdateTime from CommonTable ");
+            strSql.Append("select  top 1 ID,TableName,FieldID,[Key],Value,[Desc],CreateUser,CreateTime,UpdateUser,UpdateTime from CommonTable ");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -253,7 +254,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,TableName,FieldID,Key,Value,Desc,CreateUser,CreateTime,UpdateUser,UpdateTime ");
+            strSql.Append("select ID,TableName,FieldID,[Key],Value,[Desc],CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM CommonTable ");
             if (strWhere.Trim() != "")
             {
@@ -273,7 +274,7 @@ namespace Semitron_OMS.DAL.OMS
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" ID,TableName,FieldID,Key,Value,Desc,CreateUser,CreateTime,UpdateUser,UpdateTime ");
+            strSql.Append(" ID,TableName,FieldID,[Key],Value,[Desc],CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM CommonTable ");
             if (strWhere.Trim() != "")
             {
@@ -411,8 +412,34 @@ namespace Semitron_OMS.DAL.OMS
             string strSql = ConstantValue.SQLNotifierDepObj.CommonTableDepSql.Replace("@TableName", "'" + strTableName + "'");
             return Semitron_OMS.DAL.SQLNotifier.GetDataTable(ConstantValue.SQLNotifierDepObj.CommonTableDepSql, strSql, ConstantValue.TableNames.CommonTable, parameters);
         }
-        #endregion  ExtensionMethod
 
+        /// <summary>
+        /// 分页查询记录数据
+        /// </summary>
+        /// <param name="searchInfo">SQL辅助类对象</param>
+        /// <param name="o_RowsCount">总查询数</param>
+        /// <returns>记录数据</returns>
+        public DataSet GetCommonTablePageData(PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            //查询表名
+            string strTableName = " dbo.CommonTable AS P WITH(NOLOCK) ";
+            //查询字段
+            string strGetFields = " ID,TableName,FieldID,[Key],Value,[Desc], P.CreateUser , CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120) ";
+            //查询条件
+            string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
+            //数据查询
+            CommonDAL commonDAL = new CommonDAL();
+            return commonDAL.GetDataExt(Semitron_OMS.Common.ConstantValue.ProcedureNames.PageProcedureName,
+                strTableName,
+                strGetFields,
+                searchInfo.PageSize,
+                searchInfo.PageIndex,
+                strWhere,
+                searchInfo.OrderByField,
+                searchInfo.OrderType,
+                out o_RowsCount);
+        }
+        #endregion  ExtensionMethod
 
     }
 }

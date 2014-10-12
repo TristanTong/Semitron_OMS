@@ -41,6 +41,9 @@
                     { display: '标准付款单价', name: 'BuyPrice', width: 80, sortable: true, align: 'right' },
                     { display: '标准付款总额', name: 'BuyCost', width: 80, sortable: true, align: 'right' },
                     { display: '其他费用', name: 'OtherFee', width: 80, sortable: true, align: 'right' },
+                    { display: '入库单号', name: 'EntryNo', width: 100, sortable: true, align: 'center' },
+                    { display: '是否入库', name: 'IsInStock', width: 60, sortable: true, align: 'center' },
+                    { display: '入库日期', name: 'InStockDate', width: 65, sortable: true, align: 'center' },
                     { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
                     { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
                     { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
@@ -272,7 +275,7 @@
             <li>
                 <select class="combox" name="sltTimeType" style="width: 100px">
                     <option value="3" title="付款计划时间">付款计划时间</option>
-                    <!--<option value="4" title="审核时间">审核时间</option>-->
+                    <option value="4" title="入库时间">入库时间</option>
                     <option value="1" title="创建时间" selected>创建时间</option>
                     <option value="2" title="更新时间">更新时间</option>
                 </select>
@@ -283,7 +286,7 @@
                         <button type="submit" id="btnSearchPaymentPlan">检索</button>
                     </div>
                 </div>
-                <!--<a class="button" href="/Admin/FM/PaymentPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="付款计划(高级检索查询框)"><span>高级检索</span></a>-->
+                <a class="button" href="/Admin/FM/PaymentPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="付款计划(高级检索查询框)"><span>高级检索</span></a>
             </li>
         </ul>
     </div>

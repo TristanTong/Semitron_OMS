@@ -15,7 +15,7 @@ namespace Semitron_OMS.UI.Handle.Common
     {
         //产品编码对象
         log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(ProductInfoHandle));
-        Semitron_OMS.BLL.Common.ProductInfoBLL _bllProductType = new Semitron_OMS.BLL.Common.ProductInfoBLL();
+        Semitron_OMS.BLL.Common.ProductInfoBLL _bllProductInfo = new Semitron_OMS.BLL.Common.ProductInfoBLL();
         HttpRequest _request = HttpContext.Current.Request;
         AdminModel _adminModel = new AdminModel();
 
@@ -122,7 +122,7 @@ namespace Semitron_OMS.UI.Handle.Common
             DataTable dt = new DataTable();
             try
             {
-                DataSet ds = _bllProductType.GetProductInfoPageData(searchInfo, out o_RowsCount);
+                DataSet ds = _bllProductInfo.GetProductInfoPageData(searchInfo, out o_RowsCount);
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     dt = ds.Tables[0];

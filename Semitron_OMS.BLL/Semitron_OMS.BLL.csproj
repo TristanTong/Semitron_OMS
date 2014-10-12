@@ -55,6 +55,8 @@
     <Compile Include="Common\SystemLogBLL.cs" />
     <Compile Include="Common\UserRole.cs" />
     <Compile Include="Common\WarehouseBLL.cs" />
+    <Compile Include="FM\BankAccountBLL.cs" />
+    <Compile Include="FM\FeeFastFlowBLL.cs" />
     <Compile Include="FM\GatheringPlanBLL.cs" />
     <Compile Include="FM\PaymentPlanBLL.cs" />
     <Compile Include="OMS\AdminBindCustomerBLL.cs" />

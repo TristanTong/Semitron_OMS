@@ -82,7 +82,7 @@ namespace Semitron_OMS.UI.Handle.OMS
         /// <returns></returns>
         private string GetCurrencyTypeSeletList()
         {
-            string strShow = DataUtility.GetPageFormValue("IsShowAll", string.Empty);
+            string strShow = DataUtility.GetPageFormValue(_request.Form["IsShowAll"], string.Empty);
             DataTable dt = this._bllCurrencyType.GetDataTableByCache();
             //分别获取有效和无效的计费代码。
             DataRow[] drValid = dt.Select("AvailFlag=1", "SK Asc,CurrencyName Asc");
