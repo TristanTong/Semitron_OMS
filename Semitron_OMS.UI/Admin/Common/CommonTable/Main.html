@@ -1,0 +1,218 @@
+﻿<script type="text/javascript">
+    $(function () {
+        var gridHeight = document.documentElement.clientHeight - 268;
+        //初始化查询条件收起张开事件
+        //InitExpandSearch("FlexigridTableCommonTable", "btnSearchOpenClose", "tableSearch", 294, 144);
+        $("#divCommonTableContent").attr("style", "height:" + gridHeight + 20 + "px");
+
+        $("#ulSearchCommonTable li input[name=BeginTime]").val("2013-01-01");
+        var TimeType = $("#ulSearchCommonTable li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchCommonTable li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchCommonTable li input[name=EndTime]").val();
+        //初始数据字典项表格
+        $("#FlexigridTableCommonTable").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/Common/CommonTableHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetCommonTable" }, { name: "TimeType", value: TimeType }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
+            colModel: [//表格的题头与索要填充的内容。
+                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                    { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '表名', name: 'TableName', width: 100, sortable: true, align: 'center' },
+                    { display: '字段名', name: 'FieldID', width: 100, sortable: true, align: 'center' },
+                    { display: '键值', name: 'Key', width: 60, sortable: true, align: 'left' },
+                    { display: '描述', name: 'Value', width: 120, sortable: true, align: 'left' },
+                    { display: '排序编码', name: 'Desc', width: 120, sortable: true, align: 'center' },
+                    { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
+                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
+            ],
+            sortname: "TableName,[Desc]",
+            sortorder: "ASC",
+            title: "数据字典项数据列表",
+            showTableToggleBtn: true,
+            usepager: true,
+            useRp: true,
+            rowbinddata: true,
+            showcheckbox: true,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+
+
+        //查询按钮
+        $("#btnSearchCommonTable").click(function () {
+            SearchCommonTable();
+            return false;
+        });
+        //新增按钮
+        $("#btnAddCommonTable").click(function () {
+            $("#btnEditCommonTable").attr("href", "/Admin/Common/CommonTable/Edit.html");
+            $("#hidSeletedCommonTableId").val("-1");
+            return false;
+        });
+        //编辑按钮
+        $("#btnEditCommonTable").click(function () {
+            var obj = GetSelectedRow("FlexigridTableCommonTable", "数据字典项");
+            if (!obj) {
+                $("#btnEditCommonTable").attr("href", "/Admin/Common/CommonTable/Edit.html?CommonTableId={CommonTableId}");
+                return false;
+            }
+
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前数据字典项记录已无效，无法完成此操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#btnEditCommonTable").attr("href", "/Admin/Common/CommonTable/Edit.html?CommonTableId=" + id);
+            $("#hidSeletedCommonTableId").val(id);
+
+            return false;
+        });
+        //删除
+        $("#btnDeleteCommonTable").click(function () {
+            var obj = GetSelectedRow("FlexigridTableCommonTable", "数据字典项");
+            if (!obj) {
+                return false;
+            }
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前数据字典项已无效，请勿重复操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            DelCommonTable(id);
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    //查询
+    function SearchCommonTable() {
+
+        var TimeType = $("#ulSearchCommonTable li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchCommonTable li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchCommonTable li input[name=EndTime]").val();
+        var TableName = $("#ulSearchCommonTable li input[name=TableName]").val();
+        var FieldID = $("#ulSearchCommonTable li input[name=FieldID]").val();
+
+        var p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetCommonTable" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "TableName", value: TableName },
+              { name: "FieldID", value: FieldID }
+            ]
+        };
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableCommonTable").flexOptions(p).flexReload();
+    }
+
+    //删除数据字典项
+    function DelCommonTable(id) {
+        alertMsg.confirm("数据字典项删除后将无法恢复，你确认要删除吗？", {
+            okCall: function () {
+                //调用删除数据字典项方法
+                var url = "/Handle/Common/CommonTableHandle.ashx";
+                var data = { "meth": "DelCommonTable", "Id": id };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        return false;
+                    } else {
+                        //刷新表格
+                        alertMsg.correct(json.Info);
+                        $("#FlexigridTableCommonTable").flexReload();
+                        return true;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alertMsg.error(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            }
+        });
+    }
+</script>
+
+<div class="pageHeader">
+    <div class="searchBar">
+        <ul class="searchContent" id="ulSearchCommonTable">
+
+            <li style="width: 180px">
+                <div style="float: left;">数据表名：</div>
+                <input style="width: 80px;" name="TableName" class="txt" maxlength="36" />
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">字段名：</div>
+                <div style="float: left;">
+                    <input style="width: 80px;" name="FieldID" class="txt" maxlength="64" />
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">
+                    开始时间：
+                </div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="BeginTime" class="date textInput valid required" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">结束时间：</div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="EndTime" class="date textInput valid" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li>
+                <select class="combox" name="sltTimeType" style="width: 100px">
+                    <option value="1" title="创建时间">创建时间</option>
+                    <option value="2" title="更新时间">更新时间</option>
+                </select>
+            </li>
+            <li>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit" id="btnSearchCommonTable">检索</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <input type="hidden" value="-1" id="hidSeletedCommonTableId" />
+        <ul class="toolBar">
+            <li><a class="add" href="/Admin/Common/CommonTable/Edit.html" target="dialog" rel="editCommonTable" id="btnAddCommonTable"><span>新增数据字典项</span></a></li>
+            <li class="line">line</li>
+            <li><a class="edit" href="/Admin/Common/CommonTable/Edit.html?CommonTableId={CommonTableId}" rel="editCommonTable" target="dialog" id="btnEditCommonTable"><span>修改数据字典项</span></a></li>
+            <li class="line">line</li>
+            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteCommonTable"><span>删除数据字典项</span></a></li>
+        </ul>
+    </div>
+    <div class="tabs" currentindex="0" eventtype="click">
+        <!-- <div class="tabsHeader">
+            <div class="tabsHeaderContent">
+                <ul>
+                    <li class="selected"><a href="javascript:;"><span>查单据</span></a></li>
+                    <li><a href="javascript:;"><span>查明细</span></a></li>
+                </ul>
+            </div>
+        </div>-->
+        <div class="tabsContent" style="height: 450px;" id="divCommonTableContent">
+            <div inited="1000" style="display: block;">
+                <table id="FlexigridTableCommonTable" style="display: none"></table>
+            </div>
+        </div>
+        <div class="tabsFooter">
+            <div class="tabsFooterContent"></div>
+        </div>
+    </div>
+</div>
+

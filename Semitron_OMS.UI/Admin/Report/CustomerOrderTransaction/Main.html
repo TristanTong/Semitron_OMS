@@ -1,0 +1,576 @@
+﻿<link href="/Scripts/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/zTree/js/jquery.ztree.core-3.0.js" type="text/javascript"></script>
+<script src="/Scripts/zTree/js/jquery.ztree.excheck-3.0.js" type="text/javascript"></script>
+<script src="/Scripts/zTree/js/jquery.ztree.exedit-3.0.js" type="text/javascript"></script>
+
+<style type="text/css">
+    ul.ztree {
+        border: 0px solid #617775;
+        background: #f0f6e4;
+        width: auto;
+        height: 190px;
+        overflow-y: scroll;
+        overflow-x: auto;
+    }
+
+    #ulSearchCustomerOrderTransaction li.standard {
+        width: 230px;
+        line-height: 25px;
+    }
+</style>
+<!--初始表格值与权限偏好控制-->
+<script type="text/javascript">
+    var arrGridHeader = [["公司抬头", "CompanyName"], ["内部单号", "InnerOrderNO"], ["客户订单状态", "COState"], ["销 售", "InnerSalesMan"], ["客户名称", "CustomerName"],
+        ["客户采购", "CustomerBuyer"], ["客户订单号", "CustomerOrderNO"], ["客户型号", "COCPN"],
+        ["厂商型号", "COMPN"], ["品牌", "COMFG"], ["DC", "CODC"], ["ROHS要求", "COROHS"],
+        ["订单数量", "CustQuantity"], ["计划数量", "PlanQty"], ["出库数量", "OutQty"], ["卖汇率", "SaleExchangeRate"],
+        ["实际卖货币", "SaleRealCurrency"], ["实际卖价", "SaleRealPrice"], ["实际售价总额", "SaleRealTotal"], ["标准卖货币", "SaleStandardCurrency"], ["标准卖价（USD）", "SalePrice"], ["标准售价总金额（USD）", "SaleStandardTotal"], ["客户付款方式", "COPaymentType"], ["客户付款", "IsCustomerPay"], ["是否对客户开增票", "IsCustomerVATInvoice"],
+        ["出货计划单号", "ShippingPlanNo"], ["出库单号", "ShippingListNo"], ["产品编码", "ProductCode"], ["供 应 商", "SupplierName"], ["买价(USD)", "BuyPrice"], ["买货成本(USD)", "BuyCost"], ["实收标准货币", "IncomeStandardCurrency"], ["实收标准单价(USD)", "IncomeSalePrice"], ["实收售价总额(USD)", "IncomeSaleTotal"], ["实际收款汇率", "IncomeRate"], ["实际收款货币", "RealInCurrencyUnit"], ["实际收款单价", "IncomeSaleRealPrice"], ["实际收款总额", "IncomeSaleRealTotal"], ["招待费用(USD)", "OtherFee"], ["招待费用备注", "OtherFeeRemark"], ["物流费用(USD)", "LogisticsFee"], ["物流费用备注", "LogisticsFeeRemark"], ["运营费用(USD)", "OperatingFee"], ["运营费用备注", "OperatingFeeRemark"], ["渠道费用(USD)", "ChannelFee"], ["渠道费用备注", "ChannelFeeRemark"], ["应收实收差额(USD)", "StandardIncomeRealDiff"], ["毛利润(USD)", "GrossProfits"], ["毛利润率", "ProfitMargin"], ["净利润(USD)", "NetProfit"], ["净利润率", "NetProfitMargin"], ["实际净利润(USD)", "RealNetProfit"], ["客户订单日期", "CustOrderDate"], ["客户期望交期", "CRD"], ["出货计划日期", "ShippingPlanDate"], ["出货日期", "OutStockDate"], ["客户入库日期", "CustomerInStockDate"], ["回款日期", "FeeBackDate"], ["订单完成", "IsComplete"]
+    ]; //所有要显示的列名.以默认值设定表格的标题
+
+    var arrSearchShow = [["公司抬头", "liCorporationID"], ["客户名称", "liCustomerID"], ["客户订单状态", "liCOState"], ["品牌", "liCustBrand"], ["内部订单号", "liInnerOrderNO"], ["客户订单号", "liCustomerOrderNO"], ["客户采购", "liCustomerBuyer"], ["公司销售", "liInnerSalesMan"], ["出货计划单号", "liShippingPlanNO"], ["出库单号", "liShippingListNO"], ["产品编码", "liProductCode"], ["厂商型号", "liMPN"], ["供应商", "liSupplierID"]]; //所有待显示的查询条件div布局id
+
+    var allSearchControlIds = "sltCorporationID,ulSearchCustomerOrderTransaction input[name='CustomerOrderTransaction_SearchCustomer.CustomerID'],sltCOState,ulSearchCustomerOrderTransaction input[name='CustomerOrderTransaction_SearchBrand.BrandID'],txtInnerOrderNO,txtCustomerOrderNO,txtCustomerBuyer,txtInnerSalesMan,txtShippingPlanNO,txtShippingListNO,txtProductCode,txtMPN,ulSearchCustomerOrderTransaction input[name='CustomerOrderTransaction_SearchSupplier.SupplierID']"; //所有查询条件的控件id,偏好设定时以key:value形式存入数据库保存默认查询条件值
+
+    arrHeaderStyle = [["CompanyName", "160", "", "left"], ["InnerOrderNO", "80", "", "center"], ["InnerSalesMan", "50", "", "left"], ["CustomerName", "160", "", "left"], ["CustomerBuyer", "50", "", "left"], ["CustomerOrderNO", "80", "", "left"], ["COCPN", "120", "", "left"], ["COMPN", "120", "", "left"], ["COMFG", "80", "", "left"], ["ShippingPlanNo", "100", "", ""], ["SaleStandardTotal", "130", "", "right"], ["COPaymentType", "130", "", "left"], ["PONO", "80", "", "center"], ["ShippingListNo", "100", "", ""], ["TotalFeeCurrencyUnit", "130", "", "center"], ["RealInCurrencyUnit", "100", "", "center"], ["CustomerRealPayFee", "120", "", "right"], ["StandardRealInCurrencyUnit", "110", "", "center"], ["StandardCustomerRealPayFee", "120", "", "right"], ["StandardIncomeRealDiff", "120", "", "right"], ["OtherRemark", "300", "", "left"], ["OtherFee", "90", "", "right"], ["SupplierName", "160", "", "left"], ["IsCustomerVATInvoice", "100", "", "center"], ["COState", "100", "", "center"]]
+
+    var allGroupControlIds = "";  //所有的分组查询条件控件id,偏好设定时以"，"将id分开保存
+    var strPreferGroupParam = ""; //设定全局偏好分组条件id字串,用于当前页面查询使用
+    var strPreferSearchParam = ""; //所有的查询条件控件偏好设置默认值,以"Key:Value,"组合
+    var o_columnPrefer = "";      //全局偏好显示列
+
+    //查询
+
+    //取得分组条件键值对字符串,以此传递哪些分组条件被勾选上
+    function GetGroupKeyValueString() {
+        var groupStr = "";
+
+        return groupStr;
+    }
+
+    //通过偏好字条串值得到分组条件
+    function GetPreferGroupKeyValueString(strPreferGroup) {
+        var groupStr = "";
+
+        return groupStr;
+    }
+
+    //取得分组条件所选项，无论偏好如何恒显示对应的列名
+    function GetGroupConditionColumn(groupStr) {
+        var strColumn = "";
+        if (groupStr != null) {
+
+        }
+        return strColumn;
+    }
+
+    function Search() {
+        //控制查询需带上时间
+        var startTime = $("#txtBeginTime").val();
+        var endTime = $("#txtEndTime").val();
+        if (startTime == "") {
+            artDialog.tips("请选择开始时间。");
+            return false;
+        }
+        //查询条件值
+        //var searchStr = GetSearchKeyValueString(false);
+        //var groupStr = "";//GetGroupKeyValueString();
+        //var p = {
+        //    extParam: [{ name: "meth", value: "GetReporCustomerOrderTransactionList" }, { name: "SearchParam", value: searchStr }, { name: "GroupParam", value: groupStr }]
+        //};
+        //p.newp = 1;         //跳转到第一页。
+        //$("#FlexigridTable").flexOptions(p).flexReload();
+
+        //if (groupStr.indexOf("1") < 0) {
+        //    artDialog.tips("未选择任何组合条件，无法查询，请选择。");
+        //    return false;
+        //}
+        //清空表格
+        $("div.ListTable").children().remove();
+        //创建表格
+        var table = $("<table id='FlexigridTable' style='float: left;'></table>");
+        table.appendTo($("div.ListTable"));
+
+        LoadPreferenceCondition("Report/CustomerOrderTransaction/Main.html");
+    }
+
+    //获取查询条件，传递给后台存储过程
+    function GetSearchKeyValueString(isLoadFirst) {
+        var CorporationID = $("#sltCorporationID").val();
+        var CustomerID = $("#ulSearchCustomerOrderTransaction input[name='CustomerOrderTransaction_SearchCustomer.CustomerID']").val();
+        var COState = $("#sltCOState").val();
+        var CustBrand = $("#ulSearchCustomerOrderTransaction input[name='CustomerOrderTransaction_SearchBrand.BrandID']").val();
+        var InnerOrderNO = $("#txtInnerOrderNO").val();
+        var CustomerOrderNO = $("#txtCustomerOrderNO").val();
+        var CustomerBuyer = $("#txtCustomerBuyer").val();
+        var InnerSalesMan = $("#txtInnerSalesMan").val();
+        var ShippingPlanNO = $("#txtShippingPlanNO").val();
+        var ShippingListNO = $("#txtShippingListNO").val();
+        var ProductCode = $("#txtProductCode").val();
+        var MPN = $("#txtMPN").val();
+        var SupplierID = $("#ulSearchCustomerOrderTransaction input[name='CustomerOrderTransaction_SearchSupplier.SupplierID']").val();
+        var BeginTime = $("#txtBeginTime").val();
+        var EndTime = $("#txtEndTime").val();
+        var TimeType = $("#sltTimeType").val();
+
+        //查询条件值
+        var searchStr = "CorporationID:" + CorporationID + ",CustomerID:" + CustomerID + ",COState:" + COState + ",CustBrand:" + CustBrand + ",InnerOrderNO:" + InnerOrderNO + ",CustomerOrderNO:" + CustomerOrderNO + ",CustomerBuyer:" + CustomerBuyer + ",InnerSalesMan:" + InnerSalesMan + ",ShippingPlanNO:" + ShippingPlanNO + ",ShippingListNO:" + ShippingListNO + ",ProductCode:" + ProductCode + ",MPN:" + MPN + ",SupplierID:" + SupplierID + ",BeginTime:" + BeginTime + ",EndTime:" + EndTime + ",TimeType:" + TimeType; //alert(searchStr);
+        return searchStr;
+    }
+
+    function LoadFlexiTable(columnPrefer, strPreferGroup) {
+        //查询条件值
+        var searchStr = GetSearchKeyValueString(true);
+        var groupStr = "";
+
+        //SetGridHeader(groupStr); //设定表格标题数组
+
+        var gridHeight = document.documentElement.clientHeight - 330;
+
+        //初始化流量数据统计表格
+        $("#FlexigridTable").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/OMS/BusinessTransactionsReportHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetReporCustomerOrderTransactionList" }, { name: "SearchParam", value: searchStr }, { name: "GroupParam", value: groupStr }], //扩展参数
+            colModel: eval("[" + GetDefaultPreferArray(columnPrefer) + "]"), //表格的题头与所要填充的内容。 
+            sortname: "CustOrderDate",
+            sortorder: "desc",
+            title: "客户交易总表",
+            showTableToggleBtn: true,
+            usepager: true,
+            showToggleBtn: true,
+            useRp: true,
+            showcheckbox: false,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+    }
+
+    // 权限控制与偏好设定
+
+    //初始加载偏好控件值
+    function InitPreferenceControls(searchParam) {
+
+    }
+
+    //根据偏好分组条件设定表格标题数组,通过更改全局变量数组达到动态变更表格列标题
+    function SetGridHeader(groupStr) {
+
+    }
+
+    //加载个人偏好查询条件显示、查询条件默认值及分组条件默认值。表格列控制直接在GetDefaultPreferArray()中。
+    function LoadPreferenceCondition(pageCode) {
+        //根据登陆帐号与页面取得所有设定项
+        var url = "/Handle/Sys/PreferenceConfig.ashx";
+        var data = { "meth": "GetPreferenceConfigByCode", "PageCode": pageCode };
+        var successFun = function (json) {
+            var columnPrefer = "";
+            if (json) {
+                //在权限范围内加载偏好查询条件
+                InitSearchShow(json.SearchShow);
+                //在权限范围内加载偏好查询条件默认值
+                InitSearchDefaultValue(json.SearchParam);
+                //在权限范围内加载偏好分组条件
+                InitGroupParam(json.GroupParam);
+                strPreferGroupParam = json.GroupParam; //设定全局偏好分组条件id字串,用于当前页面查询使用
+                strPreferSearchParam = json.SearchParam; //设定全局偏好
+                columnPrefer = json.ColumnShow;
+                o_columnPrefer = json.ColumnShow;
+                InitPreferenceControls(strPreferSearchParam); //按偏好加载设定级联控件值
+            }
+
+            //需加载偏好列,分组条件
+            LoadFlexiTable(columnPrefer, strPreferGroupParam);
+            //根据分组条件,控制查询条件是否启用
+            InitSearchControlByGroup();
+            return;
+        };
+        var errorFun = function (x, e) {
+            alert(x.responseText);
+            return;
+        };
+        JsAjax(url, data, successFun, errorFun);
+    }
+
+    //设置个人偏好弹出框弹出时控件的状态
+    function ShowControlStatus(bool) {
+        if (!bool) {
+            $("#divTime").show();
+            $(".buttonActive").show();
+            $("#tdColumnTree").hide();
+            $("#tdSearchTree").hide();
+            $("#liPrefernceTree").hide();
+        }
+        else {
+            $("#divTime").hide();
+            $(".buttonActive").hide();
+            $("#tdColumnTree").show();
+            $("#tdSearchTree").show();
+            $("#liPrefernceTree").show();
+        }
+    }
+
+    //设定个人偏好各查询条件及值与分组条件
+    function SetPreference(pageCode) {
+        //debugger;
+        //根据登陆帐号与页面取得所有设定项
+        var url = "/Handle/Sys/PreferenceConfig.ashx";
+        var data = { "meth": "GetPreferenceConfigByCode", "PageCode": pageCode };
+        var successFun = function (json) {
+            if (json) {
+                //debugger;
+                //初如化显示表格列树
+                zColumnNodes = GetColumnTreesNotes(json.ColumnShow);
+                $.fn.zTree.init($("#ColumnTree"), setting, zColumnNodes);
+                zColumnTree = $.fn.zTree.getZTreeObj("ColumnTree");
+                //初如化显示查询条件树
+                zSearchNodes = GetSearchTreesNotes(json.SearchShow);
+                $.fn.zTree.init($("#SearchTree"), setting, zSearchNodes);
+                zSearchTree = $.fn.zTree.getZTreeObj("SearchTree");
+
+                //在权限范围内加载偏好查询条件
+                InitSearchShow(json.SearchShow);
+                //在权限范围内加载偏好查询条件默认值
+                InitSearchDefaultValue(json.SearchParam);
+                //在权限范围内加载偏好分组条件
+                InitGroupParam(json.GroupParam);
+                InitSearchControlByGroup();
+                return true;
+            }
+            else {
+                artDialog.tips("未配置个人偏好项。");
+                return false;
+            }
+        };
+        var errorFun = function (x, e) {
+            alert(x.responseText);
+            return false;
+        };
+        JsAjax(url, data, successFun, errorFun);
+        //debugger;
+        ShowControlStatus(true); //控件的状态
+        $.dialog({
+            content: $("#tableSearch").get(0),
+            id: 'tableSearch',
+            title: "用户个人偏好设定",
+            width: 470,
+            padding: 5,
+            ok: function () {
+                var obj = zColumnTree.getCheckedNodes(true);  //获取被选中的表格列树结点
+                var columnIdList = "";
+                if (obj.length <= 0) {
+                    artDialog.tips("未选择任何列名。");
+                    return false;
+                }
+
+                for (var i = 0; i < obj.length; i++) {
+                    columnIdList += obj[i].id + ",";
+                }
+                columnIdList = columnIdList.substring(0, columnIdList.length - 1); //所有的偏好显示列
+
+                var objSearch = zSearchTree.getCheckedNodes(true);  //获取被选中的查询条件树结点
+                if (objSearch.length <= 0) {
+                    artDialog.tips("未选择任何查询条件。");
+                    return false;
+                }
+                ShowControlStatus(false);
+                var searchIdList = "";
+                for (var i = 0; i < objSearch.length; i++) {
+                    searchIdList += objSearch[i].id + ",";
+                }
+                searchIdList = searchIdList.substring(0, searchIdList.length - 1); //所有的偏好查询条件
+
+                //所有查询条件的key:value值
+                var searchKeyValue = GetSearchPreferKeyValue();
+                //所有分组条件的偏好id值
+                var groupPrefer = GetGroupPrefer();
+
+                //保存个人偏好配置项
+                var url = "/Handle/Sys/PreferenceConfig.ashx";
+                var data = { "meth": "AddOrUpdatePreferenceConfig", "PageCode": pageCode, "SearchShow": searchIdList, "SearchParam": searchKeyValue, "ColumnShow": columnIdList, "GroupParam": groupPrefer };
+                var successFun = function (json) {
+                    if (json.State == 0) {
+                        artDialog.alert(json.Info);
+                        return false;
+                    }
+                    artDialog.tips(json.Info);
+                    //重新加载整个页面
+                    //window.location.href = "BusinessTransactionsReport.aspx";
+                    Search();
+                    return true;
+                };
+                var errorFun = function (x, e) {
+                    alert(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            },
+            cancel: function () {
+                ShowControlStatus(false);
+                LoadPreferenceCondition(pageCode);
+                Search();
+                return true;
+            }
+        });
+    }
+
+    //根据分组条件,控制查询条件是否启用
+    function InitSearchControlByGroup() {
+    }
+
+    //页面加载时
+    $(function () {
+        //debugger;
+        parent.document.title = document.title;
+        SetValuesForHide(); //设定权限值
+        SetSearchItems(); //根据权限设置查询条件
+
+        //初始查询时间
+        $("#txtBeginTime").val("2013-01-01 00:00:00");
+        var data = { "meth": "GetCommonTableSelectList", "TableName": "CustomerOrder" };
+        LoadSelect("/Handle/Common/CommonTableHandle.ashx", data, "#sltCOState", -1, 100, true);
+        data = { "meth": "GetCorporationSelectList", "IsShowAll": "false" };
+        LoadSelect("/Handle/OMS/CorporationHandle.ashx", data, "#sltCorporationID", -1, 100, true);
+
+
+        //初始化查询条件收起张开事件
+        InitExpandSearch("FlexigridTable", "btnSearchOpenClose", "tableSearch", 330, 230);
+        LoadPreferenceCondition("Report/CustomerOrderTransaction/Main.html");  //加载所有使用的个人偏好（查询条件与表格列） 
+
+        //查询
+        $("#btnSearch").click(function () {
+            Search();
+            return false;
+        });
+
+        //偏好设定
+        $("#btnPreference").click(function () {
+            SetPreference("Report/CustomerOrderTransaction/Main.html");
+            return false;
+        });
+
+        //导出
+        $("#btnExportExcel").click(function () {
+            //控制查询需带上时间
+            var startTime = $("#txtBeginTime").val();
+            var endTime = $("#txtEndTime").val();
+            if (startTime == "") {
+                artDialog.tips("请选择开始时间。");
+                return false;
+            }
+
+            var dialogTitle = "客户交易总表>>导出客户交易总表到Excel";
+            //查询条件值
+            var searchStr = GetSearchKeyValueString(false);
+            var groupStr = GetGroupKeyValueString();
+
+            var url = "/Handle/OMS/BusinessTransactionsReportHandle.ashx";
+            var data = {
+                "meth": "GetReporCustomerOrderTransactionList", "SearchParam": searchStr, "GroupParam": groupStr, "Type": "ExportExcel", "sortname": "CustOrderDate", "sortorder": "desc", "rp": "100000", "page": "1"
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    artDialog.alert(json.Info);
+                    return false;
+                } else {
+                    $("#ExcelUrl").attr("href", json.Remark)
+                    $.dialog({
+                        id: 'ExportFile',
+                        title: dialogTitle,
+                        content: $('#divExportFile').get(0)
+                    });
+                    return false;
+                }
+                return false;
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+    });                        //end $ 
+
+    function windowsclose() {
+        art.dialog.list['ExportFile'].close();
+    }
+</script>
+
+<div class="pageHeader">
+    <input type="hidden" id="hidUrlParam" />
+    <input type="hidden" id="hidDataSource" />
+    <input type="hidden" id="allHideCodes" />
+    <input type="hidden" id="hfSearchParams" />
+    <div class="searchBar" id="tableSearch">
+        <ul class="searchContent" id="ulSearchCustomerOrderTransaction">
+            <li class="standard" id="liCorporationID">
+                <div id="divCorporationID" style="float: left;">
+                    公司抬头：
+                    <select id="sltCorporationID" class="txt" style="width: 125px;">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </li>
+            <li class="standard" id="liCustomerID">
+                <div id="divCustomerID">
+                    <div style="float: left;">客户名称：</div>
+                    <div style="float: left; width: 160px">
+                        <input name="CustomerOrderTransaction_SearchCustomer.CustomerID" value="" type="hidden" />
+                        <input name="CustomerOrderTransaction_SearchCustomer.CName" type="text" style="width: 120px;" readonly="readonly" />
+                        <a class="btnLook" href="/Admin/CRM/Customer/Lookup.html" lookupgroup="CustomerOrderTransaction_SearchCustomer" rel="lSearchCustomerOrderTransaction_Main_SearchCustomer">查找带回</a>
+                    </div>
+                </div>
+            </li>
+            <li class="standard" id="liCOState">
+                <div id="divCOState" style="float: left;">
+                    客户订单状态：
+                    <select id="sltCOState" class="txt" runat="server" style="width: 125px">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </li>
+            <li class="standard" id="liCustBrand">
+                <div id="divCustBrand" style="float: left;">
+                    <div style="float: left;">品牌：</div>
+                    <div style="float: left; width: 160px">
+                        <input name="CustomerOrderTransaction_SearchBrand.BrandID" value="" type="hidden" />
+                        <input name="CustomerOrderTransaction_SearchBrand.BrandName" type="text" style="width: 120px;" readonly="readonly" />
+                        <a class="btnLook" href="/Admin/OMS/Brand/Lookup.html" lookupgroup="CustomerOrderTransaction_SearchBrand" rel="lSearchCustomerOrderTransaction_Main_SearchBrand">查找带回</a>
+                    </div>
+                </div>
+            </li>
+            <li class="standard" id="liInnerOrderNO">
+                <div id="divInnerOrderNO" style="float: left;">
+                    内部订单号：
+                    <input style="width: 110px;" id="txtInnerOrderNO" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liCustomerOrderNO">
+                <div id="divCustomerOrderNO" style="float: left;">
+                    客户订单号：
+                    <input style="width: 110px;" id="txtCustomerOrderNO" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liCustomerBuyer">
+                <div id="divCustomerBuyer" style="float: left;">
+                    客户采购：
+                    <input style="width: 110px;" id="txtCustomerBuyer" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liInnerSalesMan">
+                <div id="divInnerSalesMan" style="float: left;">
+                    公司销售：
+                    <input style="width: 110px;" id="txtInnerSalesMan" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liShippingPlanNO">
+                <div id="divShippingPlanNO" style="float: left;">
+                    出货计划单号：
+                    <input style="width: 110px;" id="txtShippingPlanNO" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liShippingListNO">
+                <div id="divShippingListNO" style="float: left;">
+                    出库单号：
+                    <input style="width: 110px;" id="txtShippingListNO" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liProductCode">
+                <div id="divProductCode" style="float: left;">
+                    产品编码：
+                    <input style="width: 110px;" id="txtProductCode" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liMPN">
+                <div id="divMPN" style="float: left;">
+                    厂商型号：
+                    <input style="width: 110px;" id="txtMPN" class="txt" runat="server" maxlength="16" />m
+                </div>
+            </li>
+            <li class="standard" id="liSupplierID">
+                <div id="divSupplierID">
+                    <div style="float: left;">供应商：</div>
+                    <div style="float: left; width: 160px">
+                        <input name="CustomerOrderTransaction_SearchSupplier.SupplierID" value="" type="hidden" />
+                        <input name="CustomerOrderTransaction_SearchSupplier.SName" type="text" style="width: 120px;" readonly="readonly" />
+                        <a class="btnLook" href="/Admin/CRM/Supplier/Lookup.html" lookupgroup="CustomerOrderTransaction_SearchSupplier" rel="lSearchCustomerOrderTransaction_Main_SearchSuppplier">查找带回</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div id="divTime" style="float: left;">
+                    开始日期：
+                    <input id="txtBeginTime" runat="server" type="text" style="width: 120px" onclick="WdatePicker({ startDate: '%y-%M-%d 00:00:00', dateFmt: 'yyyy-MM-dd HH:mm:ss', alwaysUseStartDate: true })" />
+                    <img alt="" onclick="WdatePicker({el:'txtBeginTime',startDate:'%y-%M-%d 00:00:00',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true})"
+                        src="../../Scripts/My97DatePicker/skin/datePicker.gif" width="16" height="22"
+                        align="absmiddle" />
+                    结束日期：
+                            <input id="txtEndTime" runat="server" type="text" style="width: 120px" onclick="WdatePicker({ startDate: '%y-%M-%d 23:59:59', dateFmt: 'yyyy-MM-dd HH:mm:ss', alwaysUseStartDate: true })" />
+                    <img alt="" onclick="WdatePicker({el:'txtEndTime',startDate:'%y-%M-%d 23:59:59',dateFmt:'yyyy-MM-dd HH:mm:ss',alwaysUseStartDate:true})"
+                        src="../../Scripts/My97DatePicker/skin/datePicker.gif" width="16" height="22"
+                        align="absmiddle" />
+                    <select id="sltTimeType">
+                        <option value="1" selected="selected">客户订单日期 </option>
+                        <option value="2">出货计划日期 </option>
+                        <option value="3">客户期望交期 </option>
+                        <option value="4">出库日期 </option>
+                        <option value="5">客户入库日期 </option>
+                        <option value="6">客户回款日期 </option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit" id="btnSearch">检索</button>
+                    </div>
+                </div>
+            </li>
+            <li style="height: 300px; display: none;" id="liPrefernceTree">
+                <div align="center" class="zTreeDemoBackground" style="width: 45%; float: left"
+                    id="tdSearchTree">
+                    <span style="font-weight: 700;">显示查询条件:</span>
+                    <ul id="SearchTree" class="ztree" style="height: 250px; width: 200px">
+                    </ul>
+                </div>
+                <div align="center" class="zTreeDemoBackground" style="width: 45%; height: 250px; float: left"
+                    id="tdColumnTree">
+                    <span style="font-weight: 700;">显示表格列:</span>
+                    <ul id="ColumnTree" class="ztree" style="height: 250px; width: 200px">
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pageContent" id="divContentCustomerOrderTransaction">
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a class="icon" href="#" id="btnExportExcel" target="dwzExport" targettype="navTab" title="">
+                <span>导出EXCEL</span>
+            </a></li>
+            <li class="line">line</li>
+            <li><a href="#" class="delete" target="_self"><span>&nbsp;</span></a>
+                <a href="#" id="btnSearchOpenClose" style="margin-left: -10px;" target="_self">
+                    <span>收起△</span>
+                </a></li>
+            <li class="line">line</li>
+            <li><a class="edit" href="#" target="_self" id="btnPreference"><span>偏好设定</span></a></li>
+        </ul>
+    </div>
+    <div class="ListTable">
+        <table id="FlexigridTable" style="float: left;">
+        </table>
+    </div>
+    <div class="spClear">
+    </div>
+    <div class="dialogDiv">
+        <div id="divExportFile" style="display: none;">
+            <strong>Excel文件下载地址</strong>
+            <br />
+            <a id="ExcelUrl" target="_blank" href="" onclick="return windowsclose();">下载</a>
+        </div>
+    </div>
+</div>

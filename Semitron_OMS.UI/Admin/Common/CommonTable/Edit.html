@@ -1,0 +1,115 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        var id = $("#hidSeletedCommonTableId").val(); //alert(id);
+        $("#divEditCommonTable input[name='SeletedCommonTableId']").val(id);
+
+        //修改时加载初始化数据
+        if (parseInt(id) > 0) {
+            GetCommonTableById(id);
+        }
+
+        $("#divEditCommonTable select[name=TableName]").change(function () {
+            $("#divEditCommonTable select[name=FieldID]").children("option").remove();
+            var TableName = $("#divEditCommonTable select[name=TableName]").val();
+            switch (TableName) {
+                case "FeeFastFlow":
+                    $("#divEditCommonTable select[name=FieldID]").append(
+                        "<option value='FeeTypeValue' selected>费用类别</option>" +
+                        "<option value='PayTypeValue'>收支类别</option>");
+                    break;
+                default:
+                    $("#divEditCommonTable select[name=FieldID]").append(
+                        "<option value='State' selected>状态</option>");
+                    break;
+            }
+        });
+    });
+
+    //根据Id获得数据字典项记录
+    function GetCommonTableById(id) {
+        try {
+            var url = "/Handle/Common/CommonTableHandle.ashx";
+            var data = { "meth": "GetCommonTableById", "Id": id };
+            var successFun = function (json) {
+                debugger;
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseCommonTable").click();
+                    return false;
+                } else {
+                    $("#divEditCommonTable p select[name='TableName']").val(json.TableName);
+                    $("#divEditCommonTable select[name=TableName]").change();
+                    $("#divEditCommonTable p select[name='FieldID']").val(json.FieldID);
+                    $("#divEditCommonTable p input[name='Key']").val(json.Key);
+                    $("#divEditCommonTable p input[name='Value']").val(json.Value);
+                    $("#divEditCommonTable p input[name='Desc']").val(json.Desc);
+                    return false;
+                }
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseCommonTable").click();
+            return;
+        }
+    }
+
+</script>
+
+<div class="pageContent">
+    <form method="POST" action="/Handle/Common/CommonTableHandle.ashx?meth=EditCommonTable" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditCommonTable">
+            <input name="SeletedCommonTableId" value="-1" type="hidden" />
+            <p>
+                <label>数据库表：</label>
+                <select name="TableName" class=" required" style="width: 120px;">
+                    <option value="" selected>--请选择--</option>
+                    <option value="FeeFastFlow">财务记账流水表</option>
+                    <option value="CustomerOrder">客户订单表</option>
+                    <option value="PO">采购订单表</option>
+                    <option value="POPlan">采购计划表</option>
+                </select>
+            </p>
+            <p>
+                <label>字段：</label>
+                <select name="FieldID" class="required" style="width: 120px;">
+                </select>
+            </p>
+            <p>
+                <label>键值：</label>
+                <input type="text" name="Key" class="required" size="30" maxlength="10" />
+            </p>
+            <p>
+                <label>描述：</label>
+                <input type="text" name="Value" class="required" size="30" maxlength="512" />
+            </p>
+            <p>
+                <label>排序编码：</label>
+                <input type="text" name="Desc" class="" size="30" maxlength="10" />
+            </p>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="btnSaveCommonTable">保存</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" id="btnCloseCommonTable" type="button">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

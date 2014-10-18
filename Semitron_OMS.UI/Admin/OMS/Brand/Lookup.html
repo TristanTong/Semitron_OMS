@@ -1,0 +1,94 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        $("#divLookupBrand button[type='submit']").click(function () {
+            //debugger;
+            $("#divLookupBrand table tbody").html("");
+            var url = "/Handle/OMS/BrandHandle.ashx";
+            var Code = $("#divLookupBrand li input[name='txtCode']").val();
+            var BrandName = $("#divLookupBrand li input[name='txtBrandName']").val();
+            var AvailFlag = $("#divLookupBrand li input[name='sltAvailFlag']").val();
+            var data = {
+                "meth": "GetBrand", "Code": Code,
+                "BrandName": BrandName, "AvailFlag": AvailFlag, "TimeType": "1", "startTime": '2013-01-01',
+                "page": 1, "rp": 100000, "sortname": "BrandName", "sortorder": "Asc"
+            };
+            var successFun = function (json) {
+                debugger;
+                if (!json || (json && json.State == "0")) {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    $("#divLookupBrand table tbody").append("<tr><td width=\"28x\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({BrandID:'', Code:'', BrandName:''})\" title=\"带回\">选择</a> </td> <td width=\"43px\">置</td> <td width=\"81px\">空</td><td width=\"121px\">行</td> <td></td></tr>");
+                    for (var i = 0; i < json.total; i++) {
+                        $("#divLookupBrand table tbody").append("<tr>"
+                            + "<td width=\"28x\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({BrandID:'"
+                            + json.rows[i].cell[1] + "', Code:'" + json.rows[i].cell[3]
+                            + "', BrandName:'" + json.rows[i].cell[2]
+                            + "'})\" title=\"带回\">选择</a> </td> <td width=\"43px\">"
+                            + json.rows[i].cell[5] + "</td> <td width=\"81px\">"
+                            + json.rows[i].cell[3] + "</td><td>"
+                            + json.rows[i].cell[2] + "</td></tr>");
+                    }
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+
+    });
+</script>
+<div class="pageHeader" layouth="41" id="divLookupBrand">
+    <div class="searchBar">
+        <ul class="searchContent">
+            <li>
+                <label>品牌编码:</label>
+                <input class="textInput" name="txtCode" value="" type="text">
+            </li>
+            <li>
+                <label>品牌名称:</label>
+                <input class="textInput" name="txtBrandName" value="" type="text">m
+            </li>
+            <li>
+                <label>是否有效:</label>
+                <select name="sltAvailFlag" class="txt " class="combox" style="width: 125px">
+                    <option value="">--请选择--</option>
+                    <option value="1" selected="selected">有效</option>
+                    <option value="0">无效</option>
+                </select>
+            </li>
+
+        </ul>
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">查询</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="pageContent">
+            <table class="table" layouth="118" targettype="dialog" width="100%">
+                <thead>
+                    <tr>
+                        <th width="30px">带回</th>
+                        <th width="46px">是否有效</th>
+                        <th width="88px">编码</th>
+                        <th>品牌名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,96 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        $("#divLookupCustomer button[type='submit']").click(function () {
+            //debugger;
+            $("#divLookupCustomer table tbody").html("");
+            var url = "/Handle/CRM/CustomerHandle.ashx";
+            var CCode = $("#divLookupCustomer li input[name='txtCCode']").val();
+            var CustomerName = $("#divLookupCustomer li input[name='txtCustomerName']").val();
+            var AvailFlag = $("#divLookupCustomer li input[name='sltAvailFlag']").val();
+            var data = {
+                "meth": "GetCustomer", "CCode": CCode,
+                "CustomerName": CustomerName, "AvailFlag": AvailFlag, "TimeType": "1", "startTime": '2013-01-01',
+                "page": 1, "rp": 100000, "sortname": "CustomerName", "sortorder": "Asc"
+            };
+            var successFun = function (json) {
+                //debugger;
+                if (!json || (json && json.State == "0")) {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    $("#divLookupCustomer table tbody").append("<tr><td width=\"28x\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({CustomerID:'', CCode:'', CName:''})\" title=\"带回\">选择</a> </td> <td width=\"43px\">置</td> <td width=\"81px\">空</td><td width=\"121px\">行</td> <td></td></tr>");
+                    for (var i = 0; i < json.total; i++) {
+                        $("#divLookupCustomer table tbody").append("<tr>"
+                            + "<td width=\"28x\"> <a class=\"btnSelect\" href=\"javascript:$.bringBack({CustomerID:'"
+                            + json.rows[i].cell[1] + "', CCode:'" + json.rows[i].cell[2]
+                            + "', CName:'" + json.rows[i].cell[3]
+                            + "'})\" title=\"带回\">选择</a> </td> <td width=\"43px\">"
+                            + json.rows[i].cell[2] + "</td> <td width=\"81px\">"
+                            + json.rows[i].cell[4] + "</td><td width=\"121px\">"
+                            + json.rows[i].cell[5] + "</td> <td>"
+                            + json.rows[i].cell[3] + "</td></tr>");
+                    }
+                    return true;
+                }
+            };
+            var errorFun = function (x, e) {
+                alertMsg.error(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
+
+    });
+</script>
+<div class="pageHeader" layouth="41" id="divLookupCustomer">
+    <div class="searchBar">
+        <ul class="searchContent">
+            <li>
+                <label>客户编码:</label>
+                <input class="textInput" name="txtCCode" value="" type="text">
+            </li>
+            <li>
+                <label>客户名称:</label>
+                <input class="textInput" name="txtCustomerName" value="" type="text">m
+            </li>
+            <li>
+                <label>是否有效:</label>
+                <select name="sltAvailFlag" class="txt " class="combox" style="width: 125px">
+                    <option value="">--请选择--</option>
+                    <option value="1" selected="selected">有效</option>
+                    <option value="0">无效</option>
+                </select>
+            </li>
+
+        </ul>
+        <div class="subBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit">查询</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="divider"></div>
+        <div class="pageContent">
+            <table class="table" layouth="118" targettype="dialog" width="100%">
+                <thead>
+                    <tr>
+                        <th width="30px">带回</th>
+                        <th width="46px">编码</th>
+                        <th width="88px">联系人</th>
+                        <th width="135px">联系电话</th>
+                        <th>客户名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,226 @@
+﻿<script type="text/javascript">
+    $(function () {
+        var gridHeight = document.documentElement.clientHeight - 268;
+        //初始化查询条件收起张开事件
+        //InitExpandSearch("FlexigridTableBankAccount", "btnSearchOpenClose", "tableSearch", 294, 144);
+        $("#divBankAccountContent").attr("style", "height:" + gridHeight + 20 + "px");
+
+        $("#ulSearchBankAccount li input[name=BeginTime]").val("2013-01-01");
+        var TimeType = $("#ulSearchBankAccount li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchBankAccount li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchBankAccount li input[name=EndTime]").val();
+        //初始银行账户表格
+        $("#FlexigridTableBankAccount").flexigrid({
+            width: 'auto', //表格宽度
+            height: gridHeight, //表格高度
+            url: '/Handle/FM/BankAccountHandle.ashx', //数据请求地址
+            dataType: 'json', //请求数据的格式
+            extParam: [{ name: "meth", value: "GetBankAccount" }, { name: "TimeType", value: TimeType }, { name: "startTime", value: startTime }, { name: "endTime", value: endTime }], //扩展参数
+            colModel: [//表格的题头与索要填充的内容。
+                    { display: '行索引', name: 'RowNum', toggle: false, hide: false, iskey: true, width: 40, align: 'center' },
+                    { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
+                    { display: '账户名称', name: 'AccountName', width: 100, sortable: true, align: 'center' },
+                    { display: '开户人姓名', name: 'BelongName', width: 100, sortable: true, align: 'center' },
+                    { display: '开户行', name: 'BelongBank', width: 140, sortable: true, align: 'left' },
+                    { display: '银行卡号', name: 'CardNo', width: 140, sortable: true, align: 'left' },
+                    { display: '实时余额', name: 'RealTimeBalance', width: 80, sortable: true, align: 'left' },
+                    { display: '排序编码', name: 'SK', width: 60, sortable: true, align: 'center' },
+                    { display: '是否有效', name: 'AvailFlag', width: 60, sortable: true, align: 'center' },
+                    { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
+                    { display: '最后修改时间', name: 'UpdateTime', width: 120, sortable: true, align: 'center' },
+                    { display: '最后修改人', name: 'UpdateUser', width: 60, sortable: true, align: 'center' }
+            ],
+            sortname: "CreateTime",
+            sortorder: "ASC",
+            title: "银行账户数据列表",
+            showTableToggleBtn: true,
+            usepager: true,
+            useRp: true,
+            rowbinddata: true,
+            showcheckbox: true,
+            selectedonclick: true,
+            singleselected: true,
+            rowbinddata: true
+        });
+        
+        //查询按钮
+        $("#btnSearchBankAccount").click(function () {
+            SearchBankAccount();
+            return false;
+        });
+        //新增按钮
+        $("#btnAddBankAccount").click(function () {
+            $("#btnEditBankAccount").attr("href", "/Admin/FM/BankAccount/Edit.html");
+            $("#hidSeletedBankAccountId").val("-1");
+            return false;
+        });
+        //编辑按钮
+        $("#btnEditBankAccount").click(function () {
+            var obj = GetSelectedRow("FlexigridTableBankAccount", "银行账户");
+            if (!obj) {
+                $("#btnEditBankAccount").attr("href", "/Admin/FM/BankAccount/Edit.html?BankAccountId={BankAccountId}");
+                return false;
+            }
+
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前银行账户记录已无效，无法完成此操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            $("#btnEditBankAccount").attr("href", "/Admin/FM/BankAccount/Edit.html?BankAccountId=" + id);
+            $("#hidSeletedBankAccountId").val(id);
+
+            return false;
+        });
+        //删除
+        $("#btnDeleteBankAccount").click(function () {
+            var obj = GetSelectedRow("FlexigridTableBankAccount", "银行账户");
+            if (!obj) {
+                return false;
+            }
+            if (obj[0][2] == "无效") {
+                artDialog.tips("当前银行账户已无效，请勿重复操作。");
+                return false;
+            }
+            var id = obj[0][1];
+            DelBankAccount(id);
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    //查询
+    function SearchBankAccount() {
+
+        var TimeType = $("#ulSearchBankAccount li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchBankAccount li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchBankAccount li input[name=EndTime]").val();
+        var AccountName = $("#ulSearchBankAccount li input[name=AccountName]").val();
+        var BelongName = $("#ulSearchBankAccount li input[name=BelongName]").val();
+        var CardNo = $("#ulSearchBankAccount li input[name=CardNo]").val();
+
+        var p = {
+            extParam: [   //扩展参数
+              { name: "meth", value: "GetBankAccount" },
+              { name: "TimeType", value: TimeType },
+              { name: "startTime", value: startTime },
+              { name: "endTime", value: endTime },
+              { name: "AccountName", value: AccountName },
+              { name: "BelongName", value: BelongName },
+              { name: "CardNo", value: CardNo }
+            ]
+        };
+        p.newp = 1;         //跳转到第一页。
+        $("#FlexigridTableBankAccount").flexOptions(p).flexReload();
+    }
+
+    //删除银行账户
+    function DelBankAccount(id) {
+        alertMsg.confirm("银行账户删除后将无法恢复，你确认要删除吗？", {
+            okCall: function () {
+                //调用删除银行账户方法
+                var url = "/Handle/FM/BankAccountHandle.ashx";
+                var data = { "meth": "DelBankAccount", "Id": id };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        return false;
+                    } else {
+                        //刷新表格
+                        alertMsg.correct(json.Info);
+                        $("#FlexigridTableBankAccount").flexReload();
+                        return true;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alertMsg.error(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
+            }
+        });
+    }
+</script>
+
+<div class="pageHeader">
+    <div class="searchBar">
+        <ul class="searchContent" id="ulSearchBankAccount">
+            <li style="width: 180px">
+                <div style="float: left;">账户名称：</div>
+                <input style="width: 80px;" name="AccountName" class="txt" maxlength="64" />m
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">开户人姓名：</div>
+                <div style="float: left;">
+                    <input style="width: 80px;" name="BelongName" class="txt" maxlength="32" />m
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">银行卡号：</div>
+                <div style="float: left;">
+                    <input style="width: 80px;" name="CardNo" class="txt" maxlength="32" />m
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">
+                    开始时间：
+                </div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="BeginTime" class="date textInput valid required" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li style="width: 180px">
+                <div style="float: left;">结束时间：</div>
+                <div style="float: left; width: 120px">
+                    <input type="text" name="EndTime" class="date textInput valid" style="width: 80px" readonly="readonly" />
+                    <a class="inputDateButton" href="javascript:;">选择</a>
+                </div>
+            </li>
+            <li>
+                <select class="combox" name="sltTimeType" style="width: 100px">
+                    <option value="1" title="创建时间">创建时间</option>
+                    <option value="2" title="更新时间">更新时间</option>
+                </select>
+            </li>
+            <li>
+                <div class="buttonActive">
+                    <div class="buttonContent">
+                        <button type="submit" id="btnSearchBankAccount">检索</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="pageContent">
+    <div class="panelBar">
+        <input type="hidden" value="-1" id="hidSeletedBankAccountId" />
+        <ul class="toolBar">
+            <li><a class="add" href="/Admin/FM/BankAccount/Edit.html" target="dialog" rel="editBankAccount" id="btnAddBankAccount"><span>新增银行账户</span></a></li>
+            <li class="line">line</li>
+            <li><a class="edit" href="/Admin/FM/BankAccount/Edit.html?BankAccountId={BankAccountId}" rel="editBankAccount" target="dialog" id="btnEditBankAccount"><span>修改银行账户</span></a></li>
+            <li class="line">line</li>
+            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/FM/ajaxDone.html" class="delete" id="btnDeleteBankAccount"><span>删除银行账户</span></a></li>
+        </ul>
+    </div>
+    <div class="tabs" currentindex="0" eventtype="click">
+        <!-- <div class="tabsHeader">
+            <div class="tabsHeaderContent">
+                <ul>
+                    <li class="selected"><a href="javascript:;"><span>查单据</span></a></li>
+                    <li><a href="javascript:;"><span>查明细</span></a></li>
+                </ul>
+            </div>
+        </div>-->
+        <div class="tabsContent" style="height: 450px;" id="divBankAccountContent">
+            <div inited="1000" style="display: block;">
+                <table id="FlexigridTableBankAccount" style="display: none"></table>
+            </div>
+        </div>
+        <div class="tabsFooter">
+            <div class="tabsFooterContent"></div>
+        </div>
+    </div>
+</div>
+
