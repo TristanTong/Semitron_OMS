@@ -8,6 +8,7 @@ using Semitron_OMS.Model.Common;
 using Newtonsoft.Json;
 using Semitron_OMS.Model.OMS;
 using System.IO;
+using System.Text;
 
 
 namespace Semitron_OMS.UI.Handle.OMS
@@ -65,9 +66,51 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "GetCorporationById":
                         context.Response.Write(GetCorporationById());
                         break;
+                    //获取公司法人下拉框列表字符串
+                    case "GetCorporationSelectList":
+                        context.Response.ContentType = "text/plain";
+                        context.Response.Charset = "utf-8";
+                        context.Response.Write(GetCorporationSelectList());
+                        break;
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获取公司法人下拉框列表字符串
+        /// </summary>
+        /// <returns></returns>
+        private string GetCorporationSelectList()
+        {
+            string strShow = DataUtility.GetPageFormValue(_request.Form["IsShowAll"], string.Empty);
+            DataTable dt = this._bllCorporation.GetDataTableByCache();
+            //分别获取有效和无效的计费代码。
+            DataRow[] drValid = dt.Select("AvailFlag=1", "SK Asc,CompanyName Asc");
+            DataRow[] drUnValid = dt.Select("AvailFlag=0", "SK Asc,CompanyName Asc");
+            StringBuilder sb = new StringBuilder();
+            if (strShow == "true")
+            {
+                sb.AppendFormat("{0}|{1},", "－－有效－－", "-1");
+            }
+            foreach (DataRow dr in drValid)
+            {
+                sb.AppendFormat("{0}|{1},", dr["CompanyName"].ToString().Replace(',', '，').Replace('|', ' '), dr["ID"].ToString());
+            }
+            if (strShow == "true")
+            {
+                sb.AppendFormat("{0}|{1},", "－－无效－－", "-2");
+                foreach (DataRow dr in drUnValid)
+                {
+                    sb.AppendFormat("{0}|{1},", dr["CompanyName"].ToString().Replace(',', '，').Replace('|', ' '), dr["ID"].ToString());
+                }
+            }
+            if (sb.ToString().EndsWith(","))
+            {
+                //移除最后一个逗号
+                sb.Remove(sb.ToString().Length - 1, 1);
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -157,7 +200,7 @@ namespace Semitron_OMS.UI.Handle.OMS
         /// <param name="model"></param>
         /// <returns></returns>
         private string GetNewModel(CorporationModel model)
-        {            
+        {
             if (_request.Form["CompanyName"] == null
                 || _request.Form["Corporator"] == null
                 || _request.Form["CompanyAddr"] == null

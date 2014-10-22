@@ -78,8 +78,9 @@ namespace Semitron_OMS.UI.Handle.OMS
         {
             //SQL条件过滤器集合
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SP.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.AllLike));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SP.ShippingPlanNo", _request.Form["ShippingPlanNo"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ProductCode", _request.Form["ProductCode"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("SP.IsApproved", "SP.IsApproved=1", ConditionEnm.None));
 
             PageResult result = new PageResult();
             try

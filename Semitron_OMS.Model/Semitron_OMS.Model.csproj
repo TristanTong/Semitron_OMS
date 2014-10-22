@@ -59,6 +59,8 @@
     <Compile Include="Common\TimerInfoModel.cs" />
     <Compile Include="Common\UserRoleModel.cs" />
     <Compile Include="Common\WarehouseModel.cs" />
+    <Compile Include="FM\BankAccountModel.cs" />
+    <Compile Include="FM\FeeFastFlowModel.cs" />
     <Compile Include="FM\GatheringPlanModel.cs" />
     <Compile Include="FM\PaymentPlanModel.cs" />
     <Compile Include="OMS\AdminBindCustomerModel.cs" />

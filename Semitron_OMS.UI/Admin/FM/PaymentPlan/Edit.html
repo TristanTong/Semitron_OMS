@@ -89,9 +89,9 @@
                     $("#divEditPaymentPlan p input[name='BuyRealPrice']").val(json.BuyRealPrice);
                     $("#divEditPaymentPlan p input[name='BuyRealTotal']").val(json.BuyRealTotal);
                     $("#divEditPaymentPlan p select[name='PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID']").val(json.VendorPaymentTypeID);
-                    $("#divEditPaymentPlan p input[name='IsSupplierVATInvoice']").val(json.IsSupplierVATInvoice == true ? "true" : "false");
+                    $("#divEditPaymentPlan p select[name='IsSupplierVATInvoice']").val(json.IsSupplierVATInvoice == true ? "true" : "false");
                     $("#divEditPaymentPlan p input[name='SupplierVATInvoice']").val(json.SupplierVATInvoice);
-                    $("#divEditPaymentPlan p input[name='IsPaySupplier']").val(json.IsPaySupplier == true ? "true" : "false");
+                    $("#divEditPaymentPlan p select[name='IsPaySupplier']").val(json.IsPaySupplier == true ? "true" : "false");
                     $("#divEditPaymentPlan p input[name='OtherFee']").val(json.OtherFee);
                     $("#divEditPaymentPlan p input[name='OtherFeeRemark']").val(json.OtherFeeRemark);
                     //$("#divEditPaymentPlan p input[name='BuyerProportion']").val(json.BuyerProportion);
@@ -210,7 +210,7 @@
             </p>
             <p>
                 <label>是否开增票：</label>
-                <select name="IsSupplierVATInvoice" class="combox">
+                <select name="IsSupplierVATInvoice" class="">
                     <option value="true">是</option>
                     <option value="false" selected>否</option>
                 </select>
@@ -221,7 +221,7 @@
             </p>
             <p>
                 <label>是否向供应商付款：</label>
-                <select name="IsPaySupplier" class=" combox">
+                <select name="IsPaySupplier" class="">
                     <option value="true">是</option>
                     <option value="false" selected>否</option>
                 </select>
@@ -248,7 +248,7 @@
             </p>
             <p>
                 <label>状态：</label>
-                <select name="State" class="required combox">
+                <select name="State" class="required ">
                     <option value="1" selected>有效</option>
                     <option value="0">无效</option>
                 </select>

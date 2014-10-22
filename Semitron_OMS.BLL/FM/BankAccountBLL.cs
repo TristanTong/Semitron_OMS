@@ -1,12 +1,12 @@
 ﻿/**  
-* CommonTableBLL.cs
+* BankAccountBLL.cs
 *
 * 功 能： N/A
-* 类 名： CommonTableBLL
+* 类 名： BankAccountBLL
 *
 * Ver    变更日期             负责人  变更内容
 * ───────────────────────────────────
-* V0.01  2013/6/8 12:05:52   童荣辉    初版
+* V0.01  2014/10/5 23:43:12   童荣辉    初版
 *
 * Copyright (c) 2013 SemitronElec Corporation. All rights reserved.
 *┌──────────────────────────────────┐
@@ -18,23 +18,39 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 using Semitron_OMS.Common;
-using Semitron_OMS.Model.OMS;
-namespace Semitron_OMS.BLL.OMS
+using Semitron_OMS.Model.FM;
+namespace Semitron_OMS.BLL.FM
 {
     /// <summary>
-    /// 公共值表(数据表字段
+    /// BankAccountBLL
     /// </summary>
-    public partial class CommonTableBLL
+    public partial class BankAccountBLL
     {
-        private readonly Semitron_OMS.DAL.OMS.CommonTableDAL dal = new Semitron_OMS.DAL.OMS.CommonTableDAL();
-        public CommonTableBLL()
+        private readonly Semitron_OMS.DAL.FM.BankAccountDAL dal = new Semitron_OMS.DAL.FM.BankAccountDAL();
+        public BankAccountBLL()
         { }
         #region  BasicMethod
 
         /// <summary>
+        /// 得到最大ID
+        /// </summary>
+        public int GetMaxId()
+        {
+            return dal.GetMaxId();
+        }
+
+        /// <summary>
+        /// 是否存在该记录
+        /// </summary>
+        public bool Exists(int ID)
+        {
+            return dal.Exists(ID);
+        }
+
+        /// <summary>
         /// 增加一条数据
         /// </summary>
-        public int Add(Semitron_OMS.Model.OMS.CommonTableModel model)
+        public int Add(Semitron_OMS.Model.FM.BankAccountModel model)
         {
             return dal.Add(model);
         }
@@ -42,7 +58,7 @@ namespace Semitron_OMS.BLL.OMS
         /// <summary>
         /// 更新一条数据
         /// </summary>
-        public bool Update(Semitron_OMS.Model.OMS.CommonTableModel model)
+        public bool Update(Semitron_OMS.Model.FM.BankAccountModel model)
         {
             return dal.Update(model);
         }
@@ -66,7 +82,7 @@ namespace Semitron_OMS.BLL.OMS
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public Semitron_OMS.Model.OMS.CommonTableModel GetModel(int ID)
+        public Semitron_OMS.Model.FM.BankAccountModel GetModel(int ID)
         {
 
             return dal.GetModel(ID);
@@ -75,10 +91,10 @@ namespace Semitron_OMS.BLL.OMS
         /// <summary>
         /// 得到一个对象实体，从缓存中
         /// </summary>
-        public Semitron_OMS.Model.OMS.CommonTableModel GetModelByCache(int ID)
+        public Semitron_OMS.Model.FM.BankAccountModel GetModelByCache(int ID)
         {
 
-            string CacheKey = "CommonTableModelModel-" + ID;
+            string CacheKey = "BankAccountModelModel-" + ID;
             object objModel = Semitron_OMS.Common.DataCache.GetCache(CacheKey);
             if (objModel == null)
             {
@@ -93,7 +109,7 @@ namespace Semitron_OMS.BLL.OMS
                 }
                 catch { }
             }
-            return (Semitron_OMS.Model.OMS.CommonTableModel)objModel;
+            return (Semitron_OMS.Model.FM.BankAccountModel)objModel;
         }
 
         /// <summary>
@@ -113,7 +129,7 @@ namespace Semitron_OMS.BLL.OMS
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Semitron_OMS.Model.OMS.CommonTableModel> GetModelList(string strWhere)
+        public List<Semitron_OMS.Model.FM.BankAccountModel> GetModelList(string strWhere)
         {
             DataSet ds = dal.GetList(strWhere);
             return DataTableToList(ds.Tables[0]);
@@ -121,13 +137,13 @@ namespace Semitron_OMS.BLL.OMS
         /// <summary>
         /// 获得数据列表
         /// </summary>
-        public List<Semitron_OMS.Model.OMS.CommonTableModel> DataTableToList(DataTable dt)
+        public List<Semitron_OMS.Model.FM.BankAccountModel> DataTableToList(DataTable dt)
         {
-            List<Semitron_OMS.Model.OMS.CommonTableModel> modelList = new List<Semitron_OMS.Model.OMS.CommonTableModel>();
+            List<Semitron_OMS.Model.FM.BankAccountModel> modelList = new List<Semitron_OMS.Model.FM.BankAccountModel>();
             int rowsCount = dt.Rows.Count;
             if (rowsCount > 0)
             {
-                Semitron_OMS.Model.OMS.CommonTableModel model;
+                Semitron_OMS.Model.FM.BankAccountModel model;
                 for (int n = 0; n < rowsCount; n++)
                 {
                     model = dal.DataRowToModel(dt.Rows[n]);
@@ -172,84 +188,26 @@ namespace Semitron_OMS.BLL.OMS
 
         #endregion  BasicMethod
         #region  ExtensionMethod
-        /// <summary>
-        /// 获得指定条件的数据
-        /// </summary>
-        /// <param name="strTableName">表名</param>
-        /// <param name="strField">字段名</param>
-        /// <param name="strKey">字段值</param>
-        /// <param name="strOrderField">排序字段</param>
-        /// <param name="strOrder">降序还是升序</param>
-        /// <returns>数据集合</returns>
-        public DataSet GetListByWhere(string strTableName, string strField, string strKey, string strOrderField, string strOrder)
-        {
-            return dal.GetListByWhere(strTableName, strField, strKey, strOrderField, strOrder);
-        }
-
-        /// <summary>
-        /// 获得指定条件的数据
-        /// </summary>
-        /// <param name="strTableName">表名</param>
-        /// <param name="strField">字段名</param>
-        /// <param name="strKey">字段值</param>
-        /// <returns>数据表</returns>
-        public DataTable GetListByWhere(string strTableName, string strField, string strKey)
-        {
-            return dal.GetListByWhere(strTableName, strField, strKey, string.Empty, string.Empty).Tables[0];
-        }
-
-        /// <summary>
-        /// 根据数据库缓存依赖获得数据
-        /// </summary>
-        /// <returns></returns>
-        public DataTable GetDataTableByCache(string strTableName)
-        {
-            return dal.GetDataTableByCache(strTableName);
-        }
-
-        /// <summary>
-        /// 分页查询记录数据
-        /// </summary>
-        /// <param name="searchInfo">SQL辅助类对象</param>
-        /// <param name="o_RowsCount">总查询数</param>
-        /// <returns>记录数据</returns>
-        public DataSet GetCommonTablePageData(PageSearchInfo searchInfo, out int o_RowsCount)
-        {
-            return dal.GetCommonTablePageData(searchInfo, out o_RowsCount);
-        }
-
-        /// <summary>
-        /// 验证并删除数据
-        /// </summary>
-        public string ValidateAndDelCommonTable(int iId)
-        {
-            return this.Delete(iId) ? "OK" : "ERROR";
-        }
-
-        /// <summary>
-        /// 验证并新增或修改数据项
-        /// </summary>
-        public string ValidateAndEdit(CommonTableModel model)
+        public string ValidateAndEdit(BankAccountModel model)
         {
             string strResult = "发生错误";
-            if (String.IsNullOrEmpty(model.TableName))
+            if (String.IsNullOrEmpty(model.AccountName))
             {
-                return "数据库表值不能为空";
+                return "账户名称不能为空";
             }
-            if (String.IsNullOrEmpty(model.FieldID))
+            if (String.IsNullOrEmpty(model.CardNo))
             {
-                return "字段表值不能为空";
+                return "卡号不能为空";
             }
-            if (String.IsNullOrEmpty(model.Key))
+            if (!model.AvailFlag)
             {
-                return "键值不能为空";
+                return "当前记录已无效,无法完成编辑操作.";
             }
-            if (GetModelList("TableName='" + model.TableName
-                + "' AND FieldID='" + model.FieldID
-                + "' AND [Key]='" + model.Key
-                + "' AND ID !='" + model.ID + "'").Count > 0)
+            if (GetModelList("(AccountName='" + model.AccountName
+                + "' OR CardNo='" + model.CardNo
+                + "') AND ID!='" + model.ID + "'").Count > 0)
             {
-                return "相同表值数据项已配置，请确认后修改。";
+                return "此账户名称或卡号已增加，请确认后修改。";
             }
             if (model.ID > 0)
             {
@@ -261,7 +219,35 @@ namespace Semitron_OMS.BLL.OMS
             }
             return strResult;
         }
+
+        public string ValidateAndDelBankAccount(int iId)
+        {
+            BankAccountModel model = this.GetModel(iId);
+            if (model.AvailFlag == false)
+            {
+                return "当前记录已无效,请勿重复操作!";
+            }
+            model.AvailFlag = false;
+            return this.Update(model) ? "OK" : "ERROR";
+        }
+        /// <summary>
+        /// 分页查询记录数据
+        /// </summary>
+        /// <param name="searchInfo">SQL辅助类对象</param>
+        /// <param name="o_RowsCount">总查询数</param>
+        /// <returns>记录数据</returns>
+        public DataSet GetBankAccountPageData(PageSearchInfo searchInfo, out int o_RowsCount)
+        {
+            return dal.GetBankAccountPageData(searchInfo, out o_RowsCount);
+        }
+
+        public DataTable GetDataTableByCache(string strTableName)
+        {
+            throw new NotImplementedException();
+        }
         #endregion  ExtensionMethod
+
+
     }
 }
 

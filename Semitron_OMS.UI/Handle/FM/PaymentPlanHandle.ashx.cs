@@ -352,8 +352,22 @@ namespace Semitron_OMS.UI.Handle.FM
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.PONO",
                 _request.Form["PONO"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("S.SCode",
-                _request.Form["SupplierCode"], ConditionEnm.Equal));
-
+                _request.Form["SCode"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.MPN",
+                _request.Form["MPN"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.BuyRealCurrency",
+                _request.Form["BuyRealCurrency"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.IsPaySupplier",
+                _request.Form["IsPaySupplier"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.VendorPaymentTypeID",
+                _request.Form["VendorPaymentTypeID"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.IsSupplierVATInvoice",
+                _request.Form["IsSupplierVATInvoice"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("E.EntryNo",
+                _request.Form["EntryNo"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("E.IsApproved",
+                _request.Form["IsInStock"], ConditionEnm.Equal));
+            
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);
@@ -365,6 +379,14 @@ namespace Semitron_OMS.UI.Handle.FM
             if (strTimeType == "2")
             {
                 strTimeField = "P.UpdateTime";
+            }
+            if (strTimeType == "3")
+            {
+                strTimeField = "P.PaymentPlanDate";
+            }
+            if (strTimeType == "4")
+            {
+                strTimeField = "E.InStockDate";
             }
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["startTime"], string.Empty);
             if (strStartTime != string.Empty)

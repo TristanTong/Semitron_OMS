@@ -476,7 +476,7 @@ namespace Semitron_OMS.DAL.OMS
         /// </summary>
         public DataTable GetDataTableByCache()
         {
-            return Semitron_OMS.DAL.SQLNotifier.GetDataTable(ConstantValue.SQLNotifierDepObj.BrandTableDepSql, ConstantValue.SQLNotifierDepObj.BrandTableDepSql, ConstantValue.TableNames.Corporation, null);
+            return Semitron_OMS.DAL.SQLNotifier.GetDataTable(ConstantValue.SQLNotifierDepObj.BrandTableDepSql, ConstantValue.SQLNotifierDepObj.BrandTableDepSql, ConstantValue.TableNames.Brand, null);
         }
         #endregion  ExtensionMethod
 

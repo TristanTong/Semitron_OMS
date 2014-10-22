@@ -63,6 +63,8 @@
     <Compile Include="Common\TimerInfoDAL.cs" />
     <Compile Include="Common\UserRoleDAL.cs" />
     <Compile Include="Common\WarehouseDAL.cs" />
+    <Compile Include="FM\BankAccountDAL.cs" />
+    <Compile Include="FM\FeeFastFlowDAL.cs" />
     <Compile Include="FM\GatheringPlanDAL.cs" />
     <Compile Include="FM\PaymentPlanDAL.cs" />
     <Compile Include="OMS\AdminBindCustomerDAL.cs" />

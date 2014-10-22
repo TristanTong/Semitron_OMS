@@ -47,9 +47,22 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "GetReportList":
                         context.Response.Write(GetReportList());
                         break;
+                    case "GetReporCustomerOrderTransactionList":
+                        context.Response.Write(GetReporCustomerOrderTransactionList());
+                        break;
+
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 分页获取客户交易总表
+        /// </summary>
+        /// <returns></returns>
+        private string GetReporCustomerOrderTransactionList()
+        {
+            return GetReportCommon(ConstantValue.ProcedureNames.CustomerOrderTransactionReport, "客户交易总表");
         }
 
         /// <summary>
@@ -58,12 +71,20 @@ namespace Semitron_OMS.UI.Handle.OMS
         /// <returns></returns>
         private string GetReportList()
         {
+            return GetReportCommon(ConstantValue.ProcedureNames.BusinessTransactionsReport, "商务交易总表");
+        }
+        /// <summary>
+        /// 分页获取商务交易总表
+        /// </summary>
+        /// <returns></returns>
+        private string GetReportCommon(string proName, string strTableName)
+        {
             int iPageIndex = 1;          //页码
             int iPageSize = 1;           //页大小
             int iRowsCount = 0;
             string strOrderField = string.Empty;
             int iOrderType = 0;
-            string proName = ConstantValue.ProcedureNames.BusinessTransactionsReport;
+
             string strSearchParam = string.Empty;
             string strGroupParam = string.Empty;
             Dictionary<string, string> dicSearch = new Dictionary<string, string>();
@@ -144,7 +165,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                 catch (Exception ex)
                 {
                     dt = new DataTable();
-                    myLogger.Error("分页获取商务交易总表出现异常，IP:" + HttpContext.Current.Request.UserHostAddress + "登陆用户：" + adminModel.Username, ex);
+                    myLogger.Error("分页获取" + strTableName + "出现异常，IP:" + HttpContext.Current.Request.UserHostAddress + "登陆用户：" + adminModel.Username, ex);
                 }
             }
 
@@ -162,8 +183,8 @@ namespace Semitron_OMS.UI.Handle.OMS
                 try
                 {
                     FileExcelDAl fileDLL = new FileExcelDAl();
-                    string filename = "商务交易总表导出" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
-                    fileDLL.CreateFile("商务交易总表导出", filename, dt);
+                    string filename = strTableName + "导出" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
+                    fileDLL.CreateFile(strTableName + "导出", filename, dt);
                     string filepath = "/file_system/ExportExcelFile/" + filename;
                     //增加操作日志
                     OperationsLogBLL bllOL = new OperationsLogBLL();

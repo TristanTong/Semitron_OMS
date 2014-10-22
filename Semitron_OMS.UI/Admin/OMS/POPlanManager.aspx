@@ -802,17 +802,17 @@ tdRemarkWidth">
                             </td>
                         </tr>
                         <tr class="trMO">
+                            <td class="tdRight tdParamDWidth">客户型号：
+                            </td>
+                            <td class="tdLeft tdRemarkWidth">
+                                <input type="text" id="txtCPNE" class="txt" maxlength="32" />
+                            </td>
                             <td class="tdRight tdParamDWidth">厂家标准型号：
                             </td>
                             <td class="tdLeft tdRemarkWidth">
                                 <input type="text" id="txtMPNE" class="txt" maxlength="32" />
                                 <label class="red">
                                     *</label>
-                            </td>
-                            <td class="tdRight tdParamDWidth">客户型号：
-                            </td>
-                            <td class="tdLeft tdRemarkWidth">
-                                <input type="text" id="txtCPNE" class="txt" maxlength="32" />
                             </td>
                         </tr>
                         <tr class="trMO ">

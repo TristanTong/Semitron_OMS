@@ -1,0 +1,97 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+        var id = $("#hidSeletedBankAccountId").val(); //alert(id);
+        $("#divEditBankAccount input[name='SeletedBankAccountId']").val(id);
+
+        //修改时加载初始化数据
+        if (parseInt(id) > 0) {
+            GetBankAccountById(id);
+        }
+
+    });
+
+    //根据Id获得数据字典项记录
+    function GetBankAccountById(id) {
+        try {
+            var url = "/Handle/FM/BankAccountHandle.ashx";
+            var data = { "meth": "GetBankAccountById", "Id": id };
+            var successFun = function (json) {
+                debugger;
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    $("#btnCloseBankAccount").click();
+                    return false;
+                } else {
+                    $("#divEditBankAccount p input[name='AccountName']").val(json.AccountName);
+                    $("#divEditBankAccount p input[name='BelongName']").val(json.BelongName);
+                    $("#divEditBankAccount p input[name='BelongBank']").val(json.BelongBank);
+                    $("#divEditBankAccount p input[name='CardNo']").val(json.CardNo);
+                    $("#divEditBankAccount p input[name='RealTimeBalance']").val(json.RealTimeBalance);
+                    $("#divEditBankAccount p input[name='SK']").val(json.SK);
+                    return false;
+                } 
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            JsAjax(url, data, successFun, errorFun);
+        }
+        catch (e) {
+            alertMsg.error(e.message);
+            $("#btnCloseBankAccount").click();
+            return;
+        }
+    }
+
+</script>
+
+<div class="pageContent">
+    <form method="POST" action="/Handle/FM/BankAccountHandle.ashx?meth=EditBankAccount" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
+        <div class="pageFormContent nowrap" layouth="56" id="divEditBankAccount">
+            <input name="SeletedBankAccountId" value="-1" type="hidden" />
+            <p>
+                <label>账户名称：</label>
+                <input type="text" name="AccountName" class="required" size="30" maxlength="64" />
+            </p>
+            <p>
+                <label>开户人姓名：</label>
+                <input type="text" name="BelongName" class="required" size="30" maxlength="32" />
+            </p>
+            <p>
+                <label>开户行：</label>
+                <input type="text" name="BelongBank" class="required" size="30" maxlength="64" />
+            </p>
+            <p>
+                <label>银行卡号：</label>
+                <input type="text" name="CardNo" class="required" size="30" maxlength="32" />
+            </p>
+            <p>
+                <label>实时余额：</label>
+                <input type="text" name="RealTimeBalance" class="number required" value="0" size="30" maxlength="10" />
+            </p>
+            <p>
+                <label>排序编码：</label>
+                <input type="text" name="SK" class="" size="30" maxlength="10" />
+            </p>
+        </div>
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button type="submit" id="btnSaveBankAccount">保存</button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="button">
+                        <div class="buttonContent">
+                            <button class="close" id="btnCloseBankAccount" type="button">关闭</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

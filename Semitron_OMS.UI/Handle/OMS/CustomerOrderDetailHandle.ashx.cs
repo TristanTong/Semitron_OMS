@@ -7,6 +7,7 @@ using Semitron_OMS.Common;
 using Semitron_OMS.Model.OMS;
 using Newtonsoft.Json;
 using System.Data;
+using Semitron_OMS.Common.Enum;
 
 namespace Semitron_OMS.UI.Handle.OMS
 {
@@ -81,6 +82,8 @@ namespace Semitron_OMS.UI.Handle.OMS
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.InnerOrderNo", _request.Form["InnerOrderNo"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("C.CCode", _request.Form["CustomerCode"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.MPN", _request.Form["MPN"], ConditionEnm.Equal));
+
             string strQueryType = DataUtility.GetPageFormValue(_request.Form["QueryType"], string.Empty);
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["CustOrderDateBegin"], string.Empty);
             if (strStartTime != string.Empty)
@@ -92,6 +95,8 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.CustOrderDate", strEndTime, ConditionEnm.LessThan));
             }
+
+            this.SetDataPermissionConditon(lstFilter);
 
             PageResult result = new PageResult();
             try
@@ -107,6 +112,34 @@ namespace Semitron_OMS.UI.Handle.OMS
                 _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取待出货计划的产品清单列表出现异常：" + ex.Message, ex);
             }
             return result.ToString();
+        }
+
+        /// <summary>
+        /// 设置过滤数据的查询条件
+        /// </summary>
+        private void SetDataPermissionConditon(List<SQLConditionFilter> lstFilter)
+        {
+            //是否分配查看所有客户权限,未分配
+            if (!PermissionUtility.IsExistDataSetPer(_adminModel.PerModule, ConstantValue.SystemConst.DATA_PERMISSION, ConstantValue.SystemConst.ALL_CUSTOMER_VIEW))
+            {
+                //如果拥有采购员或采购主管权限
+                if (_adminModel.RoleID.Contains(((int)EnumRoleID.InnerBuyer).ToString())
+                    || _adminModel.RoleID.Contains(((int)EnumRoleID.BuyerManager).ToString()))
+                {
+                    //只取出指定采购员为此用户的客户清单
+                    SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.AssignToInnerBuyer",
+                        _adminModel.AdminID, ConditionEnm.Equal));
+                }
+                else
+                {
+                    //只取出关联的客户数据
+                    DataTable dtBind = new Semitron_OMS.BLL.OMS.AdminBindCustomerBLL().GetDataTableByCache(_adminModel.AdminID);//使用缓存
+                    string strIds = "-1";
+                    dtBind.AsEnumerable().ForEach(r => strIds += "," + r["CustomerID"].ToString());
+                    SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.CustomerID", strIds, ConditionEnm.IN));
+                }
+
+            }
         }
 
         /// <summary>
@@ -156,15 +189,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             }
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.AvailFlag", strAvailFlag, ConditionEnm.Equal));
 
-            //是否分配查看所有客户权限
-            if (!PermissionUtility.IsExistDataSetPer(_adminModel.PerModule, ConstantValue.SystemConst.DATA_PERMISSION, ConstantValue.SystemConst.ALL_CUSTOMER_VIEW))
-            {
-                //只取出关联的客户数据
-                DataTable dtBind = new Semitron_OMS.BLL.OMS.AdminBindCustomerBLL().GetDataTableByCache(_adminModel.AdminID);//使用缓存
-                string strIds = "-1";
-                dtBind.AsEnumerable().ForEach(r => strIds += "," + r["CustomerID"].ToString());
-                SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.CustomerID", strIds, ConditionEnm.IN));
-            }
+            this.SetDataPermissionConditon(lstFilter);
 
             //查询条件：开始时间，结束时间
             //时间类型

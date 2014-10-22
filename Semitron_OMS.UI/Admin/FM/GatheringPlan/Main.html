@@ -29,10 +29,12 @@
                     { display: '内部订单号 ', name: 'InnerOrderNO', width: 60, sortable: true, align: 'center' },
                     { display: '客户订单号', name: 'CustomerOrderNO', width: 100, sortable: true, align: 'left' },
                     { display: '客户名称', name: 'CustomerName', width: 160, sortable: true, align: 'left' },
+                    { display: '厂商型号', name: 'MPN', width: 160, sortable: true, align: 'left' },
+                    { display: '客户型号', name: 'CPN', width: 160, sortable: true, align: 'left' },
                     { display: '客户是否付款', name: 'IsCustomerPay', width: 80, sortable: true, align: 'center' },
                     { display: '是否开增票', name: 'IsCustomerVATInvoice', width: 60, sortable: true, align: 'center' },
                     { display: '收款数量', name: 'Qty', width: 60, sortable: true, align: 'right' },
-                    { display: '收款方式', name: 'PaymentTypeID', width: 80, sortable: true, align: 'center' },
+                    { display: '收款方式', name: 'PaymentTypeID', width: 80, sortable: true, align: 'left' },
                     { display: '计划收款汇率', name: 'SaleExchangeRate', width: 80, sortable: true, align: 'right' },
                     { display: '计划收款货币', name: 'SaleRealCurrency', width: 80, sortable: true, align: 'center' },
                     { display: '计划收款单价', name: 'SaleRealPrice', width: 80, sortable: true, align: 'right' },
@@ -156,9 +158,8 @@
         var endTime = $("#ulSearchGatheringPlan li input[name=EndTime]").val();
         var CustomerOrderNO = $("#ulSearchGatheringPlan li input[name=CustomerOrderNO]").val();
         var InnerOrderNO = $("#ulSearchGatheringPlan li input[name=InnerOrderNO]").val();
-        var CustomerCode = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.SCode']").val();
-        var CustomerName = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.SName']").val();
-
+        var CCode = $("#ulSearchGatheringPlan li input[name='GatheringPlan_SearchCustomer.CCode']").val();
+       
         var p = {
             extParam: [   //扩展参数
               { name: "meth", value: "GetGatheringPlan" },
@@ -167,7 +168,7 @@
               { name: "endTime", value: endTime },
               { name: "InnerOrderNO", value: InnerOrderNO },
               { name: "CustomerOrderNO", value: CustomerOrderNO },
-              { name: "CustomerCode", value: CustomerCode },
+              { name: "CCode", value: CCode },
               { name: "AvailFlag", value: "1" }//这里应该是错的
             ]
         };
@@ -247,9 +248,9 @@
             <li style="width: 180px">
                 <div style="float: left;">客户名称：</div>
                 <div style="float: left; width: 120px">
-                    <input name="GatheringPlan_SearchCustomer.SCode" value="" type="hidden" />
-                    <input name="GatheringPlan_SearchCustomer.SName" type="text" style="width: 80px;" readonly="readonly" />
-                    <a class="btnLook" href="/Admin/CRM/Customer/Lookup.html" lookupgroup="GatheringPlan_SearchCustomer" rel="lSearchGatheringPlan_Main_SearchSuppplier">查找带回</a>
+                    <input name="GatheringPlan_SearchCustomer.CCode" value="" type="hidden" />
+                    <input name="GatheringPlan_SearchCustomer.CName" type="text" style="width: 80px;" readonly="readonly" />
+                    <a class="btnLook" href="/Admin/CRM/Customer/Lookup.html" lookupgroup="GatheringPlan_SearchCustomer" rel="lSearchGatheringPlan_Main_SearchCustomer">查找带回</a>
                 </div>
             </li>
             <li style="width: 180px">
@@ -282,7 +283,7 @@
                         <button type="submit" id="btnSearchGatheringPlan">检索</button>
                     </div>
                 </div>
-                <!--<a class="button" href="/Admin/FM/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="查询框(高级检索收款计划)"><span>高级检索</span></a>-->
+                <a class="button" href="/Admin/FM/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="收款计划查询框(高级检索)"><span>高级检索</span></a>
             </li>
         </ul>
     </div>

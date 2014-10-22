@@ -126,6 +126,10 @@ namespace Semitron_OMS.Common
             /// </summary>
             public const string BusinessTransactionsReport = "Pro_Report_BusinessTransactions";
             /// <summary>
+            /// 客户交易总表
+            /// </summary>
+            public const string CustomerOrderTransactionReport = "Pro_Report_CustomerOrderTransaction";
+            /// <summary>
             /// 出库单审核
             /// </summary>
             public const string ApproveShippingList = "Pro_ShippingList_Approve";
@@ -141,8 +145,6 @@ namespace Semitron_OMS.Common
             /// 网站搜索页面结果列表
             /// </summary>
             public const string GetSearchInIndex = "Pro_SiteSearch_GetSearchInIndex";
-
-
 
         }
         /// <summary>
@@ -284,6 +286,10 @@ namespace Semitron_OMS.Common
             /// </summary>
             public static string AdminBindCustomer = "AdminBindCustomer";
             /// <summary>
+            /// 品牌表
+            /// </summary>
+            public const string Brand = "Brand";
+            /// <summary>
             /// 数据公用表
             /// </summary>
             public const string CommonTable = "CommonTable";
@@ -346,7 +352,8 @@ namespace Semitron_OMS.Common
             /// <summary>
             /// 用户角色关联表
             /// </summary>
-            public static string UserRole = "UserRole";
+            public const string UserRole = "UserRole";
+
         }
 
         /// <summary>

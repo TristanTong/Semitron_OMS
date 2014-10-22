@@ -191,6 +191,8 @@
                     $("#divEditGatheringPlan p input[name='OutStockDate']").val(json.OutStockDate);
 
                     $("#divEditGatheringPlan p select[name='State']").val(json.State);
+
+                    $("#divEditGatheringPlan .calRealBlur").blur();
                     return false;
                 }
             };
@@ -425,7 +427,7 @@
             </p>
             <p>
                 <label>状态：</label>
-                <select name="State" class="required combox">
+                <select name="State" class="required">
                     <option value="1" selected>有效</option>
                     <option value="0">无效</option>
                 </select>

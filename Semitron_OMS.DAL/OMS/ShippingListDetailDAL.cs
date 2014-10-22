@@ -469,6 +469,7 @@ namespace Semitron_OMS.DAL.OMS
             }
             DbHelperSQL.ExecuteSqlTran(SQLStringList);
 
+            SQLStringList.Clear();
             foreach (Model.OMS.ShippingListDetailModel model in lstShippingListDetailModel)
             {
                 StringBuilder strSql = new StringBuilder();
