@@ -200,7 +200,7 @@ namespace Semitron_OMS.BLL.FM
         }
 
         /// <summary>
-        /// 验证并编辑收款计划实体
+        /// 验证并编辑收客户款计划实体
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -208,7 +208,8 @@ namespace Semitron_OMS.BLL.FM
         {
             if (model.ID <= 0)
             {
-                this.Add(model);
+                int iResult = this.Add(model);
+                model.ID = iResult;
                 return "OK";
             }
             if (this.Update(model))
@@ -219,7 +220,7 @@ namespace Semitron_OMS.BLL.FM
         }
 
         /// <summary>
-        /// 验证并逻辑删除收款计划
+        /// 验证并逻辑删除收客户款计划
         /// </summary>
         /// <param name="iId"></param>
         /// <returns></returns>

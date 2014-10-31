@@ -260,6 +260,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("G.IsApproved", _request.Form["IsApproved"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.AvailFlag", _request.Form["AvailFlag"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.ProductCode", _request.Form["ProductCode"], ConditionEnm.AllLike));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.MPN", _request.Form["MPN"], ConditionEnm.AllLike));
 
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);

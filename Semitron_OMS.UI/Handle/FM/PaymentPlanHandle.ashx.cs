@@ -20,7 +20,7 @@ namespace Semitron_OMS.UI.Handle.FM
     /// </summary>
     public class PaymentPlanHandle : IHttpHandler, System.Web.SessionState.IRequiresSessionState
     {
-        //付款计划对象
+        //付供应商款计划对象
         log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(PaymentPlanHandle));
         Semitron_OMS.BLL.FM.PaymentPlanBLL _bllPaymentPlan = new Semitron_OMS.BLL.FM.PaymentPlanBLL();
         HttpRequest _request = HttpContext.Current.Request;
@@ -52,19 +52,19 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 switch (methStr)
                 {
-                    //获取付款计划列表
+                    //获取付供应商款计划列表
                     case "GetPaymentPlan":
                         context.Response.Write(GetPaymentPlan());
                         break;
-                    //编辑付款计划
+                    //编辑付供应商款计划
                     case "EditPaymentPlan":
                         context.Response.Write(EditPaymentPlan());
                         break;
-                    //获取付款计划实体
+                    //获取付供应商款计划实体
                     case "GetPaymentPlanById":
                         context.Response.Write(GetPaymentPlanById());
                         break;
-                    //删除付款计划
+                    //删除付供应商款计划
                     case "DelPaymentPlan":
                         context.Response.Write(DelPaymentPlan());
                         break;
@@ -117,7 +117,7 @@ namespace Semitron_OMS.UI.Handle.FM
         }
 
         /// <summary>
-        /// 删除付款计划
+        /// 删除付供应商款计划
         /// </summary>
         private string DelPaymentPlan()
         {
@@ -135,7 +135,7 @@ namespace Semitron_OMS.UI.Handle.FM
                 if (strResult == "OK")
                 {
                     result.State = 1;
-                    result.Info = "删除付款计划成功。";
+                    result.Info = "删除付供应商款计划成功。";
                 }
                 else
                 {
@@ -146,13 +146,13 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 result.State = 0;
-                result.Info = "删除付款计划出现异常！";
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，删除付款计划出现异常：" + ex.Message, ex);
+                result.Info = "删除付供应商款计划出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，删除付供应商款计划出现异常：" + ex.Message, ex);
             }
             return result.ToString();
         }
 
-        //获取付款计划实体
+        //获取付供应商款计划实体
         private string GetPaymentPlanById()
         {
             PageResult result = new PageResult();
@@ -203,16 +203,16 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 result.State = 0;
-                result.Info = "获取付款计划详细信息出现异常！";
+                result.Info = "获取付供应商款计划详细信息出现异常！";
                 _myLogger.Error("登陆用户名：" + _adminModel.Username
                     + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress
-                    + "，获取付款计划详细信息出现异常：" + ex.Message, ex);
+                    + "，获取付供应商款计划详细信息出现异常：" + ex.Message, ex);
             }
             return result.ToString();
         }
 
         /// <summary>
-        /// 新增或修改付款计划
+        /// 新增或修改付供应商款计划
         /// </summary>
         /// <returns></returns>
         private string EditPaymentPlan()
@@ -253,7 +253,8 @@ namespace Semitron_OMS.UI.Handle.FM
                     result.statusCode = 200;
                     //result.message = "\u64cd\u4f5c\u6210\u529f";
                     //result.Remark = model.ID.ToString();
-                    result.message = "编辑付款计划成功！";
+                    result.message = "编辑付供应商款计划成功！";
+                    result.confirmMsg = model.ID.ToString();
                 }
                 else
                 {
@@ -264,8 +265,8 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 result.statusCode = 300;
-                result.message = "编辑付款计划出现异常，请联系管理员！";
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑付款计划出现异常：" + ex.Message, ex);
+                result.message = "编辑付供应商款计划出现异常，请联系管理员！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑付供应商款计划出现异常：" + ex.Message, ex);
             }
             return result.ToString();
         }
@@ -289,7 +290,7 @@ namespace Semitron_OMS.UI.Handle.FM
 
             SQLOperateHelper.SetEntityFiledValue(model, "POPlanID", _request.Form["PaymentPlan_Edit_POPlanLookup.POPlanId"]);
             SQLOperateHelper.SetEntityFiledValue(model, "CorporationID", _request.Form["PaymentPlan_Edit_POPlanLookup.CorporationID"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "PONo", _request.Form["PaymentPlan_Edit_POPlanLookup.PONo"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "PONO", _request.Form["PaymentPlan_Edit_POPlanLookup.PONo"]);
             SQLOperateHelper.SetEntityFiledValue(model, "ProductCode", _request.Form["PaymentPlan_Edit_POPlanLookup.ProductCode"]);
             SQLOperateHelper.SetEntityFiledValue(model, "MPN", _request.Form["PaymentPlan_Edit_POPlanLookup.MPN"]);
             SQLOperateHelper.SetEntityFiledValue(model, "SupplierID", _request.Form["PaymentPlan_Edit_POPlanLookup.SupplierID"]);
@@ -318,7 +319,7 @@ namespace Semitron_OMS.UI.Handle.FM
         }
 
         /// <summary>
-        /// 获取付款计划列表
+        /// 获取付供应商款计划列表
         /// </summary>
         private string GetPaymentPlan()
         {
@@ -367,7 +368,7 @@ namespace Semitron_OMS.UI.Handle.FM
                 _request.Form["EntryNo"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("E.IsApproved",
                 _request.Form["IsInStock"], ConditionEnm.Equal));
-            
+
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);
@@ -416,7 +417,7 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 dt = new DataTable();
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取付款计划信息出现异常:" + ex.Message, ex);
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取付供应商款计划信息出现异常:" + ex.Message, ex);
             }
             string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
             return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);

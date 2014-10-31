@@ -337,7 +337,7 @@
                     $("#txtBuyRealPriceE").val(json.BuyRealPrice);
                     $("#txtOtherFeeE").val(json.OtherFee);
                     $("#txtareaOtherFeeRemarkE").val(json.OtherFeeRemark);
-                    $("#sltIsPaySupplierE").val(json.IsPaySupplier == false ? "false" : "true");
+                    //$("#sltIsPaySupplierE").val(json.IsPaySupplier == true ? "true" : "false");
                     var shipmentDate = json.ShipmentDate;
                     if (shipmentDate && shipmentDate.length > 10) {
                         shipmentDate = shipmentDate.substr(0, 10);
@@ -454,8 +454,8 @@
                     var BuyRealPrice = Trim($("#txtBuyRealPriceE").val());
                     var OtherFee = Trim($("#txtOtherFeeE").val());
                     var OtherFeeRemark = Trim($("#txtareaOtherFeeRemarkE").val());
-                    var IsPaySupplier = Trim($("#sltIsPaySupplierE").val());
-                    var ShipmentDate = Trim($("#txtShipmentDateE").val());
+                    //var IsPaySupplier = Trim($("#sltIsPaySupplierE").val());
+                    //var ShipmentDate = Trim($("#txtShipmentDateE").val());
                     //var State = Trim($("#sltStateE").val());
 
                     //if (type != "Add" && PONO == "") {
@@ -479,10 +479,14 @@
 
                     var url = "/Handle/OMS/POPlanHandle.ashx";
                     //新增采购计划
-                    var data = { "meth": "AddPOPlan", "PONO": PONO, "CPN": CPN, "MPN": MPN, "MFG": MFG, "DC": DC, "POQuantity": POQuantity, "ArrivedQty": ArrivedQty, "AlreadyQty": AlreadyQty, "StockQty": StockQty, "BuyStandardCurrency": BuyStandardCurrency, "BuyPrice": BuyPrice, "BuyCost": BuyCost, "ROHS": ROHS, "SupplierID": SupplierID, "VCD": VCD, "VendorPaymentTypeID": VendorPaymentTypeID, "BuyExchangeRate": BuyExchangeRate, "BuyRealCurrency": BuyRealCurrency, "BuyRealPrice": BuyRealPrice, "OtherFee": OtherFee, "OtherFeeRemark": OtherFeeRemark, "IsPaySupplier": IsPaySupplier, "ShipmentDate": ShipmentDate };
+                    var data = {
+                        "meth": "AddPOPlan", "PONO": PONO, "CPN": CPN, "MPN": MPN, "MFG": MFG, "DC": DC, "POQuantity": POQuantity, "ArrivedQty": ArrivedQty, "AlreadyQty": AlreadyQty, "StockQty": StockQty, "BuyStandardCurrency": BuyStandardCurrency, "BuyPrice": BuyPrice, "BuyCost": BuyCost, "ROHS": ROHS, "SupplierID": SupplierID, "VCD": VCD, "VendorPaymentTypeID": VendorPaymentTypeID, "BuyExchangeRate": BuyExchangeRate, "BuyRealCurrency": BuyRealCurrency, "BuyRealPrice": BuyRealPrice, "OtherFee": OtherFee, "OtherFeeRemark": OtherFeeRemark//, "IsPaySupplier": IsPaySupplier, "ShipmentDate": ShipmentDate
+                    };
                     //编辑采购计划
                     if (id && id != "") {
-                        data = { "meth": "EditPOPlan", "PONO": PONO, "CPN": CPN, "MPN": MPN, "MFG": MFG, "DC": DC, "POQuantity": POQuantity, "ArrivedQty": ArrivedQty, "AlreadyQty": AlreadyQty, "StockQty": StockQty, "BuyStandardCurrency": BuyStandardCurrency, "BuyPrice": BuyPrice, "BuyCost": BuyCost, "ROHS": ROHS, "SupplierID": SupplierID, "VCD": VCD, "VendorPaymentTypeID": VendorPaymentTypeID, "BuyExchangeRate": BuyExchangeRate, "BuyRealCurrency": BuyRealCurrency, "BuyRealPrice": BuyRealPrice, "OtherFee": OtherFee, "OtherFeeRemark": OtherFeeRemark, "IsPaySupplier": IsPaySupplier, "ShipmentDate": ShipmentDate, "Id": id };
+                        data = {
+                            "meth": "EditPOPlan", "PONO": PONO, "CPN": CPN, "MPN": MPN, "MFG": MFG, "DC": DC, "POQuantity": POQuantity, "ArrivedQty": ArrivedQty, "AlreadyQty": AlreadyQty, "StockQty": StockQty, "BuyStandardCurrency": BuyStandardCurrency, "BuyPrice": BuyPrice, "BuyCost": BuyCost, "ROHS": ROHS, "SupplierID": SupplierID, "VCD": VCD, "VendorPaymentTypeID": VendorPaymentTypeID, "BuyExchangeRate": BuyExchangeRate, "BuyRealCurrency": BuyRealCurrency, "BuyRealPrice": BuyRealPrice, "OtherFee": OtherFee, "OtherFeeRemark": OtherFeeRemark, "Id": id//, "IsPaySupplier": IsPaySupplier, "ShipmentDate": ShipmentDate
+                        };
                     }
                     var errorFun = function (x, e) {
                         alert(x.responseText);
@@ -953,14 +957,14 @@ tdRemarkWidth">
                             </td>
                         </tr>
                         <tr class="trMO trHide">
-                            <td class="tdRight tdParamDWidth">向供应商付款：
+                            <%--<td class="tdRight tdParamDWidth">向供应商付款：
                             </td>
                             <td class="tdLeft tdRemarkWidth">
                                 <select id="sltIsPaySupplierE" class="txt disEdit" runat="server" style="width: 125px">
                                     <option value="true">是</option>
                                     <option value="false" selected="selected">否</option>
                                 </select>
-                            </td>
+                            </td>--%>
                             <td class="tdRight tdParamDWidth">进货日期：
                             </td>
                             <td class="tdLeft tdRemarkWidth">
@@ -969,8 +973,6 @@ tdRemarkWidth">
                                 <img alt="" onclick="WdatePicker({el:'txtShipmentDateE'})" src="/Scripts/My97DatePicker/skin/datePicker.gif"
                                     width="16" height="22" align="absmiddle" />
                             </td>
-                        </tr>
-                        <tr class="trMO trHide">
                             <td class="tdRight tdParamDWidth">订单状态：
                             </td>
                             <td class="tdLeft tdRemarkWidth">
@@ -978,9 +980,12 @@ tdRemarkWidth">
                                     <option value="">--请选择--</option>
                                 </select>
                             </td>
+                        </tr>
+                        <%-- <tr class="trMO trHide">
+                            
                             <td class="tdRight tdParamDWidth"></td>
                             <td class="tdLeft tdRemarkWidth"></td>
-                        </tr>
+                        </tr>--%>
                     </table>
                 </div>
                 <%--上传附件--%>

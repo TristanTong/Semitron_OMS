@@ -1,8 +1,11 @@
 <script type="text/javascript">
     $(function () {
-        var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
-        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyStandardCurrency']", 1, 10, false);
-        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyRealCurrency']", 1, 10, false);
+        $("#divEditPaymentPlan p select[name='BuyStandardCurrency']").append(CurrencyTypeSelectHtml);
+        $("#divEditPaymentPlan p select[name='BuyRealCurrency']").append(CurrencyTypeSelectHtml);
+        //alert(CurrencyTypeSelectHtml);
+        //var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
+        //LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyStandardCurrency']", 1, 10, false);
+        //LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='BuyRealCurrency']", 1, 10, false);
         data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
         LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditPaymentPlan p select[name='PaymentPlan_Edit_POPlanLookup.VendorPaymentTypeID']", -1, 30, true);
 
@@ -11,6 +14,7 @@
 
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
+            $("#divEditPaymentPlan p a[href='/Admin/OMS/POPlan/Lookup.html']").hide();
             GetPaymentPlanById(id);
         }
 
@@ -122,6 +126,15 @@
             return;
         }
     }
+
+    //编辑成功后回调
+    function navTabAjaxDone(result) {
+        debugger;
+        $("#FlexigridTablePaymentPlan").flexReload();
+        $("#divEditPaymentPlan input[name='SeletedPaymentPlanId']").val(result.confirmMsg);
+        alertMsg.correct(result.message);
+        return true;
+    }
 </script>
 <div class="pageContent">
     <form method="POST" action="/Handle/FM/PaymentPlanHandle.ashx?meth=EditPaymentPlan" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
@@ -195,11 +208,11 @@
                 </select>
             </p>
             <p>
-                <label>实收标准单价(USD)：</label>
+                <label>实付标准单价(USD)：</label>
                 <input type="text" name="PaymentPlan_Edit_POPlanLookup.Price" class="required number calRealBlur" size="30" readonly="readonly" />
             </p>
             <p>
-                <label>实收标准总额(USD)：</label>
+                <label>实付标准总额(USD)：</label>
                 <input type="text" name="PaymentPlan_Edit_POPlanLookup.TotalPrice" class="required number calRealBlur" size="30" readonly="readonly" />
             </p>
             <p>

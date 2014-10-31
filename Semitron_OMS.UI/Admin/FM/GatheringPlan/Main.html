@@ -10,7 +10,7 @@
         var TimeType = $("#ulSearchGatheringPlan li select[name=sltTimeType]").val();
         var startTime = $("#ulSearchGatheringPlan li input[name=BeginTime]").val();
         var endTime = $("#ulSearchGatheringPlan li input[name=EndTime]").val();
-        //初始收款计划表格
+        //初始收客户款计划表格
         $("#FlexigridTableGatheringPlan").flexigrid({
             width: 'auto',//表格宽度
             height: gridHeight, //表格高度
@@ -23,7 +23,7 @@
                     { display: '编号', name: 'ID', toggle: false, hide: true, width: 10, align: 'center' },
                     { display: '状态', name: 'State', width: 40, sortable: true, align: 'center' },
                     { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
-                    { display: '收款计划时间', name: 'GatheringPlanDate', width: 70, sortable: true, align: 'center' },
+                    { display: '计划时间', name: 'GatheringPlanDate', width: 70, sortable: true, align: 'center' },
                     { display: '回款日期', name: 'FeeBackDate', width: 60, sortable: true, align: 'center' },
                     { display: '公司法人 ', name: 'CorporationID', width: 170, sortable: true, align: 'left' },
                     { display: '内部订单号 ', name: 'InnerOrderNO', width: 60, sortable: true, align: 'center' },
@@ -50,7 +50,7 @@
             ],
             sortname: "CreateTime",
             sortorder: "DESC",
-            title: "收款计划数据列表",
+            title: "收客户款计划数据列表",
             showTableToggleBtn: true,
             usepager: true,
             useRp: true,
@@ -75,14 +75,14 @@
         });
         //编辑按钮
         $("#btnEditGatheringPlan").click(function () {
-            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
+            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收客户款计划");
             if (!obj) {
                 $("#btnEditGatheringPlan").attr("href", "/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}");
                 return false;
             }
 
             if (obj[0][2] == "无效") {
-                artDialog.tips("当前收款计划记录已无效，无法完成此操作。");
+                artDialog.tips("当前收客户款计划记录已无效，无法完成此操作。");
                 return false;
             }
             var id = obj[0][1];
@@ -93,12 +93,12 @@
         });
         //删除
         $("#btnDeleteGatheringPlan").click(function () {
-            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收款计划");
+            var obj = GetSelectedRow("FlexigridTableGatheringPlan", "收客户款计划");
             if (!obj) {
                 return false;
             }
             if (obj[0][2] == "无效") {
-                artDialog.tips("当前收款计划已无效，请勿重复操作。");
+                artDialog.tips("当前收客户款计划已无效，请勿重复操作。");
                 return false;
             }
             var id = obj[0][1];
@@ -176,11 +176,11 @@
         $("#FlexigridTableGatheringPlan").flexOptions(p).flexReload();
     }
 
-    //删除收款计划
+    //删除收客户款计划
     function DelGatheringPlan(id) {
-        alertMsg.confirm("收款计划删除后将无法恢复，你确认要删除吗？", {
+        alertMsg.confirm("收客户款计划删除后将无法恢复，你确认要删除吗？", {
             okCall: function () {
-                //调用删除收款计划方法
+                //调用删除收客户款计划方法
                 var url = "/Handle/FM/GatheringPlanHandle.ashx";
                 var data = { "meth": "DelGatheringPlan", "Id": id };
                 var successFun = function (json) {
@@ -271,8 +271,9 @@
             </li>
             <li>
                 <select class="combox" name="sltTimeType" style="width: 100px">
-                    <option value="3" title="收款计划时间">收款计划时间</option>
+                    <option value="3" title="计划时间">计划时间</option>
                     <option value="4" title="回款日期">回款日期</option>
+                    <option value="5" title="客户入库日期">客户入库日期</option>
                     <option value="1" title="创建时间" selected>创建时间</option>
                     <option value="2" title="更新时间">更新时间</option>
                 </select>
@@ -283,7 +284,7 @@
                         <button type="submit" id="btnSearchGatheringPlan">检索</button>
                     </div>
                 </div>
-                <a class="button" href="/Admin/FM/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_SearchExt" title="收款计划查询框(高级检索)"><span>高级检索</span></a>
+                <a class="button" href="/Admin/FM/GatheringPlan/SearchExt.html" target="dialog" rel="dlg_GatheringPlan_SearchExt" title="收客户款计划查询框(高级检索)"><span>高级检索</span></a>
             </li>
         </ul>
     </div>
@@ -292,15 +293,15 @@
     <div class="panelBar">
         <input type="hidden" value="-1" id="hidSeletedGatheringPlanId" />
         <ul class="toolBar">
-            <li><a class="add" href="/Admin/FM/GatheringPlan/Edit.html" target="navTab" rel="editGatheringPlan" id="btnAddGatheringPlan"><span>新建收款计划</span></a></li>
+            <li><a class="add" href="/Admin/FM/GatheringPlan/Edit.html" target="navTab" rel="editGatheringPlan" id="btnAddGatheringPlan"><span>新建收客户款计划</span></a></li>
             <li class="line">line</li>
-            <li><a class="edit" href="/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}" rel="editGatheringPlan" target="navTab" id="btnEditGatheringPlan"><span>修改收款计划</span></a></li>
+            <li><a class="edit" href="/Admin/FM/GatheringPlan/Edit.html?GatheringPlanId={GatheringPlanId}" rel="editGatheringPlan" target="navTab" id="btnEditGatheringPlan"><span>修改收客户款计划</span></a></li>
             <li class="line">line</li>
-            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteGatheringPlan"><span>删除收款计划</span></a></li>
+            <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteGatheringPlan"><span>删除收客户款计划</span></a></li>
             <li class="line">line</li>
-            <li><a class="add" href="/Admin/FM/GatheringPlan/Upload.html?GatheringPlanId={GatheringPlanId}" target="dialog" rel="addGatheringPlanAttachment" id="btnAddGatheringPlanAttachment" title="收款计划上传附件" width="645" height="370"><span>上传附件</span></a></li>
+            <li><a class="add" href="/Admin/FM/GatheringPlan/Upload.html?GatheringPlanId={GatheringPlanId}" target="dialog" rel="addGatheringPlanAttachment" id="btnAddGatheringPlanAttachment" title="收客户款计划上传附件" width="645" height="370"><span>上传附件</span></a></li>
             <!-- <li class="line">line</li>
-           <li><a class="icon" href="javascript:;" title="要审核所选收款计划吗?" id="btnApproveGatheringPlan"><span>审核收款计划</span></a></li>-->
+           <li><a class="icon" href="javascript:;" title="要审核所选收客户款计划吗?" id="btnApproveGatheringPlan"><span>审核收客户款计划</span></a></li>-->
             <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
         </ul>
     </div>
