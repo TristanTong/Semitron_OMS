@@ -22,7 +22,7 @@ using Semitron_OMS.Model.FM;
 namespace Semitron_OMS.BLL.FM
 {
     /// <summary>
-    /// 付款计划表
+    /// 付供应商款计划表
     /// </summary>
     public partial class PaymentPlanBLL
     {
@@ -200,7 +200,7 @@ namespace Semitron_OMS.BLL.FM
         }
 
         /// <summary>
-        /// 验证并编辑付款计划实体
+        /// 验证并编辑付供应商款计划实体
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -208,7 +208,8 @@ namespace Semitron_OMS.BLL.FM
         {
             if (model.ID <= 0)
             {
-                this.Add(model);
+                int iResult = this.Add(model);
+                model.ID = iResult;
                 return "OK";
             }
             if (this.Update(model))
@@ -219,7 +220,7 @@ namespace Semitron_OMS.BLL.FM
         }
 
         /// <summary>
-        /// 验证并逻辑删除付款计划
+        /// 验证并逻辑删除付供应商款计划
         /// </summary>
         /// <param name="iId"></param>
         /// <returns></returns>

@@ -212,7 +212,6 @@ namespace Semitron_OMS.UI.Handle.OMS
                 }
             }
 
-
             //是否分配查看所有供应商权限
             if (!PermissionUtility.IsExistDataSetPer(_adminModel.PerModule, ConstantValue.SystemConst.DATA_PERMISSION, ConstantValue.SystemConst.ALL_SUPPLIER_VIEW))
             {
@@ -222,6 +221,8 @@ namespace Semitron_OMS.UI.Handle.OMS
                 dtBind.AsEnumerable().ForEach(r => strIds += "," + r["SupplierID"].ToString());
                 SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.SupplierID", strIds, ConditionEnm.IN));
             }
+
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.CreateUser", "1=1 OR (ISNULL(P.SupplierID,0)=0 AND P.CreateUser='" + this._adminModel.Username + "')", ConditionEnm.None));
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);
@@ -302,8 +303,9 @@ namespace Semitron_OMS.UI.Handle.OMS
                 || _request.Form["BuyRealPrice"] == null
                 || _request.Form["OtherFee"] == null
                 || _request.Form["OtherFeeRemark"] == null
-                || _request.Form["IsPaySupplier"] == null
-                || _request.Form["ShipmentDate"] == null)
+                //|| _request.Form["IsPaySupplier"] == null
+                // || _request.Form["ShipmentDate"] == null
+                )
             {
 
                 return "系统错误,参数获取异常。";
@@ -330,8 +332,8 @@ namespace Semitron_OMS.UI.Handle.OMS
             SQLOperateHelper.SetEntityFiledValue(model, "BuyRealPrice", _request.Form["BuyRealPrice"]);
             SQLOperateHelper.SetEntityFiledValue(model, "OtherFee", _request.Form["OtherFee"]);
             SQLOperateHelper.SetEntityFiledValue(model, "OtherFeeRemark", _request.Form["OtherFeeRemark"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "IsPaySupplier", _request.Form["IsPaySupplier"]);
-            SQLOperateHelper.SetEntityFiledValue(model, "ShipmentDate", _request.Form["ShipmentDate"]);
+            //SQLOperateHelper.SetEntityFiledValue(model, "IsPaySupplier", _request.Form["IsPaySupplier"]);
+            //SQLOperateHelper.SetEntityFiledValue(model, "ShipmentDate", _request.Form["ShipmentDate"]);
             return "OK";
         }
 

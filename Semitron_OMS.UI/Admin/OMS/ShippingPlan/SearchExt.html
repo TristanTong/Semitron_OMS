@@ -12,7 +12,7 @@
     });
     //查询
     function SearchExtShippingPlan() {
-       
+
         var TimeType = $("#divSearchExtShippingPlan div select[name=sltTimeType]").val();
         var startTime = $("#divSearchExtShippingPlan div input[name=BeginTime]").val();
         var endTime = $("#divSearchExtShippingPlan div input[name=EndTime]").val();
@@ -20,6 +20,7 @@
         var SortOrder = $("#divSearchExtShippingPlan div select[name=SortOrder]").val();
         var ShippingPlanNo = $("#divSearchExtShippingPlan div input[name=ShippingPlanNo]").val();
         var ProductCode = $("#divSearchExtShippingPlan div input[name=ProductCode]").val();
+        var MPN = $("#divSearchExtShippingPlan div input[name=MPN]").val();
         var PlanStockCode = $("#divSearchExtShippingPlan div input[name='SearchExt_ShippingPlan_Warehouse.WCode']").val();
         var ApprovedUser = $("#divSearchExtShippingPlan div input[name='adminLookupSearchExt_ShippingPlan_ApprovedUser.AdminID']").val();
         if (ApprovedUser == "${adminLookupSearchExt_ShippingPlan_ApprovedUser.AdminID}") {
@@ -67,7 +68,8 @@
               { name: "ByHandUserID", value: ByHandUserID },
               { name: "IsApproved", value: IsApproved },
               { name: "AvailFlag", value: State },
-              { name: "ProductCode", value: ProductCode }
+              { name: "ProductCode", value: ProductCode },
+              { name: "MPN", value: MPN }
             ]
         };
 
@@ -87,6 +89,11 @@
             <div class="unit">
                 <label>产品编码：</label>
                 <input type="text" style="width: 80px;" name="ProductCode" maxlength="16" />
+                <span class="inputInfo">关键字或全称</span>
+            </div>
+            <div class="unit">
+                <label>厂商型号：</label>
+                <input type="text" style="width: 80px;" name="MPN" maxlength="16" />
                 <span class="inputInfo">关键字或全称</span>
             </div>
             <div class="unit">
@@ -130,14 +137,14 @@
             <div class="unit">
                 <label>审&nbsp;&nbsp;核&nbsp;&nbsp;人：</label>
                 <input type="hidden" name="adminLookupSearchExt_ShippingPlan_ApprovedUser.AdminID" value="${adminLookupSearchExt_ShippingPlan_ApprovedUser.AdminID}" />
-                <input type="text" name="adminLookupSearchExt_ShippingPlan_ApprovedUser.Name" value="" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin"lookupgroup="adminLookupSearchExt_ShippingPlan_ApprovedUser" style="width: 80px" readonly="readonly" />
+                <input type="text" name="adminLookupSearchExt_ShippingPlan_ApprovedUser.Name" value="" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" lookupgroup="adminLookupSearchExt_ShippingPlan_ApprovedUser" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_ShippingPlan_ApprovedUser" rel="dlg_SearchExt_ShippingPlan_ApprovedUser">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>
             <div class="unit">
                 <label>经&nbsp;&nbsp;手&nbsp;&nbsp;人：</label>
                 <input type="hidden" name="adminLookupSearchExt_ShippingPlan_ByHandUserID.AdminID" value="${adminLookupSearchExt_ShippingPlan_ByHandUserID.AdminID}" />
-                <input type="text" name="adminLookupSearchExt_ShippingPlan_ByHandUserID.Name" value="" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin"lookupgroup="adminLookupSearchExt_ShippingPlan_ByHandUserID" style="width: 80px" readonly="readonly" />
+                <input type="text" name="adminLookupSearchExt_ShippingPlan_ByHandUserID.Name" value="" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" lookupgroup="adminLookupSearchExt_ShippingPlan_ByHandUserID" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="adminLookupSearchExt_ShippingPlan_ByHandUserID" rel="dlg_SearchExt_ShippingPlan_ByHandUserID">查找带回</a>
                 <span class="inputInfo">查找带回选择一人</span>
             </div>

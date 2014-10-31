@@ -598,6 +598,7 @@ namespace Semitron_OMS.DAL.OMS
             string strGetFields = " P.ID ,P.PONO ,P.ProductCode ,CPN ,MPN ,MFG=B.BrandName ,DC ,ROHS=(CASE ROHS WHEN 1 THEN '是' ELSE '否' END),VCD= CONVERT(VARCHAR(10), VCD, 120) ,POQuantity ,ArrivedQty ,StockQty ,S.SupplierName ,VendorPaymentType=T.PaymentType ,IsPaySupplier =(CASE IsPaySupplier WHEN 1 THEN '是' ELSE '否' END),BuyExchangeRate ,BuyRealCurrency=(SELECT TOP 1 ShortName FROM CurrencyType WHERE CurrencyType.ID=BuyRealCurrency) ,BuyRealPrice ,BuyStandardCurrency=(SELECT TOP 1 ShortName FROM CurrencyType WHERE CurrencyType.ID=BuyStandardCurrency) ,BuyPrice ,BuyCost ,OtherFee ,ShipmentDate= CONVERT(VARCHAR(10), ShipmentDate, 120) ,State = CT.Value ,CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) ,UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120),FileNum=ISNULL(A.FileNum,0) ";
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
+            LogHelper.WriteLogInfo("GetPOPlanPageData:" + strWhere, System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
             //数据查询
             CommonDAL commonDAL = new CommonDAL();
             return commonDAL.GetDataExt(ConstantValue.ProcedureNames.PageProcedureName,

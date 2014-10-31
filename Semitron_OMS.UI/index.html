@@ -39,6 +39,10 @@
     <script src="js/dwz.regional.zh.js" type="text/javascript"></script>
 
     <script type="text/javascript">
+
+        var WarehouseTreeHtml = "";
+        var CurrencyTypeSelectHtml = "";
+
         $(function () {
             DWZ.init("dwz.frag.xml", {
                 loginUrl: "login_dialog.html", loginTitle: "登录",	// 弹出登录对话框
@@ -118,10 +122,48 @@
             });
 
             InitWarehouseTreeHtml();
+
+            var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
+            InitCurrencyTypeSelectHtml("/Handle/OMS/CurrencyTypeHandle.ashx", data, "1", 10, false);
             return false;
         });
 
-        var WarehouseTreeHtml = "";
+        //获取选择下拉框Html标签
+        //url:路径 data:json参数串 selValue：下拉框选中值 
+        //subLength：下拉框文字Title缩写的长度  bShowSelect：是否显示请选择项
+        function InitCurrencyTypeSelectHtml(url, data, selValue, subLength, bShowSelect) {
+            CurrencyTypeSelectHtml = "";
+            var bShowSelectTemp = true;
+            if (bShowSelect == true || bShowSelect == false) {
+                bShowSelectTemp = bShowSelect;
+            }
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "text",
+                data: data,
+                success: function (result) {
+                    if (bShowSelectTemp) {
+                        CurrencyTypeSelectHtml += "<option value='' title='请选择'>--请选择--</option>";
+                    }
+                    if (result != "") {
+                        var itemArr = result.split(",");
+                        if (itemArr.length > 0) {
+                            for (var i = 0; i < itemArr.length; i++) {
+                                var kv = itemArr[i].split("|");
+                                if (kv.length == 2) {
+                                    var selHtml = "";
+                                    if (selValue == kv[1]) {
+                                        selHtml = " selected";
+                                    }
+                                    CurrencyTypeSelectHtml += "<option value='" + kv[1] + "' title='" + kv[0] + "'" + selHtml + ">" + GetShortDiscription(kv[0], subLength) + "</option>";
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
         function InitWarehouseTreeHtml() {
             var url = "/Handle/Common/WarehouseHandle.ashx";

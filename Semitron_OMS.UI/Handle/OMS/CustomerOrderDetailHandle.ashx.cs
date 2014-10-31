@@ -82,7 +82,7 @@ namespace Semitron_OMS.UI.Handle.OMS
             List<SQLConditionFilter> lstFilter = new List<SQLConditionFilter>();
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.InnerOrderNo", _request.Form["InnerOrderNo"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("C.CCode", _request.Form["CustomerCode"], ConditionEnm.Equal));
-            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.MPN", _request.Form["MPN"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("D.MPN", _request.Form["MPN"], ConditionEnm.AllLike));
 
             string strQueryType = DataUtility.GetPageFormValue(_request.Form["QueryType"], string.Empty);
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["CustOrderDateBegin"], string.Empty);

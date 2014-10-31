@@ -348,6 +348,10 @@ namespace Semitron_OMS.Model.OMS
         public string CorporationName { get; set; }
 
         public int SupplierID { get; set; }
+
+        public decimal StandardPrice { get; set; }
+
+        public decimal StandardTotalPrice { get; set; }
     }
 }
 

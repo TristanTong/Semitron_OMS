@@ -478,11 +478,11 @@ namespace Semitron_OMS.Common
             /// <summary>
             /// 采购关联供应商通知依赖
             /// </summary>
-            public const string AdminBindSupplierDepSql = "SELECT [BindID],[ServiceType],[AdminID],[SupplierID],[CreateTime] FROM [OMS].[dbo].[AdminBindSupplier] WHERE [AdminID]=@AdminID";
+            public const string AdminBindSupplierDepSql = "SELECT [BindID],[ServiceType],[AdminID],[SupplierID],[CreateTime] FROM [dbo].[AdminBindSupplier] WHERE [AdminID]=@AdminID";
             /// <summary>
             /// 销售关联客户通知依赖
             /// </summary>
-            public const string AdminBindCustomerDepSql = "SELECT [BindID],[ServiceType],[AdminID],[CustomerID],[CreateTime] FROM [OMS].[dbo].[AdminBindCustomer]  WHERE [AdminID]=@AdminID";
+            public const string AdminBindCustomerDepSql = "SELECT [BindID],[ServiceType],[AdminID],[CustomerID],[CreateTime] FROM [dbo].[AdminBindCustomer]  WHERE [AdminID]=@AdminID";
             /// <summary>
             /// 根据角色ID取得对应的用户通知依赖
             /// </summary>

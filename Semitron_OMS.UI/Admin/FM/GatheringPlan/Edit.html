@@ -1,8 +1,11 @@
 <script type="text/javascript">
     $(function () {
-        var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
-        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleStandardCurrency']", 1, 10, false);
-        LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleRealCurrency']", 1, 10, false);
+        $("#divEditGatheringPlan p select[name='SaleStandardCurrency']").append(CurrencyTypeSelectHtml);
+        $("#divEditGatheringPlan p select[name='SaleRealCurrency']").append(CurrencyTypeSelectHtml);
+
+        //var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
+        //LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleStandardCurrency']", 1, 10, false);
+        //LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleRealCurrency']", 1, 10, false);
         data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
         LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID']", -1, 30, true);
 
@@ -11,6 +14,7 @@
         $("#divEditGatheringPlan input[name='SeletedGatheringPlanId']").val(id);
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
+            $("#divEditGatheringPlan p a[href='/Admin/OMS/CustomerOrderDetail/Lookup.html']").hide();
             GetGatheringPlanById(id);
         }
 
@@ -187,8 +191,29 @@
                     }
                     $("#divEditGatheringPlan p input[name='FeeBackDate']").val(feeBackDate);
 
-                    $("#divEditGatheringPlan p input[name='CustomerInStockDate']").val(json.CustomerInStockDate);
-                    $("#divEditGatheringPlan p input[name='OutStockDate']").val(json.OutStockDate);
+                    var customerInStockDate = json.CustomerInStockDate;
+                    if (customerInStockDate && customerInStockDate.length >= 10) {
+                        customerInStockDate = customerInStockDate.substr(0, 10);
+                        if (customerInStockDate == "0001-01-01") {
+                            customerInStockDate = "";
+                        }
+                    }
+                    else {
+                        customerInStockDate = "";
+                    }
+                    $("#divEditGatheringPlan p input[name='CustomerInStockDate']").val(customerInStockDate);
+
+                    var outStockDate = json.OutStockDate;
+                    if (outStockDate && outStockDate.length >= 10) {
+                        outStockDate = outStockDate.substr(0, 10);
+                        if (outStockDate == "0001-01-01") {
+                            outStockDate = "";
+                        }
+                    }
+                    else {
+                        outStockDate = "";
+                    }
+                    $("#divEditGatheringPlan p input[name='OutStockDate']").val(outStockDate);
 
                     $("#divEditGatheringPlan p select[name='State']").val(json.State);
 
@@ -206,6 +231,14 @@
             $("#btnCloseGatheringPlan").click();
             return;
         }
+    }
+
+    //编辑成功后回调
+    function navTabAjaxDone(result) {
+        $("#FlexigridTableGatheringPlan").flexReload();
+        $("#divEditGatheringPlan input[name='SeletedGatheringPlanId']").val(result.confirmMsg);
+        alertMsg.correct(result.message);
+        return true;
     }
 </script>
 <div class="pageContent">

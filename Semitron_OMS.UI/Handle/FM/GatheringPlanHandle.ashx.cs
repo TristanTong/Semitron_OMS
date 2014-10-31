@@ -19,7 +19,7 @@ namespace Semitron_OMS.UI.Handle.FM
     /// </summary>
     public class GatheringPlanHandle : IHttpHandler, System.Web.SessionState.IRequiresSessionState
     {
-        //收款计划对象
+        //收客户款计划对象
         log4net.ILog _myLogger = log4net.LogManager.GetLogger(typeof(GatheringPlanHandle));
         Semitron_OMS.BLL.FM.GatheringPlanBLL _bllGatheringPlan = new Semitron_OMS.BLL.FM.GatheringPlanBLL();
         HttpRequest _request = HttpContext.Current.Request;
@@ -51,19 +51,19 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 switch (methStr)
                 {
-                    //获取收款计划列表
+                    //获取收客户款计划列表
                     case "GetGatheringPlan":
                         context.Response.Write(GetGatheringPlan());
                         break;
-                    //编辑收款计划
+                    //编辑收客户款计划
                     case "EditGatheringPlan":
                         context.Response.Write(EditGatheringPlan());
                         break;
-                    //获取收款计划实体
+                    //获取收客户款计划实体
                     case "GetGatheringPlanById":
                         context.Response.Write(GetGatheringPlanById());
                         break;
-                    //删除收款计划
+                    //删除收客户款计划
                     case "DelGatheringPlan":
                         context.Response.Write(DelGatheringPlan());
                         break;
@@ -117,7 +117,7 @@ namespace Semitron_OMS.UI.Handle.FM
         }
 
         /// <summary>
-        /// 删除收款计划
+        /// 删除收客户款计划
         /// </summary>
         private string DelGatheringPlan()
         {
@@ -135,7 +135,7 @@ namespace Semitron_OMS.UI.Handle.FM
                 if (strResult == "OK")
                 {
                     result.State = 1;
-                    result.Info = "删除收款计划成功。";
+                    result.Info = "删除收客户款计划成功。";
                 }
                 else
                 {
@@ -146,13 +146,13 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 result.State = 0;
-                result.Info = "删除收款计划出现异常！";
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，删除收款计划出现异常：" + ex.Message, ex);
+                result.Info = "删除收客户款计划出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，删除收客户款计划出现异常：" + ex.Message, ex);
             }
             return result.ToString();
         }
 
-        //获取收款计划实体
+        //获取收客户款计划实体
         private string GetGatheringPlanById()
         {
             PageResult result = new PageResult();
@@ -177,6 +177,7 @@ namespace Semitron_OMS.UI.Handle.FM
                     strCPN = dModel.CPN;
                     strMPN = dModel.MPN;
                     dCustomerInStockDate = dModel.CustomerInStockDate;
+                    dOutStockDate = dModel.ShipmentDate;
                     strSaleStandardPrice = dModel.SalePrice.ToString();
                     strSaleStandardTotal = (dModel.SalePrice * dModel.CustQuantity).ToString();
                 }
@@ -203,7 +204,8 @@ namespace Semitron_OMS.UI.Handle.FM
                         ShippingListModel slModel = new ShippingListBLL().GetModel(lstSLDModel[0].ShippingListID);
                         if (slModel != null)
                         {
-                            dOutStockDate = slModel.OutStockDate;
+                            if (dOutStockDate == null)
+                                dOutStockDate = slModel.OutStockDate;
                         }
                     }
                 }
@@ -231,14 +233,14 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 result.State = 0;
-                result.Info = "获取收款计划详细信息出现异常！";
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取收款计划详细信息出现异常：" + ex.Message, ex);
+                result.Info = "获取收客户款计划详细信息出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取收客户款计划详细信息出现异常：" + ex.Message, ex);
             }
             return result.ToString();
         }
 
         /// <summary>
-        /// 新增或修改收款计划
+        /// 新增或修改收客户款计划
         /// </summary>
         /// <returns></returns>
         private string EditGatheringPlan()
@@ -277,9 +279,10 @@ namespace Semitron_OMS.UI.Handle.FM
                 {
                     result.callbackType = "closeCurrent";
                     result.statusCode = 200;
+                    result.confirmMsg = model.ID.ToString();
                     //result.message = "\u64cd\u4f5c\u6210\u529f";
                     //result.Remark = model.ID.ToString();
-                    result.message = "编辑收款计划成功！";
+                    result.message = "编辑收客户款计划成功！";
 
                     try
                     {
@@ -303,7 +306,7 @@ namespace Semitron_OMS.UI.Handle.FM
                     catch (Exception ex)
                     {
                         result.message += "但保存客户入库日期失败！";
-                        _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑收款计划出现异常：" + ex.Message, ex);
+                        _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑收客户款计划出现异常：" + ex.Message, ex);
                     }
                 }
                 else
@@ -315,8 +318,8 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 result.statusCode = 300;
-                result.message = "编辑收款计划出现异常，请联系管理员！";
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑收款计划出现异常：" + ex.Message, ex);
+                result.message = "编辑收客户款计划出现异常，请联系管理员！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，编辑收客户款计划出现异常：" + ex.Message, ex);
             }
             return result.ToString();
         }
@@ -395,7 +398,7 @@ namespace Semitron_OMS.UI.Handle.FM
         }
 
         /// <summary>
-        /// 获取收款计划列表
+        /// 获取收客户款计划列表
         /// </summary>
         private string GetGatheringPlan()
         {
@@ -465,6 +468,10 @@ namespace Semitron_OMS.UI.Handle.FM
             {
                 strTimeField = "P.FeeBackDate";
             }
+            if (strTimeType == "5")
+            {
+                strTimeField = "D.CustomerInStockDate";
+            }
             string strStartTime = DataUtility.GetPageFormValue(_request.Form["startTime"], string.Empty);
             if (strStartTime != string.Empty)
             {
@@ -493,7 +500,7 @@ namespace Semitron_OMS.UI.Handle.FM
             catch (Exception ex)
             {
                 dt = new DataTable();
-                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取收款计划信息出现异常:" + ex.Message, ex);
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:" + _request.UserHostAddress + "，获取收客户款计划信息出现异常:" + ex.Message, ex);
             }
             string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
             return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);

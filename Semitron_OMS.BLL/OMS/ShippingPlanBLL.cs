@@ -249,10 +249,19 @@ namespace Semitron_OMS.BLL.OMS
         public string ValidateAndDelShippingPlan(int iId)
         {
             ShippingPlanModel model = GetModel(iId);
-
-            if (model.IsApproved == true)
+            if (model == null || model.State == 0)
             {
-                return "删除失败,已审核的出货计划单不允许删除!";
+                return "删除失败,数据状态异常。";
+            }
+            //if (model.IsApproved == true)
+            //{
+            //    return "删除失败,已审核的出货计划单不允许删除!";
+            //}
+            //未审核出库单的计划可以被删除
+            List<ShippingListDetailModel> slModel = new ShippingListDetailBLL().GetModelList("ShippingPlanNo='" + model.ShippingPlanNo + "' AND AvailFlag=1 ");
+            if (slModel.Count > 0)
+            {
+                return "删除失败,已建立出库单的计划不允许删除,请先行删除对应出库单数据。";
             }
 
             if (!this.SetValid(iId, 0))

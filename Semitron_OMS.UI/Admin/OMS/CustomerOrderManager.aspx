@@ -101,7 +101,7 @@
                         { display: '状态', name: 'State', width: 100, sortable: true, align: 'center' },
                         { display: '附件数', name: 'FileNum', width: 40, sortable: true, align: 'right' },
 	    				{ display: '订单日期', name: 'CustOrderDate', width: 65, sortable: true, align: 'center' },
-                        { display: '出货日期', name: 'ShipmentDate', width: 65, sortable: true, align: 'center' },
+                        //{ display: '出货日期', name: 'ShipmentDate', width: 65, sortable: true, align: 'center' },
 	    				{ display: '客户名称', name: 'CustomerName', width: 160, sortable: true, align: 'left' },
                         { display: '客户订单号', name: 'CustomerOrderNO', width: 100, sortable: true, align: 'left' },
                         { display: '客户采购', name: 'CustomerBuyer', width: 60, sortable: true, align: 'left' },

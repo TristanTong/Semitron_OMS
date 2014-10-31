@@ -301,6 +301,8 @@ namespace Semitron_OMS.BLL.OMS
                 model.POQuantity = dr["POQuantity"].ToInt();
                 model.BuyPrice = dr["BuyPrice"].ToDecimal();
                 model.BuyCost = dr["BuyCost"].ToDecimal();
+                model.StandardPrice = dr["BuyPrice"].ToDecimal();
+                model.StandardTotalPrice = dr["BuyCost"].ToDecimal();
                 model.ArrivedDate = dr["ArrivedDate"].ToString();
                 model.CorporationID = dr["CorporationID"].ToInt(-1);
                 model.CorporationName = dr["CorporationName"].ToString();
