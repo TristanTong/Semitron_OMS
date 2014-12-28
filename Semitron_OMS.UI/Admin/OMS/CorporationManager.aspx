@@ -177,6 +177,9 @@
                     $("#txtCompanyNameE").val(json.CompanyName);
                     $("#txtCorporatorE").val(json.Corporator);
                     $("#txtareaCompanyAddrE").val(json.CompanyAddr);
+                    $("#txtEmailE").val(json.Email);
+                    $("#txtFaxE").val(json.Fax);
+                    $("#txtPhoneE").val(json.Phone);
                     $("#txtSKE").val(json.SK);
                     return false;
                 }
@@ -216,6 +219,9 @@
                     var CompanyName = Trim($("#txtCompanyNameE").val());
                     var Corporator = Trim($("#txtCorporatorE").val());
                     var CompanyAddr = Trim($("#txtareaCompanyAddrE").val());
+                    var Email = Trim($("#txtEmailE").val());
+                    var Fax = Trim($("#txtFaxE").val());
+                    var Phone = Trim($("#txtPhoneE").val());
                     var SK = Trim($("#txtSKE").val());
 
                     if (CompanyName == "") {
@@ -229,10 +235,10 @@
 
                     var url = "/Handle/OMS/CorporationHandle.ashx";
                     //新增公司法人
-                    var data = { "meth": "AddCorporation", "CompanyName": CompanyName, "Corporator": Corporator, "CompanyAddr": CompanyAddr, "SK": SK };
+                    var data = { "meth": "AddCorporation", "CompanyName": CompanyName, "Corporator": Corporator, "CompanyAddr": CompanyAddr, "Email": Email, "Fax": Fax, "Phone": Phone, "SK": SK };
                     //编辑公司法人
                     if (id && id != "") {
-                        data = { "meth": "EditCorporation", "CompanyName": CompanyName, "Corporator": Corporator, "CompanyAddr": CompanyAddr, "SK": SK, "Id": id };
+                        data = { "meth": "EditCorporation", "CompanyName": CompanyName, "Corporator": Corporator, "CompanyAddr": CompanyAddr, "Email": Email, "Fax": Fax, "Phone": Phone, "SK": SK, "Id": id };
                     }
                     var errorFun = function (x, e) {
                         alert(x.responseText);
@@ -365,7 +371,7 @@
                         <td class="tdRight tdParamDWidth">公司名称：
                         </td>
                         <td class="tdLeft tdRemarkWidth ">
-                            <input type="text" id="txtCompanyNameE" class="txt   txtdis" maxlength="128" />
+                            <input type="text" id="txtCompanyNameE" class="txt txtdis" maxlength="128" />
                         </td>
                         <td class="tdRight tdParamDWidth">公司法人：
                         </td>
@@ -375,9 +381,27 @@
                         <td></td>
                     </tr>
                     <tr class="trMO ">
+                        <td class="tdRight tdParamDWidth">电话：
+                        </td>
+                        <td class="tdLeft tdRemarkWidth ">
+                            <input type="text" id="txtPhoneE" class="txt" maxlength="32" />
+                        </td>
+                        <td class="tdRight tdParamDWidth">传真：
+                        </td>
+                        <td class="tdLeft tdRemarkWidth">
+                            <input type="text" id="txtFaxE" class="txt   " maxlength="32" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="trMO ">
+                        <td class="tdRight tdParamDWidth">邮箱：
+                        </td>
+                        <td class="tdLeft tdRemarkWidth">
+                            <input type="text" id="txtEmailE" class="txt   " maxlength="16" />
+                        </td>
                         <td class="tdRight tdParamDWidth">排序编号：
                         </td>
-                        <td class="tdLeft tdRemarkWidth" colspan="3">
+                        <td class="tdLeft tdRemarkWidth">
                             <input type="text" id="txtSKE" class="txt   " maxlength="16" />
                         </td>
                         <td></td>
@@ -386,7 +410,7 @@
                         <td class="tdRight tdParamDWidth">公司地址：
                         </td>
                         <td class="tdLeft tdRemarkWidth" colspan="3">
-                             <input type="text" id="txtareaCompanyAddrE" class="txt" maxlength="512" style="width:320px;"/>
+                            <input type="text" id="txtareaCompanyAddrE" class="txt" maxlength="512" style="width: 320px;" />
                         </td>
                         <td></td>
                     </tr>

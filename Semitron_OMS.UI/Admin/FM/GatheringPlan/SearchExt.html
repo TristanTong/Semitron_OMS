@@ -3,8 +3,9 @@
         $("#divSearchExtGatheringPlan div input[name=BeginTime]").val("2013-01-01");
         var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
         LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divSearchExtGatheringPlan div  select[name='SaleRealCurrency']", -1, 10, true);
-        data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
-        LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divSearchExtGatheringPlan div select[name='PaymentTypeID']", -1, 30, true);
+        data = { "meth": "GetCommonTableSelectList", "TableName": "CustomerOrder" };
+        LoadSelect("/Handle/Common/CommonTableHandle.ashx", data, "#divSearchExtGatheringPlan div select[name=CustomerOrderState]", -1, 100, true);
+        //"
 
 
         $("#btnSearchExtGatheringPlan").click(function () {
@@ -34,7 +35,9 @@
         var PaymentTypeID = $("#divSearchExtGatheringPlan div select[name=PaymentTypeID]").val();
         var IsCustomerVATInvoice = $("#divSearchExtGatheringPlan div select[name=IsCustomerVATInvoice]").val();
         var IsCustomerPay = $("#divSearchExtGatheringPlan div select[name=IsCustomerPay]").val();
-
+        var OrderState = $("#divSearchExtGatheringPlan div select[name=CustomerOrderState]").val();
+        var MarkState = $("#divSearchExtGatheringPlan div select[name=MarkState]").val();
+        
         var p = {
             extParam: [   //扩展参数
               { name: "meth", value: "GetGatheringPlan" },
@@ -53,7 +56,9 @@
               { name: "State", value: State },
               { name: "PaymentTypeID", value: PaymentTypeID },
               { name: "IsCustomerVATInvoice", value: IsCustomerVATInvoice },
-              { name: "IsCustomerPay", value: IsCustomerPay }
+              { name: "IsCustomerPay", value: IsCustomerPay },
+              { name: "OrderState", value: OrderState },
+              { name: "MarkState", value: MarkState }
             ]
         };
 
@@ -107,11 +112,18 @@
             </div>
             <div class="divider">divider</div>
             <div class="unit">
+                <label>订单状态</label>
+                <select name="CustomerOrderState">
+                    <option value="">--请选择--</option>
+                </select>
+                <span class="inputInfo">下拉选择其中一项</span>
+            </div>
+            <div class="unit">
                 <label>厂商型号</label>
                 <input type="text" style="width: 80px;" name="MPN" maxlength="16" />
                 <span class="inputInfo">关键字或全称</span>
             </div>
-             <div class="unit">
+            <div class="unit">
                 <label>客户型号</label>
                 <input type="text" style="width: 80px;" name="CPN" maxlength="16" />
                 <span class="inputInfo">关键字或全称</span>
@@ -147,6 +159,15 @@
             <div class="unit">
                 <label>客户是否付款：</label>
                 <select class="combox" name="IsCustomerPay">
+                    <option value="">所有</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+                <span class="inputInfo">选择其中一项</span>
+            </div>
+            <div class="unit">
+                <label>是否标记完成：</label>
+                <select class="combox" name="MarkState">
                     <option value="">所有</option>
                     <option value="1">是</option>
                     <option value="0">否</option>

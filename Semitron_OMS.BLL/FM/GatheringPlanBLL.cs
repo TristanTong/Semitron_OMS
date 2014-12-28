@@ -243,8 +243,16 @@ namespace Semitron_OMS.BLL.FM
         {
             return dal.SetValid(iId, iState);
         }
+        /// <summary>
+        /// 标记完成收客户款计划
+        /// </summary>
+        public bool MarkStateGatheringPlan(int iId)
+        {
+            return dal.MarkStateGatheringPlan(iId);
+        }
         #endregion  ExtensionMethod
 
+        
     }
 }
 

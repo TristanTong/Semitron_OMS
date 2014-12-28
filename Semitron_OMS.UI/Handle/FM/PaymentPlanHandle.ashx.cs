@@ -368,7 +368,7 @@ namespace Semitron_OMS.UI.Handle.FM
                 _request.Form["EntryNo"], ConditionEnm.AllLike));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("E.IsApproved",
                 _request.Form["IsInStock"], ConditionEnm.Equal));
-
+            
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);

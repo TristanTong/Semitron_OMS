@@ -163,7 +163,7 @@
                     }
                     $("#divEditShippingList p input[name='EstimateArrivedDate']").val(estimateArrivedDate);
 
-                    var realArrivedDate = json.OutStockDate;
+                    var realArrivedDate = json.RealArrivedDate;
                     if (realArrivedDate && realArrivedDate.length > 10) {
                         realArrivedDate = realArrivedDate.substr(0, 10);
                         if (realArrivedDate == "0001-01-01") {
@@ -257,7 +257,7 @@
             <p>
                 <label>制&nbsp;&nbsp;单&nbsp;&nbsp;人：</label>
                 <input type="hidden" name="ShippingList_Edit_adminLookup.AdminID" value="${ShippingList_Edit_adminLookup.AdminID}" />
-                <input type="text" class="required" name="ShippingList_Edit_adminLookup.Name"  suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" lookupgroup="ShippingList_Edit_adminLookup" style="width: 80px" readonly="readonly" />
+                <input type="text" class="required" name="ShippingList_Edit_adminLookup.Name" suggestfields="AdminID,Name" suggesturl="/Handle/Sys/Admin.ashx?meth=LookupAdmin" lookupgroup="ShippingList_Edit_adminLookup" style="width: 80px" readonly="readonly" />
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="ShippingList_Edit_adminLookup">查找带回</a>
             </p>
             <p>

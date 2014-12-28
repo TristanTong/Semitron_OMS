@@ -223,10 +223,11 @@ namespace Semitron_OMS.BLL.OMS
                 strResult = "更新出库单失败!当前出库单已删除。";
             }
 
-            if (model.IsApproved == true)
-            {
-                strResult = "更新出库单失败!当前出库单已审核。";
-            }
+            //已审核出库单可以修改出货日期参数
+            //if (model.IsApproved == true)
+            //{
+            //    strResult = "更新出库单失败!当前出库单已审核。";
+            //}
 
             if (strResult == "OK" && !Update(model))
             {

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const\ConstantValue.cs" />
+    <Compile Include="Const\ConstPermission.cs" />
     <Compile Include="Const\RequestMinLength.cs" />
     <Compile Include="Const\RequestStatus.cs" />
     <Compile Include="Const\ResponseStatus.cs" />

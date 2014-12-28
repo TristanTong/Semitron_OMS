@@ -64,14 +64,17 @@ namespace Semitron_OMS.DAL.OMS
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into Corporation(");
-            strSql.Append("CompanyName,Corporator,CompanyAddr,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime)");
+            strSql.Append("CompanyName,Corporator,CompanyAddr,Email,Fax,Phone,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime)");
             strSql.Append(" values (");
-            strSql.Append("@CompanyName,@Corporator,@CompanyAddr,@SK,@AvailFlag,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime)");
+            strSql.Append("@CompanyName,@Corporator,@CompanyAddr,@Email,@Fax,@Phone,@SK,@AvailFlag,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@CompanyName", SqlDbType.VarChar,128),
 					new SqlParameter("@Corporator", SqlDbType.VarChar,16),
 					new SqlParameter("@CompanyAddr", SqlDbType.VarChar,1024),
+					new SqlParameter("@Email", SqlDbType.NVarChar,50),
+					new SqlParameter("@Fax", SqlDbType.NVarChar,50),
+					new SqlParameter("@Phone", SqlDbType.NVarChar,50),
 					new SqlParameter("@SK", SqlDbType.VarChar,16),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateUser", SqlDbType.VarChar,16),
@@ -81,12 +84,15 @@ namespace Semitron_OMS.DAL.OMS
             parameters[0].Value = model.CompanyName;
             parameters[1].Value = model.Corporator;
             parameters[2].Value = model.CompanyAddr;
-            parameters[3].Value = model.SK;
-            parameters[4].Value = model.AvailFlag;
-            parameters[5].Value = model.CreateUser;
-            parameters[6].Value = model.CreateTime;
-            parameters[7].Value = model.UpdateUser;
-            parameters[8].Value = model.UpdateTime;
+            parameters[3].Value = model.Email;
+            parameters[4].Value = model.Fax;
+            parameters[5].Value = model.Phone;
+            parameters[6].Value = model.SK;
+            parameters[7].Value = model.AvailFlag;
+            parameters[8].Value = model.CreateUser;
+            parameters[9].Value = model.CreateTime;
+            parameters[10].Value = model.UpdateUser;
+            parameters[11].Value = model.UpdateTime;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -108,6 +114,9 @@ namespace Semitron_OMS.DAL.OMS
             strSql.Append("CompanyName=@CompanyName,");
             strSql.Append("Corporator=@Corporator,");
             strSql.Append("CompanyAddr=@CompanyAddr,");
+            strSql.Append("Email=@Email,");
+            strSql.Append("Fax=@Fax,");
+            strSql.Append("Phone=@Phone,");
             strSql.Append("SK=@SK,");
             strSql.Append("AvailFlag=@AvailFlag,");
             strSql.Append("CreateUser=@CreateUser,");
@@ -119,6 +128,9 @@ namespace Semitron_OMS.DAL.OMS
 					new SqlParameter("@CompanyName", SqlDbType.VarChar,128),
 					new SqlParameter("@Corporator", SqlDbType.VarChar,16),
 					new SqlParameter("@CompanyAddr", SqlDbType.VarChar,1024),
+					new SqlParameter("@Email", SqlDbType.NVarChar,50),
+					new SqlParameter("@Fax", SqlDbType.NVarChar,50),
+					new SqlParameter("@Phone", SqlDbType.NVarChar,50),
 					new SqlParameter("@SK", SqlDbType.VarChar,16),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateUser", SqlDbType.VarChar,16),
@@ -129,13 +141,16 @@ namespace Semitron_OMS.DAL.OMS
             parameters[0].Value = model.CompanyName;
             parameters[1].Value = model.Corporator;
             parameters[2].Value = model.CompanyAddr;
-            parameters[3].Value = model.SK;
-            parameters[4].Value = model.AvailFlag;
-            parameters[5].Value = model.CreateUser;
-            parameters[6].Value = model.CreateTime;
-            parameters[7].Value = model.UpdateUser;
-            parameters[8].Value = model.UpdateTime;
-            parameters[9].Value = model.ID;
+            parameters[3].Value = model.Email;
+            parameters[4].Value = model.Fax;
+            parameters[5].Value = model.Phone;
+            parameters[6].Value = model.SK;
+            parameters[7].Value = model.AvailFlag;
+            parameters[8].Value = model.CreateUser;
+            parameters[9].Value = model.CreateTime;
+            parameters[10].Value = model.UpdateUser;
+            parameters[11].Value = model.UpdateTime;
+            parameters[12].Value = model.ID;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -199,7 +214,7 @@ namespace Semitron_OMS.DAL.OMS
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 ID,CompanyName,Corporator,CompanyAddr,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime from Corporation ");
+            strSql.Append("select  top 1 ID,CompanyName,Corporator,CompanyAddr,Email,Fax,Phone,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime from Corporation ");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -243,6 +258,18 @@ namespace Semitron_OMS.DAL.OMS
                 {
                     model.CompanyAddr = row["CompanyAddr"].ToString();
                 }
+                if (row["Email"] != null)
+                {
+                    model.Email = row["Email"].ToString();
+                }
+                if (row["Fax"] != null)
+                {
+                    model.Fax = row["Fax"].ToString();
+                }
+                if (row["Phone"] != null)
+                {
+                    model.Phone = row["Phone"].ToString();
+                }
                 if (row["SK"] != null)
                 {
                     model.SK = row["SK"].ToString();
@@ -284,7 +311,7 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,CompanyName,Corporator,CompanyAddr,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
+            strSql.Append("select ID,CompanyName,Corporator,CompanyAddr,Email,Fax,Phone,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM Corporation ");
             if (strWhere.Trim() != "")
             {
@@ -304,7 +331,7 @@ namespace Semitron_OMS.DAL.OMS
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" ID,CompanyName,Corporator,CompanyAddr,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
+            strSql.Append(" ID,CompanyName,Corporator,CompanyAddr,Email,Fax,Phone,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM Corporation ");
             if (strWhere.Trim() != "")
             {

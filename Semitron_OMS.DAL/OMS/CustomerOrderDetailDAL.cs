@@ -661,8 +661,8 @@ namespace Semitron_OMS.DAL.OMS
             //查询表名
             string strTableName = " dbo.CustomerOrderDetail AS D WITH (NOLOCK) INNER JOIN dbo.CustomerOrder AS O ON D.InnerOrderNO=O.InnerOrderNO LEFT JOIN dbo.Customer AS C WITH(NOLOCK) ON C.ID=O.CustomerID LEFT JOIN dbo.Admin AS A1 ON A1.AdminID=O.AssignToInnerBuyer LEFT JOIN dbo.ShippingPlanDetail AS PD WITH(NOLOCK) ON PD.CustomerDetailID=D.ID AND PD.AvailFlag=1 LEFT JOIN dbo.ShippingPlan AS SP WITH(NOLOCK) ON Sp.ID=PD.ShippingPlanID AND SP.State=1 LEFT JOIN dbo.ShippingListDetail AS LD WITH(NOLOCK) ON LD.ShippingPlanDetailID=PD.ID AND LD.AvailFlag=1 LEFT JOIN dbo.ShippingList AS SL WITH(NOLOCK) ON SL.ID=LD.ShippingListID AND SL.State=1 LEFT JOIN dbo.Corporation AS CP ON CP.ID=O.CorporationID ";
 
-            //查询条件
-            string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + " AND D.AvailFlag=1 AND O.State!=-100";
+            //查询条件 只有指定了采购后客户订单才显示，可作出货计划
+            string strWhere = SQLOperateHelper.GetSQLCondition(lstFilter, false) + " AND D.AvailFlag=1 AND O.State NOT IN (-100,100,110)";
 
             //分组条件
             string strGroupBy = " D.ID,D.InnerOrderNo,O.CustomerOrderNO,D.CPN,D.MPN,O.CustOrderDate,O.InnerSalesMan,A1.Name,D.CustQuantity,D.AlreadyQty,C.CCode,C.CustomerName,C.ID,O.CorporationID,O.PaymentTypeID ";

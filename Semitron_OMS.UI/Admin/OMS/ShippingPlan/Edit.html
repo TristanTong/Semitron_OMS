@@ -45,12 +45,18 @@
             //新增
             var data = null;
             var id = $("#hidSeletedShippingPlanId").val();
+            var strJsonDetail = GetShippingPlanDetailJson("tbAddShippingPlanDetail");
+            if (strJsonDetail == "ERROR") {
+                alertMsg.error("请编辑出货计划明细。");
+                return;
+            }
             if (!id || id == "-1") {
-                data = { "meth": "AddShippingPlan", "JsonString": strJson, "JsonStringDetail": GetShippingPlanDetailJson("tbAddShippingPlanDetail") };
+
+                data = { "meth": "AddShippingPlan", "JsonString": strJson, "JsonStringDetail": strJsonDetail };
             }
             //修改
             if (parseInt(id) > 0) {
-                data = { "meth": "EditShippingPlan", "JsonString": strJson, "JsonStringDetail": GetShippingPlanDetailJson("tbAddShippingPlanDetail"), "id": id };
+                data = { "meth": "EditShippingPlan", "JsonString": strJson, "JsonStringDetail": strJsonDetail, "id": id };
             }
 
             if (data == null) {
@@ -80,6 +86,7 @@
     //取得出货计划明细Json字符串
     function GetShippingPlanDetailJson(tbControlId) {
         var strJson = "";
+        var strValidate = "";
         $("#" + tbControlId + " tbody tr").each(function (e) {
             //拼接参数Json字符串
             if ($(this).children("td").find('input[type=text]').val()) {
@@ -94,21 +101,35 @@
                 strJson += "PlanQty:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.CPN']").val());
                 strJson += "CPN:\"" + defaultValue + "\",";
+                var MPNCustomer = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.MPN']").val());
+                strJson += "MPNCustomer:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ProductInfo.WCodeBelong']").val());
                 strJson += "PlanStockCode:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ProductInfo.ProductCode']").val());
                 strJson += "ProductCode:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].ProductInfo.MPN']").val());
+                var MPNInStock = defaultValue;
                 strJson += "MPN:\"" + defaultValue + "\",";
                 defaultValue = $.trim($("input[name='items[" + e + "].CustomerOrderDetail.Remark']").val());
                 strJson += "Remark:\"" + defaultValue + "\"";
                 strJson += "},";
+
+                if (MPNCustomer != MPNInStock)
+                    strValidate += "厂商型号（客户）:"
+                        + MPNCustomer + "与厂商型号（入库）:"
+                        + MPNInStock + "不一致；<br/>";
             }
         });
-        if (strJson != "") {
+
+        if (strValidate != "") {
+            strValidate += "请确认后修改。";
+            artDialog.alert(strValidate);
+            strJson = "ERROR";
+        }
+        if (strJson != "" && strJson != "ERROR") {
             strJson = "[" + strJson.substring(0, strJson.length - 1) + "]";
         }
-        alert(strJson)
+        //alert(strJson)
         return strJson;
     }
 
@@ -227,7 +248,7 @@
                 <a class="btnLook" href="/Admin/Sys/Admin/Lookup.html" lookupgroup="ShippingPlan_Edit_adminLookup">查找带回</a>
             </p>
             <div class="divider"></div>
-            <h3 class="contentTitle">出库计划明细</h3>
+            <h3 class="contentTitle">出货计划明细</h3>
             <div>
                 <table class="list nowrap itemDetail" addbutton="插入行" width="100%" id="tbAddShippingPlanDetail">
                     <thead>

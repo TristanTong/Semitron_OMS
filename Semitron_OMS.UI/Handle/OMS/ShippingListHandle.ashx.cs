@@ -284,6 +284,12 @@ namespace Semitron_OMS.UI.Handle.OMS
                 return null;
             }
 
+            //非审核的入库单可以操作新增明细
+            if (model.IsApproved)
+            {
+                return null;
+            }
+
             if (!string.IsNullOrEmpty(strJsonDetail))
             {
                 lstShippingListDetailModel = JsonConvert.DeserializeObject<List<ShippingListDetailModel>>(strJsonDetail);
@@ -305,6 +311,15 @@ namespace Semitron_OMS.UI.Handle.OMS
         private string AddShippingList()
         {
             PageResult result = new PageResult();
+            //判断是否有审核权限
+            if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
+                Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_SHIPPING_LIST,
+                Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_APPROVE_SHIPPING_LIST))
+            {
+                result.State = 0;
+                result.Info = "未分配审核权限，操作无效。";
+                return result.ToString();
+            }
             new ShippingListModel();
             string strGetResult = string.Empty;
 
@@ -397,12 +412,23 @@ namespace Semitron_OMS.UI.Handle.OMS
                 model.IsApproved = oldModel.IsApproved;
                 model.ApprovedTime = oldModel.ApprovedTime;
                 model.ApprovedUserID = oldModel.ApprovedUserID;
+
+                //已审核出库单可以修改出货日期参数
+                if (oldModel.IsApproved)
+                {
+                    //不能修改单号制单人等
+                    model.ShippingListNo = oldModel.ShippingListNo;
+                    model.ShippingListDate = oldModel.ShippingListDate;
+                    model.ByHandUserID = oldModel.ByHandUserID;
+                }
+
                 string strResult = this._bllShippingList.ValidateAndUpdate(model);
                 if (strResult == "OK")
                 {
                     result.State = 1;
                     result.Remark = model.ID.ToString();
                     result.Info = "编辑出库单成功！";
+
                     List<ShippingListDetailModel> lstShippingListDetailModel = GetNewDetailModel(model);
 
                     if (lstShippingListDetailModel != null && lstShippingListDetailModel.Count > 0)

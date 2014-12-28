@@ -25,116 +25,143 @@ namespace Semitron_OMS.Model.CRM
 	{
 		public CustomerModel()
 		{}
-		#region Model
-		private int _id;
-		private string _ccode;
-		private string _customername;
-		private string _customeraddress;
-		private string _contactperson;
-		private string _tel;
-		private string _sk;
-		private bool _availflag= true;
-		private string _createuser;
-		private DateTime? _createtime= DateTime.Now;
-		private string _updateuser;
-		private DateTime? _updatetime;
-		/// <summary>
-		/// 数据唯一标识
-		/// </summary>
-		public int ID
-		{
-			set{ _id=value;}
-			get{return _id;}
-		}
-		/// <summary>
-		/// 客户代码
-		/// </summary>
-		public string CCode
-		{
-			set{ _ccode=value;}
-			get{return _ccode;}
-		}
-		/// <summary>
-		/// 客户名称
-		/// </summary>
-		public string CustomerName
-		{
-			set{ _customername=value;}
-			get{return _customername;}
-		}
-		/// <summary>
-		/// 客户地址
-		/// </summary>
-		public string CustomerAddress
-		{
-			set{ _customeraddress=value;}
-			get{return _customeraddress;}
-		}
-		/// <summary>
-		/// 联系人
-		/// </summary>
-		public string ContactPerson
-		{
-			set{ _contactperson=value;}
-			get{return _contactperson;}
-		}
-		/// <summary>
-		/// 联系电话
-		/// </summary>
-		public string Tel
-		{
-			set{ _tel=value;}
-			get{return _tel;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string SK
-		{
-			set{ _sk=value;}
-			get{return _sk;}
-		}
-		/// <summary>
-		/// 是否有效
-		/// </summary>
-		public bool AvailFlag
-		{
-			set{ _availflag=value;}
-			get{return _availflag;}
-		}
-		/// <summary>
-		/// 创建人
-		/// </summary>
-		public string CreateUser
-		{
-			set{ _createuser=value;}
-			get{return _createuser;}
-		}
-		/// <summary>
-		/// 创建时间
-		/// </summary>
-		public DateTime? CreateTime
-		{
-			set{ _createtime=value;}
-			get{return _createtime;}
-		}
-		/// <summary>
-		/// 更新人
-		/// </summary>
-		public string UpdateUser
-		{
-			set{ _updateuser=value;}
-			get{return _updateuser;}
-		}
-		/// <summary>
-		/// 更新时间
-		/// </summary>
-		public DateTime? UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
-		#endregion Model
+        #region Model
+        private int _id;
+        private string _ccode;
+        private string _customername;
+        private string _customeraddress;
+        private string _contactperson;
+        private string _tel;
+        private string _shippmentcontactperson;
+        private string _shippmentaddress;
+        private string _shippmenttel;
+        private string _sk;
+        private bool _availflag = true;
+        private string _createuser;
+        private DateTime? _createtime = DateTime.Now;
+        private string _updateuser;
+        private DateTime? _updatetime;
+        /// <summary>
+        /// 数据唯一标识
+        /// </summary>
+        public int ID
+        {
+            set { _id = value; }
+            get { return _id; }
+        }
+        /// <summary>
+        /// 客户代码
+        /// </summary>
+        public string CCode
+        {
+            set { _ccode = value; }
+            get { return _ccode; }
+        }
+        /// <summary>
+        /// 客户名称
+        /// </summary>
+        public string CustomerName
+        {
+            set { _customername = value; }
+            get { return _customername; }
+        }
+        /// <summary>
+        /// 客户地址
+        /// </summary>
+        public string CustomerAddress
+        {
+            set { _customeraddress = value; }
+            get { return _customeraddress; }
+        }
+        /// <summary>
+        /// 联系人
+        /// </summary>
+        public string ContactPerson
+        {
+            set { _contactperson = value; }
+            get { return _contactperson; }
+        }
+        /// <summary>
+        /// 联系电话
+        /// </summary>
+        public string Tel
+        {
+            set { _tel = value; }
+            get { return _tel; }
+        }
+        /// <summary>
+        /// 发货联系人
+        /// </summary>
+        public string ShippmentContactPerson
+        {
+            set { _shippmentcontactperson = value; }
+            get { return _shippmentcontactperson; }
+        }
+        /// <summary>
+        /// 发货地址
+        /// </summary>
+        public string ShippmentAddress
+        {
+            set { _shippmentaddress = value; }
+            get { return _shippmentaddress; }
+        }
+        /// <summary>
+        /// 发货电话
+        /// </summary>
+        public string ShippmentTel
+        {
+            set { _shippmenttel = value; }
+            get { return _shippmenttel; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string SK
+        {
+            set { _sk = value; }
+            get { return _sk; }
+        }
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        public bool AvailFlag
+        {
+            set { _availflag = value; }
+            get { return _availflag; }
+        }
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public string CreateUser
+        {
+            set { _createuser = value; }
+            get { return _createuser; }
+        }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime? CreateTime
+        {
+            set { _createtime = value; }
+            get { return _createtime; }
+        }
+        /// <summary>
+        /// 更新人
+        /// </summary>
+        public string UpdateUser
+        {
+            set { _updateuser = value; }
+            get { return _updateuser; }
+        }
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        public DateTime? UpdateTime
+        {
+            set { _updatetime = value; }
+            get { return _updatetime; }
+        }
+        #endregion Model
 
 	}
 }

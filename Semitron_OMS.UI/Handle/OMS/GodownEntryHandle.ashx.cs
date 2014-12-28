@@ -85,6 +85,15 @@ namespace Semitron_OMS.UI.Handle.OMS
         private string ApproveGodownEntry()
         {
             PageResult result = new PageResult();
+            //判断是否有审核权限
+            if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
+                Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_GODOWN_ENTRY,
+                Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_APPROVE_GODOWN_ENTRY))
+            {
+                result.State = 0;
+                result.Info = "未分配审核权限，操作无效。";
+                return result.ToString();
+            }
             int iId = -1;
             if (_request.Form["EntryId"] == null || !int.TryParse(_request.Form["EntryId"].ToString(), out iId))
             {

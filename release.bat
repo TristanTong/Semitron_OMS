@@ -6,10 +6,9 @@ call "C:\Program Files\Microsoft Visual Studio 10.0\VC\vcvarsall.bat" x86
 
 set EnableNuGetPackageRestore=true
 msbuild   kickstart.msbuild
-msbuild   /p:configuration=release Report\Report.csproj
-msbuild   /p:configuration=release ERPSystem.sln
+msbuild   /p:configuration=release Semitron_OMS.sln
 
-Start ERPSystem_V4\bin\release
+Start Semitron_OMS.UI\bin\release
 pause
 
 

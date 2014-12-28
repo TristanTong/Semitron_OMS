@@ -208,7 +208,7 @@ namespace Semitron_OMS.Common
             //遍历子系统下所有模块
             foreach (ModulePer mp in subSystemPer.ModulePers.Values)
             {
-                //遍历子所有模块下所有页面
+                //遍历所有模块下所有页面
                 foreach (PagePer pp in mp.PagePers.Values)
                 {
                     if (pp.Code == strPageCode)
@@ -249,6 +249,37 @@ namespace Semitron_OMS.Common
         {
             return IsExistDataSetPer(GetDataSetPer(permissionModule, strPageCode), strDsPerCode);
         }
+
+        /// <summary>
+        /// 权限系统中指定页面是否存在指定编号的按钮权限
+        /// </summary>
+        /// <param name="permissionModule">权限系统实体</param>
+        /// <param name="strPageCode">指定页面编号</param>
+        /// <param name="strDsPerCode">按钮权限编号</param>
+        /// <returns>是否存在</returns>
+        public static bool IsExistButtonPer(PermissionModule permissionModule, string strPageCode, string strButtonPer)
+        {
+            return IsExistButtonPer(GetButtonPer(permissionModule, strPageCode), strButtonPer);
+        }
+
+        /// <summary>
+        /// 数据权限集列表中是否存在指定编号的按钮权限
+        /// </summary>
+        /// <param name="list">按钮权限集列表</param>
+        /// <param name="strDsPerCode">按钮权限编号</param>
+        /// <returns>是否存在</returns>
+        public static bool IsExistButtonPer(List<ButtonPer> list, string strButtonPer)
+        {
+            foreach (ButtonPer btnPer in list)
+            {
+                if (btnPer.Code == strButtonPer)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion JudgeOper
 
         #region EntityOper

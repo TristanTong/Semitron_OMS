@@ -23,7 +23,7 @@
     <style type="text/css">
         /*编辑对话框*/
         .tdParamDWidth {
-            width: 150px;
+            width: 120px;
         }
 
         .tdRemarkWidth {
@@ -81,8 +81,8 @@
 	    				{ display: '是否有效', name: 'AvailFlag', width: 60, sortable: true, align: 'center' },
                         { display: '客户名称', name: 'CustomerName', width: 200, sortable: true, align: 'left' },
                         { display: '客户编码', name: 'CCode', width: 60, sortable: true, align: 'center' },
-                        { display: '联系电话', name: 'Tel', width: 100, sortable: true, align: 'left' },
-                        { display: '联系人', name: 'ContactPerson', width: 60, sortable: true, align: 'left' },
+                        { display: '账单联系电话', name: 'Tel', width: 100, sortable: true, align: 'left' },
+                        { display: '账单联系人', name: 'ContactPerson', width: 60, sortable: true, align: 'left' },
                         { display: '排序编号', name: 'SK', width: 60, sortable: true, align: 'center' },
                         { display: '创建时间', name: 'CreateTime', width: 120, sortable: true, align: 'center' },
                         { display: '创建人', name: 'CreateUser', width: 60, sortable: true, align: 'center' },
@@ -200,6 +200,9 @@
                     $("#txtContactPersonE").val(json.ContactPerson);
                     $("#txtTelE").val(json.Tel);
                     $("#txtareaCustomerAddressE").val(json.CustomerAddress);
+                    $("#txtShippmentAddressE").val(json.ShippmentAddress);
+                    $("#txtShippmentContactPersonE").val(json.ShippmentContactPerson);
+                    $("#txtShippmentTelE").val(json.ShippmentTel);
                     return false;
                 }
             };
@@ -261,6 +264,9 @@
                     var ContactPerson = Trim($("#txtContactPersonE").val());
                     var CustomerAddress = Trim($("#txtareaCustomerAddressE").val());
                     var SK = Trim($("#txtSKE").val());
+                    var ShippmentAddress = Trim($("#txtShippmentAddressE").val());
+                    var ShippmentContactPerson = Trim($("#txtShippmentContactPersonE").val());
+                    var ShippmentTel = Trim($("#txtShippmentTelE").val());
 
                     //                    var isPass = true;
                     //                    $("#divEdit .txt").each(function () {
@@ -285,10 +291,10 @@
 
                     var url = "/Handle/CRM/CustomerHandle.ashx";
                     //新增客户
-                    var data = { "meth": "AddCustomer", "CCode": CCode, "CustomerName": CustomerName, "Tel": Tel, "ContactPerson": ContactPerson, "CustomerAddress": CustomerAddress, "SK": SK };
+                    var data = { "meth": "AddCustomer", "CCode": CCode, "CustomerName": CustomerName, "Tel": Tel, "ContactPerson": ContactPerson, "CustomerAddress": CustomerAddress, "ShippmentAddress": ShippmentAddress, "ShippmentContactPerson": ShippmentContactPerson, "ShippmentTel": ShippmentTel, "SK": SK };
                     //编辑客户
                     if (id && id != "") {
-                        data = { "meth": "EditCustomer", "CCode": CCode, "CustomerName": CustomerName, "Tel": Tel, "ContactPerson": ContactPerson, "CustomerAddress": CustomerAddress, "SK": SK, "Id": id };
+                        data = { "meth": "EditCustomer", "CCode": CCode, "CustomerName": CustomerName, "Tel": Tel, "ContactPerson": ContactPerson, "CustomerAddress": CustomerAddress, "ShippmentAddress": ShippmentAddress, "ShippmentContactPerson": ShippmentContactPerson, "ShippmentTel": ShippmentTel, "SK": SK, "Id": id };
                     }
                     var errorFun = function (x, e) {
                         alert(x.responseText);
@@ -542,23 +548,44 @@
                         <td></td>
                     </tr>
                     <tr class="trMO ">
-                        <td class="tdRight tdParamDWidth">联系地址：
+                        <td class="tdRight tdParamDWidth">账单地址：
                         </td>
                         <td class="tdLeft tdRemarkWidth" colspan="3">
-                            <input type="text" id="txtareaCustomerAddressE" class="txt" maxlength="1024" style="width:435px" />
+                            <input type="text" id="txtareaCustomerAddressE" class="txt" maxlength="1024" style="width: 435px" />
                         </td>
                         <td></td>
                     </tr>
                     <tr class="trMO ">
-                        <td class="tdRight tdParamDWidth">联系人：
+                        <td class="tdRight tdParamDWidth">账单联系人：
                         </td>
                         <td class="tdLeft tdRemarkWidth">
                             <input type="text" id="txtContactPersonE" class="txt" maxlength="64" />
                         </td>
-                        <td class="tdRight tdParamDWidth">联系电话：
+                        <td class="tdRight tdParamDWidth">账单电话：
                         </td>
                         <td class="tdLeft tdRemarkWidth">
                             <input type="text" id="txtTelE" class="txt   " maxlength="16" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="trMO ">
+                        <td class="tdRight tdParamDWidth">发货地址：
+                        </td>
+                        <td class="tdLeft tdRemarkWidth" colspan="3">
+                            <input type="text" id="txtShippmentAddressE" class="txt" maxlength="1024" style="width: 435px" />
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="trMO ">
+                        <td class="tdRight tdParamDWidth">发货联系人：
+                        </td>
+                        <td class="tdLeft tdRemarkWidth">
+                            <input type="text" id="txtShippmentContactPersonE" class="txt" maxlength="16" />
+                        </td>
+                        <td class="tdRight tdParamDWidth">发货电话：
+                        </td>
+                        <td class="tdLeft tdRemarkWidth">
+                            <input type="text" id="txtShippmentTelE" class="txt   " maxlength="16" />
                         </td>
                         <td></td>
                     </tr>

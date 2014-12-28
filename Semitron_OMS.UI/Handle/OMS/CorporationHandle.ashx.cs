@@ -213,6 +213,9 @@ namespace Semitron_OMS.UI.Handle.OMS
             SQLOperateHelper.SetEntityFiledValue(model, "CompanyName", _request.Form["CompanyName"]);
             SQLOperateHelper.SetEntityFiledValue(model, "Corporator", _request.Form["Corporator"]);
             SQLOperateHelper.SetEntityFiledValue(model, "CompanyAddr", _request.Form["CompanyAddr"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "Email", _request.Form["Email"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "Fax", _request.Form["Fax"]);
+            SQLOperateHelper.SetEntityFiledValue(model, "Phone", _request.Form["Phone"]);
             SQLOperateHelper.SetEntityFiledValue(model, "SK", _request.Form["SK"]);
 
             return "OK";

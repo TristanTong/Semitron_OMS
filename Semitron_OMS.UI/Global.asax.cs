@@ -15,7 +15,7 @@ namespace Semitron_OMS.UI
         {
             // 在应用程序启动时运行的代码
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo("log4net.config"));
-            System.Data.SqlClient.SqlDependency.Start(System.Configuration.ConfigurationManager.ConnectionStrings["strcodematic"].ConnectionString);
+            //System.Data.SqlClient.SqlDependency.Start(System.Configuration.ConfigurationManager.ConnectionStrings["strcodematic"].ConnectionString);
         }
 
         void Application_End(object sender, EventArgs e)

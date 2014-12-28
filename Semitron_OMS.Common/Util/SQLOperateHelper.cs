@@ -14,7 +14,7 @@ namespace Semitron_OMS.Common
     public static class SQLOperateHelper
     {
         /// <summary>
-        /// 用旧实体非空字段值填充设置新实体类字段的值
+        /// 用旧实体非空字段值填充设置新实体中为空的字段值
         /// </summary>
         /// <param name="model"></param>
         /// <param name="oldModel"></param>
@@ -35,7 +35,10 @@ namespace Semitron_OMS.Common
                 {
                     try
                     {
-                        propInfo.SetValue(model, int.Parse(oldValue.ToString()), null);
+                        if (newValue == null || int.Parse(newValue.ToString()) == 0)
+                        {
+                            propInfo.SetValue(model, int.Parse(oldValue.ToString()), null);
+                        }
                     }
                     catch
                     {
@@ -51,7 +54,10 @@ namespace Semitron_OMS.Common
                 {
                     try
                     {
-                        propInfo.SetValue(model, decimal.Parse(oldValue.ToString()), null);
+                        if (newValue == null || decimal.Parse(newValue.ToString()) == 0M)
+                        {
+                            propInfo.SetValue(model, decimal.Parse(oldValue.ToString()), null);
+                        }
                     }
                     catch
                     {
@@ -65,13 +71,15 @@ namespace Semitron_OMS.Common
 
                 if (changeType.ToString().ToUpper().Contains("SYSTEM.DATETIME"))
                 {
-
                     try
                     {
-                        DateTime o_Result;
-                        if (DateTime.TryParse(oldValue.ToString().Trim(), out o_Result))
+                        if (newValue == null)
                         {
-                            propInfo.SetValue(model, o_Result, null);
+                            DateTime o_Result;
+                            if (DateTime.TryParse(oldValue.ToString().Trim(), out o_Result))
+                            {
+                                propInfo.SetValue(model, o_Result, null);
+                            }
                         }
                     }
                     catch

@@ -165,7 +165,7 @@
             var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
             var data = { "meth": "GetGodownEntryDetailByEntryId", "EntryId": entryId };
             var successFun = function (json) {
-                debugger;
+                //debugger;
                 if (json.State == "0") {
                     alertMsg.error(json.Info);
                     $("#btnCloseGodownEntry").click();

@@ -741,9 +741,9 @@ namespace Semitron_OMS.DAL.FM
         public DataSet GetGatheringPlanPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
         {
             //查询表名
-            string strTableName = " dbo.GatheringPlan AS P WITH(NOLOCK) LEFT JOIN CustomerOrderDetail AS D WITH(NOLOCK) ON D.ID=P.CustomerOrderDetailID LEFT JOIN dbo.Customer AS S WITH(NOLOCK) ON S.ID=P.CustomerID LEFT JOIN dbo.Corporation AS C ON C.ID=P.CorporationID LEFT JOIN dbo.PaymentType AS T ON T.ID=P.PaymentTypeID LEFT JOIN dbo.CurrencyType AS CT ON CT.ID=P.SaleRealCurrency LEFT JOIN dbo.CurrencyType AS CT1 ON CT1.ID=P.SaleStandardCurrency  LEFT JOIN (SELECT  ObjId ,FileNum = COUNT(1) FROM dbo.Attachment WITH ( NOLOCK ) WHERE ObjType = 'GatheringPlanFilePath' AND AvailFlag = 1 GROUP BY ObjId) AS A ON A.ObjId=P.ID";
+            string strTableName = " dbo.GatheringPlan AS P WITH(NOLOCK) LEFT JOIN CustomerOrderDetail AS D WITH(NOLOCK) ON D.ID=P.CustomerOrderDetailID  LEFT JOIN CustomerOrder AS O WITH(NOLOCK) ON O.InnerOrderNO=D.InnerOrderNO LEFT JOIN CommonTable AS CTA ON CTA.TableName='CustomerOrder' AND CTA.[Key]=O.[State] LEFT JOIN dbo.Customer AS S WITH(NOLOCK) ON S.ID=P.CustomerID LEFT JOIN dbo.Corporation AS C ON C.ID=P.CorporationID LEFT JOIN dbo.PaymentType AS T ON T.ID=P.PaymentTypeID LEFT JOIN dbo.CurrencyType AS CT ON CT.ID=P.SaleRealCurrency LEFT JOIN dbo.CurrencyType AS CT1 ON CT1.ID=P.SaleStandardCurrency  LEFT JOIN (SELECT  ObjId ,FileNum = COUNT(1) FROM dbo.Attachment WITH ( NOLOCK ) WHERE ObjType = 'GatheringPlanFilePath' AND AvailFlag = 1 GROUP BY ObjId) AS A ON A.ObjId=P.ID";
             //查询字段
-            string strGetFields = " P.ID,State=CASE WHEN P.State=1 THEN '有效' ELSE '无效' END ,GatheringPlanDate=CONVERT(VARCHAR(10),P.GatheringPlanDate,120),FeeBackDate=CONVERT(VARCHAR(10),P.FeeBackDate,120),CorporationID=C.CompanyName,P.InnerOrderNO,P.CustomerOrderNO,S.CustomerName,IsCustomerPay=CASE WHEN P.IsCustomerPay=1 THEN '是' ELSE '否' END ,IsCustomerVATInvoice=CASE WHEN P.IsCustomerVATInvoice=1 THEN '是' ELSE '否' END ,P.Qty,PaymentTypeID=T.PaymentType,P.SaleExchangeRate,SaleRealCurrency=CT.CurrencyName,P.SaleRealPrice,P.SaleRealTotal,SaleStandardCurrency=CT1.CurrencyName,P.SalePrice,P.SaleTotal,P.OtherFee,P.CreateUser,CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120),FileNum=ISNULL(A.FileNum,0),D.MPN,D.CPN ";
+            string strGetFields = " P.ID,CustomerOrderState=CTA.Value,MarkState=CASE WHEN P.MarkState=1 THEN '是' ELSE '否' END ,GatheringPlanDate=CONVERT(VARCHAR(10),P.GatheringPlanDate,120),FeeBackDate=CONVERT(VARCHAR(10),P.FeeBackDate,120),CorporationID=C.CompanyName,P.InnerOrderNO,P.CustomerOrderNO,S.CustomerName,IsCustomerPay=CASE WHEN P.IsCustomerPay=1 THEN '是' ELSE '否' END ,IsCustomerVATInvoice=CASE WHEN P.IsCustomerVATInvoice=1 THEN '是' ELSE '否' END ,P.Qty,PaymentTypeID=T.PaymentType,P.SaleExchangeRate,SaleRealCurrency=CT.CurrencyName,P.SaleRealPrice,P.SaleRealTotal,SaleStandardCurrency=CT1.CurrencyName,P.SalePrice,P.SaleTotal,P.OtherFee,State=CASE WHEN P.State=1 THEN '有效' ELSE '无效' END ,P.CreateUser,CreateTime = CONVERT(VARCHAR(20), P.CreateTime, 120) , P.UpdateUser , UpdateTime = CONVERT(VARCHAR(20), P.UpdateTime, 120),FileNum=ISNULL(A.FileNum,0),D.MPN,D.CPN ";
             //查询条件
             string strWhere = SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询
@@ -765,7 +765,7 @@ namespace Semitron_OMS.DAL.FM
         public bool SetValid(int iId, int iState)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("update GatheringPlan set State=@State");
+            strSql.Append("update GatheringPlan set State=@State,UpdateTime=getdate()");
             strSql.Append(" where ID=@ID ");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4),
@@ -783,10 +783,29 @@ namespace Semitron_OMS.DAL.FM
                 return false;
             }
         }
+        /// <summary>
+        /// 标记完成收客户款计划
+        /// </summary>
+        public bool MarkStateGatheringPlan(int iId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update GatheringPlan set MarkState=1,UpdateTime=getdate()");
+            strSql.Append(" where ID=@ID ");
+            SqlParameter[] parameters = {
+                    new SqlParameter("@ID", SqlDbType.Int,4)
+			};
+            parameters[0].Value = iId;
+            int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion  ExtensionMethod
-
-
-
     }
 }
 

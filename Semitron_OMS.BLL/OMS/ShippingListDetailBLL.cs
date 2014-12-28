@@ -189,6 +189,10 @@ namespace Semitron_OMS.BLL.OMS
         #endregion  BasicMethod
         #region  ExtensionMethod
 
+        /// <summary>
+        /// 批量新增加出库单明细
+        /// </summary>
+        /// <param name="lstShippingListDetailModel"></param>
         public void AddList(List<ShippingListDetailModel> lstShippingListDetailModel)
         {
             dal.AddList(lstShippingListDetailModel);

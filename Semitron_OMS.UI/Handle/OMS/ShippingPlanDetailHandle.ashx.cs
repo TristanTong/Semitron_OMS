@@ -61,7 +61,7 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "EditShippingPlanDetail":
                         context.Response.Write(EditShippingPlanDetail());
                         break;
-                    //获得未进行出货的出货计划数据
+                    //获得未进行出库的出货计划数据
                     case "GetShippingPlanDetailUnOutStockList":
                         context.Response.Write(GetShippingPlanDetailUnOutStockList());
                         break;

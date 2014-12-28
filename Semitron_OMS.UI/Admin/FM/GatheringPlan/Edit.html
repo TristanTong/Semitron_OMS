@@ -6,7 +6,7 @@
         //var data = { "meth": "GetCurrencyTypeSeletList", "IsShowAll": "false" };
         //LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleStandardCurrency']", 1, 10, false);
         //LoadSelect("/Handle/OMS/CurrencyTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='SaleRealCurrency']", 1, 10, false);
-        data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
+        var data = { "meth": "GetPaymentTypeSeletList", "IsShowAll": "false" };
         LoadSelect("/Handle/OMS/PaymentTypeHandle.ashx", data, "#divEditGatheringPlan p select[name='GatheringPlan_Edit_CustomerOrderDetailLookup.PaymentTypeID']", -1, 30, true);
 
         //debugger;
@@ -68,10 +68,10 @@
             $("#divEditGatheringPlan p input[name='GrossProfits']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
             //运营费用USD 默认=付款标准总额（即标准买货总金额）×0.03
-            value = POPrice * Qty * 0.03;
-            strvalue = value.toString();
-            if (strvalue == "NaN") strvalue = "0";
-            $("#divEditGatheringPlan p input[name='OperatingFee']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
+            //value = POPrice * Qty * 0.03;
+            //strvalue = value.toString();
+            //if (strvalue == "NaN") strvalue = "0";
+            //$("#divEditGatheringPlan p input[name='OperatingFee']").val(strvalue.substr(0, (strvalue.indexOf('.') == -1 ? (strvalue.length) : (strvalue.indexOf('.') + 5))));
 
             //净利润=实收售价总额(USD)-标准买货总金额-招待费用USD-渠道费用USD-物流费用USD-运营费用USD
             value = SaleTotal - (POPrice * Qty)

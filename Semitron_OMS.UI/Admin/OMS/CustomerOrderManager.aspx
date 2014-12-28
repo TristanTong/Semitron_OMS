@@ -991,7 +991,7 @@
                         $("#divEditDetail .txt").each(function () {
                             $(this).removeAttr("disabled");
                         });
-                        $("#txtCPNE").attr("disabled", "disabled");
+                        //$("#txtCPNE").attr("disabled", "disabled");
                     }
                     if (type == "View") {
                         $("#divEditDetail .txt").each(function () {

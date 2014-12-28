@@ -2,6 +2,7 @@
 using Semitron_OMS.BLL.CRM;
 using Semitron_OMS.BLL.OMS;
 using Semitron_OMS.Common;
+using Semitron_OMS.Common.Enum;
 using Semitron_OMS.Model.Common;
 using Semitron_OMS.Model.CRM;
 using Semitron_OMS.Model.FM;
@@ -67,6 +68,10 @@ namespace Semitron_OMS.UI.Handle.FM
                     case "DelGatheringPlan":
                         context.Response.Write(DelGatheringPlan());
                         break;
+                    //标记完成收客户款计划
+                    case "MarkStateGatheringPlan":
+                        context.Response.Write(MarkStateGatheringPlan());
+                        break;
                     //获取附件列表
                     case "GetGatheringPlanAttachmentHtml":
                         context.Response.ContentType = "text/plain";
@@ -113,6 +118,48 @@ namespace Semitron_OMS.UI.Handle.FM
                 _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，获取附件列表出现异常：" + ex.Message, ex);
             }
 
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 标记完成收客户款计划
+        /// </summary>
+        private string MarkStateGatheringPlan()
+        {
+            PageResult result = new PageResult();
+            int iId = -1;
+            if (_request.Form["Id"] == null || !int.TryParse(_request.Form["Id"].ToString(), out iId))
+            {
+                result.State = 0;
+                result.Info = "系统错误,参数获取异常。";
+                return result.ToString();
+            }
+            try
+            {
+                if (!_adminModel.RoleID.Contains(((int)EnumRoleID.SupperAdmin).ToString()))
+                {
+                    result.State = 0;
+                    result.Info = "您不是系统管理员，不能操作标记完成，请联系管理员进行此项操作。";
+                    return result.ToString();
+                }
+
+                if (this._bllGatheringPlan.MarkStateGatheringPlan(iId))
+                {
+                    result.State = 1;
+                    result.Info = "标记完成收客户款计划成功。";
+                }
+                else
+                {
+                    result.State = 0;
+                    result.Info = "发生错误,标记完成失败。";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.State = 0;
+                result.Info = "标记完成收客户款计划出现异常！";
+                _myLogger.Error("登陆用户名：" + _adminModel.Username + "，客户机IP:" + HttpContext.Current.Request.UserHostAddress + "，标记完成收客户款计划出现异常：" + ex.Message, ex);
+            }
             return result.ToString();
         }
 
@@ -195,20 +242,20 @@ namespace Semitron_OMS.UI.Handle.FM
                 }
 
                 //根据产品清单取得出货时间
-                List<ShippingPlanDetailModel> lstSPDModel = new ShippingPlanDetailBLL().GetModelList("CustomerDetailID='" + model.CustomerOrderDetailID + "'");
-                if (lstSPDModel.Count > 0)
-                {
-                    List<ShippingListDetailModel> lstSLDModel = new ShippingListDetailBLL().GetModelList("ShippingPlanDetailID='" + lstSPDModel[0].ShippingPlanID + "'");
-                    if (lstSPDModel.Count > 0)
-                    {
-                        ShippingListModel slModel = new ShippingListBLL().GetModel(lstSLDModel[0].ShippingListID);
-                        if (slModel != null)
-                        {
-                            if (dOutStockDate == null)
-                                dOutStockDate = slModel.OutStockDate;
-                        }
-                    }
-                }
+                //List<ShippingPlanDetailModel> lstSPDModel = new ShippingPlanDetailBLL().GetModelList("CustomerDetailID='" + model.CustomerOrderDetailID + "'");
+                //if (lstSPDModel.Count > 0)
+                //{
+                //    List<ShippingListDetailModel> lstSLDModel = new ShippingListDetailBLL().GetModelList("ShippingPlanDetailID='" + lstSPDModel[0].ShippingPlanID + "'");
+                //    if (lstSPDModel.Count > 0)
+                //    {
+                //        ShippingListModel slModel = new ShippingListBLL().GetModel(lstSLDModel[0].ShippingListID);
+                //        if (slModel != null)
+                //        {
+                //            if (dOutStockDate == null)
+                //                dOutStockDate = slModel.OutStockDate;
+                //        }
+                //    }
+                //}
                 if (dOutStockDate == null)
                 {
                     dOutStockDate = DateTime.MinValue;
@@ -448,6 +495,10 @@ namespace Semitron_OMS.UI.Handle.FM
               _request.Form["IsCustomerVATInvoice"], ConditionEnm.Equal));
             SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.IsCustomerPay",
               _request.Form["IsCustomerPay"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("O.State",
+                _request.Form["OrderState"], ConditionEnm.Equal));
+            SQLOperateHelper.AddSQLFilter(lstFilter, SQLOperateHelper.GetSQLFilter("P.MarkState",
+                _request.Form["MarkState"], ConditionEnm.Equal));
             //查询条件：开始时间，结束时间
             //时间类型
             string strTimeType = DataUtility.GetPageFormValue(_request.Form["TimeType"], string.Empty);

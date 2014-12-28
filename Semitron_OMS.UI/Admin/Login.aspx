@@ -181,8 +181,8 @@
     <div id="header" style="height: 70px; background: url(images/head_bg.gif);">
         <div class="content">
             <div class="logo">
-                <a href="http://www.semitronelec.com" target="_blank">
-                    <img src="Images/logo1.png" alt="森美创" /></a>
+              <%--  <a href="http://www.semitronelec.com" target="_blank">
+                    <img src="Images/logo1.png" alt="森美创" /></a>--%>
             </div>
             <span class="title">
                 <img src="Images/title.png" onload="fixPNG(this)" alt="" /></span>

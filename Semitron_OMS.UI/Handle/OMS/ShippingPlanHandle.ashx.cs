@@ -85,6 +85,15 @@ namespace Semitron_OMS.UI.Handle.OMS
         private string ApproveShippingPlan()
         {
             PageResult result = new PageResult();
+            //判断是否有审核权限
+            if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
+                Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_SHIPPING_PLAN,
+                Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_APPROVE_SHIPPING_PLAN))
+            {
+                result.State = 0;
+                result.Info = "未分配审核权限，操作无效。";
+                return result.ToString();
+            }
             int iId = -1;
             if (_request.Form["ShippingPlanId"] == null || !int.TryParse(_request.Form["ShippingPlanId"].ToString(), out iId))
             {

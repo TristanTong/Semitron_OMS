@@ -1039,6 +1039,7 @@
                         var p = {
                             extParam: [{ name: "meth", value: "GetPOPlan" },
                                 { name: "POId", value: poId },
+                                { name: "State", value: 1 },
                                 { name: "startTime", value: '2013-01-01' },
                                 { name: "TimeType", value: "2" }]
                         }; //扩展参数

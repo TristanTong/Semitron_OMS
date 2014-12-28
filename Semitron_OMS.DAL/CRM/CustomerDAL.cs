@@ -64,9 +64,9 @@ namespace Semitron_OMS.DAL.CRM
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into Customer(");
-            strSql.Append("CCode,CustomerName,CustomerAddress,ContactPerson,Tel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime)");
+            strSql.Append("CCode,CustomerName,CustomerAddress,ContactPerson,Tel,ShippmentContactPerson,ShippmentAddress,ShippmentTel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime)");
             strSql.Append(" values (");
-            strSql.Append("@CCode,@CustomerName,@CustomerAddress,@ContactPerson,@Tel,@SK,@AvailFlag,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime)");
+            strSql.Append("@CCode,@CustomerName,@CustomerAddress,@ContactPerson,@Tel,@ShippmentContactPerson,@ShippmentAddress,@ShippmentTel,@SK,@AvailFlag,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime)");
             strSql.Append(";select @@IDENTITY");
             SqlParameter[] parameters = {
 					new SqlParameter("@CCode", SqlDbType.VarChar,16),
@@ -74,6 +74,9 @@ namespace Semitron_OMS.DAL.CRM
 					new SqlParameter("@CustomerAddress", SqlDbType.NVarChar,1024),
 					new SqlParameter("@ContactPerson", SqlDbType.VarChar,64),
 					new SqlParameter("@Tel", SqlDbType.VarChar,32),
+					new SqlParameter("@ShippmentContactPerson", SqlDbType.NVarChar,50),
+					new SqlParameter("@ShippmentAddress", SqlDbType.NVarChar,1024),
+					new SqlParameter("@ShippmentTel", SqlDbType.NVarChar,50),
 					new SqlParameter("@SK", SqlDbType.VarChar,16),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateUser", SqlDbType.VarChar,32),
@@ -85,12 +88,15 @@ namespace Semitron_OMS.DAL.CRM
             parameters[2].Value = model.CustomerAddress;
             parameters[3].Value = model.ContactPerson;
             parameters[4].Value = model.Tel;
-            parameters[5].Value = model.SK;
-            parameters[6].Value = model.AvailFlag;
-            parameters[7].Value = model.CreateUser;
-            parameters[8].Value = model.CreateTime;
-            parameters[9].Value = model.UpdateUser;
-            parameters[10].Value = model.UpdateTime;
+            parameters[5].Value = model.ShippmentContactPerson;
+            parameters[6].Value = model.ShippmentAddress;
+            parameters[7].Value = model.ShippmentTel;
+            parameters[8].Value = model.SK;
+            parameters[9].Value = model.AvailFlag;
+            parameters[10].Value = model.CreateUser;
+            parameters[11].Value = model.CreateTime;
+            parameters[12].Value = model.UpdateUser;
+            parameters[13].Value = model.UpdateTime;
 
             object obj = DbHelperSQL.GetSingle(strSql.ToString(), parameters);
             if (obj == null)
@@ -114,6 +120,9 @@ namespace Semitron_OMS.DAL.CRM
             strSql.Append("CustomerAddress=@CustomerAddress,");
             strSql.Append("ContactPerson=@ContactPerson,");
             strSql.Append("Tel=@Tel,");
+            strSql.Append("ShippmentContactPerson=@ShippmentContactPerson,");
+            strSql.Append("ShippmentAddress=@ShippmentAddress,");
+            strSql.Append("ShippmentTel=@ShippmentTel,");
             strSql.Append("SK=@SK,");
             strSql.Append("AvailFlag=@AvailFlag,");
             strSql.Append("CreateUser=@CreateUser,");
@@ -127,6 +136,9 @@ namespace Semitron_OMS.DAL.CRM
 					new SqlParameter("@CustomerAddress", SqlDbType.NVarChar,1024),
 					new SqlParameter("@ContactPerson", SqlDbType.VarChar,64),
 					new SqlParameter("@Tel", SqlDbType.VarChar,32),
+					new SqlParameter("@ShippmentContactPerson", SqlDbType.NVarChar,50),
+					new SqlParameter("@ShippmentAddress", SqlDbType.NVarChar,1024),
+					new SqlParameter("@ShippmentTel", SqlDbType.NVarChar,50),
 					new SqlParameter("@SK", SqlDbType.VarChar,16),
 					new SqlParameter("@AvailFlag", SqlDbType.Bit,1),
 					new SqlParameter("@CreateUser", SqlDbType.VarChar,32),
@@ -139,13 +151,16 @@ namespace Semitron_OMS.DAL.CRM
             parameters[2].Value = model.CustomerAddress;
             parameters[3].Value = model.ContactPerson;
             parameters[4].Value = model.Tel;
-            parameters[5].Value = model.SK;
-            parameters[6].Value = model.AvailFlag;
-            parameters[7].Value = model.CreateUser;
-            parameters[8].Value = model.CreateTime;
-            parameters[9].Value = model.UpdateUser;
-            parameters[10].Value = model.UpdateTime;
-            parameters[11].Value = model.ID;
+            parameters[5].Value = model.ShippmentContactPerson;
+            parameters[6].Value = model.ShippmentAddress;
+            parameters[7].Value = model.ShippmentTel;
+            parameters[8].Value = model.SK;
+            parameters[9].Value = model.AvailFlag;
+            parameters[10].Value = model.CreateUser;
+            parameters[11].Value = model.CreateTime;
+            parameters[12].Value = model.UpdateUser;
+            parameters[13].Value = model.UpdateTime;
+            parameters[14].Value = model.ID;
 
             int rows = DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -209,7 +224,7 @@ namespace Semitron_OMS.DAL.CRM
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 ID,CCode,CustomerName,CustomerAddress,ContactPerson,Tel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime from Customer ");
+            strSql.Append("select  top 1 ID,CCode,CustomerName,CustomerAddress,ContactPerson,Tel,ShippmentContactPerson,ShippmentAddress,ShippmentTel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime from Customer ");
             strSql.Append(" where ID=@ID");
             SqlParameter[] parameters = {
 					new SqlParameter("@ID", SqlDbType.Int,4)
@@ -261,6 +276,18 @@ namespace Semitron_OMS.DAL.CRM
                 {
                     model.Tel = row["Tel"].ToString();
                 }
+                if (row["ShippmentContactPerson"] != null)
+                {
+                    model.ShippmentContactPerson = row["ShippmentContactPerson"].ToString();
+                }
+                if (row["ShippmentAddress"] != null)
+                {
+                    model.ShippmentAddress = row["ShippmentAddress"].ToString();
+                }
+                if (row["ShippmentTel"] != null)
+                {
+                    model.ShippmentTel = row["ShippmentTel"].ToString();
+                }
                 if (row["SK"] != null)
                 {
                     model.SK = row["SK"].ToString();
@@ -302,7 +329,7 @@ namespace Semitron_OMS.DAL.CRM
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ID,CCode,CustomerName,CustomerAddress,ContactPerson,Tel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
+            strSql.Append("select ID,CCode,CustomerName,CustomerAddress,ContactPerson,Tel,ShippmentContactPerson,ShippmentAddress,ShippmentTel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM Customer ");
             if (strWhere.Trim() != "")
             {
@@ -322,7 +349,7 @@ namespace Semitron_OMS.DAL.CRM
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" ID,CCode,CustomerName,CustomerAddress,ContactPerson,Tel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
+            strSql.Append(" ID,CCode,CustomerName,CustomerAddress,ContactPerson,Tel,ShippmentContactPerson,ShippmentAddress,ShippmentTel,SK,AvailFlag,CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM Customer ");
             if (strWhere.Trim() != "")
             {
