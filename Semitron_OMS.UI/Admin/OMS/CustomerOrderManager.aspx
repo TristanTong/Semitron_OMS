@@ -443,38 +443,39 @@
                 init: function () {
                     if (type == "Add") {
                         //生成内部订单号
-                        var url = "/Handle/OMS/CustomerOrderHandle.ashx";
-                        //新增客户订单
-                        var data = { "meth": "GenerateInnerOrderNO" };
-                        var errorFun = function (x, e) {
-                            alert(x.responseText);
-                        };
-                        var successFun = function (json) {
-                            if (!json || json.State == 0) {
-                                artDialog.alert(json.Info);
-                                art.dialog.list["divEdit"].close();
-                                return false;
-                            } else {
-                                $("#sltStateE,#spanStateE,#divViewDetail,#spanAssignToInnerBuyerE,#sltAssignToInnerBuyerE").hide();
-                                $("#divDetailOper,#divUpload").show();
-                                $("#divEdit .txt").each(function () {
-                                    $(this).removeAttr("disabled");
-                                });
-                                $("#divEdit .txt").each(function () {
-                                    $(this).val("");
-                                });
-                                $("#txtInnerOrderNOE").val(json.Remark);
-                                $("#txtInnerOrderNOE").attr("disabled", "disabled");
+                        //var url = "/Handle/OMS/CustomerOrderHandle.ashx";
 
-                                //初始化明细表格
-                                InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
-                                $("#sltSaleStandardCurrencyE").val("1");
-                                $("#sltSaleStandardCurrencyE").attr("disabled", "disabled");
-                                AssignRolePermission();
-                                return true;
-                            }
-                        };
-                        JsAjax(url, data, successFun, errorFun);
+                        //var data = { "meth": "GenerateInnerOrderNO" };
+                        //var errorFun = function (x, e) {
+                        //    alert(x.responseText);
+                        //};
+                        //var successFun = function (json) {
+                        //    if (!json || json.State == 0) {
+                        //        artDialog.alert(json.Info);
+                        //        art.dialog.list["divEdit"].close();
+                        //        return false;
+                        //    } else {
+                        //新增客户订单
+                        $("#sltStateE,#spanStateE,#divViewDetail,#spanAssignToInnerBuyerE,#sltAssignToInnerBuyerE").hide();
+                        $("#divDetailOper,#divUpload").show();
+                        $("#divEdit .txt").each(function () {
+                            $(this).removeAttr("disabled");
+                        });
+                        $("#divEdit .txt").each(function () {
+                            $(this).val("");
+                        });
+                        $("#txtInnerOrderNOE").val("--确定后分配--");
+                        $("#txtInnerOrderNOE").attr("disabled", "disabled");
+
+                        //初始化明细表格
+                        InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
+                        $("#sltSaleStandardCurrencyE").val("1");
+                        $("#sltSaleStandardCurrencyE").attr("disabled", "disabled");
+                        AssignRolePermission();
+                        return false;
+                        //    }
+                        //};
+                        //JsAjax(url, data, successFun, errorFun);
                     }
                     if (type == "Edit") {
                         $("#sltStateE,#spanStateE,#divDetailOper,#divUpload").show();
@@ -968,6 +969,12 @@
                 dialogTitle = "查看产品清单记录"
             }
             dialogTitle = "客户订单管理>>客户订单>>" + dialogTitle;
+
+            if ($("#txtInnerOrderNOE").val() == "--确定后分配--") {
+                artDialog.alert("请点击确定按钮，保存订单主数据后再编辑新增产品清单数据。");
+                return;
+            }
+
             $.dialog({
                 id: 'divEditDetail',
                 title: dialogTitle,
