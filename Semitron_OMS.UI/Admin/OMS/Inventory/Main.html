@@ -165,6 +165,16 @@
             });
             return false;
         });
+
+        //导出库存记录到Excel
+        $("#btnExportInventoryExcel").click(function () {
+            ExportByCondition("导出库存记录到Excel", "InventoryHandle.ashx", "GetInventory");
+        });
+
+        //导出库存变更记录到Excel
+        $("#btnExportAuditExcel").click(function () {
+            ExportByCondition("导出库存变更记录到Excel", "InventoryAuditHandle.ashx", "GetInventoryAudit");
+        });
     });
 </script>
 <script type="text/javascript">
@@ -232,6 +242,49 @@
             }
         });
     }
+
+    //根据传递条件导出
+    function ExportByCondition(dialogName, handleFile, handleMethod) {
+        //控制查询需带上时间
+        var TimeType = $("#ulSearchInventory li select[name=sltTimeType]").val();
+        var startTime = $("#ulSearchInventory li input[name=BeginTime]").val();
+        var endTime = $("#ulSearchInventory li input[name=EndTime]").val();
+        var MPN = $("#ulSearchInventory li input[name=MPN]").val();
+        var ProductCode = $("#ulSearchInventory li input[name=ProductCode]").val();
+        var StockCode = $("#ulSearchInventory li input[name='Inventory_SearchWarehouse.WCode']").val();
+
+        if (startTime == "") {
+            artDialog.tips("请选择开始时间。");
+            return false;
+        }
+
+        var dialogTitle = "库存管理>>" + dialogName;
+
+        var url = "/Handle/OMS/" + handleFile;
+        var data = {
+            "meth": handleMethod, "TimeType": TimeType, "startTime": startTime, "endTime": endTime, "MPN": MPN, "ProductCode": ProductCode, "StockCode": StockCode, "Type": "ExportExcel", "sortname": "UpdateTime", "sortorder": "desc", "rp": "100000", "page": "1"
+        };
+        var errorFun = function (x, e) {
+            alert(x.responseText);
+        };
+        var successFun = function (json) {
+            if (json.State == "0") {
+                alertMsg.error(json.Info);
+                return false;
+            } else {
+                $("#ExcelUrl").attr("href", json.Remark)
+                $.dialog({
+                    id: 'ExportFile',
+                    title: dialogTitle,
+                    content: $('#divExportFile').get(0)
+                });
+                return false;
+            }
+            return false;
+        };
+        JsAjax(url, data, successFun, errorFun);
+        return false;
+    }
 </script>
 
 <div class="pageHeader">
@@ -295,13 +348,12 @@
     <div class="panelBar">
         <input type="hidden" value="-1" id="hidSeletedInventoryId" />
         <ul class="toolBar">
-            <!--<li><a class="add" href="/Admin/OMS/Inventory/Edit.html" target="navTab" rel="editInventory" id="btnAddInventory"><span>新建库存</span></a></li>
-            <li class="line">line</li>
-            <li><a class="edit" href="/Admin/OMS/Inventory/Edit.html?InventoryId={InventoryId}" rel="editInventory" target="navTab" id="btnEditInventory"><span>修改库存</span></a></li>
-            <li class="line">line</li>-->
-            <!-- <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteInventory"><span>删除库存</span></a></li>
-            <li class="line">line</li>-->
-            <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+            <li><a class="icon" href="#" id="btnExportInventoryExcel" target="dwzExport" targettype="navTab" title="">
+                <span>导出库存记录到Excel</span>
+            </a></li>
+            <li><a class="icon" href="#" id="btnExportAuditExcel" target="dwzExport" targettype="navTab" title="">
+                <span>导出库存变更记录到Excel</span>
+            </a></li>
         </ul>
     </div>
     <div class="tabs" currentindex="0" eventtype="click">
@@ -323,6 +375,13 @@
         </div>
         <div class="tabsFooter">
             <div class="tabsFooterContent"></div>
+        </div>
+        <div class="dialogDiv">
+            <div id="divExportFile" style="display: none;">
+                <strong>Excel文件下载地址</strong>
+                <br />
+                <a id="ExcelUrl" target="_blank" href="" onclick="return windowsclose();">下载</a>
+            </div>
         </div>
     </div>
 </div>

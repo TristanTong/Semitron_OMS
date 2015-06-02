@@ -130,6 +130,10 @@ namespace Semitron_OMS.Common
             /// </summary>
             public const string CustomerOrderTransactionReport = "Pro_Report_CustomerOrderTransaction";
             /// <summary>
+            /// 账务出库单数据
+            /// </summary>
+            public static string ShippingListForFinanceReport = "Pro_Report_ShippingListForFinance";
+            /// <summary>
             /// 出库单审核
             /// </summary>
             public const string ApproveShippingList = "Pro_ShippingList_Approve";
@@ -145,6 +149,7 @@ namespace Semitron_OMS.Common
             /// 网站搜索页面结果列表
             /// </summary>
             public const string GetSearchInIndex = "Pro_SiteSearch_GetSearchInIndex";
+
 
         }
         /// <summary>

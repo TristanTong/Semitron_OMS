@@ -181,6 +181,50 @@
             });
             return false;
         });
+
+        //导出记录到Excel
+        $("#btnExportGodownEntryExcel").click(function () {
+            //debugger;
+            //控制查询需带上时间
+            var TimeType = $("#ulSearchGodownEntry li select[name=sltTimeType]").val();
+            var startTime = $("#ulSearchGodownEntry li input[name=BeginTime]").val();
+            var endTime = $("#ulSearchGodownEntry li input[name=EndTime]").val();
+            var GodownEntryNo = $("#ulSearchGodownEntry li input[name=EntryNo]").val();
+            var ProductCode = $("#ulSearchGodownEntry li input[name=ProductCode]").val();
+            var InWarehouseCode = $("#ulSearchGodownEntry li input[name='SearchWarehouse.WCode']").val();
+
+            if (startTime == "") {
+                artDialog.tips("请选择开始时间。");
+                return false;
+            }
+
+            var dialogTitle = "入库单管理>>" + "导出记录到Excel";
+
+            var url = "/Handle/OMS/GodownEntryDetailHandle.ashx";
+            var data = {
+                "meth": "GetGodownEntryDetail", "TimeType": TimeType, "startTime": startTime, "endTime": endTime, "GodownEntryNo": GodownEntryNo, "ProductCode": ProductCode, "InWarehouseCode": InWarehouseCode, "AvailFlag": "1", "Type": "ExportExcel", "sortname": "CreateTime", "sortorder": "desc", "rp": "100000", "page": "1"
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    $("#ExcelUrl").attr("href", json.Remark)
+                    $.dialog({
+                        id: 'ExportFile',
+                        title: dialogTitle,
+                        content: $('#divExportFile').get(0)
+                    });
+                    return false;
+                }
+                return false;
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
     });
 </script>
 <script type="text/javascript">
@@ -318,7 +362,9 @@
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeleteGodownEntry"><span>删除入库单</span></a></li>
             <li class="line">line</li>
             <li><a class="icon" href="javascript:;" title="要审核所选入库单吗?" id="btnApproveGodownEntry"><span>审核入库单</span></a></li>
-            <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+            <li><a class="icon" href="#" id="btnExportGodownEntryExcel" target="dwzExport" targettype="navTab" title="">
+                <span>导出库存记录到Excel</span>
+            </a></li>
         </ul>
     </div>
     <div class="tabs" currentindex="0" eventtype="click">
@@ -340,6 +386,13 @@
         </div>
         <div class="tabsFooter">
             <div class="tabsFooterContent"></div>
+        </div>
+        <div class="dialogDiv">
+            <div id="divExportFile" style="display: none;">
+                <strong>Excel文件下载地址</strong>
+                <br />
+                <a id="ExcelUrl" target="_blank" href="" onclick="return windowsclose();">下载</a>
+            </div>
         </div>
     </div>
 </div>

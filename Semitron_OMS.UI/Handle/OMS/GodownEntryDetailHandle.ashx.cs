@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 using Semitron_OMS.Model.OMS;
 using System.IO;
 using Semitron_OMS.BLL.OMS;
+using Semitron_OMS.DAL.Common;
+using Semitron_OMS.BLL.Common;
+using System.Data.SqlClient;
 
 namespace Semitron_OMS.UI.Handle.OMS
 {
@@ -234,6 +237,8 @@ namespace Semitron_OMS.UI.Handle.OMS
             {
                 strOrder = _request.Form["sortname"].ToString();
             }
+            string strType = DataUtility.GetPageFormValue(_request.Form["Type"], string.Empty);
+
             //排序字段
             searchInfo.OrderByField = DataUtility.GetPageFormValue(strOrder, string.Empty);
             //排序类型
@@ -291,8 +296,53 @@ namespace Semitron_OMS.UI.Handle.OMS
                 _myLogger.Error("登陆用户名：" + _adminModel.Username + "客户机IP:"
                     + _request.UserHostAddress + "，获取入库明细信息出现异常:" + ex.Message, ex);
             }
-            string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
-            return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);
+            if (string.IsNullOrEmpty(strType))
+            {
+                string strCols = DataUtility.GetPageFormValue(_request.Form["colNames"], string.Empty);
+                return JsonJqgrid.JsonForJqgrid(dt.SortDataTableCols(strCols), searchInfo.PageIndex, o_RowsCount);
+            }
+
+            //导出Excel
+            PageResult result = new PageResult();
+            if (strType == "ExportExcel")
+            {
+                //判断是否有导出权限
+                if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
+                    Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_GODOWN_ENTRY,
+                    Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_EXPORT_GODOWN_ENTRY))
+                {
+                    result.State = 0;
+                    result.Info = "未分配入库单导出数据权限，操作无效。";
+                    return result.ToString();
+                }
+                try
+                {
+                    FileExcelDAl fileDLL = new FileExcelDAl();
+                    string strTableName = "入库单记录";
+                    string filename = strTableName + "导出" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
+                    fileDLL.CreateFile(strTableName + "导出", filename, dt);
+                    string filepath = "/file_system/ExportExcelFile/" + filename;
+                    //增加操作日志
+                    OperationsLogBLL bllOL = new OperationsLogBLL();
+                    bool bA = bllOL.AddExecute("GodownEntryDetailHandle", filename, "", (int)OperationsType.Export);
+                    if (bA)
+                    {
+                        result.State = 1;
+                        result.Remark = filepath;
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    result.State = 0;
+                    result.Info = "数据量过大，无法生成相应Excel文件。请细化查询后导出。";
+                }
+                catch (Exception e)
+                {
+                    result.State = 0;
+                    result.Info = "无法生成相应Excel文件。出现异常：" + e.Message;
+                }
+            }
+            return result.ToString();
         }
 
         public bool IsReusable

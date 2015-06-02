@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Semitron_OMS.Model.OMS;
 using System.IO;
 using Semitron_OMS.BLL.OMS;
+using Semitron_OMS.BLL.Common;
 
 namespace Semitron_OMS.UI.Handle.OMS
 {
@@ -74,9 +75,33 @@ namespace Semitron_OMS.UI.Handle.OMS
                     case "ApproveShippingList":
                         context.Response.Write(ApproveShippingList());
                         break;
+                    //获取财务出库单数据
+                    case "GetShippingListForFinance":
+                        context.Response.Write(GetShippingListForFinance());
+                        break;
                 }
             }
             context.Response.End();
+        }
+
+        /// <summary>
+        /// 获取财务出库单数据
+        /// </summary>
+        /// <returns></returns>
+        private string GetShippingListForFinance()
+        {
+            PageResult result = new PageResult();
+            //判断是否有审核权限
+            if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
+                Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_SHIPPING_LIST,
+                Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_EXPORT_FINANCE_SHIPPING_LIST))
+            {
+                result.State = 0;
+                result.Info = "未分配导出财务出库单权限，操作无效。";
+                return result.ToString();
+            }
+
+            return new CommonBLL().GetReportCommon(_request, ConstantValue.ProcedureNames.ShippingListForFinanceReport, "财务出库单数据");
         }
 
         /// <summary>
@@ -85,6 +110,15 @@ namespace Semitron_OMS.UI.Handle.OMS
         private string ApproveShippingList()
         {
             PageResult result = new PageResult();
+            //判断是否有审核权限
+            if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
+                Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_SHIPPING_LIST,
+                Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_APPROVE_SHIPPING_LIST))
+            {
+                result.State = 0;
+                result.Info = "未分配审核权限，操作无效。";
+                return result.ToString();
+            }
             int iId = -1;
             if (_request.Form["EntryId"] == null || !int.TryParse(_request.Form["EntryId"].ToString(), out iId))
             {
@@ -311,16 +345,6 @@ namespace Semitron_OMS.UI.Handle.OMS
         private string AddShippingList()
         {
             PageResult result = new PageResult();
-            //判断是否有审核权限
-            if (!PermissionUtility.IsExistButtonPer(this._adminModel.PerModule,
-                Semitron_OMS.Common.Const.ConstPermission.PagePerConst.PAGE_SHIPPING_LIST,
-                Semitron_OMS.Common.Const.ConstPermission.ButtonPerConst.BTN_APPROVE_SHIPPING_LIST))
-            {
-                result.State = 0;
-                result.Info = "未分配审核权限，操作无效。";
-                return result.ToString();
-            }
-            new ShippingListModel();
             string strGetResult = string.Empty;
 
             try

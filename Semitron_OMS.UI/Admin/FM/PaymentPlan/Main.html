@@ -150,6 +150,50 @@
             return false;
         });
 
+        //导出记录到Excel
+        $("#btnExporPaymentPlantExcel").click(function () {
+            debugger;
+            //控制查询需带上时间
+            var TimeType = $("#ulSearchPaymentPlan li select[name=sltTimeType]").val();
+            var startTime = $("#ulSearchPaymentPlan li input[name=BeginTime]").val();
+            var endTime = $("#ulSearchPaymentPlan li input[name=EndTime]").val();
+            var PONO = $("#ulSearchPaymentPlan li input[name=PONO]").val();
+            var ProductCode = $("#ulSearchPaymentPlan li input[name=ProductCode]").val();
+            var SupplierCode = $("#ulSearchPaymentPlan li input[name='PaymentPlan_SearchSupplier.SCode']").val();
+            var SupplierName = $("#ulSearchPaymentPlan li input[name='PaymentPlan_SearchSupplier.SName']").val();
+
+            if (startTime == "") {
+                artDialog.tips("请选择开始时间。");
+                return false;
+            }
+
+            var dialogTitle = "付供应商款计划>>" + "导出记录到Excel";
+
+            var url = "/Handle/FM/PaymentPlanHandle.ashx";
+            var data = {
+                "meth": "GetPaymentPlan", "TimeType": TimeType, "startTime": startTime, "endTime": endTime, "PONO": PONO, "ProductCode": ProductCode, "SupplierCode": SupplierCode, "SupplierName": SupplierName, "Type": "ExportExcel", "sortname": "CreateTime", "sortorder": "desc", "rp": "100000", "page": "1"
+            };
+            var errorFun = function (x, e) {
+                alert(x.responseText);
+            };
+            var successFun = function (json) {
+                if (json.State == "0") {
+                    alertMsg.error(json.Info);
+                    return false;
+                } else {
+                    $("#ExcelUrl").attr("href", json.Remark)
+                    $.dialog({
+                        id: 'ExportFile',
+                        title: dialogTitle,
+                        content: $('#divExportFile').get(0)
+                    });
+                    return false;
+                }
+                return false;
+            };
+            JsAjax(url, data, successFun, errorFun);
+            return false;
+        });
     });
 </script>
 <script type="text/javascript">
@@ -302,8 +346,9 @@
             <li><a title="确实要删除这条记录吗?" target="_self" href="/jui/common/ajaxDone.html" class="delete" id="btnDeletePaymentPlan"><span>删除付供应商款计划</span></a></li>
             <li class="line">line</li>
             <li><a class="add" href="/Admin/FM/PaymentPlan/Upload.html?PaymentPlanId={PaymentPlanId}" target="dialog" rel="addPaymentPlanAttachment" id="btnAddPaymentPlanAttachment" title="付供应商款计划上传附件" width="645" height="370"><span>上传附件</span></a></li>
-            <!--<li><a class="icon" href="javascript:;" title="要审核所选付供应商款计划吗?" id="btnApprovePaymentPlan"><span>审核付供应商款计划</span></a></li>-->
-            <!-- <li><a class="icon" href="/jui/common/dwz-team.xls" target="dwzExport" targettype="navTab" title="要导出这些记录吗?"><span>导出EXCEL</span></a></li>-->
+            <li><a class="icon" href="#" id="btnExporPaymentPlantExcel" target="dwzExport" targettype="navTab" title="">
+                <span>导出记录到Excel</span>
+            </a></li>
         </ul>
     </div>
     <div class="tabs" currentindex="0" eventtype="click">
@@ -340,6 +385,12 @@
         <div class="tabsFooter">
             <div class="tabsFooterContent"></div>
         </div>
-
+        <div class="dialogDiv">
+            <div id="divExportFile" style="display: none;">
+                <strong>Excel文件下载地址</strong>
+                <br />
+                <a id="ExcelUrl" target="_blank" href="" onclick="return windowsclose();">下载</a>
+            </div>
+        </div>
     </div>
 </div>
