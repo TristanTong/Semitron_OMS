@@ -84,6 +84,10 @@ namespace Semitron_OMS.Common.Const
             /// 导出付供应商款计划按钮代码
             /// </summary
             public const string BTN_EXPORT_PAYMENT_PLAN = "btnExportPaymentPlan";
+            /// <summary>
+            /// 导出出库单Excel按钮代码
+            /// </summary>
+            public const string BTN_EXPORT_SHIPPING_LIST = "btnExportShippingList";
         }
         /// <summary>
         /// 数据集代码常量
