@@ -456,9 +456,9 @@ namespace Semitron_OMS.DAL.OMS
         public DataSet GetGodownEntryDetailPageData(Semitron_OMS.Common.PageSearchInfo searchInfo, out int o_RowsCount)
         {
             //查询表名
-            string strTableName = " dbo.GodownEntryDetail AS D LEFT JOIN GodownEntry AS G ON D.GodownEntryId=G.ID LEFT JOIN POPlan AS P ON D.POPlanId=P.ID LEFT JOIN Supplier AS S ON S.ID=P.SupplierID LEFT JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUser";
+            string strTableName = " dbo.GodownEntryDetail AS D LEFT JOIN GodownEntry AS G ON D.GodownEntryId=G.ID LEFT JOIN POPlan AS P ON D.POPlanId=P.ID LEFT JOIN Supplier AS S ON S.ID=P.SupplierID LEFT JOIN Admin AS A1 ON A1.AdminID=G.ByHandUserID LEFT JOIN Admin AS A2 ON A2.AdminID=G.ApprovedUser LEFT JOIN dbo.PO AS O WITH(NOLOCK) ON O.PONO=P.PONO LEFT JOIN dbo.Corporation AS C ON C.ID=O.CorporationID";
             //查询字段
-            string strGetFields = " D.ID, AvailFlag=CASE WHEN D.AvailFlag=1 THEN '有效' ELSE '无效' END, G.EntryNo, D.ProductCode, D.InQty, D.Price, D.TotalPrice, P.PONo, S.SupplierName, P.MPN,P.POQuantity,G.IsApproved,InStockDate=Convert(varchar(20),G.InStockDate,120),G.InWarehouseCode,ByHandUser=A1.UserName,ApprovedUser=A2.UserName,CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),D.CreateUser,D.UpdateUser ";
+            string strGetFields = " D.ID, AvailFlag=CASE WHEN D.AvailFlag=1 THEN '有效' ELSE '无效' END,C.CompanyName, G.EntryNo, D.ProductCode, D.InQty, D.Price, D.TotalPrice, P.PONo, S.SupplierName, P.MPN,P.POQuantity,G.IsApproved,InStockDate=Convert(varchar(20),G.InStockDate,120),G.InWarehouseCode,ByHandUser=A1.UserName,ApprovedUser=A2.UserName,CreateTime=Convert(varchar(20),G.CreateTime,120) ,UpdateTime=Convert(varchar(20),G.UpdateTime,120),D.CreateUser,D.UpdateUser ";
             //查询条件
             string strWhere = Semitron_OMS.Common.SQLOperateHelper.GetSQLCondition(searchInfo.ConditionFilter, false);
             //数据查询
