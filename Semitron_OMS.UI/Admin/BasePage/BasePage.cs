@@ -433,8 +433,8 @@ namespace Semitron_OMS.UI.Admin.Base
         {
             //分别获取有效和无效的数据。
             DataTable dt = new BrandBLL().GetDataTableByCache();//使用缓存
-            DataRow[] drValid = dt.Select("AvailFlag=1", "SK Asc,BrandName Asc");
-            DataRow[] drUnValid = dt.Select("AvailFlag=0", "SK Asc,BrandName Asc");
+            DataRow[] drValid = dt.Select("AvailFlag=1", "BrandName Asc");
+            DataRow[] drUnValid = dt.Select("AvailFlag=0", "BrandName Asc");
 
             //先清空所有的下拉框内容，避免在页面上的数据也填充进来。
             slt.Items.Clear();

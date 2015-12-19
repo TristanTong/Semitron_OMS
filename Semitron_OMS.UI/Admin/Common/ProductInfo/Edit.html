@@ -1,10 +1,11 @@
 ﻿<script type="text/javascript">
     $(function () {
         debugger;
-        var id = $("#hidSeletedProductInfoId").val();
+        var id = $("#hidSeletedProductInfoId").val(); //alert(id);
+        $("#divEditProductInfo input[name='SeletedProductInfoId']").val(id);
         //新增时生成入库单号
         if (!id || id == "-1") {
-            var url = "/Handle/OMS/ProductInfoHandle.ashx";
+            var url = "/Handle/Common/ProductInfoHandle.ashx";
             var data = { "meth": "GenerateCode" };
             var errorFun = function (x, e) {
                 alertMsg.error(x.responseText);
@@ -15,7 +16,7 @@
                     $("#btnCloseProductInfo").click();
                     return false;
                 } else {
-                    $("#divEditProductInfo p input[name='ProductCode']").val(json.Remark);
+                    $("#divEditProductInfo p input[name='ProductCode']").val(json.Info);
                     return true;
                 }
             };
@@ -25,200 +26,62 @@
         //修改时加载初始化数据
         if (parseInt(id) > 0) {
             GetProductInfoById(id);
-            GetProductInfoDeatiltByEntryId(id);
         }
 
-        //保存入库单数据
-        $("#btnSaveProductInfo").click(function () {
-            //debugger;
-            if (!$("#formProductInfo").valid()) {
-                return false;
+        //根据Id获得入库单记录
+        function GetProductInfoById(id) {
+            try {
+                var url = "/Handle/Common/ProductInfoHandle.ashx";
+                var data = { "meth": "GetProductInfoById", "Id": id };
+                var successFun = function (json) {
+                    if (json.State == "0") {
+                        alertMsg.error(json.Info);
+                        $("#btnCloseProductInfo").click();
+                        return false;
+                    } else {
+                        $("#divEditProductInfo p input[name='ProductCode']").val(json.ProductCode);
+                        $("#divEditProductInfo p input[name='MPN']").val(json.MPN);
+                        $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchSupplier.SupplierID']").val(json.SupplierID);
+                        $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchSupplier.SCode']").val(json.SCode);
+                        $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchSupplier.SName']").val(json.SName);
+                        return false;
+                    }
+                };
+                var errorFun = function (x, e) {
+                    alert(x.responseText);
+                };
+                JsAjax(url, data, successFun, errorFun);
             }
-
-            var pId = $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchWarehouse.PId']").val();
-            if (parseInt(pId) == 0) {
-                alertMsg.error("收货仓库选择无效,请选择归属仓.");
-                return false;
+            catch (e) {
+                alertMsg.error(e.message);
+                $("#btnCloseProductInfo").click();
+                return;
             }
-
-            //debugger;
-            var strJson = "{";
-            strJson += "\"ProductCode\":\"" + $("#divEditProductInfo p input[name='ProductCode']").val() + "\",";
-            strJson += "\"InStockDate\":\"" + $("#divEditProductInfo p input[name='InStockDate']").val() + "\",";
-            strJson += "\"InWarehouseCode\":\"" + $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchWarehouse.WCode']").val() + "\",";
-            strJson += "\"ByHandUserID\":\"" + $("#divEditProductInfo p input[name='ProductInfo_Edit_adminLookup.AdminID']").val() + "\"";
-            strJson += "}"; //alert(strJson);
-            var url = "/Handle/OMS/ProductInfoHandle.ashx";
-            //新增
-            var data = null;
-            var id = $("#hidSeletedProductInfoId").val();
-            if (!id || id == "-1") {
-                data = { "meth": "AddProductInfo", "JsonString": strJson, "JsonStringDetail": GetProductInfoDetailJson("tbAddProductInfoDetail") };
-            }
-            //修改
-            if (parseInt(id) > 0) {
-                data = { "meth": "EditProductInfo", "JsonString": strJson, "JsonStringDetail": GetProductInfoDetailJson("tbAddProductInfoDetail"), "id": id };
-            }
-
-            if (data == null) {
-                alertMsg.error("获取页面必要参数失败,请重新打开编辑.");
-                return false;
-            }
-            var successFun = function (json) {
-                if (json.State == "0") {
-                    alertMsg.error(json.Info);
-                    return false;
-                } else {
-                    alertMsg.correct(json.Info);
-                    $("#btnCloseProductInfo").click();
-                    $("#hidSeletedProductInfoId").val(json.Remark);
-                    SearchProductInfo();
-                    return false;
-                }
-            };
-            var errorFun = function (x, e) {
-                alertMsg.error(x.responseText);
-            };
-            JsAjax(url, data, successFun, errorFun);
-            return false;
-        });
+        }
     });
-
-    //取得接收地址参数字符串
-    function GetProductInfoDetailJson(tbControlId) {
-        var strJson = "";
-        $("#" + tbControlId + " tbody tr").each(function (e) {
-            //拼接参数Json字符串
-            if ($(this).children("td").find('input[type=text]').val()) {
-                var defaultValue = "";
-                if ($(this).get(0).children.length == 8) {
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.POPlanId']").val());
-                    strJson += "{POPlanId:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.PONo']").val());
-                    strJson += "PONo:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.InQty']").val());
-                    strJson += "InQty:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.Price']").val());
-                    strJson += "Price:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.TotalPrice']").val());
-                    strJson += "TotalPrice:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.Remark']").val());
-                    strJson += "Remark:\"" + defaultValue + "\",";
-                    defaultValue = $.trim($("input[name='items[" + e + "].POPlan.ProductCode']").val());
-                    strJson += "ProductCode:\"" + defaultValue + "\"";
-                    strJson += "},"
-                }
-            }
-        });
-        if (strJson != "") {
-            strJson = "[" + strJson.substring(0, strJson.length - 1) + "]";
-        }
-        //alert(strJson)
-        return strJson;
-    }
-
-    //根据Id获得入库单记录
-    function GetProductInfoById(id) {
-        try {
-            var url = "/Handle/OMS/ProductInfoHandle.ashx";
-            var data = { "meth": "GetProductInfoById", "Id": id };
-            var successFun = function (json) {
-                if (json.State == "0") {
-                    alertMsg.error(json.Info);
-                    $("#btnCloseProductInfo").click();
-                    return false;
-                } else {
-                    $("#divEditProductInfo p input[name='ProductCode']").val(json.ProductCode);
-                    var inStockDate = json.InStockDate;
-                    if (inStockDate && inStockDate.length > 10) {
-                        inStockDate = inStockDate.substr(0, 10);
-                        if (inStockDate == "0001-01-01") {
-                            inStockDate = "";
-                        }
-                    }
-                    else {
-                        inStockDate = "";
-                    }
-                    $("#divEditProductInfo p input[name='InStockDate']").val(inStockDate);
-                    $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchWarehouse.WCode']").val(json.InWarehouseCode);
-                    $("#divEditProductInfo p input[name='ProductInfo_Edit_SearchWarehouse.WName']").val(json.InWarehouseName);
-                    $("#divEditProductInfo p input[name='ProductInfo_Edit_adminLookup.AdminID']").val(json.ByHandUserID);
-                    $("#divEditProductInfo p input[name='ProductInfo_Edit_adminLookup.Name']").val(json.ByHandUserName);
-                    return false;
-                }
-            };
-            var errorFun = function (x, e) {
-                alert(x.responseText);
-            };
-            JsAjax(url, data, successFun, errorFun);
-        }
-        catch (e) {
-            alertMsg.error(e.message);
-            $("#btnCloseProductInfo").click();
-            return;
-        }
-    }
-
-    //根据入库单Id获得入库单明细列表记录
-    function GetProductInfoDeatiltByEntryId(entryId) {
-        try {
-            var url = "/Handle/OMS/ProductInfoDetailHandle.ashx";
-            var data = { "meth": "GetProductInfoDetailByEntryId", "EntryId": entryId };
-            var successFun = function (json) {
-                debugger;
-                if (json.State == "0") {
-                    alertMsg.error(json.Info);
-                    $("#btnCloseProductInfo").click();
-                    return false;
-                } else {
-                    $("#tbAddProductInfoDetail tbody").html("");
-                    for (var i = 0; i < json.length; i++) {
-                        $("#tbAddProductInfoDetail tbody").append("<tr class=\"unitBox\"> <td>"
-                            + json[i].POPlanId + "</td> <td>"
-                            + json[i].PONo + "</td> <td>"
-                            + json[i].ProductCode + "</td> <td>"
-                            + json[i].InQty + "</td> <td>"
-                            + json[i].Price + "</td> <td>" + json[i].TotalPrice + "</td> <td>"
-                            + json[i].Remark + "</td> <td><a href=\"/Admin/OMS/ProductInfo/EditDetail.html\" rel=\"ProductInfoDetailId"
-                            + json[i].ID + "\" class=\"btnEdit\" onclick=\"return SeletedProductInfoDetail('"
-                            + json[i].ID + "')\">编辑</a> </td> </tr>");
-                    }
-                    return false;
-                }
-            };
-            var errorFun = function (x, e) {
-                alert(x.responseText);
-            };
-            JsAjax(url, data, successFun, errorFun);
-        }
-        catch (e) {
-            alertMsg.error(e.message);
-            $("#btnCloseProductInfo").click();
-            return;
-        }
-        return false;
-    }
-
-    //点击编辑入库单明细后，存储选择的记录ID到隐藏域
-    function SeletedProductInfoDetail(id) {
-        $("#hidSeletedProductInfoDetailId").val(id);
-        $("#aEditProductInfoDetail0").click();
-        return false;
-    }
 </script>
 
-<input type="hidden" value="-1" id="hidSeletedProductInfoDetailId" />
-<a href="/Admin/OMS/ProductInfo/EditDetail.html?ProductInfoDetailId=0" rel="ProductInfoDetailId0" class="btnEdit" target="dialog" mask="true" id="aEditProductInfoDetail0" onclick="return false;" style="display: none;">编辑</a>
 <div class="pageContent">
-    <form method="POST" action="/jui/common/ajaxDone.html" class="pageForm required-validate" id="formProductInfo" onsubmit="return false;">
+    <form method="POST" action="/Handle/Common/ProductInfoHandle.ashx?meth=EditProductInfo" class="pageForm required-validate" onsubmit="return validateCallback(this, navTabAjaxDone);">
         <div class="pageFormContent nowrap" layouth="56" id="divEditProductInfo">
+            <input name="SeletedProductInfoId" value="-1" type="hidden" />
             <p>
                 <label>产品编码：</label>
                 <input type="text" style="width: 110px" value="" name="ProductCode" minlength="3" class="required" readonly="readonly" />
             </p>
             <p>
-                <label>供应商：</label>
-                <input type="text" class="date textInput valid required" name="InStockDate" style="width: 110px;" readonly="readonly"><a class="inputDateButton" href="javascript:;">选择</a>
+                <label>厂商型号：</label>
+                <input type="text" style="width: 110px" value="" name="MPN" minlength="3" class="required" />
+            </p>
+            <p>
+                <label>默认供应商名称：</label>
+                <input name="ProductInfo_Edit_SearchSupplier.SupplierID" value="" type="hidden" />
+                <input name="ProductInfo_Edit_SearchSupplier.SName" type="text" style="width: 210px;" readonly="readonly" />
+                <a class="btnLook" href="/Admin/CRM/Supplier/Lookup.html" lookupgroup="ProductInfo_Edit_SearchSupplier" rel="lSearchProductInfo_Edit_SearchSuppplier">查找带回</a>
+            </p>
+            <p>
+                <label>默认供应商编码：</label>
+                <input name="ProductInfo_Edit_SearchSupplier.SCode" type="text" style="width: 110px" readonly="readonly" />
             </p>
         </div>
         <div class="formBar">

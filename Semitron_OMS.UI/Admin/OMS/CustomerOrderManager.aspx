@@ -334,6 +334,11 @@
                 }
                 ShowHistoryOrder(CustomerOrderNO);
             });
+
+            //选择产品编码弹出框
+            $("aProductCodeE").click(function () {
+                SelectProductCode();
+            });
         });
     </script>
     <%--查询、新增、编辑、查看订单记录--%>
@@ -1005,8 +1010,7 @@
                             $(this).attr("disabled", "disabled");
                         });
                     }
-                    $("#txtInnerOrderNOEDetail").attr("disabled", "disabled");
-                    $("#sltSaleStandardCurrencyE").attr("disabled", "disabled");
+                    $("#txtMPNE,#txtProductCodeE,#txtInnerOrderNOEDetail,#sltSaleStandardCurrencyE").attr("disabled", "disabled");
                 },
                 ok: function () {
                     if (type == "View") {
@@ -1093,6 +1097,62 @@
                 JsAjax(url, data, successFun, errorFun);
             }, function () {
                 art.dialog.tips('取消操作');
+            });
+        }
+    </script>
+
+    <%--销售审核、出货--%>
+    <script type="text/javascript">
+        function SelectProductCode() {
+            var dialogTitle = "新增产品清单记录";
+            if (type == "Edit") {
+                dialogTitle = "编辑产品清单记录"
+            }
+            if (type == "View") {
+                dialogTitle = "查看产品清单记录"
+            }
+            dialogTitle = "客户订单管理>>客户订单>>" + dialogTitle;
+
+            if ($("#txtInnerOrderNOE").val() == "--确定后分配--") {
+                artDialog.alert("请点击确定按钮，保存订单主数据后再编辑新增产品清单数据。");
+                return;
+            }
+
+            $.dialog({
+                id: 'divSelectProductCode',
+                title: dialogTitle,
+                width: 600,
+                height: 150,
+                lock: true,
+                padding: 5,
+                content: $('#divSelectProductCode').get(0),
+                init: function () {
+                },
+                ok: function () {
+                    var MPN = Trim($("#txtMPNE").val());
+
+                    var url = "/Handle/OMS/CustomerOrderDetailHandle.ashx";
+                    //新增产品清单记录
+                    var data = { "meth": "AddCustomerOrderDetail", "InnerOrderNO": InnerOrderNO, "CPN": CPN, "MPN": MPN, "MFG": MFG, "DC": DC, "CRD": CRD, "CustQuantity": CustQuantity, "ROHS": ROHS, "SaleExchangeRate": SaleExchangeRate, "SaleRealCurrency": SaleRealCurrency, "SaleRealPrice": SaleRealPrice, "SaleStandardCurrency": SaleStandardCurrency, "SalePrice": SalePrice, "OtherFee": OtherFee, "OtherFeeRemark": OtherFeeRemark };
+                    var errorFun = function (x, e) {
+                        alert(x.responseText);
+                    };
+                    var successFun = function (json) {
+                        if (json.State == "0") {
+                            artDialog.alert(json.Info);
+                            return false;
+                        } else {
+                            art.dialog.list["divEditDetail"].close();
+                            artDialog.tips(json.Info);
+                            $("#FlexiTableDetail").flexReload();
+                            InitLoadFlexiTableDetail($("#txtInnerOrderNOE").val());
+                            return true;
+                        }
+                    };
+                    JsAjax(url, data, successFun, errorFun);
+                    return false;
+                },
+                cancel: true
             });
         }
     </script>
@@ -1379,11 +1439,25 @@
                             </td>
                         </tr>
                     </table>
-                    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+                    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0" id="tableDetail">
                         <tbody>
                             <tr>
                                 <td class="tdLeft tdHead" colspan="5">产品清单记录
                                 </td>
+                            </tr>
+                            <tr class="trMO">
+                                <td class="tdRight tdParamDWidth">产品编码：
+                                </td>
+                                <td class="tdLeft tdRemarkWidth">
+                                    <input type="text" id="txtProductCodeE" class="txt " maxlength="32" readonly="readonly" />
+                                    <a id="aProductCodeE" href="#" style="font-weight: bold;">选择</a>
+                                </td>
+                                <td class="tdRight tdParamDWidth">厂家标准型号：
+                                </td>
+                                <td class="tdLeft tdRemarkWidth">
+                                    <input type="text" id="txtMPNE" class="txt " maxlength="32" readonly="readonly" />
+                                </td>
+                                <td></td>
                             </tr>
                             <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">客户型号：
@@ -1391,39 +1465,27 @@
                                 <td class="tdLeft tdRemarkWidth">
                                     <input type="text" id="txtCPNE" class="txt " maxlength="32" />
                                 </td>
-                                <td class="tdRight tdParamDWidth">厂家标准型号：
-                                </td>
-                                <td class="tdLeft tdRemarkWidth">
-                                    <input type="text" id="txtMPNE" class="txt " maxlength="32" />
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">品牌名称：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <select class="txt" id="sltMFGE" runat="server" style="width: 105px">
                                     </select>
                                 </td>
+
+                                <td></td>
+                            </tr>
+                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">生产年份：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <input type="text" id="txtDCE" class="txt " maxlength="32" />
                                 </td>
-                                <td></td>
-                            </tr>
-                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">要求交期：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <input class="txt" id="txtCRDE" type="text" onclick="WdatePicker()" style="width: 85px" />
                                     <img alt="" onclick="WdatePicker({el:'txtCRDE'})" src="/Scripts/My97DatePicker/skin/datePicker.gif"
                                         width="16" height="22" align="absmiddle" />
-                                </td>
-                                <td class="tdRight tdParamDWidth">数量：
-                                </td>
-                                <td class="tdLeft tdRemarkWidth">
-                                    <input type="text" id="txtCustQuantityE" class="txt OnlyInt tdRight" maxlength="9" />
                                 </td>
                                 <td></td>
                             </tr>
@@ -1436,6 +1498,14 @@
                                         <option value="false">否</option>
                                     </select>
                                 </td>
+                                <td class="tdRight tdParamDWidth">数量：
+                                </td>
+                                <td class="tdLeft tdRemarkWidth">
+                                    <input type="text" id="txtCustQuantityE" class="txt OnlyInt tdRight" maxlength="9" />
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">实际卖货币：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
@@ -1443,22 +1513,19 @@
                                         <option value="">--请选择--</option>
                                     </select>
                                 </td>
-                                <td></td>
-                            </tr>
-                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">实际卖价：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <input type="text" id="txtSaleRealPriceE" class="txt OnlyFloat tdRight" maxlength="14" />
                                 </td>
+                                <td></td>
+                            </tr>
+                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">卖汇率：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <input type="text" id="txtSaleExchangeRateE" class="txt OnlyFloat tdRight" maxlength="14" />
                                 </td>
-                                <td></td>
-                            </tr>
-                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">标准卖货币：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
@@ -1466,21 +1533,19 @@
                                         <option value="">--请选择--</option>
                                     </select>
                                 </td>
+                                <td></td>
+                            </tr>
+                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">标准卖价：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <input type="text" id="txtSalePriceE" class="txt OnlyFloat tdRight" maxlength="14" />
                                 </td>
-                                <td></td>
-                            </tr>
-                            <tr class="trMO">
                                 <td class="tdRight tdParamDWidth">标准销售总额：
                                 </td>
                                 <td class="tdLeft tdRemarkWidth">
                                     <input type="text" id="txtSalesTotalFeeE" class="txt OnlyFloat tdRight" maxlength="32" />
                                 </td>
-                                <td class="tdRight tdParamDWidth"></td>
-                                <td class="tdLeft tdRemarkWidth"></td>
                                 <td></td>
                             </tr>
                             <%--<tr class="trMO">

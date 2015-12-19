@@ -42,9 +42,13 @@ namespace Semitron_OMS.Common.Const
             /// </summary>
             public const string PAGE_GATHERING_PLAN = "FM/GatheringPlan/Main.html";
             /// <summary>
-            /// 付供应商款计划
+            /// 付供应商款计划页面
             /// </summary>
             public const string PAGE_PAYMENT_PLAN = "FM/PaymentPlan/Main.html";
+            /// <summary>
+            /// 产品信息页面
+            /// </summary>
+            public const string PAGE_PRODUCT_INFO = "Common/ProductInfo/Main.html";
         }
 
         /// <summary>
@@ -84,6 +88,14 @@ namespace Semitron_OMS.Common.Const
             /// 导出付供应商款计划按钮代码
             /// </summary
             public const string BTN_EXPORT_PAYMENT_PLAN = "btnExportPaymentPlan";
+            /// <summary>
+            /// 导出产品信息按钮代码
+            /// </summary>
+            public const string BTN_EXPORT_PRODUCT_INFO = "btnExportProductInfo";
+            /// <summary>
+            /// 删除产品信息按钮代码
+            /// </summary>
+            public static string BTN_DELETE_PRODUCT_INFO = "btnDeleteProductInfo";
         }
         /// <summary>
         /// 数据集代码常量

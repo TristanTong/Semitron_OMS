@@ -206,7 +206,59 @@ namespace Semitron_OMS.BLL.Common
         {
             return dal.GetProductInfoPageData(searchInfo, out o_RowsCount);
         }
+
+        /// <summary>
+        /// 验证并新增或修改产品信息
+        /// </summary>
+        public string ValidateAndEdit(ProductInfoModel model)
+        {
+            string strResult = "发生错误";
+            if (String.IsNullOrEmpty(model.ProductCode))
+            {
+                return "产品编码不能为空";
+            }
+            if (String.IsNullOrEmpty(model.MPN))
+            {
+                return "厂商型号不能为空";
+            }
+            if (GetModelList("MPN='" + model.MPN
+                + "' AND ID !='" + model.ID + "'").Count > 0)
+            {
+                return "相同厂商型号的产品信息已录入过，请确认后修改。";
+            }
+            if (model.ID > 0)
+            {
+                strResult = this.Update(model) ? "OK" : "修改产品信息败";
+            }
+            else
+            {
+                strResult = this.Add(model) > 0 ? "OK" : "新增产品信息失败";
+            }
+            return strResult;
+        }
+
+        public string ValidateAndDelProductInfo(int iId)
+        {
+            string strResult = "删除产品信息失败，未知原因。";
+            Semitron_OMS.Model.Common.ProductInfoModel model = new ProductInfoBLL().GetModel(iId);
+            if (model != null)
+            {
+                if (!model.AvailFlag)
+                    strResult = "此产品信息记录已是无效状态，请勿重复删除。";
+                if (model.AvailFlag)
+                {
+                    model.AvailFlag = false;
+                    if (this.Update(model))
+                    {
+                        return "OK";
+                    }
+                }
+            }
+            return strResult;
+        }
         #endregion  ExtensionMethod
+
+
 
     }
 }
